@@ -1,0 +1,5 @@
+/*/node_modules/
+/server/src/.env
+.env
+/*/.env
+/*/*/.env
