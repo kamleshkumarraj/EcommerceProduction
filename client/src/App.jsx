@@ -22,7 +22,7 @@ function App() {
       else console.log("Error during geting all products")
       
     })()
-  })
+  },[])
 
   return (
     <>

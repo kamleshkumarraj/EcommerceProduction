@@ -6,13 +6,13 @@ export const getAllCategories = asyncHandler(async (req , res , next) => {
     const categoryList = [];
     productsList.forEach((products) => {
         let flag = true;
-        categoryList.forEach((category) => {
-            if(category == products.category){
+        categoryList.forEach(({name}) => {
+            if(name == products.category){
                 flag = false;
                 return;
             }
         })
-        if(flag) categoryList.push(products.category)
+        if(flag) categoryList.push({name : products.category , image : products.thumbnail})
     })
 
     res.status(200).json({

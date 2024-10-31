@@ -1,12 +1,27 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import Carousel from 'react-multi-carousel'
 import 'react-multi-carousel/lib/styles.css'
 import { Link } from 'react-router-dom'
-import { useSelector } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
+import axios from 'axios'
+import { apiCalling } from '../api/apiCalling.api'
 
 const Categorys = () => {
-
-    const categories = []
+    const [categories , setCategories] = useState([])
+    const  dispatch = useDispatch()
+    useEffect(() => {
+        const options = {
+            method : "GET",
+            url : "http://localhost:2000/api/v2/products/get-categories"
+        }
+        ;(async function getCategories(){
+            const response = await dispatch(apiCalling(options))
+            if(response?.success){
+                setCategories(response?.data)
+            }else console.log("Get error during fetching the category !")
+        })()
+    },[])
+    
     const responsive = {
         superLargeDesktop: {
             breakpoint: { max: 4000, min: 3000 },
@@ -48,11 +63,11 @@ const Categorys = () => {
                 transitionDuration={500}
             >
                 {
-                    categories.map((c, i) => <Link className='h-[185px] border block' key={i} to={`/products?category=${c.name}`}>
+                 categories.length > 0 &&    categories.map(({name , image} , i) => <Link className='h-[185px] border block' key={i} to={`/products?category=${name}`}>
                         <div className='relative w-full h-full p-3'>
-                            <img src={c.image} alt="image" />
+                            <img src={image} alt="image" />
                             <div className='absolute left-0 flex items-center justify-center w-full mx-auto font-bold bottom-6'>
-                                <span className='py-[2px] px-6 bg-[#3330305d] text-white'>{c.name}</span>
+                                <span className='py-[2px] px-6 bg-[#3330305d] text-white'>{name}</span>
                             </div>
                         </div>
                     </Link>)

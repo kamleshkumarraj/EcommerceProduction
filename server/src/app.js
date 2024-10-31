@@ -22,7 +22,7 @@ app.use(
 
 
 app.use(cors({
-  origin: 'http://localhost:5173',  // Allow your frontend domain
+  origin: ['http://localhost:5174', 'http://localhost:5173'],  // Allow your frontend domain
   credentials: true                            // Allow cookies to be sent
 }));
 
@@ -36,7 +36,7 @@ app.use('/api/v2/user/order',orderHandlerRouter)
 app.use('/api/v2/admin/order',orderHAndleByAdminRoute)
 
 //common routes for requesting users for handling the products
-app.use('/api/v2/common/' , commonRouter)
+app.use('/api/v2/products/' , commonRouter)
 
 //that is error handler middleware at normal error during api calling.
 app.use((err,req , res , next) =>{

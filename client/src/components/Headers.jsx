@@ -5,6 +5,7 @@ import { MdOutlineKeyboardArrowDown } from 'react-icons/md'
 import { FaLinkedinIn, FaFacebookF, FaUser, FaLock, FaList } from 'react-icons/fa'
 import { AiOutlineTwitter, AiFillGithub, AiFillHeart, AiFillShopping } from 'react-icons/ai'
 import { Link, useLocation, useNavigate } from 'react-router-dom'
+import logo from '../assets/Img/logo.jpg'
 
 
 
@@ -36,12 +37,12 @@ const Headers = () => {
     return (
         <div className='w-full bg-white'>
             <div className='header-top bg-[#eeeeee] md-lg:hidden'>
-                <div className='w-[85%] lg:w-[90%] mx-auto'>
+                <div className='w-[85%] lg:w-[98%] mx-auto'>
                     <div className='flex w-full justify-between items-center h-[50px] text-slate-500'>
                         <ul className='flex items-center justify-start gap-8'>
                             <li className='flex relative justify-center items-center gap-2 text-sm after:absolute after:h-[18px] after:w-[1px] after:bg-[#afafaf] after:-right-[16px]'>
                                 <span><GrMail /></span>
-                                <span>sheikhfarid@gmail.com</span>
+                                <span>kamlesh.22jics061@jietjodhpur.ac.in</span>
                             </li>
                             <span>Multi vendor ecommerce</span>
                         </ul>
@@ -81,7 +82,7 @@ const Headers = () => {
                         <div className='w-3/12 md-lg:w-full md-lg:pt-4'>
                             <div className='flex items-center justify-between'>
                                 <Link to='/'>
-                                    <img src="http://localhost:3000/images/logo.png" alt="logo" />
+                                    <img src={logo} className='w-[3rem] rounded-full' alt="logo" />
                                 </Link>
                                 <div className='justify-center items-center w-[30px] h-[30px] bg-white text-slate-600 border border-slate-600 rounded-sm cursor-pointer lg:hidden md-lg:flex xl:hidden hidden' onClick={() => setShowShidebar(false)}>
                                     <span><FaList /></span>

@@ -1,9 +1,9 @@
-import React from 'react'
+
 import Carousel from 'react-multi-carousel'
 import 'react-multi-carousel/lib/styles.css'
 import { Link } from 'react-router-dom'
 import { useEffect } from 'react'
-import { useSelector, useDispatch } from 'react-redux'
+import {  useDispatch } from 'react-redux'
 import bannerImg1 from '../assets/Banner/banner-img-1.jpg'
 import bannerImg2 from '../assets/Banner/banner-img-2.webp'
 import bannerImg3 from '../assets/Banner/banner-img-3.jpg'
@@ -47,10 +47,6 @@ const Banner = () => {
             items: 1
         }
     }
-
-    useEffect(() => {
-        dispatch(get_banners())
-    }, [])
     return (
         <div className='w-full md-lg:mt-6'>
             <div className='w-[85%] lg:w-[90%] mx-auto'>
@@ -66,7 +62,7 @@ const Banner = () => {
                             >
                                 {
                                     banners && banners.length > 0 && banners.map((b, i) => <Link className='lg-md:h-[440px] h-auto w-full block' key={i} to={`/product/details/${b.link}`}>
-                                        <img className='w-full h-full' src={b.banner} alt="" />
+                                        <img className='h-[40vh] w-[100%]' src={b.banner} alt="" />
                                     </Link>)
                                 }
                             </Carousel>

@@ -10,11 +10,6 @@ const FeatureProducts = ({ products }) => {
 
     const navigate = useNavigate()
     const dispatch = useDispatch()
-
-    
-    
-
-    
     return (
         <div className='w-[85%] flex flex-wrap mx-auto'>
             <div className='w-full'>
@@ -23,8 +18,9 @@ const FeatureProducts = ({ products }) => {
                     <div className='w-[100px] h-[4px] bg-[#7fad39] mt-4'></div>
                 </div>
             </div>
-            <div className='grid w-full grid-cols-4 gap-6 md-lg:grid-cols-3 md:grid-cols-2 sm:grid-cols-1'>
+            <div className='grid w-full gap-6 2xl:grid-cols-4 lg:grid-cols-3 md:grid-cols-2 sm:grid-cols-1'>
                 {
+                    products.length > 0 &&
                     products.map((p, i) => <div key={i} className='transition-all duration-500 border group hover:shadow-md hover:-mt-3'>
                         <div className='relative overflow-hidden'>
                             {
@@ -32,9 +28,9 @@ const FeatureProducts = ({ products }) => {
                             }
                             <img className='sm:w-full w-full h-[240px]' src={p.images[0]} alt="product image" />
                             <ul className='absolute flex items-center justify-center w-full gap-2 transition-all duration-700 -bottom-10 group-hover:bottom-3'>
-                                <li onClick={() => add_wishlist(p)} className='w-[38px] h-[38px] cursor-pointer bg-white flex justify-center items-center rounded-full hover:bg-[#7fad39] hover:text-white hover:rotate-[720deg] transition-all'><AiFillHeart /></li>
+                                <li  className='w-[38px] h-[38px] cursor-pointer bg-white flex justify-center items-center rounded-full hover:bg-[#7fad39] hover:text-white hover:rotate-[720deg] transition-all'><AiFillHeart /></li>
                                 <Link to={`/product/details/${p.slug}`} className='w-[38px] h-[38px] cursor-pointer bg-white flex justify-center items-center rounded-full hover:bg-[#7fad39] hover:text-white hover:rotate-[720deg] transition-all' ><FaEye /></Link>
-                                <li onClick={() => add_card(p._id)} className='w-[38px] h-[38px] cursor-pointer bg-white flex justify-center items-center rounded-full hover:bg-[#7fad39] hover:text-white hover:rotate-[720deg] transition-all'><AiOutlineShoppingCart /></li>
+                                <li  className='w-[38px] h-[38px] cursor-pointer bg-white flex justify-center items-center rounded-full hover:bg-[#7fad39] hover:text-white hover:rotate-[720deg] transition-all'><AiOutlineShoppingCart /></li>
                             </ul>
                         </div>
                         <div className='px-2 py-3 text-slate-600'>
