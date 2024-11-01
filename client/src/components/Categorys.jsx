@@ -1,9 +1,8 @@
 import React, { useEffect, useState } from 'react'
 import Carousel from 'react-multi-carousel'
 import 'react-multi-carousel/lib/styles.css'
+import { useDispatch } from 'react-redux'
 import { Link } from 'react-router-dom'
-import { useDispatch, useSelector } from 'react-redux'
-import axios from 'axios'
 import { apiCalling } from '../api/apiCalling.api'
 
 const Categorys = () => {

@@ -4,8 +4,10 @@ import 'react-multi-carousel/lib/styles.css'
 import { FiChevronRight, FiChevronLeft } from 'react-icons/fi'
 import { Link } from 'react-router-dom'
 import cameraImg from '../../assets/Img/cameraImg.jpg'
+import ProductsSlider from './ProductsSlider'
 
-const Products = ({ title }) => {
+
+const Products = ({ title , products }) => {
     const responsive = {
         superLargeDesktop: {
             breakpoint: { max: 4000, min: 3000 },
@@ -39,10 +41,12 @@ const Products = ({ title }) => {
             </div>
         )
     }
-    const products = [[{images : [cameraImg] , name : 'This products is also amazing products' , price : 2000 , description : 'This is realative products description and it is amazing products so you can buy it with high quality and it is also available in different colors and sizes'}] , [{images : [cameraImg] , name : 'This products is also amazing products' , price : 2000 , description : 'This is realative products description and it is amazing products so you can buy it with high quality and it is also available in different colors and sizes'}] , [{images : [cameraImg] , name : 'This products is also amazing products' , price : 2000 , description : 'This is realative products description and it is amazing products so you can buy it with high quality and it is also available in different colors and sizes'}] , [{images : [cameraImg] , name : 'This products is also amazing products' , price : 2000 , description : 'This is realative products description and it is amazing products so you can buy it with high quality and it is also available in different colors and sizes'}] , [{images : [cameraImg] , name : 'This products is also amazing products' , price : 2000 , description : 'This is realative products description and it is amazing products so you can buy it with high quality and it is also available in different colors and sizes'}]]
+    
     return (
         <div className='flex flex-col-reverse gap-8'>
-            <ProductsSlider />
+            
+            <ProductsSlider products={products} />
+            <h1 className='text-3xl font-bold my-[10px] px-[5px]' >{title}</h1>
         </div>
     )
 }

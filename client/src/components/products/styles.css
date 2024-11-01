@@ -39,3 +39,17 @@
     object-fit: cover;
   }
   
+  
+
+  .swiper-button-prev:after, .swiper-button-next:after{
+    font-size: 14px;
+    font: 700;
+    border: .5px solid rgb(236, 234, 234);
+    width : 30px; 
+    height : 30px;
+    display: grid;
+    place-content: center;
+    border-radius: 50%;
+    color: rgba(247, 243, 243, 0.822);
+    background-color: rgba(0, 0, 0, 0.434);
+  }

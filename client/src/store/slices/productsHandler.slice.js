@@ -17,5 +17,6 @@ const slice = createSlice({
 })
 
 export const productsHandler = slice.reducer
-export const {setAllProducts}  = slice.actions
-export const getAllProducts = (state) => state
+export const {setAllProducts , setAllCategories}  = slice.actions
+export const getAllProducts = (state) => state.productsList.products;
+export const getAllCategories = (state) => state.productsList.categories;

@@ -6,6 +6,7 @@ import { store } from './store/store.js'
 import { Provider } from 'react-redux'
 import { createBrowserRouter , RouterProvider } from 'react-router-dom'
 import Home from './pages/Home.jsx'
+// import Shops from './pages/Shops.jsx'
 
 const router = createBrowserRouter([{
   path : '/',
@@ -13,7 +14,11 @@ const router = createBrowserRouter([{
   children : [{
     path : '/',
     element : <Home />
-  }]
+  },
+  
+
+
+]
 }])
 
 createRoot(document.getElementById('root')).render(

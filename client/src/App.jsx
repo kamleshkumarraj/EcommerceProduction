@@ -2,7 +2,7 @@ import { useEffect } from "react"
 import Headers from "./components/Headers"
 import { useDispatch } from "react-redux"
 import { apiCalling } from "./api/apiCalling.api";
-import { setAllProducts } from "./store/slices/productsHandler.slice";
+import { setAllCategories, setAllProducts } from "./store/slices/productsHandler.slice";
 import { Outlet } from "react-router-dom";
 import Footer from "./components/Footer";
 
@@ -24,11 +24,28 @@ function App() {
     })()
   },[])
 
+  //! now we get all categories from server using api.
+  useEffect(() => {
+    (async function getAllCategories() {
+      const options = {
+        url : "http://localhost:2000//api/v2/products/get-categories",
+        method : "GET"
+      }
+      const response = await dispatch(apiCalling(options))
+      if(response?.success){
+        console.log("We get all categories successfully")
+        dispatch(setAllCategories(response.data))
+      }else console.log("We get error during fetching all categories form server !")
+    })
+  },[])
+
   return (
     <>
-      <Headers />
-      <Outlet />
-      <Footer />
+      <div className="font-[roboto]" id="container">
+        <Headers />
+        <Outlet />
+        <Footer />
+      </div>
     </>
     
   )
