@@ -7,58 +7,29 @@ import RatingReact from 'react-rating'
 import { CiStar } from 'react-icons/ci'
 import { Link } from 'react-router-dom'
 import { useSelector, useDispatch } from 'react-redux'
-import { customer_review, messageClear, get_reviews,get_product } from '../store/reducers/homeReducer'
+
 import toast from 'react-hot-toast'
 
 const Reviews = ({ product }) => {
 
   const dispatch = useDispatch()
-  const { userInfo } = useSelector(state => state.auth)
-  const { successMessage, reviews, totalReview, rating_review } = useSelector(state => state.home)
+  
   const [pageNumber, setPageNumber] = useState(1)
   const [perPage, setPerPage] = useState(10)
 
   const [rat, setRat] = useState('')
   const [re, setRe] = useState('')
 
-  const review_submit = (e) => {
-    e.preventDefault()
-    const obj = {
-      name: userInfo.name,
-      review: re,
-      rating: rat,
-      productId: product._id
-    }
-    dispatch(customer_review(obj))
-  }
+  const totalReview = product.reviews.length;
 
-  useEffect(() => {
-    if (successMessage) {
-      toast.success(successMessage)
-      dispatch(get_reviews({
-        productId: product._id,
-        pageNumber
-      }))
-      dispatch(get_product(product.slug))
-      setRat('')
-      setRe('')
-      dispatch(messageClear())
-    }
-  }, [successMessage])
 
-  useEffect(() => {
-    if (product._id) {
-      dispatch(get_reviews({
-        productId: product._id,
-        pageNumber
-      }))
-    }
-  }, [pageNumber, product])
+
+ 
 
   return (
     <div className='mt-8'>
       <div className='flex gap-10 md:flex-col'>
-        <div className='flex flex-col gap-2 justify-start items-start py-4'>
+        <div className='flex flex-col items-start justify-start gap-2 py-4'>
           <div>
             <span className='text-6xl font-semibold'>{product.rating}</span>
             <span className='text-3xl font-semibold text-slate-600'>/5</span>
@@ -68,8 +39,8 @@ const Reviews = ({ product }) => {
           </div>
           <p className='text-sm text-slate-600'>{totalReview} Reviews</p>
         </div>
-        <div className='flex gap-2 flex-col py-4'>
-          <div className='flex justify-start items-center gap-5'>
+       {/* <div className='flex flex-col gap-2 py-4'>
+          <div className='flex items-center justify-start gap-5'>
             <div className='text-md flex gap-1 w-[93px]'>
               <RatingTemp rating={5} />
             </div>
@@ -78,7 +49,7 @@ const Reviews = ({ product }) => {
             </div>
             <p className='text-sm text-slate-600 w-[0%]'>{rating_review[0]?.sum}</p>
           </div>
-          <div className='flex justify-start items-center gap-5'>
+          <div className='flex items-center justify-start gap-5'>
             <div className='text-md flex gap-1 w-[93px]'>
               <RatingTemp rating={4} />
             </div>
@@ -87,7 +58,7 @@ const Reviews = ({ product }) => {
             </div>
             <p className='text-sm text-slate-600 w-[0%]'>{rating_review[1]?.sum}</p>
           </div>
-          <div className='flex justify-start items-center gap-5'>
+          <div className='flex items-center justify-start gap-5'>
             <div className='text-md flex gap-1 w-[93px]'>
               <RatingTemp rating={3} />
             </div>
@@ -96,7 +67,7 @@ const Reviews = ({ product }) => {
             </div>
             <p className='text-sm text-slate-600 w-[0%]'>{rating_review[2]?.sum}</p>
           </div>
-          <div className='flex justify-start items-center gap-5'>
+          <div className='flex items-center justify-start gap-5'>
             <div className='text-md flex gap-1 w-[93px]'>
               <RatingTemp rating={2} />
             </div>
@@ -105,7 +76,7 @@ const Reviews = ({ product }) => {
             </div>
             <p className='text-sm text-slate-600 w-[0%]'>{rating_review[3]?.sum}</p>
           </div>
-          <div className='flex justify-start items-center gap-5'>
+          <div className='flex items-center justify-start gap-5'>
             <div className='text-md flex gap-1 w-[93px]'>
               <RatingTemp rating={1} />
             </div>
@@ -114,7 +85,7 @@ const Reviews = ({ product }) => {
             </div>
             <p className='text-sm text-slate-600 w-[0%]'>{rating_review[4]?.sum}</p>
           </div>
-          <div className='flex justify-start items-center gap-5'>
+          <div className='flex items-center justify-start gap-5'>
             <div className='text-md flex gap-1 w-[93px]'>
               <RatingTemp rating={0} />
             </div>
@@ -123,20 +94,20 @@ const Reviews = ({ product }) => {
             </div>
             <p className='text-sm text-slate-600 w-[0%]'>0</p>
           </div>
-        </div>
+        </div> */}
       </div>
-      <h2 className='text-slate-600 text-xl font-bold py-5'>Product Reviews {totalReview}</h2>
-      <div className='flex flex-col gap-8 pb-10 pt-4'>
+      <h2 className='py-5 text-xl font-bold text-slate-600'>Product Reviews {totalReview}</h2>
+      <div className='flex flex-col gap-8 pt-4 pb-10'>
         {
-          reviews.map((r, i) => <div key={i} className='flex flex-col gap-1'>
-            <div className='flex justify-between items-center'>
+          product.reviews.map((r, i) => <div key={i} className='flex flex-col gap-1'>
+            <div className='flex items-center justify-between'>
               <div className='flex gap-1 text-xl'>
                 <RatingTemp rating={r.rating} />
               </div>
-              <span className='text-slate-600'>{r.date}</span>
+              {/*<span className='text-slate-600'>{r.date}</span> */}
             </div>
-            <span className='text-slate-600 text-md'>{r.name}</span>
-            <p className='text-slate-600 text-sm'>{r.review}</p>
+            {/*<span className='text-slate-600 text-md'>{r.name}</span> */}
+            <p className='text-sm text-slate-600'>{r.comment}</p>
           </div>)
         }
         <div className='flex justify-end'>
@@ -147,24 +118,22 @@ const Reviews = ({ product }) => {
       </div>
       <div>
         {
-          userInfo ? <div className='flex flex-col gap-3'>
+           <div className='flex flex-col gap-3'>
             <div className='flex gap-1'>
               <RatingReact
                 onChange={(e) => setRat(e)}
                 initialRating={rat}
-                emptySymbol={<span className='text-slate-600 text-4xl'><CiStar /></span>}
+                emptySymbol={<span className='text-4xl text-slate-600'><CiStar /></span>}
                 fullSymbol={<span className='text-[#EDBB0E] text-4xl'><AiFillStar /></span>}
               />
             </div>
-            <form onSubmit={review_submit}>
-              <textarea value={re} required onChange={(e) => setRe(e.target.value)} className='border outline-0 p-3 w-full' name="" id="" cols="30" rows="5"></textarea>
+            <form >
+              <textarea value={re} required onChange={(e) => setRe(e.target.value)} className='w-full p-3 border outline-0' name="" id="" cols="30" rows="5"></textarea>
               <div className='mt-2'>
-                <button className='py-1 px-5 bg-indigo-500 text-white rounded-sm'>Submit</button>
+                <button className='px-5 py-1 text-white bg-indigo-500 rounded-sm'>Submit</button>
               </div>
             </form>
-          </div> : <div>
-            <Link className='py-1 px-5 bg-indigo-500 text-white rounded-sm' to='/login'>Login</Link>
-          </div>
+          </div> 
         }
       </div>
     </div>

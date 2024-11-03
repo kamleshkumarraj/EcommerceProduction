@@ -5,6 +5,7 @@ import { AiFillGithub, AiOutlineTwitter } from 'react-icons/ai'
 import { useSelector } from 'react-redux'
 import { AiFillShopping,AiFillHeart } from 'react-icons/ai'
 import { getSelf } from '../store/slices/selfHandler.slice'
+import logo from '../assets/Img/logo.jpg'
 
 const Footer = () => {
 
@@ -20,11 +21,11 @@ const Footer = () => {
             <div className='w-[85%] flex flex-wrap mx-auto border-b py-16 md-lg:pb-10 sm:pb-6'>
                 <div className='w-3/12 lg:w-4/12 sm:w-full'>
                     <div className='flex flex-col gap-3'>
-                        <img className='w-[190px] h-[70x]' src="http://localhost:3000/images/logo.png" alt="logo" />
+                        <img className='w-[3rem] rounded-full' src={logo} alt="logo" />
                         <ul className='flex flex-col gap-2 text-slate-600'>
-                            <li>Address : Rangpur , Kuigram</li>
-                            <li>Phone : 5873458345</li>
-                            <li>Email : farid@gmail.com</li>
+                            <li>Address : Jodhpur, Rajasthan</li>
+                            <li>Phone : 8603416388</li>
+                            <li>Email : kamlesh.22jics061@jietjodhpur.ac.in</li>
                         </ul>
                     </div>
                 </div>
@@ -97,7 +98,7 @@ const Footer = () => {
                 </div>
             </div>
             <div className='w-[85%] flex flex-wrap justify-center items-center text-slate-600 mx-auto py-5 text-center'>
-                <span>Copiright ©2023 All rights reserved | mady by <a className='text-blue-500 underline' href="">@Learn with Project</a></span>
+                <span>Copiright ©2023 All rights reserved | mady by <a className='text-blue-500 underline' href="">@Kamlesh Raj Kushwaha</a></span>
             </div>
 
             <div className='hidden fixed md-lg:block w-[50px] bottom-3 h-[110px] right-2 bg-white rounded-full p-2'>

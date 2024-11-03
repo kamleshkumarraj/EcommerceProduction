@@ -10,7 +10,7 @@ export const storetokenAndGetJWT = (res,user,statusCode) =>{
        
     }
     //code for store tocken in cookie and then send the request for client.
-    res.status(statusCode).cookie('tocken',tocken,option).json({
+    res.status(200).cookie('tocken',tocken,option).json({
         success : true,
         message  :"User logged in successfully",
         user,

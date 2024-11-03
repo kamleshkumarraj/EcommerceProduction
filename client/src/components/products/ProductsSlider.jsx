@@ -1,7 +1,7 @@
 import React from 'react';
 // Import Swiper React components
 import { Swiper, SwiperSlide } from 'swiper/react';
-import {Navigation} from 'swiper/modules'
+import {Navigation , Autoplay} from 'swiper/modules'
 
 // Import Swiper styles
 import 'swiper/css';
@@ -20,9 +20,9 @@ export default function ProductsSlider({products}) {
       <Swiper
         slidesPerView={4}
         spaceBetween={30}
-        modules={[Navigation]}
         navigation={true}
         loop={true}
+        autoplay={{ delay: 1500, disableOnInteraction: false }}
         pagination={{ clickable: true }}
         breakpoints={{
             1500 : {
@@ -42,6 +42,7 @@ export default function ProductsSlider({products}) {
             spaceBetween: 10,
           }
         }}
+        modules={[Navigation , Autoplay]}
         
         
         className="mySwiper"

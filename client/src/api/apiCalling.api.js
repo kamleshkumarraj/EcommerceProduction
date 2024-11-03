@@ -2,6 +2,7 @@ import axios from "axios"
 import { resetApiStatus, setApiStatus } from "../store/slices/apiResonseHandler.slice"
 export const apiCalling = ({method , url , contentType , formData }) => async (dispatch) =>{
     console.log("Api calling")
+    console.log(formData)
     const options = {
         method,
         url,

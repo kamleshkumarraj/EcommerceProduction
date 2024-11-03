@@ -8,6 +8,7 @@ function useSearch(dataList , getFilter) {
   }) 
   const data = filteredData.flat(2)
   return [data , setSearchQuery];
+  
 }
 
 export default useSearch

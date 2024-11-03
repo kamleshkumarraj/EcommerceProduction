@@ -62,7 +62,7 @@ const Categorys = () => {
                 transitionDuration={500}
             >
                 {
-                 categories.length > 0 &&    categories.map(({name , image} , i) => <Link className='h-[185px] border block' key={i} to={`/products?category=${name}`}>
+                 categories.length > 0 &&    categories.map(({name , image} , i) => <Link state={{category : name}}  className='h-[185px] border block' key={i} to={`/products?category=${name}`}>
                         <div className='relative w-full h-full p-3'>
                             <img src={image} alt="image" />
                             <div className='absolute left-0 flex items-center justify-center w-full mx-auto font-bold bottom-6'>

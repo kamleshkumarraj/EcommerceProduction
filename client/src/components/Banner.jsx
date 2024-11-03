@@ -57,7 +57,6 @@ const Banner = () => {
                                 autoPlay={true}
                                 infinite={true}
                                 arrows={true}
-                                showDots={true}
                                 responsive={responsive}
                             >
                                 {

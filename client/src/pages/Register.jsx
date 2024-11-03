@@ -1,109 +1,326 @@
-import React, { useEffect, useState } from 'react'
-import Headers from '../components/Headers'
-import Footer from '../components/Footer'
-import { FaFacebookF } from 'react-icons/fa'
-import FadeLoader from 'react-spinners/FadeLoader'
-import { Link,useNavigate } from 'react-router-dom'
-import { AiOutlineGoogle } from 'react-icons/ai'
-import { useSelector, useDispatch } from 'react-redux'
-import toast from 'react-hot-toast'
+import React, { useEffect, useState } from "react";
 
-import { customer_register,messageClear } from '../store/reducers/authReducer'
+import { Link } from "react-router-dom";
+import { toast } from "react-toastify";
 
-const Register = () => {
+import signup1 from "../assets/login/signup1.webp";
+import googleLogo from "../assets/login/google.svg";
+import twitterLogo from "../assets/login/twitter.svg";
+import hideLogo from "../assets/login/hideLogo.svg";
+import visible from "../assets/login/visible.svg";
+import OR from "../assets/login/or.svg";
 
-    const navigate = useNavigate()
-    const { loader, successMessage, errorMessage, userInfo } = useSelector(state => state.auth)
-    const dispatch = useDispatch()
-    const [state, setState] = useState({
-        name: '',
-        email: '',
-        password: ''
-    })
+import { useNavigate } from "react-router-dom";
+import { FaCloudUploadAlt } from "react-icons/fa";
+import { useDispatch } from "react-redux";
+import { apiCalling } from "../api/apiCalling.api";
+import { setUser } from "../store/slices/selfHandler.slice";
 
-    const inputHandle = (e) => {
-        setState({
-            ...state,
-            [e.target.name]: e.target.value
-        })
+const SignUp = () => {
+  const navigate = useNavigate();
+  const [showPassword, setShowPassword] = useState(false);
+  const [file, setFile] = useState("");
+  const dispatch = useDispatch();
+  const [formDataLocal, setFormDataLocal] = useState({
+    firstname: "",
+    middlename: "",
+    lastname: "",
+    username: "",
+    email: "",
+    password: "",
+    confirmPassword: "",
+    avatar: "",
+  });
+  console.log(formDataLocal);
+
+  const formData = new FormData();
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    Object.entries(formDataLocal).forEach(([key, value]) => {
+      formData.append(key, value);
+    });
+    if (!file) {
+      toast.error("Please upload a profile picture");
+      return;
     }
-    const register = (e) => {
-        e.preventDefault()
-        dispatch(customer_register(state))
-    }
-    useEffect(() => {
-        if (successMessage) {
-            toast.success(successMessage)
-            dispatch(messageClear())
-        }
-        if(errorMessage){
-            toast.error(errorMessage)
-            dispatch(messageClear())
-        }
-        if(userInfo){
-            navigate('/')
-        }
-    }, [successMessage,errorMessage])
+    console.log(formData);
+    e.preventDefault();
+    const options = {
+      url: "http://localhost:2000/api/v2/auth/register",
+      method: "POST",
+      formData,
+      contentType: "multipart/form-data",
+    };
+    const data = await dispatch(apiCalling(options));
 
-    return (
-        <div>
-            {
-                loader && <div className='w-screen h-screen flex justify-center items-center fixed left-0 top-0 bg-[#38303033] z-[999]'>
-                    <FadeLoader />
+    if (data.success) {
+      toast.success(data.message);
+      navigate("/login");
+      dispatch(setUser(data.user));
+    } else {
+      toast.error(data.message);
+    }
+  };
+
+  const inputHandler = (e) => {
+    setFormDataLocal((prev) => ({ ...prev, [e.target.name]: e.target.value }));
+  };
+  return (
+    <>
+      <div className="flex items-center justify-center w-full mx-auto my-7">
+        <div className="container flex flex-wrap items-center justify-center w-full h-full lg:space-x-14">
+          <div className="md:w-[50%]  xl:w-[40%]  h-full hidden lg:flex justify-center items-center ">
+            <img
+              src={signup1}
+              alt=""
+              className="w-[1100px] h-full object-contain"
+            />
+          </div>
+          <div className="w-[90%] lg:w-[40%] xl:w-[45%] h-[70%] xl:h-[100%] flex justify-center items-center my-8  p-5  ">
+            <div className="flex flex-col w-full space-y-7">
+              <div className="my-6 space-y-2">
+                <h1 className="text-4xl font-extrabold">Sign Up</h1>
+                <p className="text-gray-400">
+                  Sign up for free to access to in any of our products
+                </p>
+              </div>
+              <div className="flex flex-col space-y-3">
+                <div className="py-4 text-center border border-black rounded-md cursor-pointer">
+                  <button className="flex items-center justify-center w-full space-x-2 text-xl text-blue-500">
+                    <img src={googleLogo} alt="" className="size-5" />
+                    <span className="">Continue with Google</span>
+                  </button>
                 </div>
-            }
-            <Headers />
-            <div className='bg-slate-200 mt-4'>
-                <div className='w-full justify-center items-center p-10'>
-                    <div className='grid grid-cols-2 w-[60%] mx-auto bg-white rounded-md'>
-                        <div className='px-8 py-8'>
-                            <h2 className='text-center w-full text-xl text-slate-600 font-bold'>Register</h2>
-                            <div>
-                                <form onSubmit={register} className='text-slate-600'>
-                                    <div className='flex flex-col gap-1 mb-2'>
-                                        <label htmlFor="name">Name</label>
-                                        <input onChange={inputHandle} value={state.name} type="text" className='w-full px-3 py-2 border border-slate-200 outline-none focus:border-indigo-500 rounded-md' id='name' name='name' placeholder='name' required />
-                                    </div>
-                                    <div className='flex flex-col gap-1 mb-2'>
-                                        <label htmlFor="email">Email</label>
-                                        <input onChange={inputHandle} value={state.email} type="email" className='w-full px-3 py-2 border border-slate-200 outline-none focus:border-indigo-500 rounded-md' id='email' name='email' placeholder='email' required />
-                                    </div>
-                                    <div className='flex flex-col gap-1 mb-4'>
-                                        <label htmlFor="password">Passoword</label>
-                                        <input onChange={inputHandle} value={state.password} type="password" className='w-full px-3 py-2 border border-slate-200 outline-none focus:border-indigo-500 rounded-md' id='password' name='password' placeholder='password' required />
-                                    </div>
-                                    <button className='px-8 w-full py-2 bg-purple-500 shadow-lg hover:shadow-indigo-500/30 text-white rounded-md'>Register</button>
-                                </form>
-                                <div className='flex justify-center items-center py-2'>
-                                    <div className='h-[1px] bg-slate-300 w-[95%]'></div>
-                                    <span className='px-3 text-slate-600'>or</span>
-                                    <div className='h-[1px] bg-slate-300 w-[95%]'></div>
-                                </div>
-                                <button className='px-8 w-full py-2 bg-indigo-500 shadow hover:shadow-indigo-500/30 text-white rounded-md flex justify-center items-center gap-2 mb-3'>
-                                    <span><FaFacebookF /></span>
-                                    <span>Login with Facebook</span>
-                                </button>
-                                <button className='px-8 w-full py-2 bg-orange-500 shadow hover:shadow-orange-500/30 text-white rounded-md flex justify-center items-center gap-2 mb-3'>
-                                    <span><AiOutlineGoogle /></span>
-                                    <span>Login with Facebook</span>
-                                </button>
-                            </div>
-                            <div className='text-center text-slate-600 pt-1'>
-                                <p>You have no account ? <Link className='text-blue-500' to='/login'>Login</Link></p>
-                            </div>
-                            <div className='text-center text-slate-600 pt-1'>
-                                <p> <a target='_black' className='text-blue-500' href='http://localhost:3001/login'>Login</a> seller account</p>
-                            </div>
-                        </div>
-                        <div className='w-full h-full py-4 pr-4'>
-                            <img className='w-full h-[95%]' src="http://localhost:3000/images/login.jpg" alt="" />
-                        </div>
+                <div className="py-4 text-center border border-black rounded-md cursor-pointer">
+                  <button className="flex items-center justify-center w-full space-x-2 text-xl text-blue-500 cursor-pointer">
+                    <img src={twitterLogo} alt="" className="size-5" />
+                    <span className="cursor-pointer">
+                      Continue with Twitter
+                    </span>
+                  </button>
+                </div>
+              </div>
+              <div className="flex items-center justify-center">
+                <img src={OR} alt="" />
+              </div>
+              <div className="">
+                <form
+                  method="post"
+                  encType="multipart/form-data"
+                  action="http://localhost:2000/api/v1/auth/register"
+                >
+                  <div className="relative flex flex-col space-y-10 lg:space-y-8 xl:space-y-4">
+                    <div id="upload-file">
+                      <div
+                        id="file-upload"
+                        className="flex flex-col w-full gap-[10px]  py-[10px] "
+                      >
+                        <label
+                          className="text-[18px] w-full  py-[10px] flex gap-[50px] justify-center items-center rounded-[5px] hover:cursor-pointer border-[.5px] border-[#0000005d]"
+                          htmlFor="file1"
+                          id="file"
+                        >
+                          <FaCloudUploadAlt size={"50px"} />
+                          <p>Upload Your Profile Photo</p>
+                        </label>
+                        <input
+                          className="hidden"
+                          type="file"
+                          name="avatar"
+                          id="file1"
+                          multiple
+                          onInput={(e) => {
+                            const img = e.target.files[0];
+                            setFormDataLocal((prev) => ({
+                              ...prev,
+                              [e.target.name]: e.target.files[0],
+                            }));
+                            if (img) {
+                              const reader = new FileReader();
+                              reader.onloadend = () => {
+                                const base64Image = encodeURIComponent(
+                                  reader.result
+                                );
+                                setFile(base64Image);
+
+                                // Store URL-encoded image data
+                              };
+                              reader.readAsDataURL(img); // Convert to Data URL
+                            }
+                          }}
+                        />
+                      </div>
+                      <img
+                        className="px-[10px] h-[65px] absolute top-[2.8%] "
+                        src={decodeURIComponent(file)}
+                        alt=""
+                      />
                     </div>
-                </div>
-            </div>
-            <Footer />
-        </div>
-    )
-}
+                    <div
+                      id="name-field"
+                      className="relative grid grid-cols-3 gap-[20px]"
+                    >
+                      <div id="name" className="flex flex-col gap-[5px]">
+                        <input
+                          type="text"
+                          name="firstname"
+                          placeholder="First Name*"
+                          onChange={inputHandler}
+                          value={formDataLocal.firstname}
+                          className="w-full p-3 mt-2 bg-gray-100  rounded-md focus:outline-none focus:ring-2 focus:ring-purple-600 border-[.5px] border-gray-400 text-[16px]"
+                        />
+                      </div>
+                      <div id="name" className="flex flex-col gap-[5px]">
+                        <input
+                          type="text"
+                          name="middlename"
+                          placeholder="Middle Name"
+                          value={formDataLocal.middlename}
+                          onChange={inputHandler}
+                          className="w-full p-3 mt-2 bg-gray-100  rounded-md focus:outline-none focus:ring-2 focus:ring-purple-600 border-[.5px] border-gray-400 text-[16px]"
+                        />
+                      </div>
+                      <div id="name" className="flex flex-col gap-[5px]">
+                        <input
+                          type="text"
+                          name="lastname"
+                          placeholder="Last Name*"
+                          value={formDataLocal.lastname}
+                          onChange={inputHandler}
+                          className="w-full p-3 mt-2 bg-gray-100  rounded-md focus:outline-none focus:ring-2 focus:ring-purple-600 border-[.5px] border-gray-400 text-[16px]"
+                        />
+                      </div>
+                    </div>
+                    <div
+                      id="user-email"
+                      className="grid grid-cols-2 gap-[20px]"
+                    >
+                      <div id="username" className="flex flex-col gap-[5px]">
+                        <input
+                          type="text"
+                          name="username"
+                          placeholder="Enter your username*"
+                          onInput={inputHandler}
+                          value={formDataLocal.username}
+                          className="w-full p-3 mt-2 bg-gray-100  rounded-md focus:outline-none focus:ring-2 focus:ring-purple-600 border-[.5px] border-gray-400 text-[16px]"
+                        />
+                      </div>
+                      <div id="name" className="flex flex-col gap-[5px]">
+                        <input
+                          type="text"
+                          name="email"
+                          placeholder="Enter your email*"
+                          onChange={inputHandler}
+                          value={formDataLocal.email}
+                          className="w-full p-3 mt-2 bg-gray-100  rounded-md focus:outline-none focus:ring-2 focus:ring-purple-600 border-[.5px] border-gray-400 text-[16px]"
+                        />
+                      </div>
+                    </div>
+                    <div id="password" className="grid grid-cols-2 gap-[20px]">
+                      <div
+                        id="password"
+                        className="flex flex-col gap-[5px] relative"
+                      >
+                        <div className="absolute right-0 top-[50%] translate-y-[-30%] flex justify-end cursor-pointer">
+                          {!showPassword && (
+                            <img
+                              src={visible}
+                              alt="Show Password"
+                              className="mr-2 cursor-pointer size-5"
+                              onClick={() => setShowPassword(true)} // Step 2: Show password when clicked
+                            />
+                          )}
+                          {showPassword && (
+                            <img
+                              src={hideLogo}
+                              alt="Hide Password"
+                              className="mr-2 cursor-pointer size-5"
+                              onClick={() => setShowPassword(false)}
+                            />
+                          )}
+                        </div>
+                        <input
+                          type="password"
+                          name="password"
+                          placeholder="Enter your password*"
+                          value={formDataLocal.password}
+                          onChange={inputHandler}
+                          className="w-full p-3 mt-2 bg-gray-100  rounded-md focus:outline-none focus:ring-2 focus:ring-purple-600 border-[.5px] border-gray-400 text-[16px]"
+                        />
+                      </div>
+                      <div
+                        id="conf-password"
+                        className="flex flex-col gap-[5px] relative "
+                      >
+                        <div className="absolute right-0 flex justify-end cursor-pointer top-[50%] translate-y-[-30%]">
+                          {!showPassword && (
+                            <img
+                              src={visible}
+                              alt="Show Password"
+                              className="mr-2 cursor-pointer size-5"
+                              onClick={() => setShowPassword(true)} // Step 2: Show password when clicked
+                            />
+                          )}
+                          {showPassword && (
+                            <img
+                              src={hideLogo}
+                              alt="Hide Password"
+                              className="mr-2 cursor-pointer size-5"
+                              onClick={() => setShowPassword(false)}
+                            />
+                          )}
+                        </div>
+                        <input
+                          type="password"
+                          name="confirmPassword"
+                          value={formDataLocal.confirmPassword}
+                          onChange={inputHandler}
+                          placeholder="Enter your confirm password*"
+                          className="w-full p-3 mt-2 bg-gray-100  rounded-md focus:outline-none focus:ring-2 focus:ring-purple-600 border-[.5px] border-gray-400 text-[16px]"
+                        />
+                      </div>
+                    </div>
 
-export default Register
+                    <div className=" flex flex-col space-y-2 !mt-12 ">
+                      <div className="space-x-2">
+                        <input type="checkbox" id="tc1" />
+                        <label htmlFor="tc1">
+                          Agree to our Terms of use and Privacy Policy
+                        </label>
+                      </div>
+                      <div className="space-x-2">
+                        <input type="checkbox" id="tc2" />
+                        <label htmlFor="tc2">
+                          Subscribe to our monthly newsletter
+                        </label>
+                      </div>
+                    </div>
+
+                    <div className="flex flex-col space-y-2 ">
+                      <button
+                        className="bg-[#524bad] w-28 text-white px-6 py-2 rounded-lg cursor-pointer"
+                        onClick={handleSubmit}
+                      >
+                        Sign Up
+                      </button>
+                      <span>
+                        Already have an account?{" "}
+                        <Link to={"/login"} className="text-blue-400 underline">
+                          Log in
+                        </Link>
+                      </span>
+                    </div>
+                  </div>
+                  {/* {error && <p className="text-red-500">{error}</p>} */}
+                </form>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </>
+  );
+};
+
+export default SignUp;

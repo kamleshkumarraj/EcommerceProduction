@@ -9,8 +9,8 @@ const userLogin = asyncHandler(async (req , res , next) =>{
     if(!email || !password){
         return next(new ErrorHandler("please enter email and password" , 401));
     }
-    const user = await userModels.findOne({email}).select("+password");
-
+    let user = await userModels.findOne({email}).select("+password");
+    user = user ? user : await userModels.findOne({username : email}).select("+password");
     if(!user){
        return next(new ErrorHandler("Invalid email or password" , 402))
     }
@@ -20,7 +20,7 @@ const userLogin = asyncHandler(async (req , res , next) =>{
       return next(new ErrorHandler("Invalid email or password" , 402))
     }
     console.log("user login caliing ...")
-    storetokenAndGetJWT(res , user , 201);
+    storetokenAndGetJWT(res , user );
 })
 
 export default userLogin;

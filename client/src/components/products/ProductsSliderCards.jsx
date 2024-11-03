@@ -1,10 +1,11 @@
 import { FaHeart } from 'react-icons/fa'
 import cameraImg from '../../assets/Img/cameraImg.jpg'
+import { Link } from 'react-router-dom'
 function ProductsSliderCards({product}) {
   return (
     <div  className="w-[35rem] rounded-[10px] overflow-hidden bg-[#ffffff] shadow-[0px_0px_10px_0px_rgba(0,0,0,0.25)]" >
-      <div id="img-section" className='h-[300px] rounded-[20px] relative'>
-        <img className='text-center h-[100%] w-[100%] object-contain rounded-[10px] ' src={product.images[0]} alt="products-image" />
+      <div id="img-section" className='h-[300px] rounded-[20px] w-full relative'>
+        <img className='text-center h-[200px] object-contain rounded-[10px] ' src={product.images[0]} alt="products-image" />
         <div id="icon-wishlist" className='absolute top-[10%] right-[1%] transform -translate-x-1/2 -translate-y-1/2'>
             <FaHeart size={'25px'} color='#ff5a5f' />
         </div>
@@ -22,7 +23,7 @@ function ProductsSliderCards({product}) {
         </div>
         <div id="btn-section" className='flex justify-between px-[10px] pt-[10px]'>
             <button className='bg-[#0000002f] text-[16px] font-[500] text-white py-[5px] px-[10px] rounded-[5px] hover:bg-[#00000040]'>Add to Cart</button>
-            <button className='bg-[#0000002f] text-[16px] font-[500] text-white py-[5px] px-[10px] rounded-[5px] hover:bg-[#00000040]'>View Details</button>
+            <Link state={{product}} to={`/product-details/${product._id}`}  className='bg-[#0000002f] inline-block text-[16px] font-[500] text-white py-[5px] px-[10px] rounded-[5px] hover:bg-[#00000040]'>View Details</Link>
         </div>
       </div>
     </div>

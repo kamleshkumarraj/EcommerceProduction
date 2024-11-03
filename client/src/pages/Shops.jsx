@@ -1,18 +1,17 @@
-import React, { useEffect, useState } from 'react'
-import { Link } from 'react-router-dom'
-import { Range } from 'react-range'
-import { MdOutlineKeyboardArrowRight } from 'react-icons/md'
-import Headers from '../components/Headers'
-import Footer from '../components/Footer'
-import Products from '../components/products/Products'
+import React, { useState } from 'react'
 import { AiFillStar } from 'react-icons/ai'
-import { CiStar } from 'react-icons/ci'
 import { BsFillGridFill } from 'react-icons/bs'
+import { CiStar } from 'react-icons/ci'
 import { FaThList } from 'react-icons/fa'
-import ShopProducts from '../components/products/ShopProducts'
+import { MdOutlineKeyboardArrowRight } from 'react-icons/md'
+import { Range } from 'react-range'
+import { Link } from 'react-router-dom'
 import Pagination from '../components/Pagination'
+import Products from '../components/products/Products'
+import ShopProducts from '../components/products/ShopProducts'
 
 import { useDispatch, useSelector } from 'react-redux'
+import { getAllCategories, getAllProducts, getLatestProducts } from '../store/slices/productsHandler.slice'
 
 const Shops = () => {
 
@@ -26,8 +25,12 @@ const Shops = () => {
     const [category, setCategory] = useState('')
     const [rating, setRatingQ] = useState('')
     const [sortPrice, setSortPrice] = useState('')
-
-   
+    
+    const categorys = useSelector(getAllCategories)
+    const priceRange = { low: 0, high: 1000 }
+    
+    const latestProducts = useSelector(getLatestProducts)
+    const totalProducts = useSelector(getAllProducts)
     
 
     const queryCategoey = (e, value) => {
@@ -37,13 +40,9 @@ const Shops = () => {
             setCategory('')
         }
     }
-    console.log(category)
-    
-
     
     return (
         <div>
-            <Headers />
             <section className='bg-[url("http://localhost:3000/images/banner/shop.gif")] h-[220px] mt-6 bg-cover bg-no-repeat relative bg-left'>
                 <div className='absolute left-0 top-0 w-full h-full bg-[#2422228a]'>
                     <div className='w-[85%] md:w-[80%] sm:w-[90%] lg:w-[90%] h-full mx-auto'>
@@ -68,9 +67,9 @@ const Shops = () => {
                             <h2 className='mb-3 text-xl font-bold text-slate-600'>Category</h2>
                             <div className='py-2'>
                                 {
-                                    categorys.map((c, i) => <div className='flex items-center justify-start gap-2 py-1' key={i}>
-                                        <input checked={category === c.name ? true : false} onChange={(e) => queryCategoey(e, c.name)} type="checkbox" id={c.name} />
-                                        <label className='block cursor-pointer text-slate-600' htmlFor={c.name}>{c.name}</label>
+                                  categorys && categorys.length > 0 && categorys.map((c, i) => <div className='flex items-center justify-start gap-2 py-1' key={i}>
+                                        <input checked={category === c ? true : false} onChange={(e) => queryCategoey(e, c)} type="checkbox" id={c} />
+                                        <label className='block cursor-pointer text-slate-600' htmlFor={c}>{c}</label>
                                     </div>)
                                 }
                             </div>
@@ -79,9 +78,10 @@ const Shops = () => {
                                 <Range
                                     step={1}
                                     min={priceRange.low}
-                                    max={priceRange.high === priceRange.low ? priceRange.high + 1 : priceRange.hight}
-                                    values={state.values}
-                                    onChange={(values) => setState({ values })}
+                                    max={priceRange.high === priceRange.low ? priceRange.high + 1 : priceRange.high}
+                                    values={[10]}
+                                    // values={state.values}
+                                    // onChange={(values) => setState({ values })}
                                     renderTrack={({ props, children }) => (
                                         <div {...props} className='w-full h-[6px] bg-slate-200 rounded-full cursor-default'>
                                             {children}
@@ -93,7 +93,7 @@ const Shops = () => {
                                     )}
                                 />
                                 <div>
-                                    <span className='text-lg font-bold text-red-500'>${Math.floor(state.values[0])} - ${Math.floor(state.values[1])}</span>
+                                    <span className='text-lg font-bold text-red-500'>${/*Math.floor(state.values[0])} - ${Math.floor(state.values[1]) */}299</span>
                                 </div>
                             </div>
                             <div className='flex flex-col gap-4 py-3'>
@@ -134,7 +134,7 @@ const Shops = () => {
                                         <span><CiStar /></span>
                                         <span><CiStar /></span>
                                     </div>
-                                    <div onClick={resetRating} className='flex items-start justify-start gap-2 text-xl text-orange-500 cursor-pointer'>
+                                    <div  className='flex items-start justify-start gap-2 text-xl text-orange-500 cursor-pointer'>
                                         <span><CiStar /></span>
                                         <span><CiStar /></span>
                                         <span><CiStar /></span>
@@ -144,13 +144,13 @@ const Shops = () => {
                                 </div>
                             </div>
                             <div className='flex flex-col gap-4 py-5 md:hidden'>
-                                <Products title="Latest Products" products={latest_product} />
+                                {latestProducts && latestProducts.length > 0 && <Products title="Latest Products" products={latestProducts} />}
                             </div>
                         </div>
                         <div className='w-9/12 md-lg:w-8/12 md:w-full'>
                             <div className='pl-8 md:pl-0'>
                                 <div className='flex items-start justify-between px-3 py-4 mb-10 bg-white border rounded-md'>
-                                    <h2 className='text-lg font-medium text-slate-600'>{totalProduct} Products</h2>
+                                    <h2 className='text-lg font-medium text-slate-600'>{totalProducts?.length} Products</h2>
                                     <div className='flex items-center justify-center gap-3'>
                                         <select onChange={(e) => setSortPrice(e.target.value)} className='p-1 font-semibold border outline-0 text-slate-600' name="" id="">
                                             <option value="">Sort By</option>
@@ -168,11 +168,11 @@ const Shops = () => {
                                     </div>
                                 </div>
                                 <div className='pb-8'>
-                                    <ShopProducts products={products} styles={styles} />
+                                    <ShopProducts products={totalProducts.slice(0,20)} styles={styles} />
                                 </div>
                                 <div>
-                                    {
-                                        totalProduct > parPage && <Pagination pageNumber={pageNumber} setPageNumber={setPageNumber} totalItem={totalProduct} parPage={parPage} showItem={Math.floor(totalProduct / parPage)} />
+                                    {totalProducts && totalProducts.length > 0 &&
+                                        totalProducts.length > 10 && <Pagination pageNumber={pageNumber} setPageNumber={setPageNumber} totalItem={totalProducts.length} parPage={10} showItem={Math.floor(10)} />
                                     }
                                 </div>
                             </div>
@@ -180,7 +180,7 @@ const Shops = () => {
                     </div>
                 </div>
             </section>
-            <Footer />
+            
         </div>
     )
 }
