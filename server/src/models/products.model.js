@@ -44,7 +44,8 @@ const productSchema = new mongoose.Schema(
         },
         availabilityStatus: {
             type : String,
-            required : true
+            required : true,
+            enum : ['available', 'unavailable']
         },
         reviews: [
           {
@@ -78,6 +79,10 @@ const productSchema = new mongoose.Schema(
         thumbnail: {
             type : String,
             required : true
+        },
+        quantity : {
+            type : Number,
+            default : 1
         }
     }     
 ,{timestamps : true})
