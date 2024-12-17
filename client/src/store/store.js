@@ -3,6 +3,7 @@ import { selfHandler } from './slices/selfHandler.slice.js'
 import { apiHandlingReducers } from './slices/apiResonseHandler.slice.js'
 import { productsHandler } from './slices/productsHandler.slice.js'
 import { orderHandlerSlice } from './slices/orderHandler.slice.js'
+import { cartSlice } from './slices/cart.slice.js'
 
 
 export const store = configureStore({
@@ -10,6 +11,7 @@ export const store = configureStore({
         self : selfHandler,
         apiResponse : apiHandlingReducers,
         productsList : productsHandler,
-        orders : orderHandlerSlice
+        orders : orderHandlerSlice,
+        [cartSlice.name] : [cartSlice.reducer]
     }
 })

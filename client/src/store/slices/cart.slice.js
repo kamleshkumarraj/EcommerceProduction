@@ -30,3 +30,7 @@ export const cartSlice = createSlice({
 })
 
 export const getAllCartItems = (state) => state.cart.cartItems
+export const {decreasedCartQty,
+            increaseCartQty,
+            removeCartItems,
+            setAllCarts} = cartSlice.actions
