@@ -9,6 +9,14 @@ const cartSchema = new mongoose.Schema({
         type : mongoose.Schema.Types
         .ObjectId,
         ref : 'user'
+    },
+    quantity : {
+        type : Number,
+        default : 1
+    },
+    availabilityStatus : {
+        type : Boolean,
+        default : true
     }
 
 })
