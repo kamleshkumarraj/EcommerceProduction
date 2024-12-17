@@ -9,8 +9,12 @@ export const decreaseCartQty = asyncHandler(async (req , res , next) => {
     if(!cartItem) return next(new ErrorHandler("Please provide valid cart id !",404))
 
     cartItem.quantity = cartItem.quantity - 1;
-
-    await cartItem.save();
+    if(cartItem.quantity == 0) {
+        await cart.findByIdAndDelete(cartItem)
+    }else{
+        await cartItem.save();
+    }
+    
 
     res.status(200).json({
         success : true,

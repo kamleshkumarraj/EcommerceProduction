@@ -10,6 +10,7 @@ import { orderHAndleByAdminRoute } from './routes/admin/orderHandle.route.js';
 import cors from 'cors';
 import cookieParser from 'cookie-parser'
 import { commonRouter } from './routes/common/common.routes.js';
+import { cartRouter } from './routes/cart/cart.routes.js';
 
 export const app = express();
 
@@ -34,6 +35,7 @@ app.use('/api/v2/user',handleUserProfileRoute)
 app.use('/api/v2/user/product',productHandleByUser)
 app.use('/api/v2/user/order',orderHandlerRouter)
 app.use('/api/v2/admin/order',orderHAndleByAdminRoute)
+app.use('/api/v2/user/cart' , cartRouter)
 
 //common routes for requesting users for handling the products
 app.use('/api/v2/products/' , commonRouter)

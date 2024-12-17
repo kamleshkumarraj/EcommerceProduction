@@ -1,6 +1,6 @@
 import { asyncHandler } from "../../errors/asynHandler.js";
-import ErrorHandler from "../../errors/errorHandler";
-import { cart } from "../../models/cart.model";
+import ErrorHandler from "../../errors/errorHandler.js";
+import { cart } from "../../models/cart.model.js";
 
 export const increaseCartQty = asyncHandler(async (req , res , next) => {
     const {cartItemId} = req.params 
