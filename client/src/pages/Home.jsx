@@ -7,6 +7,7 @@ import FeatureProducts from "../components/products/FeatureProducts";
 import Products from "../components/products/Products";
 import { apiCalling } from "../api/apiCalling.api";
 import { getAllProducts, getDiscountedProducts, getLatestProducts, getTopRatedProducts } from "../store/slices/productsHandler.slice";
+import Advertisment1 from "../components/Advertisment1";
 const Home = () => {
   const products = useSelector(getAllProducts)
   const latest_product = useSelector(getLatestProducts)
@@ -23,6 +24,9 @@ const Home = () => {
       </div>
       <div className="py-[45px]">
         <FeatureProducts products={products.slice(0,20)} />
+      </div>
+      <div id="advertisment">
+        <Advertisment1 />
       </div>
       <div className="py-10">
         <div className="w-[85%] flex flex-wrap mx-auto">

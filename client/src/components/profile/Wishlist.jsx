@@ -3,9 +3,9 @@ import { MdArrowForwardIos } from "react-icons/md";
 import { RxCross1 } from "react-icons/rx";
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import image from "../../assets/wishlist-img.svg";
-import Sidebar from "../checkoutpage/Sidebar";
-import Loader from "../Loader";
+import image from "../../assets/Img/wishlist-logo.svg";
+// import Sidebar from "../checkoutpage/Sidebar";
+// import Loader from "../Loader";
 
 function Wishlist() {
   const [loading, setLoading] = useState(true);
@@ -45,7 +45,7 @@ function Wishlist() {
   if (loading) {
     return (
       <div className="h-[100vh] w-[100vw] flex justify-center items-center ">
-        <Loader />
+        {/*<Loader />*/}
       </div>
     ); // Render Loader component while loading
   }
@@ -85,7 +85,7 @@ function Wishlist() {
     <div className="flex flex-col gap-10 md:flex-row lg:px-8">
       {/* Sidebar Section */}
       <div className="w-full md:w-[55%] mt-32">
-        <Sidebar />
+        { }
       </div>
 
       {/* Main Content Section */}
