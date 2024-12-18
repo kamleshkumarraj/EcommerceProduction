@@ -11,6 +11,7 @@ import cors from 'cors';
 import cookieParser from 'cookie-parser'
 import { commonRouter } from './routes/common/common.routes.js';
 import { cartRouter } from './routes/cart/cart.routes.js';
+import { wishlistHandlingRoute } from './routes/wishlist/wishlist.routes.js';
 
 export const app = express();
 
@@ -36,7 +37,7 @@ app.use('/api/v2/user/product',productHandleByUser)
 app.use('/api/v2/user/order',orderHandlerRouter)
 app.use('/api/v2/admin/order',orderHAndleByAdminRoute)
 app.use('/api/v2/user/cart' , cartRouter)
-
+app.use('/api/v2/user/wishlist' , wishlistHandlingRoute)
 //common routes for requesting users for handling the products
 app.use('/api/v2/products/' , commonRouter)
 

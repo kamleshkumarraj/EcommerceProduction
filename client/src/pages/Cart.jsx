@@ -11,6 +11,7 @@ import CartLoader from "../components/cart/CartLoader";
 import FetchingLoading from "../components/cart/FetchingLoading";
 import { FiMinus, FiPlus } from "react-icons/fi";
 import { BsCartX } from "react-icons/bs";
+import getAllCart from "../utils/getAllCartApiCall";
 
 const Cart = () => {
   const [loading, setLoading] = useState(true);
@@ -30,7 +31,7 @@ const Cart = () => {
       toast.success("Product is removed from cart list successfully");
     }else{
       toast.error("We get error during removing product from cart list !");
-      getAllCart();
+      getAllCart(dispatch , user);
     }
   }
  
@@ -46,7 +47,7 @@ const Cart = () => {
       toast.success("Quantity is increased by 1");
     }else{
       toast.error("Quantity is not increased !");
-      getAllCart();
+      getAllCart(dispatch , user);
     }
   }
 
@@ -64,7 +65,7 @@ const Cart = () => {
     }else{
       
     toast.error(response?.message||"Quantity is not decreased !");
-    getAllCart()
+    getAllCart(dispatch , user)
     }
   }
  

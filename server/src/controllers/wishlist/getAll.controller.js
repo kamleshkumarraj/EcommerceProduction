@@ -2,7 +2,7 @@ import { asyncHandler } from "../../errors/asynHandler.js";
 import { wishlist } from "../../models/wishlist.model.js";
 
 export const getAllWishlistItems = asyncHandler(async (req , res , next) => {
-    const {userId} = req.params 
+    const userId = req.user._id 
     const wishlistItems = await wishlist.find({userId}).populate('productId' , 'title thumbnail category price quantity availabilityStatus rating')
 
     const transformData = wishlistItems.map(({productId , quantity , _id}) => {
