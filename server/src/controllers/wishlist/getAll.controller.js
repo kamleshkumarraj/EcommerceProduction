@@ -1,7 +1,7 @@
 import { asyncHandler } from "../../errors/asynHandler.js";
 import { wishlist } from "../../models/wishlist.model.js";
 
-export const getAllwishlistItems = asyncHandler(async (req , res , next) => {
+export const getAllWishlistItems = asyncHandler(async (req , res , next) => {
     const {userId} = req.params 
     const wishlistItems = await wishlist.find({userId}).populate('productId' , 'title thumbnail category price quantity availabilityStatus rating')
 
