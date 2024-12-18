@@ -21,13 +21,14 @@ import { useSelector } from "react-redux";
 import { getSelf } from "../store/slices/selfHandler.slice";
 import { getAllCategories } from "../store/slices/productsHandler.slice";
 import { getAllCartItems } from "../store/slices/cart.slice";
+import { getAllWishlistItems } from "../store/slices/wishlist.slice";
 
 const Headers = () => {
   const navigate = useNavigate();
   const categorys = useSelector(getAllCategories);
   const userInfo = useSelector(getSelf);
   const card_product_count = useSelector(getAllCartItems).length;
-  const wishlist_count = card_product_count-2;
+  const wishlist_count = useSelector(getAllWishlistItems).length;
 
   const { pathname } = useLocation();
   const [showShidebar, setShowShidebar] = useState(true);

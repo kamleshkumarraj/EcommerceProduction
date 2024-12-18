@@ -1,5 +1,6 @@
 import { toast } from "react-toastify"
 import { apiCalling } from "../api/apiCalling.api"
+import getAllCart from "./getAllCartApiCall"
 
 export const addToCart = async (_id , dispatch , user , navigate) => {
     
@@ -15,6 +16,7 @@ export const addToCart = async (_id , dispatch , user , navigate) => {
     const response = await dispatch(apiCalling(options))
     if(response?.success){
       toast.success("Product added to cart successfully")
+      getAllCart(dispatch , user)
     }else{
       toast.error("Failed to add product to cart !")
     }

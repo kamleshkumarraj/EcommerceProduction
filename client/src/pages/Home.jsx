@@ -1,13 +1,11 @@
-import React, { useEffect, useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import Heders from "../components/Headers";
+import React from "react";
+import { useSelector } from "react-redux";
+import Advertisment1 from "../components/Advertisment1";
 import Banner from "../components/Banner";
 import Categorys from "../components/Categorys";
 import FeatureProducts from "../components/products/FeatureProducts";
 import Products from "../components/products/Products";
-import { apiCalling } from "../api/apiCalling.api";
 import { getAllProducts, getDiscountedProducts, getLatestProducts, getTopRatedProducts } from "../store/slices/productsHandler.slice";
-import Advertisment1 from "../components/Advertisment1";
 const Home = () => {
   const products = useSelector(getAllProducts)
   const latest_product = useSelector(getLatestProducts)

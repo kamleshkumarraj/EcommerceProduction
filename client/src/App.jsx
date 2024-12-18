@@ -9,6 +9,7 @@ import { Bounce, ToastContainer } from "react-toastify";
 import 'react-toastify/dist/ReactToastify.css';
 import { getSelf, setUser } from "./store/slices/selfHandler.slice";
 import getAllCart from "./utils/getAllCartApiCall";
+import  { fetchAllWishlistItem } from "./utils/wishlist";
 
 function App() {
   const dispatch = useDispatch();
@@ -67,7 +68,10 @@ function App() {
 
   useEffect(() => {
      getAllCart(dispatch , user)
+     fetchAllWishlistItem(dispatch , user) 
   },[user])
+
+ 
 
   return (
     <>

@@ -8,7 +8,7 @@ async function getAllCart( dispatch , user) {
     };
     const response = await dispatch(apiCalling(options));
     if (response?.success) {
-      dispatch(setAllCarts(response?.data));
+      dispatch(setAllCarts(response?.data.reverse()));
     } else {
       console.log("We get error during fetching carts item from database !");
     }

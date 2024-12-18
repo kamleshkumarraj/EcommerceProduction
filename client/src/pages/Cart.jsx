@@ -94,6 +94,7 @@ const Cart = () => {
       You will find a lot of interesting products on our "Shop" page.`}
       button={"Return to Shop".toUpperCase()}
    />;
+   
   return (
     <div className="bg-white">
       <div className="p-4 my-auto mb-4 bg-gray-200">

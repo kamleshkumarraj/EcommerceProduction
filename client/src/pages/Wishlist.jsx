@@ -1,4 +1,4 @@
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { TbHeartX } from "react-icons/tb";
 import { Link } from 'react-router-dom';
 import { FiMinus, FiPlus } from 'react-icons/fi';
@@ -6,13 +6,15 @@ import FetchingLoading from '../components/cart/FetchingLoading';
 import { MdArrowForwardIos } from 'react-icons/md';
 import CartLoader from '../components/cart/CartLoader';
 import { useEffect, useState } from 'react';
-import { getAllCartItems } from '../store/slices/cart.slice';
 import Loader from '../components/cart/Loader';
+import { getAllWishlistItems } from '../store/slices/wishlist.slice';
+import { removeWishlistItem, updateWishlistQty } from '../utils/wishlist';
 
 function Wishlist() {
-    const wishlistItems = useSelector(getAllCartItems);
+    const wishlistItems = useSelector(getAllWishlistItems);
     const [apiStatus , setApiStatus] = useState(false)
     const [loading, setLoading] = useState(true);
+    const dispatch = useDispatch();
     
     useEffect(() => {
         const loadContent = setTimeout(() => {
@@ -21,13 +23,13 @@ function Wishlist() {
     
         return () => clearTimeout(loadContent); // Cleanup timeout on component unmount
       }, []);
+      
     if(wishlistItems.length == 0) return <CartLoader 
         icon={<TbHeartX  size={250} color="#E8E8E8" />} 
         heading={"Your wishlist is currently empty."}
         para={`Before proceed to view your wishlist, you must add some products to your wishlist.\n
         You will find a lot of interesting products on our "Shop" page.`}
         button={"RETURN TO SHOPPING"}
-        
         />
 
         if (loading) {
@@ -90,7 +92,7 @@ function Wishlist() {
                   <div
                     id="decreaseBtn"
                     className="font-[600] text-[28px] p-[5px] grid place-content-center py-[-2rem] border-[1px] rounded-[.5rem] hover:cursor-pointer"
-                    onClick={() => { }}
+                    onClick={() => {updateWishlistQty(dispatch , {_id} , 'decrease') }}
                   >
                     {" "}
                     <FiMinus size={"20px"} />{" "}
@@ -99,14 +101,14 @@ function Wishlist() {
                   <div
                     id="increaseBtn"
                     className="font-[600] text-[28px] p-[5px] grid place-content-center py-[-2px] border-[1px] rounded-[.5rem] hover:cursor-pointer"
-                    onClick={() => {}}
+                    onClick={() => {updateWishlistQty(dispatch , {_id} , 'increase')}}
                   >
                     <FiPlus size={"20px"} />
                   </div>
                 </div>
                 <button
                   onClick={() => {
-
+                    removeWishlistItem(dispatch , {_id})
                   }}
                   className=" w-[30px] h-[30px] mx-[20px] rounded-[50%] bg-red-500 text-white hover:underline"
                 >
