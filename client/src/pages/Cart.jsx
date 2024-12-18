@@ -5,7 +5,7 @@ import { Link } from "react-router-dom";
 import { toast } from "react-toastify";
 import { getSelf } from "../store/slices/selfHandler.slice";
 import { apiCalling } from "../api/apiCalling.api";
-import { getAllCartItems, removeCartItems, setAllCarts } from "../store/slices/cart.slice";
+import { decreasedCartQty, getAllCartItems, increaseCartQty, removeCartItems, setAllCarts } from "../store/slices/cart.slice";
 import Loader from "../components/cart/Loader";
 import CartLoader from "../components/cart/CartLoader";
 import FetchingLoading from "../components/cart/FetchingLoading";
@@ -17,7 +17,7 @@ const Cart = () => {
   const user = useSelector(getSelf);
   const cartItems = useSelector(getAllCartItems);
   const [apiStatus, setApiStatus] = useState(false);
-  console.log(cartItems);
+  
   async function getAllCart() {
     setApiStatus(true);
     const options = {
@@ -46,11 +46,45 @@ const Cart = () => {
     }
   }
  
+  // now we write code for incrementing the cart quantity.
+  const increamentCartQty = async (_id) => {
+    dispatch(increaseCartQty({_id}));
+    const options = {
+      url : `http://localhost:2000/api/v2/user/cart/increase/${_id}`,
+      method : "PATCH"
+    }
+    const response = await dispatch(apiCalling(options))
+    if(response?.success){
+      toast.success("Quantity is increased by 1");
+    }else{
+      toast.error("Quantity is not increased !");
+      getAllCart();
+    }
+  }
+
+  const decreamentCartQty = async (_id , qty) => {
+    dispatch(decreasedCartQty({_id}))
+    
+    const options = {
+      url : `http://localhost:2000/api/v2/user/cart/decrease/${_id}`,
+      method : "PATCH"
+    }
+    const response = await dispatch(apiCalling(options))
+    if(response?.success){
+      if(qty == 1) toast.success("Product is removed from cart list successfully.");
+      else toast.success(response?.message || "Quantity is decreased by 1")
+    }else{
+      
+    toast.error(response?.message||"Quantity is not decreased !");
+    getAllCart()
+    }
+  }
  
   //now we call the api for getting all cart from database.
   useEffect(() => {
     getAllCart();
-  }, []);
+  }, [user]);
+  
   useEffect(() => {
     const loadContent = setTimeout(() => {
       setLoading(false); // Set loading to false after 2 seconds (simulating data fetch or image loading)
@@ -103,7 +137,7 @@ const Cart = () => {
                   <p className="font-semibold">{title}</p>
                   <p className="text-[14px] text-gray-600">Price : ${price}</p>
                 </div>
-                <p className="text-lg font-bold lg:pr-[100px]">${price}</p>
+                <p className="text-lg font-bold lg:pr-[100px]">${price*quantity}</p>
                 <div
                   id="quantity"
                   className="flex gap-[1rem] justify-center pr-[1rem] items-center"
@@ -111,13 +145,7 @@ const Cart = () => {
                   <div
                     id="decreaseBtn"
                     className="font-[600] text-[28px] p-[5px] grid place-content-center py-[-2rem] border-[1px] rounded-[.5rem] hover:cursor-pointer"
-                    onClick={() => {
-                      if (quantity == 1) {
-                        toast.warning("product is removed from cartlist");
-                      }
-
-                      toast.success("Quantity is decreased by 1");
-                    }}
+                    onClick={() => { decreamentCartQty(_id , quantity)}}
                   >
                     {" "}
                     <FiMinus size={"20px"} />{" "}
@@ -126,9 +154,7 @@ const Cart = () => {
                   <div
                     id="increaseBtn"
                     className="font-[600] text-[28px] p-[5px] grid place-content-center py-[-2px] border-[1px] rounded-[.5rem] hover:cursor-pointer"
-                    onClick={() => {
-                      toast.success("Quantity is increase by 1");
-                    }}
+                    onClick={() => { increamentCartQty(_id)}}
                   >
                     <FiPlus size={"20px"} />
                   </div>

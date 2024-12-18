@@ -20,4 +20,4 @@ authenticationRoute.route('/logout').get(loggedOut);
 authenticationRoute.route('/forgot-password').post(forgotPassword);
 authenticationRoute.route('/reset-password/:tocken').post(resetPassword);
 authenticationRoute.route('/change-password').put(isLoggedIn, changePassword);
-authenticationRoute.route('/direct-login').get(isLoggedIn, directLogin);
+authenticationRoute.route('/direct-login').post(isLoggedIn, directLogin);

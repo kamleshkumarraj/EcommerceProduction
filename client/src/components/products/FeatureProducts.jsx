@@ -7,7 +7,7 @@ import toast from 'react-hot-toast'
 import Ratings from '../Ratings'
 
 const FeatureProducts = ({ products }) => {
-
+    
     const navigate = useNavigate()
     const dispatch = useDispatch()
     return (
@@ -30,7 +30,7 @@ const FeatureProducts = ({ products }) => {
                             <ul className='absolute flex items-center justify-center w-full gap-2 transition-all duration-700 -bottom-10 group-hover:bottom-3'>
                                 <li  className='w-[38px] h-[38px] cursor-pointer bg-white flex justify-center items-center rounded-full hover:bg-[#7fad39] hover:text-white hover:rotate-[720deg] transition-all'><AiFillHeart /></li>
                                 <Link to={`/product/details/${p.slug}`} className='w-[38px] h-[38px] cursor-pointer bg-white flex justify-center items-center rounded-full hover:bg-[#7fad39] hover:text-white hover:rotate-[720deg] transition-all' ><FaEye /></Link>
-                                <li  className='w-[38px] h-[38px] cursor-pointer bg-white flex justify-center items-center rounded-full hover:bg-[#7fad39] hover:text-white hover:rotate-[720deg] transition-all'><AiOutlineShoppingCart /></li>
+                                <li onClick={() => {}}  className='w-[38px] h-[38px] cursor-pointer bg-white flex justify-center items-center rounded-full hover:bg-[#7fad39] hover:text-white hover:rotate-[720deg] transition-all'><AiOutlineShoppingCart /></li>
                             </ul>
                         </div>
                         <div className='px-2 py-3 text-slate-600'>

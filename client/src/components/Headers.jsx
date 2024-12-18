@@ -20,12 +20,13 @@ import logo from "../assets/Img/logo.jpg";
 import { useSelector } from "react-redux";
 import { getSelf } from "../store/slices/selfHandler.slice";
 import { getAllCategories } from "../store/slices/productsHandler.slice";
+import { getAllCartItems } from "../store/slices/cart.slice";
 
 const Headers = () => {
   const navigate = useNavigate();
   const categorys = useSelector(getAllCategories);
   const userInfo = useSelector(getSelf);
-  const card_product_count = 0;
+  const card_product_count = useSelector(getAllCartItems).length;
   const wishlist_count = 0;
 
   const { pathname } = useLocation();

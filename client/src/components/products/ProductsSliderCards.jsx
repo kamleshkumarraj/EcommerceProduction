@@ -1,23 +1,10 @@
 import { FaHeart } from 'react-icons/fa'
-import cameraImg from '../../assets/Img/cameraImg.jpg'
-import { Link } from 'react-router-dom'
 import { useDispatch } from 'react-redux'
-import { apiCalling } from '../../api/apiCalling.api'
-import { toast } from 'react-toastify'
+import { Link } from 'react-router-dom'
+import { addToCart } from '../../utils/addCartFunction'
 function ProductsSliderCards({product}) {
   const dispatch = useDispatch()
-  const addToCart = async (_id) => {
-    const options = {
-      url : `http://localhost:2000/api/v2/user/cart/add/${_id}`,
-      method : "POST"
-    }
-    const response = await dispatch(apiCalling(options))
-    if(response?.success){
-      toast.success("Product added to cart successfully")
-    }else{
-      toast.error("Failed to add product to cart !")
-    }
-  }
+  
   return (
     <div  className="w-[35rem] rounded-[10px] overflow-hidden bg-[#ffffff] shadow-[0px_0px_10px_0px_rgba(0,0,0,0.25)]" >
       <div id="img-section" className='h-[300px] rounded-[20px] w-full relative'>
@@ -38,7 +25,7 @@ function ProductsSliderCards({product}) {
             <p className='text-[16px] font-[400] text-left px-[10px]' >{product.description.slice(0, 75) + '...'}</p>
         </div>
         <div id="btn-section" className='flex justify-between px-[10px] pt-[10px]'>
-            <button onClick={() => addToCart(product._id)}  className='bg-[#0000002f] text-[16px] font-[500] text-white py-[5px] px-[10px] rounded-[5px] hover:bg-[#00000040]'>Add to Cart</button>
+            <button onClick={() => addToCart(product._id , dispatch)}  className='bg-[#0000002f] text-[16px] font-[500] text-white py-[5px] px-[10px] rounded-[5px] hover:bg-[#00000040]'>Add to Cart</button>
             <Link state={{product}} to={`/product-details/${product._id}`}  className='bg-[#0000002f] inline-block text-[16px] font-[500] text-white py-[5px] px-[10px] rounded-[5px] hover:bg-[#00000040]'>View Details</Link>
         </div>
       </div>

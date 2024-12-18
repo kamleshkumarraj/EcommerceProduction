@@ -7,6 +7,7 @@ import { Outlet } from "react-router-dom";
 import Footer from "./components/Footer";
 import { Bounce, ToastContainer } from "react-toastify";
 import 'react-toastify/dist/ReactToastify.css';
+import { setUser } from "./store/slices/selfHandler.slice";
 
 function App() {
   const dispatch = useDispatch();
@@ -46,11 +47,28 @@ function App() {
     })()
   },[])
 
+  //api calling for when jwt token is not expired then login the user.
+  useEffect(() => {
+    (async function directLogin(){
+      const options = {
+        url : "http://localhost:2000/api/v2/auth/direct-login",
+        method : "POST"
+      }
+      const response = await dispatch(apiCalling(options))
+      if(response?.success){
+        console.log("User logged in successfully")
+        dispatch(setUser(response.data))
+      }else{
+        console.log("We get error during login the user !")
+      }
+    })()
+  },[])
+
   return (
     <>
       <ToastContainer
       position="top-right"
-      autoClose={4000}
+      autoClose={1000}
       hideProgressBar={false}
       newestOnTop={false}
       closeOnClick
