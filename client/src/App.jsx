@@ -1,17 +1,18 @@
 import { useEffect } from "react"
 import Headers from "./components/Headers"
-import { useDispatch } from "react-redux"
+import { useDispatch, useSelector } from "react-redux"
 import { apiCalling } from "./api/apiCalling.api";
 import { setAllCategories, setAllProducts, setDiscountedProducts, setLatestProducts, setTopRatedProducts } from "./store/slices/productsHandler.slice";
 import { Outlet } from "react-router-dom";
 import Footer from "./components/Footer";
 import { Bounce, ToastContainer } from "react-toastify";
 import 'react-toastify/dist/ReactToastify.css';
-import { setUser } from "./store/slices/selfHandler.slice";
+import { getSelf, setUser } from "./store/slices/selfHandler.slice";
+import getAllCart from "./utils/getAllCartApiCall";
 
 function App() {
   const dispatch = useDispatch();
-
+  const user = useSelector(getSelf)
   //! first we get all products calling the api and store our data in store.
   useEffect(() => {
     (async function getAllProducts() {
@@ -63,6 +64,10 @@ function App() {
       }
     })()
   },[])
+
+  useEffect(() => {
+     getAllCart(dispatch , user)
+  },[user])
 
   return (
     <>

@@ -27,7 +27,7 @@ const Headers = () => {
   const categorys = useSelector(getAllCategories);
   const userInfo = useSelector(getSelf);
   const card_product_count = useSelector(getAllCartItems).length;
-  const wishlist_count = 0;
+  const wishlist_count = card_product_count-2;
 
   const { pathname } = useLocation();
   const [showShidebar, setShowShidebar] = useState(true);
@@ -196,7 +196,7 @@ const Headers = () => {
                   <div className="flex justify-center gap-5">
                     <div
                       onClick={() =>
-                        navigate(userInfo ? "/dashboard/my-wishlist" : "/login")
+                        navigate(userInfo ? "/wishlist" : "/login")
                       }
                       className="relative flex justify-center items-center cursor-pointer w-[35px] h-[35px] rounded-full bg-[#e2e2e2]"
                     >

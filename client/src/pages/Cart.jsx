@@ -10,6 +10,7 @@ import Loader from "../components/cart/Loader";
 import CartLoader from "../components/cart/CartLoader";
 import FetchingLoading from "../components/cart/FetchingLoading";
 import { FiMinus, FiPlus } from "react-icons/fi";
+import { BsCartX } from "react-icons/bs";
 
 const Cart = () => {
   const [loading, setLoading] = useState(true);
@@ -18,20 +19,7 @@ const Cart = () => {
   const cartItems = useSelector(getAllCartItems);
   const [apiStatus, setApiStatus] = useState(false);
   
-  async function getAllCart() {
-    setApiStatus(true);
-    const options = {
-      url: `http://localhost:2000/api/v2/user/cart/get/${user._id}`,
-      method: "GET",
-    };
-    const response = await dispatch(apiCalling(options));
-    if (response?.success) {
-      dispatch(setAllCarts(response?.data));
-    } else {
-      console.log("We get error during fetching carts item from database !");
-    }
-    setApiStatus(false);
-  }
+  
   const removeCartItem = async (_id) => {
     const options = {
       url : `http://localhost:2000/api/v2/user/cart/remove/${_id}`,
@@ -81,9 +69,7 @@ const Cart = () => {
   }
  
   //now we call the api for getting all cart from database.
-  useEffect(() => {
-    getAllCart();
-  }, [user]);
+ 
   
   useEffect(() => {
     const loadContent = setTimeout(() => {
@@ -100,7 +86,13 @@ const Cart = () => {
       </div>
     ); // Render Loader component while loading
   }
-  if (cartItems.length == 0) return <CartLoader />;
+  if (cartItems.length == 0) return <CartLoader 
+      icon={<BsCartX size={250} color="#E8E8E8"/>}
+      heading={"Your cart is currently empty."}
+      para={`Before proceed to checkout you must add some products to your shopping cart.\n
+      You will find a lot of interesting products on our "Shop" page.`}
+      button={"Return to Shop".toUpperCase()}
+   />;
   return (
     <div className="bg-white">
       <div className="p-4 my-auto mb-4 bg-gray-200">
@@ -118,7 +110,12 @@ const Cart = () => {
         {/* Cart Items Section */}
         <div className="flex flex-col w-full lg:w-3/5">
           <h2 className="mb-4 text-lg font-semibold">Your cart</h2>
-          <div className="w-full border"></div>
+          <div className="flex justify-between w-full">
+            <h1 className="w-[200px]">Products</h1>
+            <h1>Price</h1>
+            <h1>Quantity</h1>
+            <h1>Remove</h1>
+          </div>
 
           {apiStatus ? (
             <FetchingLoading />
