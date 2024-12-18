@@ -1,6 +1,6 @@
 import { createSlice } from "@reduxjs/toolkit";
 
-export const cartSlice = createSlice({
+ const cartSlice = createSlice({
     name : 'cart',
     initialState : {
         cartItems : []
@@ -28,7 +28,7 @@ export const cartSlice = createSlice({
         }
     }
 })
-
+export const cartReducer = cartSlice.reducer
 export const getAllCartItems = (state) => state.cart.cartItems
 export const {decreasedCartQty,
             increaseCartQty,

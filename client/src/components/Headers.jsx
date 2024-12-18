@@ -39,7 +39,7 @@ const Headers = () => {
   };
   const redirect_card_page = () => {
     if (userInfo) {
-      navigate(`/card`);
+      navigate(`/cart`);
     } else {
       navigate(`/login`);
     }

@@ -5,8 +5,9 @@ export const getAllCartItems = asyncHandler(async (req , res , next) => {
     const {userId} = req.params 
     const cartItems = await cart.find({userId}).populate('productId' , 'title thumbnail category price quantity availabilityStatus rating')
 
-    const transformData = cartItems.map(({productId , quantity}) => {
+    const transformData = cartItems.map(({productId , quantity , _id}) => {
         return {
+            _id,
             title : productId.title,
             thumbnail : productId.thumbnail,
             category : productId.category,

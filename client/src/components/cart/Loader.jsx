@@ -1,6 +1,6 @@
 
-import logo from "../assets/loader.webp";
-
+// import logo from "../assets/loader.webp";
+import logo from '../../assets/Img/loader.webp'
 const Loader = () => {
   return (
     <div>

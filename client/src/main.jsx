@@ -14,6 +14,7 @@ import CategoryShops from './pages/CategoryShop.jsx'
 import MyAccount from './pages/MyAccount.jsx'
 import MyOrder from './components/profile/MyOrder.jsx'
 import Wishlist from './components/profile/Wishlist.jsx'
+import Cart from './pages/Cart.jsx'
 // import Shops from './pages/Shops.jsx'
 
 const router = createBrowserRouter([{
@@ -42,6 +43,10 @@ const router = createBrowserRouter([{
   {
     path : '/:category',
     element : <CategoryShops />
+  },
+  {
+    path : '/cart',
+    element : <Cart />
   },
   {
     path : '/my-account',

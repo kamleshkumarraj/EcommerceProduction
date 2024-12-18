@@ -3,12 +3,54 @@ import { MdArrowForwardIos } from "react-icons/md";
 import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 import { toast } from "react-toastify";
-import Loader from "../Loader";
-import CartLoader from "./CartLoader";
-
+import { getSelf } from "../store/slices/selfHandler.slice";
+import { apiCalling } from "../api/apiCalling.api";
+import { getAllCartItems, removeCartItems, setAllCarts } from "../store/slices/cart.slice";
+import Loader from "../components/cart/Loader";
+import CartLoader from "../components/cart/CartLoader";
+import FetchingLoading from "../components/cart/FetchingLoading";
+import { FiMinus, FiPlus } from "react-icons/fi";
 
 const Cart = () => {
-    const [loading , setLoading] = useState(true)
+  const [loading, setLoading] = useState(true);
+  const dispatch = useDispatch();
+  const user = useSelector(getSelf);
+  const cartItems = useSelector(getAllCartItems);
+  const [apiStatus, setApiStatus] = useState(false);
+  console.log(cartItems);
+  async function getAllCart() {
+    setApiStatus(true);
+    const options = {
+      url: `http://localhost:2000/api/v2/user/cart/get/${user._id}`,
+      method: "GET",
+    };
+    const response = await dispatch(apiCalling(options));
+    if (response?.success) {
+      dispatch(setAllCarts(response?.data));
+    } else {
+      console.log("We get error during fetching carts item from database !");
+    }
+    setApiStatus(false);
+  }
+  const removeCartItem = async (_id) => {
+    const options = {
+      url : `http://localhost:2000/api/v2/user/cart/remove/${_id}`,
+      method : "DELETE"
+    }
+    const response = await dispatch(apiCalling(options))
+    if(response?.success){
+      toast.success("Product is removed from cart list successfully");
+    }else{
+      toast.error("We get error during removing product from cart list !");
+      getAllCart();
+    }
+  }
+ 
+ 
+  //now we call the api for getting all cart from database.
+  useEffect(() => {
+    getAllCart();
+  }, []);
   useEffect(() => {
     const loadContent = setTimeout(() => {
       setLoading(false); // Set loading to false after 2 seconds (simulating data fetch or image loading)
@@ -24,12 +66,12 @@ const Cart = () => {
       </div>
     ); // Render Loader component while loading
   }
-
+  if (cartItems.length == 0) return <CartLoader />;
   return (
-    <div>
-      <div className="p-10 mb-8 bg-gray-200">
-        <h1 className="mb-2 text-3xl font-bold">Cart</h1>
-        <nav className="flex items-center gap-2 text-sm text-gray-600">
+    <div className="bg-white">
+      <div className="p-4 my-auto mb-4 bg-gray-200">
+        <h1 className="mb-2 text-3xl font-bold text-center">Cart</h1>
+        <nav className="flex items-center justify-center gap-2 text-sm text-gray-600">
           <Link to="#" className="hover:underline">
             Ecommerce
           </Link>
@@ -38,50 +80,71 @@ const Cart = () => {
         </nav>
       </div>
 
-      <div className="flex flex-col justify-between px-5 lg:flex-row md:px-10">
+      <div className="flex flex-col items-start justify-between px-5 lg:flex-row md:px-10">
         {/* Cart Items Section */}
         <div className="flex flex-col w-full lg:w-3/5">
           <h2 className="mb-4 text-lg font-semibold">Your cart</h2>
           <div className="w-full border"></div>
 
-          { apiStatus ? <CartLoader /> :  cartItems && cartItems.length > 0 && cartItems.map(
-            ({ _id ,  image , price , quantity}) => (
+          {apiStatus ? (
+            <FetchingLoading />
+          ) : (
+            cartItems &&
+            cartItems.length > 0 &&
+            cartItems.map(({ _id, thumbnail, price, quantity, title }) => (
               <div
                 key={_id}
                 className="flex items-center justify-between py-4 border-b"
               >
-                
-                <div id="img" className="w-[150px]"> 
-                  <img className="" src={image} alt="cart-image" />
+                <div id="img" className="w-[150px]">
+                  <img className="" src={thumbnail} alt="cart-image" />
                 </div>
                 <div className="flex-grow px-4">
-                  <p className="font-semibold">{'Card'}</p>
-                  <p className="text-sm text-gray-600">
-                     Size: {'3x2.5'}
-                  </p>
+                  <p className="font-semibold">{title}</p>
+                  <p className="text-[14px] text-gray-600">Price : ${price}</p>
                 </div>
-                <p className="text-lg font-bold lg:pr-[100px]">
-                  ${price}
-                </p>
-                <div className="flex items-center">
-                
-                  <input
-                    type="text"
-                    className="text-center text-black border "
-                    value={quantity}
-                  />
-                 
+                <p className="text-lg font-bold lg:pr-[100px]">${price}</p>
+                <div
+                  id="quantity"
+                  className="flex gap-[1rem] justify-center pr-[1rem] items-center"
+                >
+                  <div
+                    id="decreaseBtn"
+                    className="font-[600] text-[28px] p-[5px] grid place-content-center py-[-2rem] border-[1px] rounded-[.5rem] hover:cursor-pointer"
+                    onClick={() => {
+                      if (quantity == 1) {
+                        toast.warning("product is removed from cartlist");
+                      }
+
+                      toast.success("Quantity is decreased by 1");
+                    }}
+                  >
+                    {" "}
+                    <FiMinus size={"20px"} />{" "}
+                  </div>
+                  <p className="text-[18px] font-[600]">{quantity}</p>
+                  <div
+                    id="increaseBtn"
+                    className="font-[600] text-[28px] p-[5px] grid place-content-center py-[-2px] border-[1px] rounded-[.5rem] hover:cursor-pointer"
+                    onClick={() => {
+                      toast.success("Quantity is increase by 1");
+                    }}
+                  >
+                    <FiPlus size={"20px"} />
+                  </div>
                 </div>
                 <button
                   onClick={() => {
-                    removeCart(_id);
+                    dispatch(removeCartItems({_id}))
+                    removeCartItem(_id)
+
                   }}
-                  className="px-2 py-1 text-red-500 hover:underline"
+                  className=" w-[30px] h-[30px] mx-[20px] rounded-[50%] bg-red-500 text-white hover:underline"
                 >
                   X
                 </button>
               </div>
-            )
+            ))
           )}
         </div>
 
@@ -90,7 +153,7 @@ const Cart = () => {
           <h2 className="mb-4 text-lg font-semibold">Order Summary</h2>
           <div className="flex justify-between mb-2">
             <p className="text-gray-600">Subtotal</p>
-            <p className="text-gray-800">${subtotal.toFixed(2)}</p>
+            <p className="text-gray-800">${1002}</p>
           </div>
           <div className="flex justify-between mb-2">
             <p className="text-gray-600">Shipping</p>
@@ -98,18 +161,18 @@ const Cart = () => {
           </div>
           <div className="flex justify-between mb-4">
             <p className="text-gray-600">Tax</p>
-            <p className="text-gray-800">${tax.toFixed(2)}</p>
+            <p className="text-gray-800">${34}</p>
           </div>
           <div className="flex justify-between mb-6 text-lg font-bold">
             <p>Total</p>
-            <p>${total.toFixed(2)}</p>
+            <p>$23</p>
           </div>
 
-           <Link to={"/checkout"}  >
+          <Link to={"/checkout"}>
             <button className="w-full py-3 bg-black text-white font-semibold mb-4 rounded-[8px]">
               Checkout
             </button>
-          </Link> 
+          </Link>
 
           <Link
             to="/business-browse"
