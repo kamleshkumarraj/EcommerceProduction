@@ -1,4 +1,4 @@
-import React from "react";
+
 import { useSelector } from "react-redux";
 import Advertisment1 from "../components/Advertisment1";
 import Banner from "../components/Banner";

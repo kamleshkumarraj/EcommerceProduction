@@ -7,6 +7,7 @@ import { Link } from "react-router-dom";
 
 import { useSelector } from "react-redux";
 import { getSelf } from "../../store/slices/selfHandler.slice";
+import { MdOutlineAddLocationAlt } from "react-icons/md";
 
 const Sidebar = () => {
   const userData = useSelector(getSelf);
@@ -14,7 +15,7 @@ const Sidebar = () => {
   
   
   return (
-    <div className="w-full ml-[50px] md:w-[55%] mb-8">
+    <div className="w-full ml-[50px] md:w-[40%] mb-8 sticky top-[100%]">
       <div className="p-6 ml-5 bg-white rounded-lg shadow-lg">
         <div className="flex items-center gap-3 mb-6">
           <div className="w-2 h-8 bg-gradient-to-r from-purple-500 to-indigo-500 rounded-xl"></div>
@@ -35,16 +36,22 @@ const Sidebar = () => {
               <span className="font-semibold text-gray-700">My orders</span>
             </li>
           </Link>
-          <Link to={"/myAccount/wishlist"}>
+          <Link to={"/my-account/wishlist"}>
             <li className="flex items-center gap-3 p-3 transition duration-300 rounded-lg bg-gradient-to-r from-purple-50 to-indigo-50 hover:bg-gradient-to-r hover:from-purple-100 hover:to-indigo-100">
               <CiHeart size={22} className="text-gray-700 opacity-80" />
               <span className="font-semibold text-gray-700">Wishlist</span>
             </li>
           </Link>
-          <Link to={"/myAccount/myinfo"}>
+          <Link to={"/my-account/my-info"}>
             <li className="flex items-center gap-3 p-3 transition duration-300 rounded-lg bg-gradient-to-r from-purple-50 to-indigo-50 hover:bg-gradient-to-r hover:from-purple-100 hover:to-indigo-100">
               <AiOutlineUser size={22} className="text-gray-700 opacity-80" />
               <span className="font-semibold text-gray-700">My info</span>
+            </li>
+          </Link>
+          <Link to={"/my-account/wishlist"}>
+            <li className="flex items-center gap-3 p-3 transition duration-300 rounded-lg bg-gradient-to-r from-purple-50 to-indigo-50 hover:bg-gradient-to-r hover:from-purple-100 hover:to-indigo-100">
+            <MdOutlineAddLocationAlt size={22} className="text-gray-700 opacity-80" />
+              <span className="font-semibold text-gray-700">Manage address</span>
             </li>
           </Link>
           <Link to={"/signin"}>

@@ -15,6 +15,8 @@ import MyAccount from './pages/MyAccount.jsx'
 import MyOrder from './components/profile/MyOrder.jsx'
 import Cart from './pages/Cart.jsx'
 import Wishlist from './pages/Wishlist.jsx'
+import MyProfile from './pages/MyProfile.page.jsx'
+import Checkout from './pages/Checkout.jsx'
 // import Shops from './pages/Shops.jsx'
 
 const router = createBrowserRouter([{
@@ -53,6 +55,10 @@ const router = createBrowserRouter([{
     element : <Wishlist />
   },
   {
+    path : '/checkout',
+    element : <Checkout />
+  },
+  {
     path : '/my-account',
     element : <MyAccount />,
     children : [{
@@ -62,6 +68,10 @@ const router = createBrowserRouter([{
     {
       path : '/my-account/wishlist',
       element : <Wishlist />
+    },
+    {
+      path : '/my-account/my-info',
+      element : <MyProfile />
     }
   
   ]

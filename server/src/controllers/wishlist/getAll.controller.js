@@ -3,7 +3,7 @@ import { wishlist } from "../../models/wishlist.model.js";
 
 export const getAllWishlistItems = asyncHandler(async (req , res , next) => {
     const userId = req.user._id 
-    const wishlistItems = await wishlist.find({userId}).populate('productId' , 'title thumbnail category price quantity availabilityStatus rating')
+    const wishlistItems = await wishlist.find({userId}).populate('productId' , 'title thumbnail category price quantity availabilityStatus rating _id')
 
     const transformData = wishlistItems.map(({productId , quantity , _id}) => {
         return {
@@ -14,7 +14,9 @@ export const getAllWishlistItems = asyncHandler(async (req , res , next) => {
             price : productId.price,
             quantity,
             availabilityStatus : productId.availabilityStatus,
-            rating : productId.rating
+            rating : productId.rating,
+            productId : productId._id
+
         }
     })
 

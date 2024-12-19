@@ -90,7 +90,7 @@ const Headers = () => {
                 {userInfo ? (
                   <Link
                     className="flex items-center justify-center gap-2 text-sm cursor-pointer"
-                    to="/my-account"
+                    to="/my-account/my-info"
                   >
                     <div>
                       <img className="w-[40px] h-[40px] rounded-full" src={userInfo?.avatar?.url} alt="profile-image" />

@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useMemo, useState } from "react";
 import { MdArrowForwardIos } from "react-icons/md";
 import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
@@ -19,6 +19,16 @@ const Cart = () => {
   const user = useSelector(getSelf);
   const cartItems = useSelector(getAllCartItems);
   const [apiStatus, setApiStatus] = useState(false);
+
+  const cartTotal = useMemo(() => {
+    const subtotal = cartItems?.reduce(
+      (acc, item) => acc + item.price*item.quantity,
+      0
+    );
+    const tax = subtotal * 0.03;
+    const total = subtotal + tax;
+    return { subtotal, tax, total };
+  }, [cartItems]);
   
   
   const removeCartItem = async (_id) => {
@@ -134,9 +144,9 @@ const Cart = () => {
                 </div>
                 <div className="flex-grow px-4">
                   <p className="font-semibold">{title}</p>
-                  <p className="text-[14px] text-gray-600">Price : ${price}</p>
+                  <p className="text-[14px] text-gray-600">Price : ${price.toFixed(2)}</p>
                 </div>
-                <p className="text-lg font-bold lg:pr-[100px]">${price*quantity}</p>
+                <p className="text-lg font-bold lg:pr-[100px]">${(price*quantity).toFixed(2)}</p>
                 <div
                   id="quantity"
                   className="flex gap-[1rem] justify-center pr-[1rem] items-center"
@@ -178,7 +188,7 @@ const Cart = () => {
           <h2 className="mb-4 text-lg font-semibold">Order Summary</h2>
           <div className="flex justify-between mb-2">
             <p className="text-gray-600">Subtotal</p>
-            <p className="text-gray-800">${1002}</p>
+            <p className="text-gray-800">${cartTotal.subtotal.toFixed(2)}</p>
           </div>
           <div className="flex justify-between mb-2">
             <p className="text-gray-600">Shipping</p>
@@ -186,14 +196,14 @@ const Cart = () => {
           </div>
           <div className="flex justify-between mb-4">
             <p className="text-gray-600">Tax</p>
-            <p className="text-gray-800">${34}</p>
+            <p className="text-gray-800">${cartTotal.tax.toFixed(2)}</p>
           </div>
           <div className="flex justify-between mb-6 text-lg font-bold">
             <p>Total</p>
-            <p>$23</p>
+            <p>${cartTotal.total.toFixed(2)}</p>
           </div>
 
-          <Link to={"/checkout"}>
+          <Link to={"/checkout"} state={{cartTotal}} >
             <button className="w-full py-3 bg-black text-white font-semibold mb-4 rounded-[8px]">
               Checkout
             </button>

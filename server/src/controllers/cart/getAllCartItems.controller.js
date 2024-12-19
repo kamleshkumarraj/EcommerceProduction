@@ -3,7 +3,7 @@ import { cart } from "../../models/cart.model.js";
 
 export const getAllCartItems = asyncHandler(async (req , res , next) => {
     const {userId} = req.params 
-    const cartItems = await cart.find({userId}).populate('productId' , 'title thumbnail category price quantity availabilityStatus rating')
+    const cartItems = await cart.find({userId}).populate('productId' , 'title thumbnail category price quantity availabilityStatus rating _id')
 
     const transformData = cartItems.map(({productId , quantity , _id}) => {
         return {
@@ -14,7 +14,8 @@ export const getAllCartItems = asyncHandler(async (req , res , next) => {
             price : productId.price,
             quantity,
             availabilityStatus : productId.availabilityStatus,
-            rating : productId.rating
+            rating : productId.rating,
+            productId : productId._id
         }
     })
 

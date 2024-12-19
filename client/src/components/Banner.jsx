@@ -49,7 +49,7 @@ const Banner = () => {
     }
     return (
         <div className='w-full md-lg:mt-6'>
-            <div className='w-[85%] lg:w-[90%] mx-auto'>
+            <div className='w-[98%]  mx-auto'>
                 <div className='flex flex-wrap w-full md-lg:gap-8'>
                     <div className='w-full'>
                         <div className='my-8'>
@@ -60,7 +60,7 @@ const Banner = () => {
                                 responsive={responsive}
                             >
                                 {
-                                    banners && banners.length > 0 && banners.map((b, i) => <Link className='lg-md:h-[440px] h-auto w-full block' key={i} to={`/product/details/${b.link}`}>
+                                    banners && banners.length > 0 && banners.map((b, i) => <Link className='lg-md:h-[440px] h-auto w-full block' key={i} to={``}>
                                         <img className='h-[40vh] w-[100%]' src={b.banner} alt="" />
                                     </Link>)
                                 }

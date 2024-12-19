@@ -68,7 +68,7 @@ function App() {
 
   useEffect(() => {
      getAllCart(dispatch , user)
-     fetchAllWishlistItem(dispatch , user) 
+     fetchAllWishlistItem(dispatch , user)
   },[user])
 
  
@@ -91,7 +91,7 @@ function App() {
       />
     {/* Same as */}
     
-      <div className="font-[roboto]" id="container">
+      <div className="font-[roboto] bg-white" id="container">
         <Headers />
         <Outlet />
         <Footer />

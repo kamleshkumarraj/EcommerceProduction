@@ -40,8 +40,8 @@ function Wishlist() {
             ); // Render Loader component while loading
           }
     return (
-        <div className="bg-white py-[20px]">
-      <div className="p-4 my-auto mb-4 bg-gray-200">
+        <div className="bg-[white] pb-[20px]">
+      <div className="p-4 my-auto mb-4 bg-[#fcfafa]">
         <h1 className="mb-2 text-3xl font-bold text-center">wishlist</h1>
         <nav className="flex items-center justify-center gap-2 text-sm text-gray-600">
           <Link to="#" className="hover:underline">
@@ -56,7 +56,7 @@ function Wishlist() {
         {/* wishlist Items Section */}
         <div className="flex flex-col w-full max-w-[1220px]">
           <h2 className="mb-4 text-lg font-semibold">Your wishlist</h2>
-          <div className="grid justify-between w-full grid-cols-5 gap-[230px]">
+          <div className="grid justify-between w-full grid-cols-5 gap-[150px]">
             <h1 className="w-[450px]  text-[22px] font-[700] text-[#00000086] text-center  col-span-2 ">Products</h1>
             <h1 className='text-center text-[22px] font-[700] text-[#00000086]'>Price</h1>
             <h1 className='text-center text-[22px] font-[700] text-[#00000086]'>Quantity</h1>
@@ -71,7 +71,7 @@ function Wishlist() {
             wishlistItems.map(({ _id, thumbnail, price, quantity, title }) => (
               <div
                 key={_id}
-                className="grid items-center py-4 grid-cols-5 gap-[230px] border-b"
+                className="grid items-center py-4 grid-cols-5 gap-[150px] border-b"
               >
               <div id="product" className='flex gap-[10px] w-[450px] items-center col-span-2'>
                 <div id="img" className="w-[200px]">
