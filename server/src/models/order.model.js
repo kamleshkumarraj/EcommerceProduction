@@ -2,38 +2,8 @@ import mongoose from "mongoose";
 
 const orderSchema = new mongoose.Schema({
     shippingInfo : {
-        address : {
-            type : String,
-            required : [true , "Please enter address for shipping."]
-        },
-        city : {
-            type : String,
-            required : [true , "Please enter city for shipping."]
-        },
-        subDistrict : {
-            type : String,
-            required : [true , "Please enter subDistrict for shipping."]
-        },
-        district : {
-            type : String,
-            required : [true , "Please enter district for shipping."]
-        },
-        state : {
-            type : String,
-            required : [true , "Please enter state for shipping."]
-        },
-        country : {
-            type : String,
-            required : [true , "Please enter country for shipping."]
-        },
-        pincode : {
-            type : String,
-            required : [true , "Please enter pinCode for shipping."]
-        },
-        phoneNo : {
-            type : String,
-            required : [true , "Please enter contactNo for shipping."]
-        }
+        type : mongoose.Schema.ObjectId,
+        ref : "shippingAddress"
     },
     orderItems : [{
         name : {
