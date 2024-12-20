@@ -5,6 +5,15 @@ const shippingAddressSchema = new mongoose.Schema({
         type : mongoose.Schema.Types.ObjectId,
         ref : 'user'
     },
+    firstname : {
+        type : String,
+        required : [true , "Please enter customerName for shipping."]
+    },
+    lastname : {
+        type : String,
+        required : [true , "Please enter customerName for shipping."]
+        
+    },
     address : {
         type : String,
         required : [true , "Please enter address for shipping."]

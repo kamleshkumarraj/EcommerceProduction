@@ -13,6 +13,7 @@ const addressSlice = createSlice({
             state.addressList.filter(address => address._id != action.payload._id)
         },
         updateAddress : (state , action) => {
+            
             const addressUpdatable = state.addressList.find(address => address._id == action.payload._id)
             Object.keys(action.payload.address).map((key) => {
                 addressUpdatable[key] = action.payload.address[key]

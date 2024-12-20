@@ -7,7 +7,7 @@ function LoginChecker({checkLoginClicked , setCheckLoginClicked}) {
   console.log(checkLoginClicked)
   return (
     <div>
-    <div id="login-as" className={`w-full bg-white  shadow-2xl p-4  ${checkLoginClicked ? 'py-[10px] bg-[blue]' : 'py-[25px]'} flex justify-between`}>
+    <div id="login-as" className={`w-full   shadow-2xl p-4  ${checkLoginClicked ? 'py-[10px] bg-[blue]' : 'py-[25px] bg-white'} flex justify-between`}>
             
     <div id="login-detail" className="flex items-start gap-[15px]">
       <div id="number"><p className="bg-gray-200 rounded-[5px] px-[10px] text-[16px] font-600 text-blue-600 mt-[2px]">1</p></div>

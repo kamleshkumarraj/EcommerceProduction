@@ -4,6 +4,7 @@ import { shippingAddress } from "../../models/shippingAddress.model.js";
 
 export const updateAddress = asyncHandler(async (req , res , next) => {
     const addr = req.body 
+    console.log(addr)
     const {addrId} = req.params 
     const address = await shippingAddress.findById(addrId)
     if(!address) return next(new ErrorHandler("Address not found !",404))

@@ -30,12 +30,13 @@ export const fetchRemoveAddress = async (dispatch , _id) => {
     }
 }
 
-export const fetchUpdateAddress = async (dispatch , address , _id) => {
+export const fetchUpdateAddress = async ({dispatch , address , _id}) => {
     dispatch(updateAddress({_id , address}))
+    console.log(address)
     const options = {
         method : "PATCH",
         url : `http://localhost:2000/api/v2/user/address/update/${_id}`,
-        data : address
+        formData : address
     }
     const response = await dispatch(apiCalling(options))
     if(response?.success){
@@ -51,7 +52,7 @@ export const fetchAddAddress = async (dispatch , address) => {
     const options = {
         method : "POST",
         url : "http://localhost:2000/api/v2/user/address/add",
-        data : address
+        formData : address
     }
     const response = await dispatch(apiCalling(options))
     if(response?.success){
