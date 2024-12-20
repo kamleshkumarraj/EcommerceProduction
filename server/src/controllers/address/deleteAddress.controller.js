@@ -1,6 +1,6 @@
 import { asyncHandler } from "../../errors/asynHandler.js";
-import ErrorHandler from "../../errors/errorHandler";
-import { shippingAddress } from "../../models/shippingAddress.model";
+import ErrorHandler from "../../errors/errorHandler.js";
+import { shippingAddress } from "../../models/shippingAddress.model.js";
 
 export const deleteAddress = asyncHandler(async (req , res , next) => {
     const {addrId} = req.params 

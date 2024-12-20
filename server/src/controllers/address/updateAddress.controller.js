@@ -1,5 +1,5 @@
-import { asyncHandler } from "../../errors/asynHandler";
-import { shippingAddress } from "../../models/shippingAddress.model";
+import { asyncHandler } from "../../errors/asynHandler.js";
+import { shippingAddress } from "../../models/shippingAddress.model.js";
 
 export const updateAddress = asyncHandler(async (req , res , next) => {
     const addr = req.body 

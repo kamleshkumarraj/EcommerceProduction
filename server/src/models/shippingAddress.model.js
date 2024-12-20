@@ -30,11 +30,11 @@ const shippingAddressSchema = new mongoose.Schema({
         required : [true , "Please enter country for shipping."]
     },
     pinCode : {
-        type : String,
+        type : Number,
         required : [true , "Please enter pinCode for shipping."]
     },
-    phoneNumber : {
-        type : String,
+    mobileNumber : {
+        type : Number,
         required : [true , "Please enter contactNo for shipping."]
     }
 
