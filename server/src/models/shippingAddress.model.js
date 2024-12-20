@@ -36,6 +36,10 @@ const shippingAddressSchema = new mongoose.Schema({
     mobileNumber : {
         type : Number,
         required : [true , "Please enter contactNo for shipping."]
+    },
+    selectStatus : {
+        type : Boolean,
+        default : false
     }
 
 })
