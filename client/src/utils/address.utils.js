@@ -7,7 +7,7 @@ export const fetchAllAddress = async (dispatch) => {
         url : "http://localhost:2000/api/v2/user/address/get",
         method : "GET",
     }
-    const response = dispatch(apiCalling(options))
+    const response = await dispatch(apiCalling(options))
     if(response?.success){
         dispatch(setAllAddress(response?.data))
     }else{
