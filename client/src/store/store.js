@@ -5,6 +5,7 @@ import {productsHandler} from './slices/productsHandler.slice.js'
 import {orderHandlerSlice} from './slices/orderHandler.slice.js'
 import {cartReducer} from './slices/cart.slice.js'
 import { wishlistReducer } from './slices/wishlist.slice.js'
+import { addressHandlerReducer } from './slices/addressHandler.slice.js'
 
 
 export const store = configureStore({
@@ -14,6 +15,7 @@ export const store = configureStore({
         productsList : productsHandler,
         orders : orderHandlerSlice,
         cart : cartReducer,
-        wishlist : wishlistReducer
+        wishlist : wishlistReducer,
+        address : addressHandlerReducer
     }
 })
