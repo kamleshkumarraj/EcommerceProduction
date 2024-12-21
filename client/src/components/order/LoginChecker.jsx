@@ -1,9 +1,13 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import { FaCheck, FaTruckArrowRight } from 'react-icons/fa6'
 import { IoMdNotifications } from 'react-icons/io'
 import { MdOutlineStarPurple500 } from 'react-icons/md'
+import { useSelector } from 'react-redux'
+import { getAllAddress, getSelectedAddress } from '../../store/slices/addressHandler.slice'
 
-function LoginChecker({checkLoginClicked , setCheckLoginClicked}) {
+function LoginChecker({checkLoginClicked , setCheckLoginClicked , setCheckDileveryClick , setSelectedButton}) {
+  
+  const selectedAddress = useSelector(getSelectedAddress)
   console.log(checkLoginClicked)
   return (
     <div>
@@ -20,7 +24,11 @@ function LoginChecker({checkLoginClicked , setCheckLoginClicked}) {
       </div>
     </div>            
     {!checkLoginClicked && <div id="change-button">
-      <p onClick={() => setCheckLoginClicked(!checkLoginClicked)}  className="px-[30px] py-[10px] text-[16px] font-600 text-blue-600 cursor-pointer hover:text-blue-800 bg-gray-200 border-[1px] border-blue-600 rounded-[5px]">CHANGE</p>
+      <p onClick={() => 
+        {setCheckLoginClicked(!checkLoginClicked)
+          setSelectedButton(selectedAddress)
+          setCheckDileveryClick(false)
+        }}  className="px-[30px] py-[10px] text-[16px] font-600 text-blue-600 cursor-pointer hover:text-blue-800 bg-gray-200 border-[1px] border-blue-600 rounded-[5px]">CHANGE</p>
     </div>}
 
     
@@ -39,8 +47,13 @@ function LoginChecker({checkLoginClicked , setCheckLoginClicked}) {
         <div id="logout">
           <p className="my-[20px] text-[18px] font-600 text-blue-600 cursor-pointer hover:text-blue-800">Logout & Sign in to another account</p>
         </div>
-        <div id="checkout-btn" onClick={() => setCheckLoginClicked(!checkLoginClicked)} >
-          <p className="px-[40px] py-[15px] bg-[#FB641B] text-center text-white font-700 text-[18px] cursor-pointer hover:bg-[#FB641B] hover:text-white">{"Continue Checkout".toUpperCase()}</p>
+        <div id="checkout-btn" onClick={() => {
+          setCheckLoginClicked(!checkLoginClicked)
+          setCheckDileveryClick(true)
+          
+        }
+          } >
+          <p className="px-[40px] py-[15px] bg-[#FB641B] text-center text-white font-700 text-[18px] cursor-pointer hover:bg-[#FB641B] hover:text-white">{"Continue to Checkout".toUpperCase()}</p>
         </div>
       </div>
 

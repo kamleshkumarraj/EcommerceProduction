@@ -1,6 +1,6 @@
 import { toast } from "react-toastify"
 import { apiCalling } from "../api/apiCalling.api"
-import { removeAddress, setAllAddress, updateAddress } from "../store/slices/addressHandler.slice"
+import { removeAddress, setAllAddress, updateAddress, updateSelectAddressStatus } from "../store/slices/addressHandler.slice"
 
 export const fetchAllAddress = async (dispatch) => {
     const options = {
@@ -60,5 +60,25 @@ export const fetchAddAddress = async (dispatch , address) => {
         fetchAllAddress(dispatch)
     }else{
         toast.error(response?.message || "We get error while adding address to database !")
+    }
+}
+
+export const fetchUpdateSelectedAddress = async ({dispatch , prevAddr , currAddr}) => {
+    if(!prevAddr?._id || !currAddr?._id) return
+    if(prevAddr._id == currAddr?._id) return
+    dispatch(updateSelectAddressStatus({prev_id : prevAddr._id , curr_id : currAddr._id}))
+
+    const options = {
+        url : `http://localhost:2000/api/v2/user/address/update-status/${prevAddr._id}/${currAddr._id}`,
+        method : "PATCH"
+    }
+
+    const response = await dispatch(apiCalling(options))
+
+    if(response?.success){
+        toast.success(response?.message || "Selected address updated successfully !") 
+    }else{
+        toast.error(response?.message || "We get error while updating selected address from database !")
+        fetchAllAddress(dispatch)
     }
 }

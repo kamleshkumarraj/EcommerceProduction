@@ -10,6 +10,7 @@ import 'react-toastify/dist/ReactToastify.css';
 import { getSelf, setUser } from "./store/slices/selfHandler.slice";
 import getAllCart from "./utils/getAllCartApiCall";
 import  { fetchAllWishlistItem } from "./utils/wishlist";
+import { fetchOrder } from "./utils/order";
 
 function App() {
   const dispatch = useDispatch();
@@ -69,6 +70,7 @@ function App() {
   useEffect(() => {
      getAllCart(dispatch , user)
      fetchAllWishlistItem(dispatch , user)
+     fetchOrder({dispatch})
   },[user])
 
  

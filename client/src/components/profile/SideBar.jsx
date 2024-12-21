@@ -48,7 +48,7 @@ const Sidebar = () => {
               <span className="font-semibold text-gray-700">My info</span>
             </li>
           </Link>
-          <Link to={"/my-account/wishlist"}>
+          <Link to={"/my-account/address"}>
             <li className="flex items-center gap-3 p-3 transition duration-300 rounded-lg bg-gradient-to-r from-purple-50 to-indigo-50 hover:bg-gradient-to-r hover:from-purple-100 hover:to-indigo-100">
             <MdOutlineAddLocationAlt size={22} className="text-gray-700 opacity-80" />
               <span className="font-semibold text-gray-700">Manage address</span>

@@ -6,7 +6,7 @@ export const validateAvailability = asyncHandler(async (req , res , next) => {
     const {orderItems} = req.body;
 
     const checkAvailability = async (item , product) =>{
-        if(item.quantity <= product.stock) return 'true';
+        if(item.quantity <= product.quantity) return 'true';
         else return {msg : `stock not available this ${item.name}`} 
     }
     

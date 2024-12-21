@@ -1,6 +1,6 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useMemo, useState } from "react";
 import { MdArrowForwardIos } from "react-icons/md";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import Loader from "../components/cart/Loader";
 import LoginChecker from "../components/order/loginChecker";
@@ -9,15 +9,21 @@ import { getAllCartItems } from "../store/slices/cart.slice";
 import DeliveryChecker from "../components/order/DeliveryChecker";
 import OrderSummary from "../components/order/OrderSummary";
 import Payment from "../components/order/Payment";
+import { getAllAddress, getSelectedAddress } from "../store/slices/addressHandler.slice";
+import { getAllOrderedProducts, resetOrderProductsStore, setOrderedProducts } from "../store/slices/orderItems";
 const Checkout = () => {
   
   const cartItems = useSelector(getAllCartItems)
-  const {cartTotal} = useLocation().state;
   const [checkLoginClicked, setCheckLoginClicked] = useState(false);
-  const [checkDileveryClick , setCheckDileveryClick] = useState(false);
-  
-
+  const [checkDileveryClick , setCheckDileveryClick] = useState(true);
+  const [checkSummaryClick, setCheckSummaryClick] = useState(false)
+  const [checkPaymentClick, setCheckPaymentClick] = useState(false);
+  const [selectedButton , setSelectedButton] = useState(null)
   const navigate = useNavigate();
+  const dispatch = useDispatch();
+  const address = useSelector(getAllAddress)
+  const selectedAddress = useSelector(getSelectedAddress)
+  const orderedProducts = useLocation().state?.orderedProducts || null
   const [customerInfo, setCustomerInfo] = useState({
     firstName: "",
     lastName: "",
@@ -31,7 +37,24 @@ const Checkout = () => {
     postalCode: "",
     country: "",
   });
-
+  const orderedProduct = useSelector(getAllOrderedProducts)
+  
+  const cartTotal = useMemo(() => {
+    const subTotal = orderedProduct?.reduce((acc , product) => {
+      return acc + (product.price * product.quantity)
+    },0)
+    const tax = subTotal * 0.03
+    const total = subTotal + tax;
+    return {subTotal : subTotal.toFixed(2), tax : tax.toFixed(2) , total : total.toFixed(2)}
+  },[orderedProduct])
+  
+  useEffect(() => {
+    setSelectedButton(selectedAddress)
+  },[address])
+  useEffect(() => {
+    dispatch(setOrderedProducts(orderedProducts || cartItems) )
+    return () => dispatch(resetOrderProductsStore())
+  },[cartItems])
   const handleInputChange = (e) => {
     const { id, value } = e.target;
     setCustomerInfo((prevState) => ({
@@ -40,15 +63,13 @@ const Checkout = () => {
     }));
   };
 
-  const subtotal = cartTotal.subtotal.toFixed(2);
-  const total = cartTotal.total.toFixed(2);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     const loadContent = setTimeout(() => {
       setLoading(false); // Set loading to false after 2 seconds (simulating data fetch or image loading)
     }, 1000);
-
+    
     return () => clearTimeout(loadContent); // Cleanup timeout on component unmount
   }, []);
 
@@ -136,183 +157,33 @@ const Checkout = () => {
             <LoginChecker 
               setCheckLoginClicked={setCheckLoginClicked} 
               checkLoginClicked={checkLoginClicked}
+              setCheckDileveryClick={setCheckDileveryClick}
+              setSelectedButton = {setSelectedButton}
               />
 
             <DeliveryChecker 
                 setCheckDileveryClick={setCheckDileveryClick}
                 checkDileveryClick={checkDileveryClick}
+                setSelectedButton={setSelectedButton}
+                selectedButton={selectedButton}
+                setCheckSummaryClick = {setCheckSummaryClick}
               />
 
             <OrderSummary
               checkDileveryClick={checkDileveryClick}
+              checkSummaryClick={checkSummaryClick}
+              setCheckPayemntClick={setCheckPaymentClick}
+              setCheckSummaryClick={setCheckSummaryClick}
             />
 
             <Payment 
-              checkDileveryClick={checkDileveryClick}
+              checkPaymentClick={checkPaymentClick}
+              cartTotal = {cartTotal}
+              orderItems={orderedProduct}
             />
-          <div className="mb-4 space-y-8">
-            <h1 className="text-[18px] font-semibold">Billing Details</h1>
-            <form className="space-y-4" onSubmit={() => {}} >
-              <div className="grid grid-cols-1 gap-8 md:grid-cols-2">
-                <div>
-                  <label className="block mb-1 text-[16px]" htmlFor="firstName">
-                    First Name*
-                  </label>
-                  <input
-                    type="text"
-                    id="firstName"
-                    value={customerInfo.firstName}
-                    onChange={handleInputChange}
-                    placeholder="First Name"
-                    className="w-full py-[12px] bg-[#F6F6F6] text-[16px] rounded px-[16px] border-[1px] border-gray-600 focus:border-blue-600 focus:border-[2px] focus:outline-none"
-                  />
-                </div>
-                <div>
-                  <label className="block mb-1 text-[16px]" htmlFor="lastName">
-                    Last Name*
-                  </label>
-                  <input
-                    type="text"
-                    id="lastName"
-                    value={customerInfo.lastName}
-                    onChange={handleInputChange}
-                    placeholder="Last Name"
-                    className="w-full py-[12px] bg-[#F6F6F6] text-[16px] rounded px-[16px] border-[1px] border-gray-600 focus:border-blue-600 focus:border-[2px] focus:outline-none"
-                  />
-                </div>
-              </div>
-              <div className="grid grid-cols-1 gap-8 md:grid-cols-2">
-                <div>
-                  <label className="block mb-1 text-[16px]" htmlFor="country">
-                    Country / Region*
-                  </label>
-                  <input
-                    type="text"
-                    id="country"
-                    value={customerInfo.country}
-                    onChange={handleInputChange}
-                    placeholder="Country / Region*"
-                    className="w-full py-[12px] bg-[#F6F6F6] text-[16px] rounded px-[16px] border-[1px] border-gray-600 focus:border-blue-600 focus:border-[2px] focus:outline-none"
-                  />
-                </div>
-                <div>
-                  <label className="block mb-1 text-[16px]" htmlFor="company">
-                    Company Name
-                  </label>
-                  <input
-                    type="text"
-                    id="company"
-                    value={customerInfo.company}
-                    onChange={handleInputChange}
-                    placeholder="Company (optional)"
-                    className="w-full py-[12px] bg-[#F6F6F6] text-[16px] rounded px-[16px] border-[1px] border-gray-600 focus:border-blue-600 focus:border-[2px] focus:outline-none"
-                  />
-                </div>
-              </div>
-              <div className="grid grid-cols-2 gap-8">
-                <div>
-                  <label className="block mb-1 text-[16px]" htmlFor="address">
-                    Street Address*
-                  </label>
-                  <input
-                    type="text"
-                    id="address"
-                    value={customerInfo.address}
-                    onChange={handleInputChange}
-                    placeholder="House number and street name"
-                    className="w-full py-[12px] bg-[#F6F6F6] text-[16px] rounded px-[16px] border-[1px] border-gray-600 focus:border-blue-600 focus:border-[2px] focus:outline-none"
-                  />
-                </div>
-                <div>
-                  <label className="block mb-1 text-[16px]" htmlFor="apt">
-                    Apt, suite, unit
-                  </label>
-                  <input
-                    type="text"
-                    id="appartment"
-                    value={customerInfo.appartment}
-                    onChange={handleInputChange}
-                    placeholder="apartment, suite, unit, etc. (optional)"
-                    className="w-full py-[12px] bg-[#F6F6F6] text-[16px] rounded px-[16px] border-[1px] border-gray-600 focus:border-blue-600 focus:border-[2px] focus:outline-none"
-                  />
-                </div>
-              </div>
-              <div className="grid grid-cols-1 gap-8 md:grid-cols-3">
-                <div>
-                  <label className="block mb-1 text-[16px]" htmlFor="city">
-                    City*
-                  </label>
-                  <input
-                    type="text"
-                    id="city"
-                    value={customerInfo.city}
-                    onChange={handleInputChange}
-                    placeholder="Town / City"
-                    className="w-full py-[12px] bg-[#F6F6F6] text-[16px] rounded px-[16px] border-[1px] border-gray-600 focus:border-blue-600 focus:border-[2px] focus:outline-none"
-                  />
-                </div>
-                <div>
-                  <label className="block mb-1 text-[16px]" htmlFor="state">
-                    State*
-                  </label>
-                  <select
-                    id="state"
-                    value={customerInfo.state}
-                    onChange={handleInputChange}
-                    className="w-full py-[12px] bg-[#F6F6F6] text-[16px] rounded px-[16px] border-[1px] border-gray-600 focus:border-blue-600 focus:border-[2px] focus:outline-none"
-                  >
-                    <option value="">Select a State</option>
-                    {usStates.map((state, index) => (
-                      <option key={index} value={state}>
-                        {state}
-                      </option>
-                    ))}
-                  </select>
-                </div>
-                <div>
-                  <label className="block mb-1 text-[16px]" htmlFor="postalCode">
-                    Postal Code*
-                  </label>
-                  <input
-                    type="text"
-                    id="postalCode"
-                    value={customerInfo.postalCode}
-                    onChange={handleInputChange}
-                    placeholder="Postal Code"
-                    className="w-full py-[12px] bg-[#F6F6F6] text-[16px] rounded px-[16px] border-[1px] border-gray-600 focus:border-blue-600 focus:border-[2px] focus:outline-none"
-                  />
-                </div>
-              </div>
-              <div className="grid grid-cols-2">
-                <div>
-                  <label className="block mb-1 text-[16px]" htmlFor="phone">
-                    Phone*
-                  </label>
-                  <input
-                    type="text"
-                    id="phone"
-                    value={customerInfo.phone}
-                    onChange={handleInputChange}
-                    placeholder="Phone"
-                    className="w-full py-[12px] bg-[#F6F6F6] text-[16px] rounded px-[16px] border-[1px] border-gray-600 focus:border-blue-600 focus:border-[2px] focus:outline-none"
-                  />
-                </div>
-              </div>
-              <button
-                type="submit"
-                
-                className="px-[16px] py-[12px] bg-[#8A33FD] text-white rounded-lg"
-              >
-                <a href="#payment-sheet"> Continue to payment</a>
-              </button>
-            </form>
-          </div>
-          <Shipping />
-           {/* <Payment
-              cartItems={cartItems}
-              total={total}
-              customerInfo={customerInfo}
-            /> */}
+          
+          
+           
           
         </div>
         {/** Price summary */}
@@ -320,7 +191,7 @@ const Checkout = () => {
                   <h2 className="mb-4 text-lg font-semibold">Order Summary</h2>
                   <div className="flex justify-between mb-2">
                     <p className="text-gray-600">Subtotal</p>
-                    <p className="text-gray-800">${cartTotal.subtotal.toFixed(2)}</p>
+                    <p className="text-gray-800">${cartTotal?.subTotal}</p>
                   </div>
                   <div className="flex justify-between mb-2">
                     <p className="text-gray-600">Shipping</p>
@@ -328,11 +199,11 @@ const Checkout = () => {
                   </div>
                   <div className="flex justify-between mb-4">
                     <p className="text-gray-600">Tax</p>
-                    <p className="text-gray-800">${cartTotal.tax.toFixed(2)}</p>
+                    <p className="text-gray-800">${cartTotal?.tax}</p>
                   </div>
                   <div className="flex justify-between mb-6 text-lg font-bold">
                     <p>Total</p>
-                    <p>${cartTotal.total.toFixed(2)}</p>
+                    <p>${cartTotal?.total}</p>
                   </div>
         
                   <Link to={"/checkout"} state={{cartTotal}} >

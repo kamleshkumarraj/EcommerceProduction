@@ -203,7 +203,7 @@ const Cart = () => {
             <p>${cartTotal.total.toFixed(2)}</p>
           </div>
 
-          <Link to={"/checkout"} state={{cartTotal}} >
+          <Link to={"/checkout"} state={{cartTotal , orderedProducts : cartItems}} >
             <button className="w-full py-3 bg-black text-white font-semibold mb-4 rounded-[8px]">
               Checkout
             </button>

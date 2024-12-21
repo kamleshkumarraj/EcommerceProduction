@@ -15,7 +15,7 @@ export const getAllOrders = asyncHandler(async (req , res , next) =>{
     res.status(200).json({
         success : true,
         message : "You get all orders successfully .",
-        orders,
+        data : orders,
         totalAmount
     })
 })

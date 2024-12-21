@@ -11,3 +11,7 @@ export const getCartIdUsingProductId = (productId , cartItems = []) => {
 export const getSelectedAddress = (addressList = []) => {
     return addressList.find((address) => address.selectStatus == true)
 }
+
+export const findProduct = (products = [] , target) => {
+    return products.find(product => product._id == target)
+}

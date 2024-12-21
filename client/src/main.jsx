@@ -12,11 +12,12 @@ import Login from './pages/Login.jsx'
 import Register from './pages/Register.jsx'
 import CategoryShops from './pages/CategoryShop.jsx'
 import MyAccount from './pages/MyAccount.jsx'
-import MyOrder from './components/profile/MyOrder.jsx'
+// import MyOrder from './components/profile/MyOrder.jsx'
 import Cart from './pages/Cart.jsx'
 import Wishlist from './pages/Wishlist.jsx'
 import MyProfile from './pages/MyProfile.page.jsx'
 import Checkout from './pages/Checkout.jsx'
+import DeliveryChecker from './components/order/DeliveryChecker.jsx'
 // import Shops from './pages/Shops.jsx'
 
 const router = createBrowserRouter([{
@@ -61,10 +62,7 @@ const router = createBrowserRouter([{
   {
     path : '/my-account',
     element : <MyAccount />,
-    children : [{
-      path : '/my-account/my-orders',
-      element : <MyOrder />
-    },
+    children : [
     {
       path : '/my-account/wishlist',
       element : <Wishlist />
@@ -72,6 +70,10 @@ const router = createBrowserRouter([{
     {
       path : '/my-account/my-info',
       element : <MyProfile />
+    },
+    {
+      path : '/my-account/address',
+      element : <DeliveryChecker />
     }
   
   ]

@@ -2,10 +2,11 @@ import {configureStore} from '@reduxjs/toolkit'
 import {selfHandler} from './slices/selfHandler.slice.js'
 import {apiHandlingReducers} from './slices/apiResonseHandler.slice.js'
 import {productsHandler} from './slices/productsHandler.slice.js'
-import {orderHandlerSlice} from './slices/orderHandler.slice.js'
 import {cartReducer} from './slices/cart.slice.js'
 import { wishlistReducer } from './slices/wishlist.slice.js'
 import { addressHandlerReducer } from './slices/addressHandler.slice.js'
+import { orderedProductsReducer } from './slices/orderItems.js'
+import { orderHandlerReducer } from './slices/order.slice.js'
 
 
 export const store = configureStore({
@@ -13,9 +14,11 @@ export const store = configureStore({
         self : selfHandler,
         apiResponse : apiHandlingReducers,
         productsList : productsHandler,
-        orders : orderHandlerSlice,
+        ordersList : orderHandlerReducer,
         cart : cartReducer,
         wishlist : wishlistReducer,
-        address : addressHandlerReducer
+        address : addressHandlerReducer,
+        orderedProductsList : orderedProductsReducer,
+
     }
 })

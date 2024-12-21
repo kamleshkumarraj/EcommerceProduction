@@ -36,11 +36,13 @@ const orderSchema = new mongoose.Schema({
     paymentInfo : {
        id : {
         type : String,
-        required : true
+        required : true,
+        default : "payment_cash"
        },
        status : {
         type : String,
-        required : true
+        required : true,
+        default : 'paid'
        }
 
     },
@@ -59,7 +61,8 @@ const orderSchema = new mongoose.Schema({
     },
     shippingPrice : {
         type : Number,
-        required : true
+        required : true,
+        default : 0
     },
     totalPrice : {
         type : Number,
@@ -69,10 +72,14 @@ const orderSchema = new mongoose.Schema({
         type : Date,
         default : Date.now()
     },
+    paymentMethod : {
+        type : String,
+        required : true
+    },
     orderStatus :{
         type : String,
         required : true,
-        default : "Processing"
+        default : "pending"
     }
 },{timestamps : true})
 

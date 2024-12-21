@@ -1,9 +1,9 @@
 import React from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { getSelf } from '../../store/slices/selfHandler.slice'
-import { fetchUpdateAddress } from '../../utils/address.utils'
+import { fetchUpdateAddress, fetchUpdateSelectedAddress } from '../../utils/address.utils'
 
-function AddressForm({addr , handleInputChange , usStates , _id , trackAddress , setTrackAddress}) {
+function AddressForm({addr , handleInputChange , usStates , _id , trackAddress , setTrackAddress , setCheckSummaryClick , setCheckDeliveryClick}) {
   const dispatch = useDispatch();
   console.log(addr)
   return (
@@ -161,11 +161,16 @@ function AddressForm({addr , handleInputChange , usStates , _id , trackAddress ,
         >
         <p onClick={() => {
           fetchUpdateAddress({dispatch , _id , address : addr})
-          setTrackAddress({curr : addr , prev : trackAddress.curr })
+          setTrackAddress({selected : addr })
+          fetchUpdateSelectedAddress({dispatch , prevAddr : trackAddress.selected , currAddr : addr })
+          setCheckSummaryClick(true)
+          setCheckDeliveryClick(false)
         }} >SAVE AND DELIVER HERE</p>
         </div>
         <div>
-        <p className='mx-[30px] font-[500] text-[17px] hover:cursor-pointer text-blue-600'>CANCEL</p>
+        <p onClick={() => {
+          
+        }}  className='mx-[30px] font-[500] text-[17px] hover:cursor-pointer text-blue-600'>CANCEL</p>
         </div>
     </div>
 

@@ -14,41 +14,7 @@ function MyOrder() {
   };
   const users = useSelector(getSelf)
   const dispatch = useDispatch()
-  useEffect(() => {
-    (async function getPendingOrders() {
-      const options = {
-        url : `https://oscar-backend.onrender.com/api/orders/${users._id}`,
-        method : "GET"
-      }
-      const response = await axios(options)
-      if(response?.data?.success){
-        console.log("Get all pending orders success")
-        response.data?.data.map((order) => {
-          switch(order.status){
-            case 'pending' : {dispatch(setPendingOrders(order)) ; break;}
-            case 'cancelled' : {
-              dispatch(setCancelledOrders(order))
-              break;
-            }
-            case 'delivered' : {
-              dispatch(setDeliveredOrders(order));
-              break;
-            }
-            case 'shipping' : {
-              dispatch(setActiveOrders(order));
-              break;
-            }
-            case 'failed' : {
-              dispatch(setFailedOrders(order));
-              break;
-            }
-          }
-        })
-      }else{
-        console.log("We get error while get all pending orders!")
-      }
-    })()
-  },[])
+  
   
 
   const allOrders = useSelector(getAllOrders)

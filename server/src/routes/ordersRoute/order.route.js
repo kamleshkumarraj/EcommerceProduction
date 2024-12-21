@@ -9,7 +9,7 @@ import { deleteSingleOrder } from '../../controllers/ordercontroller/deleteSingl
 
 export const orderHandlerRouter = Router();
 
-orderHandlerRouter.post('/create-order',isLoggedIn,validateAvailability,createOrder)
+orderHandlerRouter.post('/create-order',isLoggedIn,createOrder)
 orderHandlerRouter.route('/single-order/:id').get(isLoggedIn,getSingleOrder)
 orderHandlerRouter.route('/all-orders').get(isLoggedIn , getAllOrders)
 orderHandlerRouter.route('/delete-single-order/:id').get(isLoggedIn,deleteSingleOrder) 

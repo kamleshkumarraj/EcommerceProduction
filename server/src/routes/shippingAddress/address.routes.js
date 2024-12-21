@@ -14,4 +14,4 @@ addressHandlerRouter.route('/add').post(addressValidation() , validateFunc , add
 addressHandlerRouter.route('/remove/:addrId').delete(deleteAddress)
 addressHandlerRouter.route('/update/:addrId').patch(updateAddress)
 addressHandlerRouter.route('/get').get(getMyAddress)
-addressHandlerRouter.route('/update-status/:prev/:next').patch(updateSelectedAddressStatus)
+addressHandlerRouter.route('/update-status/:prev/:curr').patch(updateSelectedAddressStatus)
