@@ -86,15 +86,9 @@ function Payment({ checkPaymentClick , orderItems , cartTotal }) {
 }
 
 Payment.propTypes = {
-  checkPaymentClick: PropTypes.bool.isRequired,
-  setCheckPaymentClick: PropTypes.func.isRequired,
-  setCheckSummaryClick: PropTypes.func.isRequired,
-  selectedButton: PropTypes.number.isRequired,
-  setSelectedButton: PropTypes.func.isRequired,
-  paymentMethod: PropTypes.string.isRequired,
-  setPaymentMethod: PropTypes.func.isRequired,
-  orderItems: PropTypes.array.isRequired,
-  cartTotal: PropTypes.number.isRequired,
+  checkPaymentClick: PropTypes.bool,
+  orderItems: PropTypes.array,
+  cartTotal: PropTypes.object
 };
 
 export default Payment;

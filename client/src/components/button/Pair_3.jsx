@@ -17,7 +17,7 @@ function Pair_3({ item , bgColor }) {
   const user = useSelector(getSelf);
   return (
     <div id="button" className="flex gap-[20px]">
-      <p className={`p-[10px] text-center rounded-full ${bgColor} border hover:cursor-pointer hover:bg-[#ff3f35fa] hover:text-white`}>
+      <div className={`p-[10px] text-center rounded-full ${bgColor} border hover:cursor-pointer hover:bg-[#ff3f35fa] hover:text-white`}>
         {checkAvailibility(wishlist, item) ? (
           <p className="text-[red] hover:text-white"
             onClick={() => {
@@ -37,7 +37,7 @@ function Pair_3({ item , bgColor }) {
             <VscHeart size={20} />
           </p>
         )}{" "}
-      </p>
+      </div>
       <p
         onClick={() => {
           addToCart(item?._id, dispatch, user);

@@ -185,7 +185,7 @@ function DeliveryChecker({
             allAddress.length > 0 &&
             allAddress.map((address) => (
               <>
-                <div key={address._id}>
+                <div key={Math.random()}>
                   <div
                     className="flex gap-[20px] items-start py-[10px] px-[20px] w-full"
                     id="addr"
@@ -337,10 +337,10 @@ function DeliveryChecker({
   );
 }
 DeliveryChecker.propTypes = {
-  checkDileveryClick: PropTypes.bool.isRequired,
-  setCheckDileveryClick: PropTypes.func.isRequired,
-  setCheckSummaryClick: PropTypes.func.isRequired,
-  selectedButton: PropTypes.number.isRequired,
-  setSelectedButton: PropTypes.func.isRequired,
+  checkDileveryClick: PropTypes.bool,
+  setCheckDileveryClick: PropTypes.func,
+  setCheckSummaryClick: PropTypes.func,
+  selectedButton: PropTypes.number,
+  setSelectedButton: PropTypes.func,
 };
 export default DeliveryChecker;

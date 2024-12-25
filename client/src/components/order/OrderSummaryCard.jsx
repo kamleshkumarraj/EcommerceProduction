@@ -60,7 +60,7 @@ function OrderSummaryCard({ item }) {
 }
 
 OrderSummaryCard.propTypes = {
-  item: PropTypes.object.isRequired.shape({
+  item: PropTypes.shape({
     _id: PropTypes.string.isRequired,
     thumbnail: PropTypes.string.isRequired,
     price: PropTypes.number.isRequired,
