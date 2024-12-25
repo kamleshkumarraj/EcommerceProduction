@@ -1,5 +1,6 @@
 import { FaStar } from "react-icons/fa"
 import Pair_3 from "../button/Pair_3"
+import PropTypes from "prop-types"
 
 function TwoLayerCard({item}) {
   return (
@@ -31,5 +32,14 @@ function TwoLayerCard({item}) {
     </div>
   )
 }
+
+TwoLayerCard.propTypes = {
+  item: PropTypes.shape({
+    images: PropTypes.arrayOf(PropTypes.string).isRequired,
+    title: PropTypes.string.isRequired,
+    rating: PropTypes.number.isRequired,
+    price: PropTypes.number.isRequired,
+  }).isRequired,
+};
 
 export default TwoLayerCard

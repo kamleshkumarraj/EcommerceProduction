@@ -1,6 +1,7 @@
-import React from "react";
+
 import { FaStar } from "react-icons/fa";
 import Pair_3 from "../button/Pair_3";
+import PropTypes from "prop-types";
 
 function MobileCard({ item }) {
   return (
@@ -33,5 +34,17 @@ function MobileCard({ item }) {
     </div>
   );
 }
+MobileCard.propTypes = {
+  item: PropTypes.shape({
+    images: PropTypes.arrayOf(PropTypes.string).isRequired,
+    title: PropTypes.string.isRequired, 
+    price: PropTypes.number.isRequired,
+    rating: PropTypes.number.isRequired,
+    category: PropTypes.string.isRequired,
+    description: PropTypes.string.isRequired,
+    thumbnail: PropTypes.string.isRequired,
+    _id : PropTypes.string.isRequired
+  }).isRequired,
+};
 
 export default MobileCard;

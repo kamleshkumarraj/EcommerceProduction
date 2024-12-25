@@ -1,6 +1,6 @@
 import { FaStar } from "react-icons/fa"
 import Pair_3 from "../button/Pair_3"
-
+import PropTypes from "prop-types"
 
 function ProductCard({item}) {
   return (
@@ -38,5 +38,17 @@ function ProductCard({item}) {
     </div>
   )
 }
+
+ProductCard.propTypes = {
+  item: PropTypes.shape({
+    images: PropTypes.arrayOf(PropTypes.string).isRequired,
+    title: PropTypes.string.isRequired, 
+    price: PropTypes.number.isRequired,
+    rating: PropTypes.number.isRequired,
+    category: PropTypes.string.isRequired,
+    description: PropTypes.string.isRequired,
+    thumbnail: PropTypes.string.isRequired,
+  }).isRequired,
+};
 
 export default ProductCard

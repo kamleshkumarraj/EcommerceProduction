@@ -1,4 +1,4 @@
-import React from 'react'
+import PropTypes from 'prop-types'
 import { BsCart4 } from 'react-icons/bs'
 import { GiStopwatch } from "react-icons/gi";
 import { useCountDown } from '../../hooks/useCountDown';
@@ -32,5 +32,17 @@ function OfferedProductCard({item}) {
     </div>
   )
 }
+
+OfferedProductCard.propTypes = {
+  item: PropTypes.shape({
+    images: PropTypes.arrayOf(PropTypes.string).isRequired,
+    title: PropTypes.string.isRequired, 
+    price: PropTypes.number.isRequired,
+    rating: PropTypes.number.isRequired,
+    category: PropTypes.string.isRequired,
+    description: PropTypes.string.isRequired,
+    thumbnail: PropTypes.string.isRequired,
+  }).isRequired,
+};
 
 export default OfferedProductCard

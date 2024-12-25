@@ -1,17 +1,9 @@
-import React, { useState } from "react";
 import { FaStar } from "react-icons/fa";
 import Pair_3 from "../button/Pair_3";
+import PropTypes from "prop-types";
 function FeaturedCard({ item }) {
-  const [event , setEvent] = useState(false);
-  const [title , setTitle] = useState(item?.title);
 
-  const handleTextSelection = () => {
-    const selection = window.getSelection();
-    if (selection && selection.toString().trim() !== "") {
-      console.log("Hii");
-      setTitle("Topa ho kaa be");
-    }
-  };
+ 
   return (
     <div
       className="flex bg-white px-[15px] items-center py-[10px] border-[.5px] border-gray-200 relative hover:translate-y-[12px] hover:transition-transform hover:duration-[1500] gap-[20px] w-[450px] rounded-[10px]"
@@ -28,10 +20,10 @@ function FeaturedCard({ item }) {
         />
       </div>
       <div id="details" className="flex flex-col gap-[10px]">
-        <h1 onCopy={(e) => {
+        <h1 onCopy={() => {
           window.navigator.clipboard.writeText('Lora copy kar le ')
         }} id="title" className="text-[18px] font-[500] ">
-          {title}
+          {item?.title}
         </h1>
         <div id="rating" className="flex gap-[10px] items-center">
           <span className="text-[16px] flex gap-[5px] text-[#FFA31A]">
@@ -52,5 +44,17 @@ function FeaturedCard({ item }) {
     </div>
   );
 }
+
+FeaturedCard.propTypes = {
+  item: PropTypes.shape({
+    images: PropTypes.arrayOf(PropTypes.string).isRequired,
+    title: PropTypes.string.isRequired, 
+    price: PropTypes.number.isRequired,
+    rating: PropTypes.number.isRequired,
+    category: PropTypes.string.isRequired,
+    description: PropTypes.string.isRequired,
+    thumbnail: PropTypes.string.isRequired,
+  }).isRequired,
+};
 
 export default FeaturedCard;
