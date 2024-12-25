@@ -1,4 +1,4 @@
-import React from "react";
+
 import { BsCart3 } from "react-icons/bs";
 import { FaHeart, FaRegEye } from "react-icons/fa";
 import { addToCart } from "../../utils/addCartFunction";
@@ -9,6 +9,7 @@ import { checkAvailibility } from "../../utils/checkAvailibility";
 import { useDispatch, useSelector } from "react-redux";
 import { getAllWishlistItems } from "../../store/slices/wishlist.slice";
 import { getSelf } from "../../store/slices/selfHandler.slice";
+import PropTypes from "prop-types";
 
 function Pair_3({ item , bgColor }) {
   const dispatch = useDispatch();
@@ -54,5 +55,10 @@ function Pair_3({ item , bgColor }) {
     </div>
   );
 }
-
+Pair_3.propTypes = {
+  item: PropTypes.shape({
+    _id: PropTypes.string.isRequired,
+  }).isRequired,
+  bgColor: PropTypes.string.isRequired,
+}
 export default Pair_3;

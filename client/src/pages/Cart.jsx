@@ -1,11 +1,11 @@
-import React, { useEffect, useMemo, useState } from "react";
+import  { useEffect, useMemo, useState } from "react";
 import { MdArrowForwardIos } from "react-icons/md";
 import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 import { toast } from "react-toastify";
 import { getSelf } from "../store/slices/selfHandler.slice";
 import { apiCalling } from "../api/apiCalling.api";
-import { decreasedCartQty, getAllCartItems, increaseCartQty, removeCartItems, setAllCarts } from "../store/slices/cart.slice";
+import { decreasedCartQty, getAllCartItems, increaseCartQty, removeCartItems } from "../store/slices/cart.slice";
 import Loader from "../components/cart/Loader";
 import CartLoader from "../components/cart/CartLoader";
 import FetchingLoading from "../components/cart/FetchingLoading";
@@ -18,8 +18,7 @@ const Cart = () => {
   const dispatch = useDispatch();
   const user = useSelector(getSelf);
   const cartItems = useSelector(getAllCartItems);
-  const [apiStatus, setApiStatus] = useState(false);
-
+  const [apiStatus] = useState(false);
   const cartTotal = useMemo(() => {
     const subtotal = cartItems?.reduce(
       (acc, item) => acc + item.price*item.quantity,

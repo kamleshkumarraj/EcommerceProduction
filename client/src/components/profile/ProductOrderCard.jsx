@@ -1,4 +1,4 @@
-import { RxCross2 } from "react-icons/rx";
+import PropTypes from "prop-types";
 
 function ProductOrderCard({item}) {
   return (
@@ -33,4 +33,7 @@ function ProductOrderCard({item}) {
   );
 }
 
+ProductOrderCard.propTypes = {
+  item: PropTypes.object.isRequired,
+};
 export default ProductOrderCard;

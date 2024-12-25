@@ -1,5 +1,7 @@
 // FilterSidebar.jsx
-import React, { useState } from "react";
+
+import { useState } from "react";
+
 
 const FilterSidebar = () => {
   const [expandedCategory, setExpandedCategory] = useState(null);

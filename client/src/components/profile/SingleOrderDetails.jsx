@@ -2,15 +2,10 @@ import { useEffect, useMemo, useState } from "react";
 import { FaCheckCircle, FaChevronLeft } from "react-icons/fa";
 import { MdArrowForwardIos } from "react-icons/md";
 import { useLocation } from "react-router-dom";
-// import Sidebar from "../checkoutpage/Sidebar";
-import OrderCard from "./OrderCard";
-// import { FaTruck } from "react-icons/fa";
-
+import Sidebar from "./SideBar";
 import { FaTruckArrowRight } from "react-icons/fa6";
 import Loader from "../cart/Loader";
-import Sidebar from "./SideBar";
 import ProductOrderCard from "./ProductOrderCard";
-
 function SingleOrder() {
   const [loading, setLoading] = useState(true);
 

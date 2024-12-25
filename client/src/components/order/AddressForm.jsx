@@ -1,6 +1,5 @@
-import React from 'react'
-import { useDispatch, useSelector } from 'react-redux'
-import { getSelf } from '../../store/slices/selfHandler.slice'
+import PropTypes from 'prop-types'
+import { useDispatch } from 'react-redux'
 import { fetchUpdateAddress, fetchUpdateSelectedAddress } from '../../utils/address.utils'
 
 function AddressForm({addr , handleInputChange , usStates , _id , trackAddress , setTrackAddress , setCheckSummaryClick , setCheckDeliveryClick}) {
@@ -176,5 +175,15 @@ function AddressForm({addr , handleInputChange , usStates , _id , trackAddress ,
 
     </div>
   )
+}
+AddressForm.propTypes = {
+  addr: PropTypes.object.isRequired,
+  handleInputChange: PropTypes.func.isRequired,
+  usStates: PropTypes.array.isRequired,
+  _id: PropTypes.string.isRequired,
+  trackAddress: PropTypes.object.isRequired,
+  setTrackAddress: PropTypes.func.isRequired,
+  setCheckSummaryClick: PropTypes.func.isRequired,
+  setCheckDeliveryClick: PropTypes.func.isRequired,
 }
 export default AddressForm

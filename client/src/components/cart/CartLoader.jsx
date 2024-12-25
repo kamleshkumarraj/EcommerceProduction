@@ -1,5 +1,4 @@
-
-import { BsCartX } from 'react-icons/bs'
+import PropTypes from "prop-types"
 
 function CartLoader({icon , heading , para , button}) {
   return (
@@ -19,5 +18,10 @@ function CartLoader({icon , heading , para , button}) {
     </div>
   )
 }
-
+CartLoader.propTypes = {
+  icon: PropTypes.element.isRequired,
+  heading: PropTypes.string.isRequired,
+  para: PropTypes.string.isRequired,
+  button: PropTypes.string.isRequired,
+}
 export default CartLoader

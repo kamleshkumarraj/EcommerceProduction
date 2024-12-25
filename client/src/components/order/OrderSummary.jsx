@@ -1,11 +1,13 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import { IoIosArrowUp } from "react-icons/io";
 import { RiArrowDownSLine } from "react-icons/ri";
 import { useSelector } from "react-redux";
 import { getAllOrderedProducts } from "../../store/slices/orderItems";
 import OrderSummaryCard from "./OrderSummaryCard";
+import PropTypes from "prop-types";
 
-function OrderSummary({ checkDileveryClick, checkSummaryClick , setCheckPayemntClick , setCheckSummaryClick }) {
+
+function OrderSummary({ checkSummaryClick , setCheckPayemntClick , setCheckSummaryClick }) {
   const orderedProduct = useSelector(getAllOrderedProducts)
   const [viewAll , setViewAll] = useState(false);
   return (
@@ -64,5 +66,12 @@ function OrderSummary({ checkDileveryClick, checkSummaryClick , setCheckPayemntC
     </div>
   );
 }
+
+OrderSummary.propTypes = {
+  checkDileveryClick: PropTypes.bool,
+  checkSummaryClick: PropTypes.bool,
+  setCheckPayemntClick: PropTypes.func,
+  setCheckSummaryClick: PropTypes.func,
+};
 
 export default OrderSummary;

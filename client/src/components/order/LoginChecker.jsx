@@ -1,9 +1,10 @@
-import React, { useEffect } from 'react'
+
 import { FaCheck, FaTruckArrowRight } from 'react-icons/fa6'
 import { IoMdNotifications } from 'react-icons/io'
 import { MdOutlineStarPurple500 } from 'react-icons/md'
 import { useSelector } from 'react-redux'
-import { getAllAddress, getSelectedAddress } from '../../store/slices/addressHandler.slice'
+import { getSelectedAddress } from '../../store/slices/addressHandler.slice'
+import PropTypes from 'prop-types'
 
 function LoginChecker({checkLoginClicked , setCheckLoginClicked , setCheckDileveryClick , setSelectedButton}) {
   
@@ -73,11 +74,18 @@ function LoginChecker({checkLoginClicked , setCheckLoginClicked , setCheckDileve
         </div>
       </div>
 
-      <h1 className="col-span-2 mt-[30px] text-gray-500">Please note that upon clicking "Logout" you will loose all items in carts and redirect to our Shopify Home page.</h1>
+      <h1 className="col-span-2 mt-[30px] text-gray-500">{`Please note that upon clicking "Logout" you will loose all items in carts and redirect to our Shopify Home page.`}</h1>
     
     </div>}
     </div>
   )
+}
+
+LoginChecker.propTypes = { 
+  checkLoginClicked : PropTypes.bool,
+  setCheckLoginClicked : PropTypes.func,
+  setCheckDileveryClick : PropTypes.func,
+  setSelectedButton : PropTypes.func,
 }
 
 export default LoginChecker

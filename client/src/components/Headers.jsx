@@ -36,11 +36,9 @@ const Headers = () => {
   const [showShidebar, setShowShidebar] = useState(true);
   const [categoryShow, setCategoryShow] = useState(true);
   const {  searchQuery, setSearchQuery } = useContext(GlobalContext);
-  const [category, setCategory] = useState("");
+ 
 
-  const search = () => {
-    navigate(`/category&searching/query=${searchQuery}`);
-  };
+ 
   const redirect_card_page = () => {
     if (userInfo) {
       navigate(`/cart`);
@@ -422,7 +420,7 @@ const Headers = () => {
                 <div className="flex border h-[50px] items-center relative gap-5">
                   <div className="relative after:absolute after:h-[25px] after:w-[1px] after:bg-[#afafaf] after:-right-[15px] md:hidden">
                     <select
-                      onChange={(e) => setCategory(e.target.value)}
+                      
                       className="w-[150px] text-slate-600 font-semibold bg-transparent px-2 h-full outline-0 border-none"
                       name=""
                       id=""

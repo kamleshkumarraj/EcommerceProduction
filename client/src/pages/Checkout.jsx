@@ -1,15 +1,14 @@
-import React, { useEffect, useMemo, useState } from "react";
+import  { useEffect, useMemo, useState } from "react";
 import { MdArrowForwardIos } from "react-icons/md";
 import { useDispatch, useSelector } from "react-redux";
-import { Link, useLocation, useNavigate } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import Loader from "../components/cart/Loader";
-import LoginChecker from "../components/order/loginChecker";
-import Shipping from "../components/order/Shipping";
-import { getAllCartItems } from "../store/slices/cart.slice";
 import DeliveryChecker from "../components/order/DeliveryChecker";
+import LoginChecker from "../components/order/loginChecker";
 import OrderSummary from "../components/order/OrderSummary";
 import Payment from "../components/order/Payment";
 import { getAllAddress, getSelectedAddress } from "../store/slices/addressHandler.slice";
+import { getAllCartItems } from "../store/slices/cart.slice";
 import { getAllOrderedProducts, resetOrderProductsStore, setOrderedProducts } from "../store/slices/orderItems";
 const Checkout = () => {
   
@@ -19,24 +18,11 @@ const Checkout = () => {
   const [checkSummaryClick, setCheckSummaryClick] = useState(false)
   const [checkPaymentClick, setCheckPaymentClick] = useState(false);
   const [selectedButton , setSelectedButton] = useState(null)
-  const navigate = useNavigate();
   const dispatch = useDispatch();
   const address = useSelector(getAllAddress)
   const selectedAddress = useSelector(getSelectedAddress)
   const orderedProducts = useLocation().state?.orderedProducts || null
-  const [customerInfo, setCustomerInfo] = useState({
-    firstName: "",
-    lastName: "",
-    company: "",
-    email: "",
-    phone: "",
-    address: "",
-    appartment: "",
-    city: "",
-    state: "",
-    postalCode: "",
-    country: "",
-  });
+  
   const orderedProduct = useSelector(getAllOrderedProducts)
   
   const cartTotal = useMemo(() => {
@@ -55,13 +41,7 @@ const Checkout = () => {
     dispatch(setOrderedProducts(orderedProducts || cartItems) )
     return () => dispatch(resetOrderProductsStore())
   },[cartItems])
-  const handleInputChange = (e) => {
-    const { id, value } = e.target;
-    setCustomerInfo((prevState) => ({
-      ...prevState,
-      [id]: value,
-    }));
-  };
+ 
 
   const [loading, setLoading] = useState(true);
 
@@ -81,67 +61,9 @@ const Checkout = () => {
     ); // Render Loader component while loading
   }
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    // console.log(customerInfo);
-    // Create data payload for Stripe API
-   
+ 
 
-    
-  };
-
-  const usStates = [
-    "Alabama",
-    "Alaska",
-    "Arizona",
-    "Arkansas",
-    "California",
-    "Colorado",
-    "Connecticut",
-    "Delaware",
-    "Florida",
-    "Georgia",
-    "Hawaii",
-    "Idaho",
-    "Illinois",
-    "Indiana",
-    "Iowa",
-    "Kansas",
-    "Kentucky",
-    "Louisiana",
-    "Maine",
-    "Maryland",
-    "Massachusetts",
-    "Michigan",
-    "Minnesota",
-    "Mississippi",
-    "Missouri",
-    "Montana",
-    "Nebraska",
-    "Nevada",
-    "New Hampshire",
-    "New Jersey",
-    "New Mexico",
-    "New York",
-    "North Carolina",
-    "North Dakota",
-    "Ohio",
-    "Oklahoma",
-    "Oregon",
-    "Pennsylvania",
-    "Rhode Island",
-    "South Carolina",
-    "South Dakota",
-    "Tennessee",
-    "Texas",
-    "Utah",
-    "Vermont",
-    "Virginia",
-    "Washington",
-    "West Virginia",
-    "Wisconsin",
-    "Wyoming",
-  ];
+ 
 
   return (
     <div className="container p-4 mx-auto bg-[#e3e2e2] xl:px-10">

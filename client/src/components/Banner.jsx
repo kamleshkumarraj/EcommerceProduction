@@ -2,8 +2,6 @@
 import Carousel from 'react-multi-carousel'
 import 'react-multi-carousel/lib/styles.css'
 import { Link } from 'react-router-dom'
-import { useEffect } from 'react'
-import {  useDispatch } from 'react-redux'
 import bannerImg1 from '../assets/Banner/banner-img-1.jpg'
 import bannerImg2 from '../assets/Banner/banner-img-2.webp'
 import bannerImg3 from '../assets/Banner/banner-img-3.png'
@@ -15,8 +13,6 @@ import bannerImg8 from '../assets/Banner/banner-img-8.jpg'
 
 
 const Banner = () => {
-
-    const dispatch = useDispatch()
     // const { banners } = useSelector(state => state.home)
     const banners = [
         {banner : bannerImg1 , link :'http://localhost:5173'},

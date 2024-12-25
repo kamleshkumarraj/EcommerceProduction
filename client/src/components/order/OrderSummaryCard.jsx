@@ -1,7 +1,8 @@
-import React from "react";
+
 import { FiMinus, FiPlus } from "react-icons/fi";
 import { decreaseOrderedProductsQty, increaseOrderedProductsQty, removeOrderedProductsQty } from "../../store/slices/orderItems";
 import { useDispatch } from "react-redux";
+import PropTypes from "prop-types";
 
 function OrderSummaryCard({ item }) {
   const dispatch = useDispatch();
@@ -57,5 +58,16 @@ function OrderSummaryCard({ item }) {
     </div>
   );
 }
+
+OrderSummaryCard.propTypes = {
+  item: PropTypes.object.isRequired.shape({
+    _id: PropTypes.string.isRequired,
+    thumbnail: PropTypes.string.isRequired,
+    price: PropTypes.number.isRequired,
+    quantity: PropTypes.number.isRequired,
+    title: PropTypes.string.isRequired,
+    category: PropTypes.string.isRequired,
+  }),
+};
 
 export default OrderSummaryCard;

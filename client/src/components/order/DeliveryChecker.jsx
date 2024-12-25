@@ -1,18 +1,19 @@
-import React, { useEffect, useState } from "react";
+
 import { FaCheck } from "react-icons/fa6";
 import { useDispatch, useSelector } from "react-redux";
+import {
+  getAllAddress,
+  getSelectedAddress
+} from "../../store/slices/addressHandler.slice";
+import { getSelf } from "../../store/slices/selfHandler.slice";
 import {
   fetchAllAddress,
   fetchUpdateSelectedAddress,
 } from "../../utils/address.utils";
-import {
-  getAllAddress,
-  getSelectedAddress,
-  resetCurrentAddressStatus,
-} from "../../store/slices/addressHandler.slice";
-import { getSelf } from "../../store/slices/selfHandler.slice";
 import AddressForm from "./AddressForm";
 import NewAddressForm from "./NewAddressForm";
+import { useEffect, useState } from "react";
+import PropTypes from "prop-types";
 
 function DeliveryChecker({
   checkDileveryClick,
@@ -335,5 +336,11 @@ function DeliveryChecker({
     </div>
   );
 }
-
+DeliveryChecker.propTypes = {
+  checkDileveryClick: PropTypes.bool.isRequired,
+  setCheckDileveryClick: PropTypes.func.isRequired,
+  setCheckSummaryClick: PropTypes.func.isRequired,
+  selectedButton: PropTypes.number.isRequired,
+  setSelectedButton: PropTypes.func.isRequired,
+};
 export default DeliveryChecker;

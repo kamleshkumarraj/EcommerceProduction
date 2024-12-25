@@ -1,9 +1,8 @@
+import PropTypes from "prop-types";
 import { useMemo } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 
 function OrderCard({order}) {
-  
-  const navigate = useNavigate();
 
   const itemLength = order?.orderItems?.length;
   const createdAt = order?.createdAt?.slice(0, 10);
@@ -92,5 +91,7 @@ function OrderCard({order}) {
     </>
   );
 }
-
+OrderCard.propTypes = {
+  order: PropTypes.object.isRequired,
+};
 export default OrderCard;

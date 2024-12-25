@@ -1,9 +1,10 @@
-import React, { useMemo, useState } from "react";
+import  { useMemo, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { getSelectedAddress } from "../../store/slices/addressHandler.slice";
 import { fetchCreateOrder } from "../../utils/order";
 import { fetchRemoveMultipleCartItems } from "../../utils/cart.utils";
 import { useNavigate } from "react-router-dom";
+import PropTypes from "prop-types";
 
 function Payment({ checkPaymentClick , orderItems , cartTotal }) {
   const [paymentMethod , setPaymentMethod] = useState('')
@@ -83,5 +84,17 @@ function Payment({ checkPaymentClick , orderItems , cartTotal }) {
     </div>
   );
 }
+
+Payment.propTypes = {
+  checkPaymentClick: PropTypes.bool.isRequired,
+  setCheckPaymentClick: PropTypes.func.isRequired,
+  setCheckSummaryClick: PropTypes.func.isRequired,
+  selectedButton: PropTypes.number.isRequired,
+  setSelectedButton: PropTypes.func.isRequired,
+  paymentMethod: PropTypes.string.isRequired,
+  setPaymentMethod: PropTypes.func.isRequired,
+  orderItems: PropTypes.array.isRequired,
+  cartTotal: PropTypes.number.isRequired,
+};
 
 export default Payment;

@@ -1,10 +1,6 @@
-import React from "react";
-import { useDispatch, useSelector } from "react-redux";
-import { getSelf } from "../../store/slices/selfHandler.slice";
-import {
-  fetchUpdateAddress,
-  fetchUpdateSelectedAddress,
-} from "../../utils/address.utils";
+
+import PropTypes from "prop-types";
+
 
 function NewAddressForm({
   addr,
@@ -12,11 +8,8 @@ function NewAddressForm({
   usStates,
   setCheckSummaryClick,
   setCheckDeliveryClick,
-  trackAddress,
-  setTrackAddress,
   setClickAddButton,
 }) {
-  const dispatch = useDispatch();
   return (
     <div className="px-[50px] py-[10px]">
       <div className="grid grid-cols-1 gap-8 md:grid-cols-2">
@@ -190,4 +183,13 @@ function NewAddressForm({
     </div>
   );
 }
+
+NewAddressForm.propTypes = {
+  addr: PropTypes.object,
+  usStates: PropTypes.array,
+  handleInputChange: PropTypes.func,
+  setCheckSummaryClick: PropTypes.func,
+  setCheckDeliveryClick: PropTypes.func,
+  setClickAddButton: PropTypes.func
+};
 export default NewAddressForm;

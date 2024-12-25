@@ -1,19 +1,18 @@
+import { useContext, useEffect } from "react"
 import { useSelector } from "react-redux"
+import { useLocation } from "react-router-dom"
+import { GlobalContext } from "../../contexts/GlobalProvider"
+import { useFilter } from "../../hooks/useFilter.hook"
+import useSearch from "../../hooks/useSearch"
 import { getAllProducts } from "../../store/slices/productsHandler.slice"
 import CategoryCard from "../card/CategoryCard"
-import { useLocation } from "react-router-dom"
-import { useContext, useEffect, useState } from "react"
 import MobileCard from "../card/LengthCard"
-import { useFilter } from "../../hooks/useFilter.hook"
-import { GlobalContext } from "../../contexts/GlobalProvider"
-import useSearch from "../../hooks/useSearch"
-import FeaturedCard from "../card/FeaturedCard"
 import TwoLayerCard from "../card/TwoLayerCard"
+import PropTypes from "prop-types"
 
 function FilteringItemsBody() {
     const products = useSelector(getAllProducts)
     const category = useLocation()?.state?.category || ""
-    const [renderedProducts, setRenderedProducts] = useState([])
     const { searchQuery } = useContext(GlobalContext)
 
     const [filteredProducts , setQuery] = useFilter(products || [] , (data) => data.category)
@@ -35,5 +34,9 @@ function FilteringItemsBody() {
     </div>
   )
 }
-
+FilteringItemsBody.propTypes = {
+    products: PropTypes.array.isRequired,
+    category: PropTypes.string.isRequired,
+    searchQuery: PropTypes.string.isRequired,
+}
 export default FilteringItemsBody

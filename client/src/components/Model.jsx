@@ -1,5 +1,5 @@
 // NewsletterModal.jsx
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { RxCross1 } from "react-icons/rx";
 
 const NewsletterModal = () => {

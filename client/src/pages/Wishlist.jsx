@@ -1,19 +1,17 @@
-import { useDispatch, useSelector } from 'react-redux';
-import { TbHeartX } from "react-icons/tb";
-import { Link } from 'react-router-dom';
+import { useState } from 'react';
 import { FiMinus, FiPlus } from 'react-icons/fi';
-import FetchingLoading from '../components/cart/FetchingLoading';
 import { MdArrowForwardIos } from 'react-icons/md';
+import { TbHeartX } from "react-icons/tb";
+import { useDispatch, useSelector } from 'react-redux';
+import { Link } from 'react-router-dom';
 import CartLoader from '../components/cart/CartLoader';
-import { useEffect, useState } from 'react';
-import Loader from '../components/cart/Loader';
+import FetchingLoading from '../components/cart/FetchingLoading';
 import { getAllWishlistItems } from '../store/slices/wishlist.slice';
 import { removeWishlistItem, updateWishlistQty } from '../utils/wishlist';
 
 function Wishlist() {
     const wishlistItems = useSelector(getAllWishlistItems);
-    const [apiStatus , setApiStatus] = useState(false)
-    const [loading, setLoading] = useState(true);
+    const [apiStatus] = useState(false)
     const dispatch = useDispatch();
     
    

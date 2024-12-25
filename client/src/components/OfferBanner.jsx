@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+
 import { useCountDown } from "../hooks/useCountDown";
 
 const OfferBanner = () => {
@@ -21,7 +21,7 @@ const OfferBanner = () => {
           Clearing Sale
         </h4>
         <h2 className="mb-4 text-4xl font-bold text-gray-900">
-          "60% Sale On Selected Products"
+          {`"60% Sale On Selected Products"`}
         </h2>
         <p className="mb-6 text-gray-600 text-[15px] font-[500]">
           Consectetur adipiscing elit. Integer nunc viverra laoreet est, a
