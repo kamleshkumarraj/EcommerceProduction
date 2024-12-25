@@ -1,5 +1,5 @@
 // WhyChooseUs.jsx
-import React from "react";
+
 import { FaGift, FaShippingFast, FaUsers } from "react-icons/fa";
 
 const WhyChooseUs = () => {

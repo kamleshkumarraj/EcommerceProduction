@@ -1,5 +1,6 @@
-import React from "react";
+
 import FeaturedCard from "../card/FeaturedCard";
+import PropTypes from "prop-types";
 
 const LatestProductsBody = ({ title, products }) => {
   return (
@@ -18,4 +19,16 @@ const LatestProductsBody = ({ title, products }) => {
   );
 };
 
+LatestProductsBody.propTypes = {
+  products: PropTypes.arrayOf(
+    PropTypes.shape({
+      _id: PropTypes.string.isRequired,
+      thumbnail: PropTypes.string.isRequired,
+      price: PropTypes.number.isRequired,
+      quantity: PropTypes.number.isRequired,
+      title: PropTypes.string.isRequired,
+    })
+  ).isRequired,
+  title: PropTypes.string.isRequired,
+};
 export default LatestProductsBody;

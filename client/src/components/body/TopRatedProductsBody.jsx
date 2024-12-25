@@ -1,5 +1,6 @@
-import React from "react";
+
 import TwoLayerCard from "../card/TwoLayerCard";
+import PropTypes from "prop-types";
 
 function TopRatedProductsBody({ title , products }) {
   return (
@@ -22,4 +23,16 @@ function TopRatedProductsBody({ title , products }) {
   );
 }
 
+TopRatedProductsBody.propTypes = {
+  products: PropTypes.arrayOf(
+    PropTypes.shape({
+      _id: PropTypes.string.isRequired,
+      thumbnail: PropTypes.string.isRequired,
+      price: PropTypes.number.isRequired,
+      quantity: PropTypes.number.isRequired,
+      title: PropTypes.string.isRequired,
+    })
+  ).isRequired,
+  title: PropTypes.string.isRequired,
+};
 export default TopRatedProductsBody;

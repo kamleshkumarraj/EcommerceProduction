@@ -1,5 +1,5 @@
-import React from "react";
 import ProductCard from "../card/ProductCard";
+import PropTypes from "prop-types";
 
 const FeaturedProductsBody = ({ title, products }) => {
   return (
@@ -19,4 +19,16 @@ const FeaturedProductsBody = ({ title, products }) => {
   );
 };
 
+FeaturedProductsBody.propTypes = {
+  products: PropTypes.arrayOf(
+    PropTypes.shape({
+      _id: PropTypes.string.isRequired,
+      thumbnail: PropTypes.string.isRequired,
+      price: PropTypes.number.isRequired,
+      quantity: PropTypes.number.isRequired,
+      title: PropTypes.string.isRequired,
+    })
+  ).isRequired,
+  title: PropTypes.string.isRequired,
+};
 export default FeaturedProductsBody;

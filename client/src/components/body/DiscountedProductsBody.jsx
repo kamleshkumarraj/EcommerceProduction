@@ -1,3 +1,4 @@
+import PropTypes from "prop-types";
 import OfferedProductCard from "../card/OffredProductCard"
 
 function DiscountedProductsBody({ title, products }) {
@@ -17,5 +18,18 @@ function DiscountedProductsBody({ title, products }) {
     </div>
   )
 }
+
+DiscountedProductsBody.propTypes = {
+  products: PropTypes.arrayOf(
+    PropTypes.shape({
+      _id: PropTypes.string.isRequired,
+      thumbnail: PropTypes.string.isRequired,
+      price: PropTypes.number.isRequired,
+      quantity: PropTypes.number.isRequired,
+      title: PropTypes.string.isRequired,
+    })
+  ).isRequired,
+  title: PropTypes.string.isRequired,
+};
 
 export default DiscountedProductsBody

@@ -1,5 +1,6 @@
-import React from "react";
+
 import CategoryCard from "../card/CategoryCard";
+import PropTypes from "prop-types";
 
 function TradingProductsBody({ title , products }) {
   return (
@@ -21,5 +22,16 @@ function TradingProductsBody({ title , products }) {
     </div>
   );
 }
-
+TradingProductsBody.propTypes = {
+  products: PropTypes.arrayOf(
+    PropTypes.shape({
+      _id: PropTypes.string.isRequired,
+      thumbnail: PropTypes.string.isRequired,
+      price: PropTypes.number.isRequired,
+      quantity: PropTypes.number.isRequired,
+      title: PropTypes.string.isRequired,
+    })
+  ).isRequired,
+  title: PropTypes.string.isRequired,
+};
 export default TradingProductsBody;

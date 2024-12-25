@@ -2,7 +2,6 @@ import { useSelector } from "react-redux";
 import { getAllProducts } from "../../store/slices/productsHandler.slice";
 import OfferedProductCard from "../card/OffredProductCard";
 import MobileCard from "../card/LengthCard";
-import FeatureProducts from "./LatestProductsBody";
 import FeaturedCard from "../card/FeaturedCard";
 
 function LaptopComputerBody() {
@@ -63,5 +62,6 @@ function LaptopComputerBody() {
     </div>
   );
 }
+
 
 export default LaptopComputerBody;
