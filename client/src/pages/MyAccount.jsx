@@ -14,9 +14,13 @@ const MyAccount = () => {
 
   return (
     <div className="py-[40px]">
-      <div className="flex">
-        <Sidebar />
-        <div className="w-full px-[10px]">
+      <div className="relative flex h-[85vh] ">
+        <div id="side-bar" className="w-full md:w-[40%] mb-8 sticky top-0 ml-[50px]">
+          <Sidebar />
+        </div>
+        <div style={{
+          scrollbarWidth : 'none'
+        }} className="w-full px-[10px] overflow-y-auto">
           <Outlet />
         </div>
       </div>

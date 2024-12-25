@@ -17,7 +17,9 @@
     "@testing-library/react": "^13.4.0",
     "@testing-library/user-event": "^13.5.0",
     "axios": "^1.4.0",
+    "framer-motion": "^11.15.0",
     "jwt-decode": "^3.1.2",
+    "lucide-react": "^0.469.0",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-hot-toast": "^2.4.1",
@@ -30,6 +32,7 @@
     "react-scripts": "5.0.1",
     "react-spinners": "^0.13.8",
     "react-toastify": "^10.0.6",
+    "recharts": "^2.15.0",
     "socket.io-client": "^4.6.1",
     "stripe": "^12.7.0",
     "swiper": "^11.1.14"

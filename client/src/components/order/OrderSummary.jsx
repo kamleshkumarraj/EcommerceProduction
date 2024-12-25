@@ -38,17 +38,17 @@ function OrderSummary({ checkDileveryClick, checkSummaryClick , setCheckPayemntC
     <div id="item-body" className="flex flex-col">
     {checkSummaryClick && orderedProduct && orderedProduct.length > 0 &&orderedProduct.slice(0,viewAll ? orderedProduct.length : 4 ).map((product) => <OrderSummaryCard key={product?._id} item={product} />)}
     </div>
-    {checkSummaryClick && <div id="view-button-box" className="flex items-start bg-white p-4 gap-[10px]">
+    { orderedProduct.length > 4 &&checkSummaryClick && <div id="view-button-box" className="flex items-start bg-white p-4 gap-[10px]">
         <div onClick={() => setViewAll(!viewAll)} id="info" className="flex hover:cursor-pointer gap-[7px]">
         <p className=" rounded-[5px] px-[10px] text-[16px] font-600 text-blue-600 mt-[2px]">
           {viewAll ? <IoIosArrowUp size={25} /> : <RiArrowDownSLine size={25} color="blue"  />}
           </p>
-          <div id="view-button" className="flex items-center gap-[15px]">
+           <div id="view-button" className="flex items-center gap-[15px]">
             <h1
               className={`text-[17px] text-gray-400
                font-[500]`}
             >
-              {viewAll ? 'View less' :  `View All ${orderedProduct.length-4} items`}
+              {viewAll ? 'View less' :  `View All ${orderedProduct.length} items`}
             </h1>
           </div>
         </div>

@@ -11,14 +11,14 @@ function OrderSummaryCard({ item }) {
         <div id="image" className="">
           <img className="w-[180px] px-[10px]" src={item?.thumbnail} alt="" />
         </div>
-        <div id="button">
+        <div id="button" className="mt-[10px]">
           <div
             id="quantity"
             className="flex gap-[1rem]  justify-center pr-[1rem] items-center"
           >
             <div
               id="decreaseBtn"
-              className={`font-[600] rounded-full text-[28px] p-[5px] grid place-content-center py-[-2rem]  bg-gray-200 hover:cursor-pointer border-[1px] ${item.quantity > 1? '' : 'hover:cursor-not-allowed opacity-40'} border-gray-400`}
+              className={`font-[600] rounded-full text-[28px] p-[5px] grid place-content-center py-[-2rem]  bg-gray-200  border-[1px] ${item.quantity > 1 ? 'hover:cursor-pointer' : 'hover:cursor-not-allowed opacity-40'} border-gray-400`}
               onClick={() => {
                 if(item?.quantity > 1){
                   dispatch(decreaseOrderedProductsQty({_id : item?._id}))

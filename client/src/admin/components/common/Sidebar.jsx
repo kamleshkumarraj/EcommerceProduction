@@ -8,14 +8,14 @@ const SIDEBAR_ITEMS = [
 		name: "Overview",
 		icon: BarChart2,
 		color: "#6366f1",
-		href: "/admin/dashbord/overview",
+		href: "/admin/dashboard/overview",
 	},
-	{ name: "Products", icon: ShoppingBag, color: "#8B5CF6", href: "/admin/dashbord/products" },
-	{ name: "Users", icon: Users, color: "#EC4899", href: "/admin/dashbord/users" },
-	{ name: "Sales", icon: DollarSign, color: "#10B981", href: "/admin/dashbord/sales" },
-	{ name: "Orders", icon: ShoppingCart, color: "#F59E0B", href: "/admin/dashbord/orders" },
-	{ name: "Analytics", icon: TrendingUp, color: "#3B82F6", href: "/admin/dashbord/analytics" },
-	{ name: "Settings", icon: Settings, color: "#6EE7B7", href: "/admin/dashbord/settings" },
+	{ name: "Products", icon: ShoppingBag, color: "#8B5CF6", href: "/admin/dashboard/products" },
+	{ name: "Users", icon: Users, color: "#EC4899", href: "/admin/dashboard/users" },
+	{ name: "Sales", icon: DollarSign, color: "#10B981", href: "/admin/dashboard/sales" },
+	{ name: "Orders", icon: ShoppingCart, color: "#F59E0B", href: "/admin/dashboard/orders" },
+	{ name: "Analytics", icon: TrendingUp, color: "#3B82F6", href: "/admin/dashboard/analytics" },
+	{ name: "Settings", icon: Settings, color: "#6EE7B7", href: "/admin/dashboard/settings" },
 ];
 
 const Sidebar = () => {

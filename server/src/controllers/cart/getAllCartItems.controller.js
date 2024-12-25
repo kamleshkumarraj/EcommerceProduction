@@ -2,7 +2,7 @@ import { asyncHandler } from "../../errors/asynHandler.js";
 import { cart } from "../../models/cart.model.js";
 
 export const getAllCartItems = asyncHandler(async (req , res , next) => {
-    const {userId} = req.params 
+    const userId = req.user.id
     const cartItems = await cart.find({userId}).populate('productId' , 'title thumbnail category price quantity availabilityStatus rating _id')
 
     const transformData = cartItems.map(({productId , quantity , _id}) => {

@@ -15,7 +15,7 @@ const Sidebar = () => {
   
   
   return (
-    <div className="w-full ml-[50px] md:w-[40%] mb-8 sticky top-[100%]">
+    <div className="sticky w-full mb-8 ">
       <div className="p-6 ml-5 bg-white rounded-lg shadow-lg">
         <div className="flex items-center gap-3 mb-6">
           <div className="w-2 h-8 bg-gradient-to-r from-purple-500 to-indigo-500 rounded-xl"></div>

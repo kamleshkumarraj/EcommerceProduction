@@ -2,11 +2,14 @@ import React, { useMemo, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { getSelectedAddress } from "../../store/slices/addressHandler.slice";
 import { fetchCreateOrder } from "../../utils/order";
+import { fetchRemoveMultipleCartItems } from "../../utils/cart.utils";
+import { useNavigate } from "react-router-dom";
 
 function Payment({ checkPaymentClick , orderItems , cartTotal }) {
   const [paymentMethod , setPaymentMethod] = useState('')
   const selectedAddress = useSelector(getSelectedAddress)
   const dispatch = useDispatch();
+  const navigate = useNavigate();
   
   const payload = useMemo(() => {
     const orderItem = orderItems?.map((item) => {
@@ -73,6 +76,8 @@ function Payment({ checkPaymentClick , orderItems , cartTotal }) {
         <h1 className="text-[16px] font-[500] text-gray-600">After clicking the confirm order your order will be confirmed.</h1>
         <p onClick={() => {
           fetchCreateOrder({dispatch , payload})
+          fetchRemoveMultipleCartItems({dispatch , cartIdList : deletableProducts})
+          navigate('/order-confirmation')
         }}  className="px-[60px] py-[15px] bg-[#FB641B] text-center text-white font-700 text-[18px] cursor-pointer hover:bg-[#FB641B] hover:text-white" >CONFIRM ORDER</p>
   </div>}
     </div>

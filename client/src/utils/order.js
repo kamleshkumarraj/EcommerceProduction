@@ -11,7 +11,7 @@ export const fetchOrder = async ({dispatch}) => {
     const response = await dispatch(apiCalling(options))
     if(response?.success){
         console.log(response?.message || "Orders fetched successfully")
-        dispatch(setAllOrders(response?.data))
+        dispatch(setAllOrders(response?.data?.reverse()))
     }else{
         console.log(response?.message || "Failed to fetch orders")
     }
@@ -23,7 +23,7 @@ export const fetchCreateOrder = async ({dispatch , payload}) => {
         url : "http://localhost:2000/api/v2/user/order/create-order",
         formData : payload
     }
-
+    
     const response = await dispatch(apiCalling(options))
     if(response?.success){
         toast.success(response?.message ||"Order created successfully")

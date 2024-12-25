@@ -1,27 +1,29 @@
-import { useState } from "react";
-import { GrMail } from "react-icons/gr";
-import { IoIosCall } from "react-icons/io";
-import { MdOutlineKeyboardArrowDown } from "react-icons/md";
+import { useContext, useState } from "react";
 import {
-  FaLinkedinIn,
-  FaFacebookF,
-  FaUser,
-  FaLock,
-  FaList,
-} from "react-icons/fa";
-import {
-  AiOutlineTwitter,
   AiFillGithub,
   AiFillHeart,
   AiFillShopping,
+  AiOutlineTwitter,
 } from "react-icons/ai";
+import {
+  FaFacebookF,
+  FaLinkedinIn,
+  FaList,
+  FaLock,
+  FaUser,
+} from "react-icons/fa";
+import { GrMail } from "react-icons/gr";
+import { IoIosCall } from "react-icons/io";
+import { MdOutlineKeyboardArrowDown } from "react-icons/md";
+import { useSelector } from "react-redux";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import logo from "../assets/Img/logo.jpg";
-import { useSelector } from "react-redux";
-import { getSelf } from "../store/slices/selfHandler.slice";
-import { getAllCategories } from "../store/slices/productsHandler.slice";
+import { GlobalContext } from "../contexts/GlobalProvider";
 import { getAllCartItems } from "../store/slices/cart.slice";
+import { getAllCategories } from "../store/slices/productsHandler.slice";
+import { getSelf } from "../store/slices/selfHandler.slice";
 import { getAllWishlistItems } from "../store/slices/wishlist.slice";
+import { toast } from "react-toastify";
 
 const Headers = () => {
   const navigate = useNavigate();
@@ -33,11 +35,11 @@ const Headers = () => {
   const { pathname } = useLocation();
   const [showShidebar, setShowShidebar] = useState(true);
   const [categoryShow, setCategoryShow] = useState(true);
-  const [searchValue, setSearchValue] = useState("");
+  const {  searchQuery, setSearchQuery } = useContext(GlobalContext);
   const [category, setCategory] = useState("");
 
   const search = () => {
-    navigate(`/products/search?category=${category}&&value=${searchValue}`);
+    navigate(`/category&searching/query=${searchQuery}`);
   };
   const redirect_card_page = () => {
     if (userInfo) {
@@ -48,8 +50,8 @@ const Headers = () => {
   };
 
   return (
-    <div className="w-full bg-white pb-[10px]">
-      <div className="header-top bg-[#eeeeee] md-lg:hidden">
+    <div className="w-full bg-white pb-[10px] sticky top-0 z-[9999]">
+      <div className="header-top bg-[#adadad] md-lg:hidden">
         <div className="w-[85%] lg:w-[98%] mx-auto">
           <div className="flex w-full justify-between items-center h-[50px] text-slate-500">
             <ul className="flex items-center justify-start gap-8">
@@ -149,7 +151,7 @@ const Headers = () => {
                   </li>
                   <li>
                     <Link
-                      to="/shops"
+                      to="/category&searching/shop"
                       className={`p-2 block ${
                         pathname === "/shop"
                           ? "text-[#7fad39]"
@@ -160,7 +162,7 @@ const Headers = () => {
                     </Link>
                   </li>
                   <li>
-                    <Link
+                    <a href="http://localhost:3001/" target="_blank"
                       className={`p-2 block ${
                         pathname === "/blog"
                           ? "text-[#7fad39]"
@@ -168,7 +170,7 @@ const Headers = () => {
                       }`}
                     >
                       Blog
-                    </Link>
+                    </a>
                   </li>
                   <li>
                     <Link
@@ -244,11 +246,11 @@ const Headers = () => {
         >
           <div className="flex flex-col justify-start gap-6">
             <Link to="/">
-              <img src="http://localhost:3000/images/logo.png" alt="logo" />
+              <img src="" alt="logo" />
             </Link>
             <div className="flex items-center gap-10 justify-star">
               <div className="flex group cursor-pointer text-slate-800 text-sm justify-center items-center gap-1 relative after:h-[18px] after:w-[1px] after:bg-[#afafaf] after:-right-[16px] after:absolute">
-                <img src="http://localhost:3000/images/language.png" alt="" />
+                <img src="" alt="" />
                 <span>
                   <MdOutlineKeyboardArrowDown />
                 </span>
@@ -358,7 +360,7 @@ const Headers = () => {
                 <span>
                   <GrMail />
                 </span>
-                <span>learnwithproject@gmail.com</span>
+                <span>kamlesh.22jics061@jietjodhpur.ac.in</span>
               </li>
               <span className="text-sm">Multi vendor ecommerce</span>
             </ul>
@@ -401,7 +403,7 @@ const Headers = () => {
                           alt={c.name}
                         />
                         <Link
-                          to={`/products?category=${c.name}`}
+                          to={`/category&searching/category=${c.name}`}
                           state={{category : c.name}}
                           className="block text-sm"
                         >
@@ -435,14 +437,21 @@ const Headers = () => {
                   </div>
                   <input
                     className="relative w-full h-full px-3 bg-transparent text-slate-500 outline-0"
-                    onChange={(e) => setSearchValue(e.target.value)}
+                    onChange={(e) => setSearchQuery(e.target.value)}
                     type="text"
+                    value={searchQuery}
                     name=""
                     id=""
                     placeholder="what do you need"
                   />
                   <button
-                    onClick={search}
+                    onClick={() => {
+                      if (searchQuery.trim()) {
+                        navigate(`/category&searching/query=${searchQuery}`);
+                      }else{
+                        toast.error("Please enter something to search !")
+                      }
+                    }}
                     className="absolute right-0 h-full px-8 font-semibold text-white uppercase bg-violet-400"
                   >
                     Search
@@ -458,9 +467,9 @@ const Headers = () => {
                   </div>
                   <div className="flex flex-col justify-end gap-1">
                     <h2 className="font-medium text-md text-slate-700">
-                      +8803242343243
+                      +91 8603416388
                     </h2>
-                    <span className="text-sm">support 33/45 time</span>
+                    <span className="text-sm">support 24/7 time</span>
                   </div>
                 </div>
               </div>

@@ -1,9 +1,9 @@
 import { apiCalling } from "../api/apiCalling.api";
 import { setAllCarts } from "../store/slices/cart.slice";
 
-async function getAllCart( dispatch , user) {
+async function getAllCart( dispatch) {
     const options = {
-      url: `http://localhost:2000/api/v2/user/cart/get/${user._id}`,
+      url: `http://localhost:2000/api/v2/user/cart/get`,
       method: "GET",
     };
     const response = await dispatch(apiCalling(options));

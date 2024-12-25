@@ -6,7 +6,7 @@ import { useEffect } from 'react'
 import {  useDispatch } from 'react-redux'
 import bannerImg1 from '../assets/Banner/banner-img-1.jpg'
 import bannerImg2 from '../assets/Banner/banner-img-2.webp'
-import bannerImg3 from '../assets/Banner/banner-img-3.jpg'
+import bannerImg3 from '../assets/Banner/banner-img-3.png'
 import bannerImg4 from '../assets/Banner/banner-img-4.jpg'
 import bannerImg5 from '../assets/Banner/banner-img-5.jpg'
 import bannerImg6 from '../assets/Banner/banner-img-6.jpg'
@@ -61,7 +61,7 @@ const Banner = () => {
                             >
                                 {
                                     banners && banners.length > 0 && banners.map((b, i) => <Link className='lg-md:h-[440px] h-auto w-full block' key={i} to={``}>
-                                        <img className='h-[40vh] w-[100%]' src={b.banner} alt="" />
+                                        <img className='h-[50vh] w-[100%]' src={b.banner} alt="" />
                                     </Link>)
                                 }
                             </Carousel>
