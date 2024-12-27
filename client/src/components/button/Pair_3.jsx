@@ -10,11 +10,16 @@ import { useDispatch, useSelector } from "react-redux";
 import { getAllWishlistItems } from "../../store/slices/wishlist.slice";
 import { getSelf } from "../../store/slices/selfHandler.slice";
 import PropTypes from "prop-types";
+import { Link, useNavigate } from "react-router-dom";
+import { useContext } from "react";
+import { GlobalContext } from "../../contexts/GlobalProvider";
 
 function Pair_3({ item , bgColor }) {
   const dispatch = useDispatch();
   const wishlist = useSelector(getAllWishlistItems);
   const user = useSelector(getSelf);
+  const {setEventLoading} = useContext(GlobalContext)
+  const navigate = useNavigate();
   return (
     <div id="button" className="flex gap-[20px]">
       <div className={`p-[10px] text-center rounded-full ${bgColor} border hover:cursor-pointer hover:bg-[#ff3f35fa] hover:text-white`}>
@@ -46,12 +51,18 @@ function Pair_3({ item , bgColor }) {
       >
         <BsCart3 size={20} />{" "}
       </p>
-      <p
-        onClick={() => {}}
+      <Link
+        onClick={() => {
+          setEventLoading(true);
+          setTimeout(() => {
+            navigate(`/products-details/id=${item._id}`, {state : {products : item}});
+            setEventLoading(false);
+          },500)
+        }}
         className={`p-[10px] text-center rounded-full hover:cursor-pointer ${bgColor} border hover:bg-[#ff3f35fa] hover:text-white`}
       >
         <FaRegEye size={20} />{" "}
-      </p>
+      </Link>
     </div>
   );
 }

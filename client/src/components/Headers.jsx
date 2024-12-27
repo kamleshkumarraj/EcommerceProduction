@@ -35,7 +35,7 @@ const Headers = () => {
   const { pathname } = useLocation();
   const [showShidebar, setShowShidebar] = useState(true);
   const [categoryShow, setCategoryShow] = useState(true);
-  const {  searchQuery, setSearchQuery } = useContext(GlobalContext);
+  const {  searchQuery, setSearchQuery , setCategory , setEventLoading } = useContext(GlobalContext );
  
 
  
@@ -149,7 +149,7 @@ const Headers = () => {
                   </li>
                   <li>
                     <Link
-                      to="/category&searching/shop"
+                      to="/shopping"
                       className={`p-2 block ${
                         pathname === "/shop"
                           ? "text-[#7fad39]"
@@ -401,8 +401,14 @@ const Headers = () => {
                           alt={c.name}
                         />
                         <Link
-                          to={`/category&searching/category=${c.name}`}
-                          state={{category : c.name}}
+                          onClick={() => {
+                            setSearchQuery("");
+                            setEventLoading(true);
+                            setTimeout(() => {
+                              setEventLoading(false);
+                              navigate(`/category/searching/category=${c.name}` , {state : {category : c.name}});
+                            },500)
+                          }}
                           className="block text-sm"
                         >
                           {c.name}
@@ -435,7 +441,10 @@ const Headers = () => {
                   </div>
                   <input
                     className="relative w-full h-full px-3 bg-transparent text-slate-500 outline-0"
-                    onChange={(e) => setSearchQuery(e.target.value)}
+                    onChange={(e) => {
+                      setSearchQuery(e.target.value);
+                      setCategory("")
+                    }}
                     type="text"
                     value={searchQuery}
                     name=""
@@ -445,7 +454,11 @@ const Headers = () => {
                   <button
                     onClick={() => {
                       if (searchQuery.trim()) {
-                        navigate(`/category&searching/query=${searchQuery}`);
+                        setEventLoading(true);
+                        setTimeout(() => {
+                          setEventLoading(false);
+                          navigate(`/category/searching/query=${searchQuery}` , );
+                        },500)
                       }else{
                         toast.error("Please enter something to search !")
                       }

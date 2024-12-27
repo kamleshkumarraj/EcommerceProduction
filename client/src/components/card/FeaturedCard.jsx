@@ -1,12 +1,13 @@
-import { FaStar } from "react-icons/fa";
+// import { FaStar } from "react-icons/fa";
 import Pair_3 from "../button/Pair_3";
 import PropTypes from "prop-types";
+import { IoStar, IoStarOutline } from "react-icons/io5";
 function FeaturedCard({ item }) {
 
  
   return (
     <div
-      className="flex bg-white px-[15px] items-center py-[10px] border-[.5px] border-gray-200 relative hover:translate-y-[12px] hover:transition-transform hover:duration-[1500] gap-[20px] w-[450px] rounded-[10px]"
+      className="flex bg-white px-[15px] items-center py-[10px] border-[.5px] border-gray-200 relative hover:translate-y-[12px] hover:transition-transform hover:duration-[1500] gap-[20px] w-[450px] rounded-[10px] mx-auto"
       id="best-seller-card"
     >
       <div
@@ -14,7 +15,7 @@ function FeaturedCard({ item }) {
         className="w-[180px] bg-gray-100 flex justify-center items-center rounded-[5px]"
       >
         <img
-          className="min-w-[180px] p-[15px]"
+          className={` p-[15px] ${item.category == 'smartphones' ? 'w-[80px]' : 'min-w-[180px]'}`}
           src={item?.thumbnail}
           alt="object-images"
         />
@@ -26,14 +27,17 @@ function FeaturedCard({ item }) {
           {item?.title}
         </h1>
         <div id="rating" className="flex gap-[10px] items-center">
-          <span className="text-[16px] flex gap-[5px] text-[#FFA31A]">
-            {[1, 2, 3, 4, 5].map(() => (
-              <FaStar key={Math.random()} size={18} color="#FFA31A" />
-            ))}
-          </span>
-          <h2 className="text-[16px] text-gray-500 font-[400]">
-            {item?.rating} Reviews
-          </h2>
+                  <span className="text-[16px] flex gap-[5px] text-red-600">
+                    {[[1,2,3,4,5] , [1,2,3,4,] , [1,2,3,] , [1,2] , [1]][5-Math.floor(item?.rating)].map(() => (
+                      <IoStar key={Math.random()} size={20} color="#DC2626" />
+                    ))}
+                    {[[1,2,3,4,5] , [1,2,3,4,] , [1,2,3,] , [1,2] , [1]][Math.floor(item?.rating)].map(() => (
+                      <IoStarOutline key={Math.random()} size={20} color="#DC2626" />
+                    ))}
+                  </span>
+                  <h2 className="text-[15px] text-gray-500 font-[400]">
+                    {item?.rating} Reviews
+                  </h2>
         </div>
         <div id="price" className="text-[18px] flex gap-[20px] font-[500]">
           <span className="text-gray-800">${item?.price}</span>
@@ -47,14 +51,14 @@ function FeaturedCard({ item }) {
 
 FeaturedCard.propTypes = {
   item: PropTypes.shape({
-    images: PropTypes.arrayOf(PropTypes.string).isRequired,
-    title: PropTypes.string.isRequired, 
-    price: PropTypes.number.isRequired,
-    rating: PropTypes.number.isRequired,
-    category: PropTypes.string.isRequired,
-    description: PropTypes.string.isRequired,
-    thumbnail: PropTypes.string.isRequired,
-  }).isRequired,
+    images: PropTypes.arrayOf(PropTypes.string),
+    title: PropTypes.string, 
+    price: PropTypes.number,
+    rating: PropTypes.number,
+    category: PropTypes.string,
+    description: PropTypes.string,
+    thumbnail: PropTypes.string,
+  }),
 };
 
 export default FeaturedCard;

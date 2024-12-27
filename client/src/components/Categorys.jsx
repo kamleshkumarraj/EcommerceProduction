@@ -1,13 +1,16 @@
-import  { useEffect, useState } from 'react'
+import  { useContext, useEffect, useState } from 'react'
 import Carousel from 'react-multi-carousel'
 import 'react-multi-carousel/lib/styles.css'
 import { useDispatch } from 'react-redux'
-import { Link } from 'react-router-dom'
+import { Link , useNavigate } from 'react-router-dom'
 import { apiCalling } from '../api/apiCalling.api'
+import { GlobalContext } from '../contexts/GlobalProvider'
 
 const Categorys = () => {
     const [categories , setCategories] = useState([])
     const  dispatch = useDispatch()
+    const navigate = useNavigate();
+    const {setSearchQuery , setEventLoading} = useContext(GlobalContext)
     useEffect(() => {
         const options = {
             method : "GET",
@@ -63,7 +66,16 @@ const Categorys = () => {
                 
             >
                 {
-                 categories.length > 0 &&    categories.map(({name , image} , i) => <Link state={{category : name}}  className='h-[185px] border block' key={i} to={`/category&searching/category=${name}`}>
+                 categories.length > 0 &&    categories.map(({name , image} , i) => <Link 
+                 onClick={() => {
+                    setSearchQuery("");
+                    setEventLoading(true);
+                    setTimeout(() => {
+                      setEventLoading(false);
+                      navigate(`/category/searching/category=${name}` , {state : {category : name}});
+                    },500)
+                  }}
+                    className='h-[185px] border block' key={i} >
                         <div className='relative w-full h-full p-3 border-[.5px] rounded-[10px] border-[#00000015]'>
                             <img src={image} alt="image" />
                             <div className='absolute left-0 flex items-center justify-center w-full mx-auto font-bold bottom-6'>

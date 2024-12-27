@@ -1,10 +1,16 @@
 // FilterSidebar.jsx
 
-import { useState } from "react";
+import { useContext, useState } from "react";
+import { useSelector } from "react-redux";
+import { getAllCategories } from "../../store/slices/productsHandler.slice";
+import { GlobalContext } from "../../contexts/GlobalProvider";
+import CustomCheckbox from "../button/CustomCheckBox";
 
 
 const FilterSidebar = () => {
-  const [expandedCategory, setExpandedCategory] = useState(null);
+  const [expandedCategory, setExpandedCategory] = useState(true);
+  const [expandedPrice , setExpandedPrice] = useState(true)
+  const [expandedRating  , setExpandedRating] = useState(true)
   const [selectedFilters, setSelectedFilters] = useState({
     categories: [],
     priceRange: [0, 1000],
@@ -12,116 +18,129 @@ const FilterSidebar = () => {
     color: "",
     size: "",
   });
+  const { setSearchCategoryList , setFilterPriceList , setFilterRatingList , setCategory} = useContext(GlobalContext)
+  
+  const categoriesList = useSelector(getAllCategories) || [];
+  const priceList = ['Below 99' , '100 to 199' , '200 to 499' , '500 to 999' , '1000 to 1999' , '2000 to 4999', '5000 to 9999' , '10000 to 19999', '20000 to 49999' , 'Above 50000']
+  const ratingList = [
+    {name : '5 Rating' , value : '★ ★ ★ ★ ★'},
+    {name : '4 Rating' , value : '★ ★ ★ ★ ☆'},
+    {name : '3 Rating' , value : '★ ★ ★ ☆ ☆'},
+    {name : '2 Rating' , value : '★ ★ ☆ ☆ ☆'},
+    {name : '1 Rating' , value : '★ ☆ ☆ ☆ ☆'}
+  ]
+  
+  console.log(categoriesList)
 
-  const categories = {
-    Electronics: ["Mobiles", "Laptops", "Cameras"],
-    Fashion: ["Men", "Women", "Kids"],
-    Home: ["Furniture", "Decor", "Kitchen"],
-  };
+    
 
   const colors = ["Red", "Blue", "Green", "Black", "White"];
   const sizes = ["S", "M", "L", "XL", "XXL"];
-
-  const handleCategoryClick = (category) => {
-    setExpandedCategory((prev) => (prev === category ? null : category));
-  };
-
-  const handleCheckboxChange = (category, subcategory) => {
-    setSelectedFilters((prev) => {
-      const categories = prev.categories.includes(subcategory)
-        ? prev.categories.filter((item) => item !== subcategory)
-        : [...prev.categories, subcategory];
-      return { ...prev, categories };
-    });
-  };
-
-  const handleSliderChange = (event) => {
-    setSelectedFilters((prev) => ({
-      ...prev,
-      priceRange: [0, event.target.value],
-    }));
-  };
-
-  const handleRatingChange = (rating) => {
-    setSelectedFilters((prev) => ({ ...prev, rating }));
-  };
 
   return (
     <div className="w-full px-[40px] bg-gray-100  py-[20px] shadow-lg">
       <h2 className="mb-4 text-lg font-bold">Filters</h2>
 
       {/* Categories */}
-      <div className="mb-6">
-        <h3 className="mb-2 font-semibold">Categories</h3>
-        {Object.keys(categories).map((category) => (
-          <div key={category}>
+      <div className="mb-1">
+       
+        {
+          <div >
             <button
-              onClick={() => handleCategoryClick(category)}
-              className="flex justify-between w-full font-medium text-left text-gray-700 hover:text-gray-900"
+              className="flex justify-between items-center w-full font-[500] text-left text-gray-700 text-[16px] hover:text-gray-900"
             >
-              {category}
-              <span>{expandedCategory === category ? "-" : "+"}</span>
+              {'Category'.toUpperCase()}
+              <span className="text-[24px]" onClick={() => setExpandedCategory(!expandedCategory)}> {expandedCategory ? "-" : "+"} </span> 
             </button>
-            {expandedCategory === category && (
-              <div className="mt-2 ml-4">
-                {categories[category].map((subcategory) => (
-                  <div key={subcategory} className="flex items-center">
+            
+              <div className="flex flex-col gap-[10px] ml-4 ">
+                { expandedCategory && categoriesList && categoriesList.length > 0 && categoriesList.map(({name , image}) => (
+                  <div key={name} className="flex items-center">
+                    <CustomCheckbox 
+                      name = {name}
+                      setQueryList = {setSearchCategoryList}
+                    />
+                  </div>
+                ))}
+              </div>
+            
+          </div>
+        }
+      </div>
+
+      {/* Price */}
+      <div className="">
+       
+        {
+          <div >
+            <button
+              className="flex justify-between items-center w-full font-[500] text-left text-gray-700 text-[16px] hover:text-gray-900"
+            >
+              {'Price'.toUpperCase()}
+              <span className="text-[24px]" onClick={() => setExpandedPrice(!expandedPrice)}> {expandedPrice ? "-" : "+"} </span> 
+            </button>
+            
+              <div className="ml-4 flex flex-col gap-[10px]">
+                { expandedPrice && priceList && priceList.length > 0 && priceList.map((name) => (
+                  <div key={name} className="flex items-center">
+                    <CustomCheckbox 
+                      name = {name}
+                      setQueryList = {setFilterPriceList}
+                    />
+                  </div>
+                ))}
+              </div>
+            
+          </div>
+        }
+      </div>
+
+      {/* Rating */}
+      <div className="mb-4">
+       
+        {
+          <div >
+            <button
+              className="flex justify-between items-center w-full font-[500] text-left text-gray-700 text-[16px] hover:text-gray-900"
+            >
+              {'Rating'.toUpperCase()}
+              <span className="text-[24px]" onClick={() => setExpandedRating(!expandedRating)}> {expandedRating ? "-" : "+"} </span> 
+            </button>
+            
+              <div className="ml-4 ">
+                { expandedRating && ratingList && ratingList.length > 0 && ratingList.map(({name , value}) => (
+                  <div key={name} className="flex items-center">
                     <input
                       type="checkbox"
-                      id={subcategory}
+                      id={name}
                       className="mr-2"
-                      checked={selectedFilters.categories.includes(subcategory)}
-                      onChange={() => handleCheckboxChange(category, subcategory)}
+                      value={name}
+                      onChange={() => {
+                        setCategory("")
+                        setFilterRatingList((prev) => {
+                          if(prev.includes(name)){
+                            return prev.filter(item => item != name)
+                          }else{
+                            return [...prev, name]
+                          }
+                        })
+                      }}
+                      
                     />
-                    <label htmlFor={subcategory} className="text-gray-600">
-                      {subcategory}
+                    <label htmlFor={name} className="text-red-600 text-[22px]">
+                      {value}
                     </label>
                   </div>
                 ))}
               </div>
-            )}
+            
           </div>
-        ))}
-      </div>
-
-      {/* Price */}
-      <div className="mb-6">
-        <h3 className="mb-2 font-semibold">Price</h3>
-        <div className="flex items-center">
-          <span className="mr-2 text-gray-600">0</span>
-          <input
-            type="range"
-            min="0"
-            max="1000"
-            value={selectedFilters.priceRange[1]}
-            onChange={handleSliderChange}
-            className="w-full"
-          />
-          <span className="ml-2 text-gray-600">{selectedFilters.priceRange[1]}</span>
-        </div>
-      </div>
-
-      {/* Rating */}
-      <div className="mb-6">
-        <h3 className="mb-2 font-semibold">Rating</h3>
-        <div className="flex">
-          {[1, 2, 3, 4, 5].map((star) => (
-            <button
-              key={star}
-              onClick={() => handleRatingChange(star)}
-              className={`text-xl ${
-                selectedFilters.rating >= star ? "text-yellow-400" : "text-gray-400"
-              }`}
-            >
-              ★
-            </button>
-          ))}
-        </div>
+        }
       </div>
 
       {/* Colors */}
       <div className="mb-6">
-        <h3 className="mb-2 font-semibold">Color</h3>
+        <h3 className="mb-2 uppercase font-[500] text-gray-700 text-[16px]">Color</h3>
         <div className="flex space-x-2">
           {colors.map((color) => (
             <button
@@ -138,7 +157,7 @@ const FilterSidebar = () => {
 
       {/* Sizes */}
       <div>
-        <h3 className="mb-2 font-semibold">Size</h3>
+        <h3 className=" uppercase font-[500] text-gray-700 text-[16px]">Size</h3>
         <div className="flex space-x-2">
           {sizes.map((size) => (
             <button

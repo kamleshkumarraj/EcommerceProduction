@@ -1,7 +1,15 @@
-import { useEffect } from "react";
-import Headers from "./components/Headers";
+import { useContext, useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
+import { Outlet } from "react-router-dom";
+import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 import { apiCalling } from "./api/apiCalling.api";
+import Loader from "./components/cart/Loader";
+import FooterM from "./components/FooterM";
+import Headers from "./components/Headers";
+import { InitialLoader } from "./components/InitialLoader";
+import NewsletterModal from "./components/Model";
+import { GlobalContext } from "./contexts/GlobalProvider";
 import {
   setAllCategories,
   setAllProducts,
@@ -9,20 +17,22 @@ import {
   setLatestProducts,
   setTopRatedProducts,
 } from "./store/slices/productsHandler.slice";
-import { Outlet } from "react-router-dom";
-import {  ToastContainer } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
 import { getSelf, setUser } from "./store/slices/selfHandler.slice";
 import getAllCart from "./utils/getAllCartApiCall";
-import { fetchAllWishlistItem } from "./utils/wishlist";
 import { fetchOrder } from "./utils/order";
-import FooterM from "./components/FooterM";
-import NewsletterModal from "./components/Model";
-import { GlobalProvider } from "./contexts/GlobalProvider";
+import { fetchAllWishlistItem } from "./utils/wishlist";
 
 function App() {
+  const { eventLoading, setEventLoading } = useContext(GlobalContext);
   const dispatch = useDispatch();
   const user = useSelector(getSelf);
+  const [initialLoading, setInitialLoading] = useState(true);
+  useEffect(() => {
+    setTimeout(() => {
+      setInitialLoading(false);
+    }, 1000);
+  }, []);
+
   //! first we get all products calling the api and store our data in store.
   useEffect(() => {
     (async function getAllProducts() {
@@ -81,6 +91,7 @@ function App() {
     fetchOrder({ dispatch });
   }, [user]);
 
+  if (initialLoading) return <InitialLoader />;
   return (
     <>
       <ToastContainer
@@ -88,17 +99,15 @@ function App() {
         autoClose={2000}
         style={{ zIndex: 999999999 }}
       />
-      {/* Same as */}
-      <GlobalProvider>
-        <div className="font-[roboto] bg-white relative" id="container">
-          <div id="modals" className="bg-white">
-            <NewsletterModal />
-          </div>
-          <Headers />
-          <Outlet />
-          <FooterM />
+      <div className="font-[roboto] bg-white relative" id="container">
+        <div id="advertisement-modals" className="relative w-full">
+          <NewsletterModal />
         </div>
-      </GlobalProvider>
+        <Headers />
+        {eventLoading && <Loader />}
+        <Outlet />
+        <FooterM />
+      </div>
     </>
   );
 }

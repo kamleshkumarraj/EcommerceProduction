@@ -16,13 +16,24 @@ import {
 import TestimonialSection from "../components/body/TestomonialSection";
 import WhyChooseUs from "../components/body/ChooseWhy";
 import DiscountedProductsBody from "../components/body/DiscountedProductsBody";
+import { GlobalContext } from "../contexts/GlobalProvider";
+import { useContext, useEffect } from "react";
+import Loader from "../components/cart/Loader";
 const Home = () => {
   const products = useSelector(getAllProducts);
   const topRated_product = useSelector(getTopRatedProducts);
   const discount_product = useSelector(getDiscountedProducts);
+  const {setEventLoading , eventLoading} = useContext(GlobalContext)
 
+  useEffect(() => {
+    setTimeout(() => {
+      setEventLoading(false)
+    },1000)
+  },[eventLoading])
+  
   return (
     <div className="w-full">
+      
       <Banner />
       <div className="my-4">
         <Categorys />

@@ -45,7 +45,7 @@ function LaptopComputerBody() {
       <div id="row-2" className="grid grid-cols-5 gap-[20px] ">
         <div
           id="col-1"
-          className="flex justify-evenly col-span-2 flex-col gap-[20px]"
+          className="flex items-center mx-auto col-span-2 flex-col gap-[20px]"
         >
           {laptops &&
             laptops.length > 0 &&

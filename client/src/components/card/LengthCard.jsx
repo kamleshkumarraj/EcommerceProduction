@@ -1,7 +1,8 @@
 
-import { FaStar } from "react-icons/fa";
+// import { FaStar } from "react-icons/fa";
 import Pair_3 from "../button/Pair_3";
 import PropTypes from "prop-types";
+import { IoStar, IoStarOutline } from "react-icons/io5";
 
 function MobileCard({ item }) {
   return (
@@ -15,13 +16,18 @@ function MobileCard({ item }) {
       <div id="details" className="flex flex-col items-center gap-[10px]">
         <h1 className="font-[500] text-center text-[24px] ">{item?.title}</h1>
         <div id="rating" className="flex gap-[10px] items-center">
-          <span className="text-[16px] flex gap-[5px] text-[#FFA31A]">
-            {[1, 2, 3, 4, 5].map(() => (
-              <FaStar key={Math.random()} size={22} color="#FFA31A" />
-            ))}
-          </span>
-          
-        </div>
+                  <span className="text-[16px] flex gap-[5px] text-red-600">
+                    {[[1,2,3,4,5] , [1,2,3,4,] , [1,2,3,] , [1,2] , [1]][5-Math.floor(item?.rating)].map(() => (
+                      <IoStar key={Math.random()} size={20} color="#DC2626" />
+                    ))}
+                    {[[1,2,3,4,5] , [1,2,3,4,] , [1,2,3,] , [1,2] , [1]][Math.floor(item?.rating)].map(() => (
+                      <IoStarOutline key={Math.random()} size={20} color="#DC2626" />
+                    ))}
+                  </span>
+                  <h2 className="text-[15px] text-gray-500 font-[400]">
+                    {item?.rating} Reviews
+                  </h2>
+                </div>
         <p className="text-[16px] font-[500] text-[#FF4035]">Sold Out</p>
         <div id="price" className="text-[18px] flex gap-[20px] font-[500]">
           <span className=" text-[#FF4035]">${item?.price}</span>
