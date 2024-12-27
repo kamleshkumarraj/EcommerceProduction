@@ -18,7 +18,7 @@ function LaptopComputerBody() {
       id="laptop-computer-body"
       className="grid w-full grid-cols-1 gap-[20px]"
     >
-      <div className="text-center flex justify-center items-center flex-col text-4xl mt-[20px] text-slate-600 font-bold relative pb-[45px]">
+      <div className="text-center flex justify-center items-center flex-col text-[3.6rem] mt-[20px] text-slate-600 font-bold relative pb-[45px]">
         <h2>Laptops & Smartphones Category</h2>
         <div className="w-[250px] h-[4px] bg-[#7fad39] mt-4"></div>
       </div>
@@ -62,6 +62,5 @@ function LaptopComputerBody() {
     </div>
   );
 }
-
 
 export default LaptopComputerBody;

@@ -35,7 +35,7 @@ function LoginChecker({checkLoginClicked , setCheckLoginClicked , setCheckDileve
     
       
   </div>
-  {checkLoginClicked && <div id="login-details-change" className="grid grid-cols-2 p-8 px-12 bg-white shadow-2xl gap-x-[100px]">
+  {checkLoginClicked && <div id="login-details-change" className="grid grid-cols-2 p-[3.2rem] px-12 bg-white shadow-2xl gap-x-[100px]">
       <div id="user">
         <div id="name" className="flex gap-[20px]">
         <h1 className="text-[16px] text-gray-400 font-[500]">Name</h1>

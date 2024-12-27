@@ -51,17 +51,17 @@ function ProductsDetailsPage() {
       <div id="top-related-products-body" className="bg-white mb-[20px]" >
         <TopRelatedProductsBody productsList={filteredProducts} />
       </div>
-      <div id="latest-products-slider"  >
+       <div id="latest-products-slider"  >
         {products && products.length > 0 &&<ProductsSliderBody productsList={products.slice(0,12)} title={"Latest Products"} /> }
       </div>
-      
+      s
       <div id="top-rated-products-slider"  >
         {products && products.length > 0 &&<ProductsSliderBody productsList={products.slice(12,24)} title={"Top Rated Products"} /> }
       </div>
 
       <div id="featured-products-slider" >
         {products && products.length > 0 &&<ProductsSliderBody productsList={products.slice(24,36)} title={"Featured Products"} /> }
-      </div>
+      </div> 
     </div>
   );
 }

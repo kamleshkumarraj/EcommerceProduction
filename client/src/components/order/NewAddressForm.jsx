@@ -1,6 +1,4 @@
-
 import PropTypes from "prop-types";
-
 
 function NewAddressForm({
   addr,
@@ -12,7 +10,7 @@ function NewAddressForm({
 }) {
   return (
     <div className="px-[50px] py-[10px]">
-      <div className="grid grid-cols-1 gap-8 md:grid-cols-2">
+      <div className="grid grid-cols-1 gap-[3.2rem] md:grid-cols-2">
         <div>
           <label className="block mb-1 text-[16px]" htmlFor="firstName">
             First Name*
@@ -40,7 +38,7 @@ function NewAddressForm({
           />
         </div>
       </div>
-      <div className="grid grid-cols-1 gap-8 md:grid-cols-2">
+      <div className="grid grid-cols-1 gap-[3.2rem] md:grid-cols-2">
         <div>
           <label className="block mb-1 text-[16px]" htmlFor="address">
             Address*
@@ -68,7 +66,7 @@ function NewAddressForm({
           />
         </div>
       </div>
-      <div className="grid grid-cols-2 gap-8">
+      <div className="grid grid-cols-2 gap-[3.2rem]">
         <div>
           <label className="block mb-1 text-[16px]" htmlFor="address">
             Sub District
@@ -96,7 +94,7 @@ function NewAddressForm({
           />
         </div>
       </div>
-      <div className="grid grid-cols-1 gap-8 md:grid-cols-3">
+      <div className="grid grid-cols-1 gap-[3.2rem] md:grid-cols-3">
         <div>
           <label className="block mb-1 text-[16px]" htmlFor="state">
             State*
@@ -190,6 +188,6 @@ NewAddressForm.propTypes = {
   handleInputChange: PropTypes.func,
   setCheckSummaryClick: PropTypes.func,
   setCheckDeliveryClick: PropTypes.func,
-  setClickAddButton: PropTypes.func
+  setClickAddButton: PropTypes.func,
 };
 export default NewAddressForm;

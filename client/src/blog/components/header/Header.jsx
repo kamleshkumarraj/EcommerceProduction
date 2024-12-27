@@ -1,15 +1,12 @@
-import React from "react";
-import styles from "./header.module.css";
-import facebookImg from '../../assets/Images/facebook.png'
-import ticktokImg from '../../assets/Images/tiktok.png'
-import instagramImg from '../../assets/Images/instagram.png'
-import youtubeImg from '../../assets/Images/youtube.png'
-import { Link } from "react-router-dom";
-import ThemeToggle from "../themeToggle/ThemeToggle";
-import AuthLinks from "../authLinks/AuthLinks";
-import {useGSAP} from '@gsap/react'
+import { useGSAP } from '@gsap/react';
 import gsap from "gsap";
-import { useLocation } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
+import facebookImg from '../../assets/Images/facebook.png';
+import instagramImg from '../../assets/Images/instagram.png';
+import youtubeImg from '../../assets/Images/youtube.png';
+import AuthLinks from "../authLinks/AuthLinks";
+import ThemeToggle from "../themeToggle/ThemeToggle";
+import styles from "./header.module.css";
 
 
 
@@ -43,7 +40,7 @@ const Header = () => {
     const location = useLocation();
     console.log(location.pathname)
   return (
-    <div style={location.pathname === "/" ? {position: "absolute"} : {position: "relative"}}  className={styles.container} >
+    <div style={location.pathname === "/blog" ? {position: "absolute"} : {position: "relative"}}  className={styles.container} >
       <div id="nav-image" className={styles.social}>
         <img src={facebookImg} alt="facebook" width={24} height={24} />
         <img src={instagramImg} alt="instagram" width={24} height={24} />

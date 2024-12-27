@@ -46,7 +46,7 @@ function ShoppingPage() {
             </div>
             
           </div>
-          <div id="products-slider" className="bg-gray-200 pt-[10px] pb-[20px]">
+          {  <div id="products-slider" className="bg-gray-200 pt-[10px] pb-[20px]">
           <div id="latest-products-slider"  >
                     {products && products.length > 0 &&<ProductsSliderBody productsList={products.slice(0,12)} title={"Latest Products"} /> }
                   </div>
@@ -58,7 +58,7 @@ function ShoppingPage() {
                   <div id="featured-products-slider" >
                     {products && products.length > 0 &&<ProductsSliderBody productsList={products.slice(24,36)} title={"Featured Products"} /> }
                   </div>
-        </div>
+        </div> }
         </div>
       );
 }

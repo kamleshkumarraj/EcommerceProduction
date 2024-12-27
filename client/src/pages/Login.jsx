@@ -14,8 +14,6 @@ import visible from "../assets/login/visible.svg";
 import { apiCalling } from "../api/apiCalling.api";
 import { setUser } from "../store/slices/selfHandler.slice";
 
-
-
 const SignIn = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -27,10 +25,6 @@ const SignIn = () => {
   const [loading, setLoading] = useState(true);
   const apiStatus = false;
 
-
-
- 
-
   const handleLogin = async (e) => {
     e.preventDefault();
 
@@ -38,28 +32,25 @@ const SignIn = () => {
       email: email,
       password: password,
     };
-    console.log(data)
+    console.log(data);
     const options = {
       url: "http://localhost:2000/api/v2/auth/login",
       method: "POST",
       headers: {
         "Content-Type": "application/json",
       },
-      formData : data,
+      formData: data,
     };
-    const response = await dispatch(apiCalling(options))
-    if(response?.success) {
-      console.log(response)
-      dispatch(setUser(response.user))
-      toast.success(response.message)
-      navigate("/")
-    }else{
-      toast.error(response?.message)
-      console.log(response.message)
+    const response = await dispatch(apiCalling(options));
+    if (response?.success) {
+      console.log(response);
+      dispatch(setUser(response.user));
+      toast.success(response.message);
+      navigate("/");
+    } else {
+      toast.error(response?.message);
+      console.log(response.message);
     }
-    
-
-   
   };
 
   const handleLogout = () => {
@@ -87,20 +78,20 @@ const SignIn = () => {
           <div className="w-[90%] lg:w-[40%] xl:w-[45%] h-[70%] xl:h-[100%] flex justify-center items-center my-8 p-5">
             <div className="flex flex-col w-full space-y-12">
               <div className="my-6 space-y-2">
-                <h1 className="text-4xl font-extrabold">Sign In</h1>
+                <h1 className="text-[3.6rem] font-extrabold">Sign In</h1>
                 {/* <p className="text-gray-400">
                   Sign up for free to access to in any of our products
                 </p> */}
               </div>
               <div className="flex flex-col space-y-3">
                 <div className="py-4 text-center border border-black rounded-md cursor-pointer">
-                  <button className="flex items-center justify-center w-full space-x-2 text-xl text-blue-500">
+                  <button className="flex items-center justify-center w-full space-x-2 text-[2rem] text-blue-500">
                     <img src={googleLogo} alt="" className="size-6" />
                     <span className="">Continue with Google</span>
                   </button>
                 </div>
                 <div className="py-4 text-center border border-black rounded-md cursor-pointer">
-                  <button className="flex items-center justify-center w-full space-x-2 text-xl text-blue-500 cursor-pointer">
+                  <button className="flex items-center justify-center w-full space-x-2 text-[2rem] text-blue-500 cursor-pointer">
                     <img src={twitterLogo} alt="" className="size-6" />
                     <span className="cursor-pointer">
                       Continue with Twitter
@@ -112,17 +103,18 @@ const SignIn = () => {
                 <img src={Or} alt="" />
               </div>
               <div className="">
-                <form action="" method="POST"  >
+                <form action="" method="POST">
                   <div className="flex flex-col space-y-10 lg:space-y-8 xl:space-y-10 ">
                     <div className="relative flex flex-col space-y-2">
-                      <label className="text-[20px]" htmlFor="email">Email Or Username*</label>
+                      <label className="text-[20px]" htmlFor="email">
+                        Email Or Username*
+                      </label>
                       <input
                         id="email"
                         type="text"
                         value={email}
                         onChange={(e) => setEmail(e.target.value)}
                         placeholder="designer@gmail.com"
-                        
                         className="px-3 py-2 border border-black rounded-md text-[16px]"
                       />
                       <span className="absolute -bottom-6 ml-1 text-red-500 text-[13px]">
@@ -131,7 +123,9 @@ const SignIn = () => {
                     </div>
                     <div className="relative flex flex-col space-y-2 ">
                       <div className="flex items-center justify-between ">
-                        <label className="text-[20px]" htmlFor="password">Password<sup className="text-[18px]" >*</sup></label>
+                        <label className="text-[20px]" htmlFor="password">
+                          Password<sup className="text-[18px]">*</sup>
+                        </label>
                         <div className="flex">
                           {!showPassword && (
                             <img
@@ -163,7 +157,7 @@ const SignIn = () => {
                         Use 8 or more characters with a mix of letters, numbers
                         & symbols
                       </span>
-                      <span className="absolute right-0 text-sm underline -bottom-7">
+                      <span className="absolute right-0 text-[1.4rem] underline -bottom-7">
                         <Link to={"/reset"}>Forger Your Password?</Link>
                       </span>
                     </div>
@@ -184,11 +178,21 @@ const SignIn = () => {
                     </div> */}
 
                     <div className="flex flex-col space-y-2 ">
-                      { apiStatus ? <button disabled className="bg-[#524bad] w-28 text-white px-6 py-2 rounded-lg  cursor-not-allowed">
-                        Login...
-                      </button> :  <button onClick={handleLogin} className="bg-[#524bad] w-28 text-white px-6 py-2 rounded-lg cursor-pointer">
-                        Login
-                      </button>}
+                      {apiStatus ? (
+                        <button
+                          disabled
+                          className="bg-[#524bad] w-28 text-white px-6 py-2 rounded-lg  cursor-not-allowed"
+                        >
+                          Login...
+                        </button>
+                      ) : (
+                        <button
+                          onClick={handleLogin}
+                          className="bg-[#524bad] w-28 text-white px-6 py-2 rounded-lg cursor-pointer"
+                        >
+                          Login
+                        </button>
+                      )}
                       <span>
                         Don’t have an account?{"  "}
                         <Link

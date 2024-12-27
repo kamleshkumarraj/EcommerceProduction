@@ -5,9 +5,9 @@ import CardList from '../components/cardList/CardList'
 import Menu from '../components/Menu/Menu'
 
 
-function Home() {
+function BlogHome() {
   return (
-    <div>
+    <div className='pb-[4rem]' >
       <Featured />
       <CategoryList />
       <div id="post-section" className='mx-[4rem]' style={{display : 'flex', gap : '100px'}}>
@@ -18,4 +18,4 @@ function Home() {
   )
 }
 
-export default Home
+export default BlogHome

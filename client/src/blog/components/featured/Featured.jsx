@@ -28,13 +28,13 @@ const Featured = () => {
     })
     
     gsap.to('.animeHeading' , {
-      transform : 'translateX(-250%)',
+      transform : 'translateX(-180%)',
      
       scrollTrigger : {
         trigger :'.animeHeading',
         scroll : 'body',
         start : 'top 10%',
-        end : 'top -300%',
+        end : 'top -280%',
         scrub : true,
         pin : true
       
@@ -45,8 +45,9 @@ const Featured = () => {
     <div id="featured" style={{overflowX : 'hidden'}}  className={styles.container}>
     
       <div id="hero-section" style={{
-        background : `linear-gradient(to bottom, rgba(0,0,0,0.5), rgba(0,0,0,0.5)), url(${blogImg})`,
-        backgroundSize : 'cover'
+        background : `linear-gradient(to bottom, rgba(0,0,0,0.5), rgba(0,0,0,0.5)), url('https://images.unsplash.com/photo-1423666639041-f56000c27a9a?fm=jpg&q=60&w=3000&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTV8fGNvbnRhY3R8ZW58MHx8MHx8fDA%3D')`,
+        backgroundSize : '100% 100%',
+        backgroundRepeat : 'no-repeat'
       }} className="flex items-center justify-center w-full h-screen">
       <div id="hero-layer" className={theme==='dark' ? 'bg-[#0f172a] absolute top-0 left-0 w-full h-[100.11vh]   ' : 'bg-[#EEEEEE] absolute top-0 left-0 w-full h-[100.11vh]   ' } style={{clipPath: `polygon(100% 82%, 0% 100%, 100% 100%)`}}></div>
         <div id="hero-container" className="lg:max-w-[60%] max-w-[80%]  flex flex-col items-center gap-[4rem]">
@@ -72,7 +73,7 @@ const Featured = () => {
       </div>
 
       <div id="heading" className="relative flex-col items-center justify-center inline ">
-      <h1 className={`text-[35rem] font-[600] text-center  mt-[1rem] pb-[-5rem] ${styles.animateHeading} animeHeading `}>Welcome in our News Website</h1>
+      <h1 className={`text-[35rem] font-[600] text-center  mt-[1rem] pb-[-5rem] ${styles.animateHeading} animeHeading `}>Welcome in our new Blog </h1>
       
       </div>
       <div id="featured-section" className="px-[4rem] py-[2rem] ">

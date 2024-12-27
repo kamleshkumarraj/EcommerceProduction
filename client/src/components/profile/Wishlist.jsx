@@ -49,7 +49,6 @@ function Wishlist() {
       </div>
     ); // Render Loader component while loading
   }
-  
 
   const handleAddToCart = (item) => {
     const existingItem = cart.find((cartItem) => cartItem.id === item.id);
@@ -84,14 +83,12 @@ function Wishlist() {
   return (
     <div className="flex flex-col gap-10 md:flex-row lg:px-8">
       {/* Sidebar Section */}
-      <div className="w-full md:w-[55%] mt-32">
-        { }
-      </div>
+      <div className="w-full md:w-[55%] mt-32">{}</div>
 
       {/* Main Content Section */}
       <div className="w-full md:w-[55%] mt-32">
         <div className="flex items-center justify-between mb-4">
-          <h1 className="px-4 mb-2 text-3xl font-bold">Wishlist</h1>
+          <h1 className="px-4 mb-2 text-[3rem] font-bold">Wishlist</h1>
         </div>
 
         <div className="flex flex-col justify-between lg:flex-row">
@@ -121,10 +118,10 @@ function Wishlist() {
                 />
                 <div className="flex-grow px-4">
                   <p className="font-semibold">{item.name}</p>
-                  <p className="text-sm text-center text-gray-600 sm:text-left">
+                  <p className="text-[1.4rem] text-center text-gray-600 sm:text-left">
                     Color: {item.color}
                   </p>
-                  <p className="text-sm text-center text-gray-600 sm:text-left">
+                  <p className="text-[1.4rem] text-center text-gray-600 sm:text-left">
                     Quantity: {item.quantity}
                   </p>
                 </div>

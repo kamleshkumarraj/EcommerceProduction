@@ -16,11 +16,11 @@ function SingleOrder() {
 
     return () => clearTimeout(loadContent); // Cleanup timeout on component unmount
   }, []);
-  const {orders} = useLocation().state;
-  
+  const { orders } = useLocation().state;
+
   const totalPrice = useMemo(() => {
     return orders?.orderItems.reduce((acc, item) => acc + item.price, 0);
-  },[])
+  }, []);
 
   if (loading) {
     return (
@@ -51,7 +51,7 @@ function SingleOrder() {
               color="#3C4242"
               className="transition-transform transform cursor-pointer hover:scale-110"
             />
-            <h1 className="font-dm-sans font-bold text-2xl text-[#3C4242] leading-tight tracking-tighter">
+            <h1 className="font-dm-sans font-bold text-[2.4rem] text-[#3C4242] leading-tight tracking-tighter">
               Order Details
             </h1>
           </div>
@@ -61,15 +61,15 @@ function SingleOrder() {
             {/* Order Information */}
             <div className="flex justify-between p-5 border border-gray-200 rounded-lg shadow-md bg-gradient-to-r from-gray-50 via-white to-gray-100">
               <div className="flex flex-col gap-2">
-                <h1 className="font-dm-sans font-bold text-lg text-[#3C4242]">
+                <h1 className="font-dm-sans font-bold text-[1.8rem] text-[#3C4242]">
                   Order no: {orders?._id}
                 </h1>
-                <p className="text-sm text-gray-600 font-dm-sans">
+                <p className="text-[1.4rem] text-gray-600 font-dm-sans">
                   Placed On 2 June 2023 2:40 PM
                 </p>
               </div>
               <div className="text-right">
-                <p className="font-dm-sans font-bold text-lg text-[#3C4242]">
+                <p className="font-dm-sans font-bold text-[1.8rem] text-[#3C4242]">
                   Total: <span className="text-blue-600">${totalPrice}</span>
                 </p>
               </div>
@@ -80,57 +80,111 @@ function SingleOrder() {
               <div className="relative w-full h-3 overflow-hidden bg-gray-300 rounded-full">
                 <div
                   className="absolute top-0 left-0 h-full transition-all duration-500 rounded-full bg-gradient-to-r from-green-400 to-blue-600"
-                  style={orders?.orderStatus == 'pending' ? {width : '7%'} : orders?.orderStatus == 'Confirmed' ? {width : '28%'} : orders?.orderStatus == 'Shipped' ? {width : '53%'} : orders?.orderStatus == 'Out For Delivery' ? {width : '78%'} : orders.orderStatus == 'Delivered' ? {width : '100%'} : {width : '0%'}}
+                  style={
+                    orders?.orderStatus == "pending"
+                      ? { width: "7%" }
+                      : orders?.orderStatus == "Confirmed"
+                      ? { width: "28%" }
+                      : orders?.orderStatus == "Shipped"
+                      ? { width: "53%" }
+                      : orders?.orderStatus == "Out For Delivery"
+                      ? { width: "78%" }
+                      : orders.orderStatus == "Delivered"
+                      ? { width: "100%" }
+                      : { width: "0%" }
+                  }
                 ></div>
                 {/* Progress Steps */}
                 <div className="absolute left-0 flex items-center justify-center w-8 h-8 rounded-full bg-gradient-to-br from-green-500 to-teal-500 -top-2">
                   <FaCheckCircle className="text-white" />
                 </div>
-               {orders.orderStatus != 'Delivered' && <div className={`absolute flex items-center justify-center w-8 h-8 rounded-full   left-[22.5%] -top-2 ${orders.orderStatus != 'pending' ? 'bg-gradient-to-br from-green-500 to-teal-500' : 'bg-gray-400'}`}>
+                {orders.orderStatus != "Delivered" && (
+                  <div
+                    className={`absolute flex items-center justify-center w-8 h-8 rounded-full   left-[22.5%] -top-2 ${
+                      orders.orderStatus != "pending"
+                        ? "bg-gradient-to-br from-green-500 to-teal-500"
+                        : "bg-gray-400"
+                    }`}
+                  >
+                    <FaCheckCircle className="text-white" />
+                  </div>
+                )}
+                {orders.orderStatus != "Delivered" && (
+                  <div
+                    className={`absolute flex items-center justify-center w-8 h-8 rounded-full  left-[45%] -top-2 ${
+                      orders.orderStatus != "pending" &&
+                      orders.orderStatus != "Confirmed"
+                        ? "bg-gradient-to-br from-green-500 to-teal-500"
+                        : "bg-gray-400"
+                    }`}
+                  >
+                    <FaCheckCircle className="text-white" />
+                  </div>
+                )}
+                {orders.orderStatus != "Delivered" && (
+                  <div
+                    className={`absolute flex items-center justify-center w-8 h-8 rounded-full  left-[70%] -top-2 ${
+                      orders.orderStatus != "pending" &&
+                      orders.orderStatus != "Confirmed" &&
+                      orders.orderStatus != "Shipped"
+                        ? "bg-gradient-to-br from-green-500 to-teal-500"
+                        : "bg-gray-400"
+                    }`}
+                  >
+                    <FaTruckArrowRight />
+                  </div>
+                )}
+                <div
+                  className={`absolute flex items-center justify-center w-8 h-8 bg-gray-400 rounded-full left-[95%] -top-2 ${
+                    orders.orderStatus == "Delivered"
+                      ? "bg-gradient-to-br from-green-500 to-teal-500"
+                      : "bg-gray-400"
+                  }`}
+                >
                   <FaCheckCircle className="text-white" />
-                </div>}
-                { orders.orderStatus != 'Delivered' && <div className={`absolute flex items-center justify-center w-8 h-8 rounded-full  left-[45%] -top-2 ${orders.orderStatus != 'pending' && orders.orderStatus != 'Confirmed' ? 'bg-gradient-to-br from-green-500 to-teal-500' : 'bg-gray-400'}`}>
-                  <FaCheckCircle className="text-white" />
-                </div>}
-                {orders.orderStatus != 'Delivered' && <div className={`absolute flex items-center justify-center w-8 h-8 rounded-full  left-[70%] -top-2 ${orders.orderStatus != 'pending' && orders.orderStatus != 'Confirmed' && orders.orderStatus != 'Shipped' ? 'bg-gradient-to-br from-green-500 to-teal-500' : 'bg-gray-400'}`}>
-                <FaTruckArrowRight />
-                </div>}
-                <div className={`absolute flex items-center justify-center w-8 h-8 bg-gray-400 rounded-full left-[95%] -top-2 ${orders.orderStatus == 'Delivered' ? 'bg-gradient-to-br from-green-500 to-teal-500' : 'bg-gray-400'}`}>
-                <FaCheckCircle className="text-white" />
                 </div>
               </div>
               <div
                 id="order-orderStatus"
-                className="flex justify-between mt-3 text-sm text-gray-700"
+                className="flex justify-between mt-3 text-[1.4rem] text-gray-700"
               >
-                {["pending", "Confirmed" , "Shipped", "Out For Delivery" , "Delivered" ].map(
-                  (orderStatus, index) => (
-                    <p key={index} className={`font-semibold text-center font-dm-sans ${index > 0 ? 'pl-[50px] ' : ''} `}>
-                      {   index > 0 && index < 4 ? orders.orderStatus != 'Delivered' && orderStatus : orderStatus }
-                    </p>
-                  )
-                )}
+                {[
+                  "pending",
+                  "Confirmed",
+                  "Shipped",
+                  "Out For Delivery",
+                  "Delivered",
+                ].map((orderStatus, index) => (
+                  <p
+                    key={index}
+                    className={`font-semibold text-center font-dm-sans ${
+                      index > 0 ? "pl-[50px] " : ""
+                    } `}
+                  >
+                    {index > 0 && index < 4
+                      ? orders.orderStatus != "Delivered" && orderStatus
+                      : orderStatus}
+                  </p>
+                ))}
               </div>
             </div>
 
             {/* Notification */}
             <div className="relative flex items-center p-4 bg-white border border-gray-200 rounded-lg shadow-sm">
               <div className="absolute top-[-10px] left-4 w-4 h-4 bg-white border-t border-l border-gray-300 clip-polygon"></div>
-              <p className="mr-4 text-sm text-gray-600 font-dm-sans">
+              <p className="mr-4 text-[1.4rem] text-gray-600 font-dm-sans">
                 2 June 2023 2:40 PM
               </p>
-              <h1 className="font-dm-sans font-bold text-sm text-[#3C4242]">
+              <h1 className="font-dm-sans font-bold text-[1.4rem] text-[#3C4242]">
                 Your order has been successfully verified.
               </h1>
             </div>
 
             {/* Order Cards */}
             <div className="space-y-6">
-              {
-                orders?.orderItems.map((item , idx) => {
-                  return <ProductOrderCard key={idx} item={item} />
-                })
-              }
+              {orders?.orderItems.map((item, idx) => {
+                return <ProductOrderCard key={idx} item={item} />;
+              })}
             </div>
           </div>
         </div>

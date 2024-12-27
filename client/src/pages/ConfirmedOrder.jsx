@@ -1,4 +1,3 @@
-
 import orderSuccessImg from "../assets/Img/successful.png";
 import { FaArrowRightLong } from "react-icons/fa6";
 import { Link } from "react-router-dom";
@@ -8,14 +7,16 @@ const OrderConfirmation = () => {
     <>
       {/* Breadcrumbs */}
       <div className="w-full p-[20px] md:px-[52.62px] bg-[#D5E5D7] gap-[13.16px]">
-        <h1 className="text-sm font-semibold lg:text-xl">Successful Order</h1>
+        <h1 className="text-[1.4rem] font-semibold lg:text-[2rem]">
+          Successful Order
+        </h1>
         <nav
           className="flex items-center gap-[10px] md:gap-[13.16px]"
           aria-label="Breadcrumb"
         >
           <a
             href="#"
-            className="text-sm text-gray-500 hover:text-gray-700 md:text-base"
+            className="text-[1.4rem] text-gray-500 hover:text-gray-700 md:text-[1.6rem]"
           >
             Ecommerce
           </a>
@@ -33,7 +34,7 @@ const OrderConfirmation = () => {
           </svg>
           <a
             href="#"
-            className="text-sm text-gray-500 hover:text-gray-700 md:text-base"
+            className="text-[1.4rem] text-gray-500 hover:text-gray-700 md:text-[1.6rem]"
           >
             Successful order
           </a>
@@ -53,11 +54,14 @@ const OrderConfirmation = () => {
         <span className="font-inter text-[14px] md:text-[18.42px] font-normal leading-[24px] md:leading-[32.23px] text-center mt-2">
           Your order has been successfully placed and is now
         </span>
-        <span className="text-center text-[14px] md:text-base mt-2">
+        <span className="text-center text-[14px] md:text-[1.6rem] mt-2">
           being processed.
         </span>
         <button className=" mt-5 left-[860.38px] h-[57.89px] p-[15.79px_31.57px] flex items-center gap-[7.89px] bg-[#0E1422] rounded-[5.26px] text-white justify-center">
-          <Link className="flex justify-center gap-3" to={"/my-account/my-orders"}>
+          <Link
+            className="flex justify-center gap-3"
+            to={"/my-account/my-orders"}
+          >
             Go to my account
             <span className="flex items-center justify-center">
               <FaArrowRightLong />

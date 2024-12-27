@@ -24,113 +24,176 @@ import ProductsDetails from "./pages/ProductsDetails.jsx";
 import SearchingCategoryPage from "./pages/SearchingCategory.page.jsx";
 import ShoppingPage from "./pages/ShoppingPage.jsx";
 import Wishlist from "./pages/Wishlist.jsx";
+import { ThemeContextProvider } from "./blog/context/ThemeContext.jsx";
+import BlogApp from "./blog/Blog.jsx";
+import BlogHome from "./blog/pages/Home.page.jsx";
+import BlogPage from "./blog/pages/blog/page.jsx";
+import SinglePage from "./blog/components/singleBlog/page.jsx";
+import ForgotPassword from "./blog/components/authentication/ForgotPassword.jsx";
+import ResetPassword from "./blog/components/authentication/ResetPassword.jsx";
+import WritePage from "./blog/components/write/page.jsx";
+import AboutUs from "./pages/About.jsx";
+import ContactUs from "./pages/Contact.jsx";
 
 export const router = createBrowserRouter([
-    {
-      path: "/",
-      element: <App />,
-      children: [
-        {
-          path: "/",
-          element: <Home />,
-        },
-        {
-          path: "/login",
-          element: <Login />,
-        },
-        {
-          path: "/signup",
-          element: <Register />,
-        },
-        
-        {
-          path: "/cart",
-          element: <Cart />,
-        },
-        {
-          path: "/wishlist",
-          element: <Wishlist />,
-        },
-        {
-          path: "/checkout",
-          element: <Checkout />,
-        },
-        {
-          path: "/order-confirmation",
-          element: <OrderConfirmation />,
-        },
-        {
-          path: "/orderDetails",
-          element: <SingleOrder />,
-        },
-        {
-          path: "/category/searching/:value",
-          element: <SearchingCategoryPage />,
-        },
-        {
-          path : "/shopping",
-          element : <ShoppingPage />
-        },
-        {
-          path : '/products-details/:id',
-          element : <ProductsDetails />
-        },
-        {
-          path: "/my-account",
-          element: <MyAccount />,
-          children: [
-            {
-              path: "/my-account/wishlist",
-              element: <Wishlist />,
-            },
-            {
-              path: "/my-account/my-orders",
-              element: <MyOrder />,
-            },
-            {
-              path: "/my-account/my-info",
-              element: <MyProfile />,
-            },
-            {
-              path: "/my-account/address",
-              element: <DeliveryChecker />,
-            },
-          ],
-        },
-      ],
-    },
-    {
-      path: "/admin/dashboard",
-      element: <Admin />,
-      children: [
-        {
-          path: "/admin/dashboard/products",
-          element: <ProductsPage />,
-        },
-        {
-          path: "/admin/dashboard/orders",
-          element: <OrdersPage />,
-        },
-        {
-          path: "/admin/dashboard/overview",
-          element: <OverviewPage />,
-        },
-        {
-          path: "/admin/dashboard/users",
-          element: <UsersPage />,
-        },
-        {
-          path: "/admin/dashboard/settings",
-          element: <SettingsPage />,
-        },
-        {
-          path: "/admin/dashboard/sales",
-          element: <SalesPage />,
-        },
-        {
-          path: "/admin/dashboard/analytics",
-          element: <AnalyticsPage />,
-        },
-      ],
-    },
-  ]);
+  {
+    path: "/",
+    element: <App />,
+    children: [
+      {
+        path: "/",
+        element: <Home />,
+      },
+      {
+        path: "/login",
+        element: <Login />,
+      },
+      {
+        path: "/signup",
+        element: <Register />,
+      },
+
+      {
+        path: "/cart",
+        element: <Cart />,
+      },
+      {
+        path: "/wishlist",
+        element: <Wishlist />,
+      },
+      {
+        path: "/checkout",
+        element: <Checkout />,
+      },
+      {
+        path: "/order-confirmation",
+        element: <OrderConfirmation />,
+      },
+      {
+        path: "/orderDetails",
+        element: <SingleOrder />,
+      },
+      {
+        path: "/category/searching/:value",
+        element: <SearchingCategoryPage />,
+      },
+      {
+        path: "/shopping",
+        element: <ShoppingPage />,
+      },
+      {
+        path: "/products-details/:id",
+        element: <ProductsDetails />,
+      },
+      {
+        path : '/about',
+        element : <AboutUs />
+      },
+      {
+        path : '/contact',
+        element : <ContactUs />
+      },
+      {
+        path: "/my-account",
+        element: <MyAccount />,
+        children: [
+          {
+            path: "/my-account/wishlist",
+            element: <Wishlist />,
+          },
+          {
+            path: "/my-account/my-orders",
+            element: <MyOrder />,
+          },
+          {
+            path: "/my-account/my-info",
+            element: <MyProfile />,
+          },
+          {
+            path: "/my-account/address",
+            element: <DeliveryChecker />,
+          },
+        ],
+      },
+    ],
+  },
+  {
+    path: "/admin/dashboard",
+    element: <Admin />,
+    children: [
+      {
+        path: "/admin/dashboard/products",
+        element: <ProductsPage />,
+      },
+      {
+        path: "/admin/dashboard/orders",
+        element: <OrdersPage />,
+      },
+      {
+        path: "/admin/dashboard/overview",
+        element: <OverviewPage />,
+      },
+      {
+        path: "/admin/dashboard/users",
+        element: <UsersPage />,
+      },
+      {
+        path: "/admin/dashboard/settings",
+        element: <SettingsPage />,
+      },
+      {
+        path: "/admin/dashboard/sales",
+        element: <SalesPage />,
+      },
+      {
+        path: "/admin/dashboard/analytics",
+        element: <AnalyticsPage />,
+      },
+    ],
+  },
+  {
+    path: "/blog",
+    element: (
+      <ThemeContextProvider>
+        <BlogApp />
+      </ThemeContextProvider>
+    ),
+    children: [
+      {
+        path: "/blog",
+        element: <BlogHome />,
+      },
+      {
+        path: "/blog/blog-page",
+        element: <BlogPage />,
+      },
+      {
+        path: "/blog/blog-details/:blog_id",
+        element: <SinglePage />,
+      },
+      {
+        path: "/blog/login",
+        element: <Login />,
+      },
+      {
+        path: "/blog/signin",
+        element: <Register />,
+      },
+      {
+        path: "/blog/forgot-password",
+        element: <ForgotPassword />,
+      },
+      
+      {
+        path: "/blog/write",
+        element: <WritePage />,
+      },
+    ],
+  },
+  {
+    
+      path: "/api/v1/auth/reset-password/:tocken",
+      element: <ResetPassword />,
+    
+  }
+]);

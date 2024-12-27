@@ -1,34 +1,14 @@
-import { Link } from "react-router-dom";
 import { useState } from "react";
+import { Link } from "react-router-dom";
 import forgotImage from "../../assets/Images/forgot-password.svg";
-import { useDispatch, useSelector } from "react-redux";
-
-import { toast } from "react-toastify";
 import InputField from "./InputField";
-import { getApiResponse } from "../../store/slices/apiResonseHandler.slice";
-import { apiCalling } from "../../api/apiCalling.api";
 
 
 function ForgotPassword() {
   const [formData, setFormData] = useState({
     email: "",
   });
-  const dispatch = useDispatch();
-  const apiResponse = useSelector(getApiResponse);
-  const handleForgotPass = async (e) => {
-    e.preventDefault();
-    const options = {
-      method: "POST",
-      url: "http://localhost:5000/api/v1/auth/forgot-password",
-      formData,
-    };
-    const data = await dispatch(apiCalling(options));
-    if (data.success) {
-      toast.success(data.message);
-    } else {
-      toast.error(data.message);
-    }
-  };
+
   return (
     <div
       id="forgot"
@@ -59,7 +39,6 @@ function ForgotPassword() {
               We will send password reset link on your entered email address.
             </p>
             <form
-              onSubmit={handleForgotPass}
               action=""
               className="w-full flex flex-col gap-[1.5rem]  mt-[1rem] justify-center"
             >
@@ -82,10 +61,7 @@ function ForgotPassword() {
                   },
                 }}
               >
-                {apiResponse?.apiStatus === true ? "Sending..." : "Send Email"}
-                {apiResponse?.apiStatus && (
-                  <div className="absolute left-[65%] loader"></div>
-                )}
+                {"Send Email"}
               </button>
 
               <p className="font-[600] text-[2rem] text-center">OR,</p>

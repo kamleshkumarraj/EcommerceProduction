@@ -1,9 +1,10 @@
 
 import styles from "./authLinks.module.css";
 import { useState } from "react";
-import { Link } from "react-router-dom";
 import { useSelector } from "react-redux";
-import { getSelf } from "../../store/slices/selfHandler.slice";
+import { Link } from "react-router-dom";
+import { getSelf } from "../../../store/slices/selfHandler.slice";
+
 
 
 const AuthLinks = () => {

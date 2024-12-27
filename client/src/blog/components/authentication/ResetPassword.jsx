@@ -1,37 +1,17 @@
 
-import resetImage from "../../assets/Images/reset-password.svg";
 import { useState } from "react";
-import { useParams } from "react-router-dom";
-import { useDispatch, useSelector } from "react-redux";
+import resetImage from "../../assets/Images/reset-password.svg";
 
-import { toast } from "react-toastify";
-import { useNavigate } from "react-router-dom";
 import InputField from "./InputField";
-import { getApiResponse } from "../../store/slices/apiResonseHandler.slice";
-import { apiCalling } from "../../api/apiCalling.api";
 
 function ResetPassword() {
   const [formData, setFormData] = useState({
     password: "",
     confirmPassword: "",
   });
-  const dispatch = useDispatch();
-  const { tocken } = useParams();
-  const navigate = useNavigate();
-  const apiResponse = useSelector(getApiResponse);
+  
 
-  const handleReset = async (e) => {
-    e.preventDefault();
-    const options = {
-      method: "POST",
-      url: `http://localhost:3000/api/v1/auth/reset-password/${tocken}`,
-      formData,
-    };
-    const data = await dispatch(apiCalling(options));
-    if (data.success) {
-      localStorage.setItem("tocken", data.tocken);
-    } else toast.error(data.message);
-  };
+  
   return (
     <div
       id="reset"
@@ -70,7 +50,6 @@ function ResetPassword() {
               enter your new password carefully as soon as possible.
             </p>
             <form
-              onSubmit={handleReset}
               className="w-full flex flex-col gap-[1rem] mt-[1rem] justify-center"
             >
               <InputField
@@ -101,10 +80,7 @@ function ResetPassword() {
                   },
                 }}
               >
-                {apiResponse?.apiStatus ? "reseting..." : "Reset Password"}
-                {apiResponse?.apiStatus && (
-                  <div className="absolute left-[65%] loader"></div>
-                )}
+                {"Reset Password"}
               </button>
             </form>
           </div>

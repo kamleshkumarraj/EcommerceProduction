@@ -55,7 +55,7 @@ const SalesPage = () => {
 
         <SalesOverviewChart />
 
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-8">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-[3.2rem] mb-8">
           <SalesByCategoryChart />
           <DailySalesTrend />
         </div>

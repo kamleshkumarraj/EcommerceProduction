@@ -1,11 +1,16 @@
-import  { useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { MdArrowForwardIos } from "react-icons/md";
 import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 import { toast } from "react-toastify";
 import { getSelf } from "../store/slices/selfHandler.slice";
 import { apiCalling } from "../api/apiCalling.api";
-import { decreasedCartQty, getAllCartItems, increaseCartQty, removeCartItems } from "../store/slices/cart.slice";
+import {
+  decreasedCartQty,
+  getAllCartItems,
+  increaseCartQty,
+  removeCartItems,
+} from "../store/slices/cart.slice";
 import Loader from "../components/cart/Loader";
 import CartLoader from "../components/cart/CartLoader";
 import FetchingLoading from "../components/cart/FetchingLoading";
@@ -21,66 +26,64 @@ const Cart = () => {
   const [apiStatus] = useState(false);
   const cartTotal = useMemo(() => {
     const subtotal = cartItems?.reduce(
-      (acc, item) => acc + item.price*item.quantity,
+      (acc, item) => acc + item.price * item.quantity,
       0
     );
     const tax = subtotal * 0.03;
     const total = subtotal + tax;
     return { subtotal, tax, total };
   }, [cartItems]);
-  
-  
+
   const removeCartItem = async (_id) => {
     const options = {
-      url : `http://localhost:2000/api/v2/user/cart/remove/${_id}`,
-      method : "DELETE"
-    }
-    const response = await dispatch(apiCalling(options))
-    if(response?.success){
+      url: `http://localhost:2000/api/v2/user/cart/remove/${_id}`,
+      method: "DELETE",
+    };
+    const response = await dispatch(apiCalling(options));
+    if (response?.success) {
       toast.success("Product is removed from cart list successfully");
-    }else{
+    } else {
       toast.error("We get error during removing product from cart list !");
-      getAllCart(dispatch , user);
+      getAllCart(dispatch, user);
     }
-  }
- 
+  };
+
   // now we write code for incrementing the cart quantity.
   const increamentCartQty = async (_id) => {
-    dispatch(increaseCartQty({_id}));
+    dispatch(increaseCartQty({ _id }));
     const options = {
-      url : `http://localhost:2000/api/v2/user/cart/increase/${_id}`,
-      method : "PATCH"
-    }
-    const response = await dispatch(apiCalling(options))
-    if(response?.success){
+      url: `http://localhost:2000/api/v2/user/cart/increase/${_id}`,
+      method: "PATCH",
+    };
+    const response = await dispatch(apiCalling(options));
+    if (response?.success) {
       toast.success("Quantity is increased by 1");
-    }else{
+    } else {
       toast.error("Quantity is not increased !");
-      getAllCart(dispatch , user);
+      getAllCart(dispatch, user);
     }
-  }
+  };
 
-  const decreamentCartQty = async (_id , qty) => {
-    dispatch(decreasedCartQty({_id}))
-    
+  const decreamentCartQty = async (_id, qty) => {
+    dispatch(decreasedCartQty({ _id }));
+
     const options = {
-      url : `http://localhost:2000/api/v2/user/cart/decrease/${_id}`,
-      method : "PATCH"
+      url: `http://localhost:2000/api/v2/user/cart/decrease/${_id}`,
+      method: "PATCH",
+    };
+    const response = await dispatch(apiCalling(options));
+    if (response?.success) {
+      if (qty == 1)
+        toast.success("Product is removed from cart list successfully.");
+      else toast.success(response?.message || "Quantity is decreased by 1");
+    } else {
+      toast.error(response?.message || "Quantity is not decreased !");
+      getAllCart(dispatch, user);
     }
-    const response = await dispatch(apiCalling(options))
-    if(response?.success){
-      if(qty == 1) toast.success("Product is removed from cart list successfully.");
-      else toast.success(response?.message || "Quantity is decreased by 1")
-    }else{
-      
-    toast.error(response?.message||"Quantity is not decreased !");
-    getAllCart(dispatch , user)
-    }
-  }
- 
+  };
+
   //now we call the api for getting all cart from database.
- 
-  
+
   useEffect(() => {
     const loadContent = setTimeout(() => {
       setLoading(false); // Set loading to false after 2 seconds (simulating data fetch or image loading)
@@ -96,19 +99,22 @@ const Cart = () => {
       </div>
     ); // Render Loader component while loading
   }
-  if (cartItems.length == 0) return <CartLoader 
-      icon={<BsCartX size={250} color="#E8E8E8"/>}
-      heading={"Your cart is currently empty."}
-      para={`Before proceed to checkout you must add some products to your shopping cart.\n
+  if (cartItems.length == 0)
+    return (
+      <CartLoader
+        icon={<BsCartX size={250} color="#E8E8E8" />}
+        heading={"Your cart is currently empty."}
+        para={`Before proceed to checkout you must add some products to your shopping cart.\n
       You will find a lot of interesting products on our "Shop" page.`}
-      button={"Return to Shop".toUpperCase()}
-   />;
-   
+        button={"Return to Shop".toUpperCase()}
+      />
+    );
+
   return (
     <div className="bg-white">
       <div className="p-4 my-auto mb-4 bg-gray-200">
-        <h1 className="mb-2 text-3xl font-bold text-center">Cart</h1>
-        <nav className="flex items-center justify-center gap-2 text-sm text-gray-600">
+        <h1 className="mb-2 text-[3rem] font-bold text-center">Cart</h1>
+        <nav className="flex items-center justify-center gap-2 text-[1.4rem] text-gray-600">
           <Link to="#" className="hover:underline">
             Ecommerce
           </Link>
@@ -120,7 +126,7 @@ const Cart = () => {
       <div className="flex flex-col items-start justify-between px-5 lg:flex-row md:px-10">
         {/* Cart Items Section */}
         <div className="flex flex-col w-full lg:w-3/5">
-          <h2 className="mb-4 text-lg font-semibold">Your cart</h2>
+          <h2 className="mb-4 text-[1.8rem] font-semibold">Your cart</h2>
           <div className="flex justify-between w-full">
             <h1 className="w-[200px]">Products</h1>
             <h1>Price</h1>
@@ -143,9 +149,13 @@ const Cart = () => {
                 </div>
                 <div className="flex-grow px-4">
                   <p className="font-semibold">{title}</p>
-                  <p className="text-[14px] text-gray-600">Price : ${price.toFixed(2)}</p>
+                  <p className="text-[14px] text-gray-600">
+                    Price : ${price.toFixed(2)}
+                  </p>
                 </div>
-                <p className="text-lg font-bold lg:pr-[100px]">${(price*quantity).toFixed(2)}</p>
+                <p className="text-[1.8rem] font-bold lg:pr-[100px]">
+                  ${(price * quantity).toFixed(2)}
+                </p>
                 <div
                   id="quantity"
                   className="flex gap-[1rem] justify-center pr-[1rem] items-center"
@@ -153,7 +163,9 @@ const Cart = () => {
                   <div
                     id="decreaseBtn"
                     className="font-[600] text-[28px] p-[5px] grid place-content-center py-[-2rem] border-[1px] rounded-[.5rem] hover:cursor-pointer"
-                    onClick={() => { decreamentCartQty(_id , quantity)}}
+                    onClick={() => {
+                      decreamentCartQty(_id, quantity);
+                    }}
                   >
                     {" "}
                     <FiMinus size={"20px"} />{" "}
@@ -162,16 +174,17 @@ const Cart = () => {
                   <div
                     id="increaseBtn"
                     className="font-[600] text-[28px] p-[5px] grid place-content-center py-[-2px] border-[1px] rounded-[.5rem] hover:cursor-pointer"
-                    onClick={() => { increamentCartQty(_id)}}
+                    onClick={() => {
+                      increamentCartQty(_id);
+                    }}
                   >
                     <FiPlus size={"20px"} />
                   </div>
                 </div>
                 <button
                   onClick={() => {
-                    dispatch(removeCartItems({_id}))
-                    removeCartItem(_id)
-
+                    dispatch(removeCartItems({ _id }));
+                    removeCartItem(_id);
                   }}
                   className=" w-[30px] h-[30px] mx-[20px] rounded-[50%] bg-red-500 text-white hover:underline"
                 >
@@ -184,7 +197,7 @@ const Cart = () => {
 
         {/* Order Summary Section */}
         <div className="w-full p-6 mt-8 border lg:w-1/4 lg:mt-0">
-          <h2 className="mb-4 text-lg font-semibold">Order Summary</h2>
+          <h2 className="mb-4 text-[1.8rem] font-semibold">Order Summary</h2>
           <div className="flex justify-between mb-2">
             <p className="text-gray-600">Subtotal</p>
             <p className="text-gray-800">${cartTotal.subtotal.toFixed(2)}</p>
@@ -197,12 +210,15 @@ const Cart = () => {
             <p className="text-gray-600">Tax</p>
             <p className="text-gray-800">${cartTotal.tax.toFixed(2)}</p>
           </div>
-          <div className="flex justify-between mb-6 text-lg font-bold">
+          <div className="flex justify-between mb-6 text-[1.8rem] font-bold">
             <p>Total</p>
             <p>${cartTotal.total.toFixed(2)}</p>
           </div>
 
-          <Link to={"/checkout"} state={{cartTotal , orderedProducts : cartItems}} >
+          <Link
+            to={"/checkout"}
+            state={{ cartTotal, orderedProducts: cartItems }}
+          >
             <button className="w-full py-3 bg-black text-white font-semibold mb-4 rounded-[8px]">
               Checkout
             </button>

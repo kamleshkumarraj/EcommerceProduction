@@ -35,10 +35,9 @@ const Headers = () => {
   const { pathname } = useLocation();
   const [showShidebar, setShowShidebar] = useState(true);
   const [categoryShow, setCategoryShow] = useState(true);
-  const {  searchQuery, setSearchQuery , setCategory , setEventLoading } = useContext(GlobalContext );
- 
+  const { searchQuery, setSearchQuery, setCategory, setEventLoading } =
+    useContext(GlobalContext);
 
- 
   const redirect_card_page = () => {
     if (userInfo) {
       navigate(`/cart`);
@@ -48,12 +47,12 @@ const Headers = () => {
   };
 
   return (
-    <div className="w-full bg-white pb-[10px] sticky top-0 z-[9999]">
+    <div className="w-full bg-white pb-[1rem] sticky top-0 z-[9999]">
       <div className="header-top bg-[#adadad] md-lg:hidden">
         <div className="w-[85%] lg:w-[98%] mx-auto">
-          <div className="flex w-full justify-between items-center h-[50px] text-slate-500">
-            <ul className="flex items-center justify-start gap-8">
-              <li className="flex relative justify-center items-center gap-2 text-sm after:absolute after:h-[18px] after:w-[1px] after:bg-[#afafaf] after:-right-[16px]">
+          <div className="flex w-full justify-between items-center h-[5rem] text-slate-500">
+            <ul className="flex items-center justify-start gap-[3.2rem]">
+              <li className="flex relative justify-center items-center gap-2 text-[1.4rem] after:absolute after:h-[18px] after:w-[1px] after:bg-[#afafaf] after:-right-[16px]">
                 <span>
                   <GrMail />
                 </span>
@@ -77,7 +76,7 @@ const Headers = () => {
                     <AiFillGithub />
                   </a>
                 </div>
-                <div className="flex group cursor-pointer text-slate-800 text-sm justify-center items-center gap-1 relative after:h-[18px] after:w-[1px] after:bg-[#afafaf] after:-right-[16px] after:absolute before:absolute before:h-[18px] before:bg-[#afafaf] before:w-[1px] before:-left-[20px]">
+                <div className="flex group cursor-pointer text-slate-800 text-[1.4rem] justify-center items-center gap-1 relative after:h-[18px] after:w-[1px] after:bg-[#afafaf] after:-right-[16px] after:absolute before:absolute before:h-[18px] before:bg-[#afafaf] before:w-[1px] before:-left-[20px]">
                   <img src="" alt="" />
                   <span>
                     <MdOutlineKeyboardArrowDown />
@@ -89,18 +88,22 @@ const Headers = () => {
                 </div>
                 {userInfo ? (
                   <Link
-                    className="flex items-center justify-center gap-2 text-sm cursor-pointer"
+                    className="flex items-center justify-center gap-2 text-[1.4rem] cursor-pointer"
                     to="/my-account/my-info"
                   >
                     <div>
-                      <img className="w-[40px] h-[40px] rounded-full" src={userInfo?.avatar?.url} alt="profile-image" />
+                      <img
+                        className="w-[40px] h-[40px] rounded-full"
+                        src={userInfo?.avatar?.url}
+                        alt="profile-image"
+                      />
                     </div>
                     <span>{userInfo?.firstname}</span>
                   </Link>
                 ) : (
                   <Link
                     to="/login"
-                    className="flex items-center justify-center gap-2 text-sm cursor-pointer"
+                    className="flex items-center justify-center gap-2 text-[1.4rem] cursor-pointer"
                   >
                     <span>
                       <FaLock />
@@ -137,7 +140,7 @@ const Headers = () => {
             </div>
             <div className="w-9/12 md-lg:w-full">
               <div className="flex flex-wrap items-center justify-between pl-8 md-lg:justify-center">
-                <ul className="flex items-start justify-start gap-8 text-sm font-bold uppercase md-lg:hidden">
+                <ul className="flex items-start justify-start gap-[3.2rem] text-[1.4rem] font-bold uppercase md-lg:hidden">
                   <li>
                     <Link
                       className={`p-2 block ${
@@ -160,7 +163,8 @@ const Headers = () => {
                     </Link>
                   </li>
                   <li>
-                    <a href="http://localhost:3001/" target="_blank"
+                    <Link
+                      to="/blog"
                       className={`p-2 block ${
                         pathname === "/blog"
                           ? "text-[#7fad39]"
@@ -168,10 +172,11 @@ const Headers = () => {
                       }`}
                     >
                       Blog
-                    </a>
+                    </Link>
                   </li>
                   <li>
                     <Link
+                    to={'/about'}
                       className={`p-2 block ${
                         pathname === "/about"
                           ? "text-[#7fad39]"
@@ -183,6 +188,7 @@ const Headers = () => {
                   </li>
                   <li>
                     <Link
+                    to={'/contact'}
                       className={`p-2 block ${
                         pathname === "/contact"
                           ? "text-[#7fad39]"
@@ -201,7 +207,7 @@ const Headers = () => {
                       }
                       className="relative flex justify-center items-center cursor-pointer w-[35px] h-[35px] rounded-full bg-[#e2e2e2]"
                     >
-                      <span className="text-xl text-red-500">
+                      <span className="text-[2rem] text-red-500">
                         <AiFillHeart />
                       </span>
                       {wishlist_count !== 0 && (
@@ -214,7 +220,7 @@ const Headers = () => {
                       onClick={redirect_card_page}
                       className="relative flex justify-center items-center cursor-pointer w-[35px] h-[35px] rounded-full bg-[#e2e2e2]"
                     >
-                      <span className="text-xl text-orange-500">
+                      <span className="text-[2rem] text-orange-500">
                         <AiFillShopping />
                       </span>
                       {card_product_count !== 0 && (
@@ -247,7 +253,7 @@ const Headers = () => {
               <img src="" alt="logo" />
             </Link>
             <div className="flex items-center gap-10 justify-star">
-              <div className="flex group cursor-pointer text-slate-800 text-sm justify-center items-center gap-1 relative after:h-[18px] after:w-[1px] after:bg-[#afafaf] after:-right-[16px] after:absolute">
+              <div className="flex group cursor-pointer text-slate-800 text-[1.4rem] justify-center items-center gap-1 relative after:h-[18px] after:w-[1px] after:bg-[#afafaf] after:-right-[16px] after:absolute">
                 <img src="" alt="" />
                 <span>
                   <MdOutlineKeyboardArrowDown />
@@ -259,7 +265,7 @@ const Headers = () => {
               </div>
               {userInfo ? (
                 <Link
-                  className="flex items-center justify-center gap-2 text-sm cursor-pointer"
+                  className="flex items-center justify-center gap-2 text-[1.4rem] cursor-pointer"
                   to="/dashboard"
                 >
                   <span>
@@ -268,7 +274,7 @@ const Headers = () => {
                   <span>{userInfo.name}</span>
                 </Link>
               ) : (
-                <div className="flex items-center justify-center gap-2 text-sm cursor-pointer">
+                <div className="flex items-center justify-center gap-2 text-[1.4rem] cursor-pointer">
                   <span>
                     <FaLock />
                   </span>
@@ -347,26 +353,26 @@ const Headers = () => {
                 </span>
               </div>
               <div className="flex flex-col justify-end gap-1">
-                <h2 className="text-sm font-medium text-slate-700">
+                <h2 className="text-[1.4rem] font-medium text-slate-700">
                   +8803242343243
                 </h2>
                 <span className="text-xs">support 33/45 time</span>
               </div>
             </div>
             <ul className="flex flex-col justify-start items-start gap-3 text-[#1c1c1c]">
-              <li className="flex items-center justify-start gap-2 text-sm">
+              <li className="flex items-center justify-start gap-2 text-[1.4rem]">
                 <span>
                   <GrMail />
                 </span>
                 <span>kamlesh.22jics061@jietjodhpur.ac.in</span>
               </li>
-              <span className="text-sm">Multi vendor ecommerce</span>
+              <span className="text-[1.4rem]">Multi vendor ecommerce</span>
             </ul>
           </div>
         </div>
       </div>
       <div className="w-[85%] lg:w-[90%] mx-auto">
-        <div className="flex flex-wrap w-full md-lg:gap-8">
+        <div className="flex flex-wrap w-full md-lg:gap-[3.2rem]">
           <div className="w-3/12 md-lg:w-full">
             <div className="relative bg-white">
               <div
@@ -406,10 +412,13 @@ const Headers = () => {
                             setEventLoading(true);
                             setTimeout(() => {
                               setEventLoading(false);
-                              navigate(`/category/searching/category=${c.name}` , {state : {category : c.name}});
-                            },500)
+                              navigate(
+                                `/category/searching/category=${c.name}`,
+                                { state: { category: c.name } }
+                              );
+                            }, 500);
                           }}
-                          className="block text-sm"
+                          className="block text-[1.4rem]"
                         >
                           {c.name}
                         </Link>
@@ -426,7 +435,6 @@ const Headers = () => {
                 <div className="flex border h-[50px] items-center relative gap-5">
                   <div className="relative after:absolute after:h-[25px] after:w-[1px] after:bg-[#afafaf] after:-right-[15px] md:hidden">
                     <select
-                      
                       className="w-[150px] text-slate-600 font-semibold bg-transparent px-2 h-full outline-0 border-none"
                       name=""
                       id=""
@@ -443,7 +451,7 @@ const Headers = () => {
                     className="relative w-full h-full px-3 bg-transparent text-slate-500 outline-0"
                     onChange={(e) => {
                       setSearchQuery(e.target.value);
-                      setCategory("")
+                      setCategory("");
                     }}
                     type="text"
                     value={searchQuery}
@@ -457,10 +465,10 @@ const Headers = () => {
                         setEventLoading(true);
                         setTimeout(() => {
                           setEventLoading(false);
-                          navigate(`/category/searching/query=${searchQuery}` , );
-                        },500)
-                      }else{
-                        toast.error("Please enter something to search !")
+                          navigate(`/category/searching/query=${searchQuery}`);
+                        }, 500);
+                      } else {
+                        toast.error("Please enter something to search !");
                       }
                     }}
                     className="absolute right-0 h-full px-8 font-semibold text-white uppercase bg-violet-400"
@@ -480,7 +488,7 @@ const Headers = () => {
                     <h2 className="font-medium text-md text-slate-700">
                       +91 8603416388
                     </h2>
-                    <span className="text-sm">support 24/7 time</span>
+                    <span className="text-[1.4rem]">support 24/7 time</span>
                   </div>
                 </div>
               </div>

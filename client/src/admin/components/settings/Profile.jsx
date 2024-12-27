@@ -12,7 +12,9 @@ const Profile = () => {
         />
 
         <div>
-          <h3 className="text-lg font-semibold text-gray-100">John Doe</h3>
+          <h3 className="text-[1.8rem] font-semibold text-gray-100">
+            John Doe
+          </h3>
           <p className="text-gray-400">john.doe@example.com</p>
         </div>
       </div>

@@ -80,20 +80,20 @@ const SignUp = () => {
           <div className="w-[90%] lg:w-[40%] xl:w-[45%] h-[70%] xl:h-[100%] flex justify-center items-center my-8  p-5  ">
             <div className="flex flex-col w-full space-y-7">
               <div className="my-6 space-y-2">
-                <h1 className="text-4xl font-extrabold">Sign Up</h1>
+                <h1 className="text-[3.6rem] font-extrabold">Sign Up</h1>
                 <p className="text-gray-400">
                   Sign up for free to access to in any of our products
                 </p>
               </div>
               <div className="flex flex-col space-y-3">
                 <div className="py-4 text-center border border-black rounded-md cursor-pointer">
-                  <button className="flex items-center justify-center w-full space-x-2 text-xl text-blue-500">
+                  <button className="flex items-center justify-center w-full space-x-2 text-[2rem] text-blue-500">
                     <img src={googleLogo} alt="" className="size-5" />
                     <span className="">Continue with Google</span>
                   </button>
                 </div>
                 <div className="py-4 text-center border border-black rounded-md cursor-pointer">
-                  <button className="flex items-center justify-center w-full space-x-2 text-xl text-blue-500 cursor-pointer">
+                  <button className="flex items-center justify-center w-full space-x-2 text-[2rem] text-blue-500 cursor-pointer">
                     <img src={twitterLogo} alt="" className="size-5" />
                     <span className="cursor-pointer">
                       Continue with Twitter

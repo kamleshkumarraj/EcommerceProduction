@@ -72,7 +72,7 @@ const Checkout = () => {
 
   return (
     <div className="container p-4 mx-auto bg-[#e3e2e2] xl:px-10">
-      <div className="flex items-center gap-3 2xl:gap-5 xl-gap-4 xl:p-8 md:p-6">
+      <div className="flex items-center gap-3 2xl:gap-5 xl-gap-4 xl:p-[3.2rem] md:p-6">
         <span>Home</span>
         <MdArrowForwardIos size={10} />
         <span>My Account</span> <MdArrowForwardIos size={10} />
@@ -114,7 +114,7 @@ const Checkout = () => {
         </div>
         {/** Price summary */}
         <div className="w-full p-6 mt-8 bg-white border-[.5px] rounded-[5px] border-[#39383831] lg:w-1/4 lg:mt-0">
-          <h2 className="mb-4 text-lg font-semibold">Order Summary</h2>
+          <h2 className="mb-4 text-[1.8rem] font-semibold">Order Summary</h2>
           <div className="flex justify-between mb-2">
             <p className="text-gray-600">Subtotal</p>
             <p className="text-gray-800">${cartTotal?.subTotal}</p>
@@ -127,7 +127,7 @@ const Checkout = () => {
             <p className="text-gray-600">Tax</p>
             <p className="text-gray-800">${cartTotal?.tax}</p>
           </div>
-          <div className="flex justify-between mb-6 text-lg font-bold">
+          <div className="flex justify-between mb-6 text-[1.8rem] font-bold">
             <p>Total</p>
             <p>${cartTotal?.total}</p>
           </div>
@@ -148,7 +148,7 @@ const Checkout = () => {
         {/** Order Summary */}
         {/*<div className="w-full lg:w-1/3 md:p-4 lg:mt-0">
           <div className="px-5 py-5 mt-8 border rounded-lg md:py-10">
-            <h2 className="mb-2 text-lg font-semibold xl:text-2xl">
+            <h2 className="mb-2 text-[1.8rem] font-semibold xl:text-[2.4rem]">
               Order Summary
             </h2>
             <div className="my-4 border-t border-gray-300"></div>
