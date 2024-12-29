@@ -28,7 +28,7 @@ function Pair_3({ item , bgColor }) {
             onClick={() => {
               removeWishlistItem(dispatch, {
                 _id: getWishlistIdUsingProductId(item?._id, wishlist),
-              });
+              } , setEventLoading);
             }}
           >
             <FaHeart size={20}  />
@@ -36,7 +36,7 @@ function Pair_3({ item , bgColor }) {
         ) : (
           <p
             onClick={() => {
-              addWishlistItem(dispatch, item);
+              addWishlistItem(dispatch, item , setEventLoading);
             }}
           >
             <VscHeart size={20} />
@@ -45,7 +45,7 @@ function Pair_3({ item , bgColor }) {
       </div>
       <p
         onClick={() => {
-          addToCart(item?._id, dispatch, user);
+          addToCart(item?._id, dispatch, user , setEventLoading);
         }}
         className={`p-[10px] text-center rounded-full hover:cursor-pointer ${bgColor} border hover:bg-[#ff3f35fa] hover:text-white`}
       >

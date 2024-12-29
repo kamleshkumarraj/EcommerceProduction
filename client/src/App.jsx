@@ -99,7 +99,7 @@ function App() {
         autoClose={2000}
         style={{ zIndex: 999999999 }}
       />
-      <div className="font-[roboto] bg-white " id="container">
+      <div className="font-[roboto]  " id="container">
         <div id="advertisement-modals" className="relative w-full">
           <NewsletterModal />
         </div>

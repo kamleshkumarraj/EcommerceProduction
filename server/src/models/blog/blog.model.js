@@ -19,20 +19,18 @@ const blogSchema = new mongoose.Schema({
     slug : {
         type : String,
         required : [true , "Please enter blog slug"],
-        unique : [true , "slug must be unique"],
         minlength : [3 , "slug must be at least 3 characters"],
         lowercase: true, 
         trim : true,
-        strict : true
     },
-    image : {
+    thumbnail : {
         url : {
             type : String,
-            required : [true , "Please enter blog image"],
+            // required : [true , "Please enter blog image"],
         },
         publicId : {
             type : String,
-            required : [true , "Please enter blog image publicId"],
+            // required : [true , "Please enter blog image publicId"],
         }
     },
     category : {
@@ -40,11 +38,12 @@ const blogSchema = new mongoose.Schema({
         required : [true , "Please enter blog category"],
         lowercase: true, 
         trim : true,
-        enum : ["style" , "fashion" , "food" , "travel" , "culture" , "coding" , "technology" , "products" , "external" , "video" , "audio" , "music" , "games" , "movies" , "books"]
+        enum : ["style" , "fashion" , "food" , "traveling" , "culture" ,  "technology" , "products" , "external" , "video" , "audio" , "music" , "games" , "movies" , "books" , "education", "health" , "entertainment"],
     },
-    author : {
+    creator : {
         type : mongoose.Schema.ObjectId,
-        ref : 'users'
+        ref : 'users',
+        required : [true , "Please enter blog creator"]
     },
     status : {
         type : String,
@@ -54,33 +53,59 @@ const blogSchema = new mongoose.Schema({
         enum : ["published" , "draft" , "deleted"],
         default : "draft"
     },
-    view : {
+    viewCount : {
         type : Number,
         default : 0
     },
-    like : {
+    likeCount : {
         type : Number,
         default : 0
     },
-    comment : {
+    commentCount : {
         type : Number,
         default : 0
     },
-    likeStatus : {
-        type : Boolean,
-        default : false
+    shareCount : {
+        type : Number,
+        default : 0
     },
-    viewStatus : {
-        type : Boolean,
-        default : false
+    dislikeCount : {
+        type : Number,
+        default : 0
     },
+    reactions : [{
+        creator : {
+            type : mongoose.Schema.ObjectId,
+            ref : 'users',
+            required : [true , "Please enter blog creator"]
+        },
+        action : {
+            type : [String],
+            required : [true , "Please enter blog actions"],
+            enum : ["like" , "dislike" , "share" , "view" , "save" , "unsave"]
+        }
+    }],
     
     comments : {
         type : mongoose.Schema.ObjectId,
         ref : 'comments'
     },
-    shareCount : {
-        type : Number,
-        default : 0
+    
+    images : {
+        type : [
+            {
+                publicId : {
+                    type : String,
+                    required : [true , "Please enter blog image publicId"],
+                },
+                url : {
+                    type : String,
+                    required : [true , "Please enter blog image url"],
+                }
+            }
+        ],
+        default : []
     }
 } , {timestamps : true})
+
+export const blogs = mongoose.model('blog' , blogSchema)

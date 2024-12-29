@@ -36,12 +36,13 @@ export async function updateWishlistQty(dispatch , wishlistItem , operation) {
 
   }
 
-export async function removeWishlistItem(dispatch , wishlistItem ){
+export async function removeWishlistItem(dispatch , wishlistItem  , setEventLoading){
     dispatch(removeWishlistItems({_id : wishlistItem._id}))
     const options = {
       url : `http://localhost:2000/api/v2/user/wishlist/remove/${wishlistItem._id}`,
       method : 'DELETE'
     }
+    setEventLoading(true)
     const response = await dispatch(apiCalling(options))
     if(response?.success){
         toast.success(response?.message || "Wishlist item removed successfully")
@@ -49,13 +50,15 @@ export async function removeWishlistItem(dispatch , wishlistItem ){
       toast.error(response?.message || "Error while removing wishlist item")
       fetchAllWishlistItem(dispatch)
     }
+    setEventLoading(false)
 }
 
-export async function addWishlistItem(dispatch , product){
+export async function addWishlistItem(dispatch , product , setEventLoading){
   const options = {
     url : `http://localhost:2000/api/v2/user/wishlist/add/${product._id}`,
     method : 'POST'
   }
+  setEventLoading(true)
   const response = await dispatch(apiCalling(options))
   if(response?.success){
     toast.success(response?.message || "Product added to wishlist successfully")
@@ -63,5 +66,6 @@ export async function addWishlistItem(dispatch , product){
   }else{
     toast.error(response?.message || "Error while adding product to wishlist")
   }
+  setEventLoading(false)
 }
 

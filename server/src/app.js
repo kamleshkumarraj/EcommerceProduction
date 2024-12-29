@@ -13,6 +13,7 @@ import { productHandleByUser } from './routes/productsUserRoute/productHandleByU
 import { addressHandlerRouter } from './routes/shippingAddress/address.routes.js';
 import { handleUserProfileRoute } from './routes/userSelf/userHandleProfile.route.js';
 import { wishlistHandlingRoute } from './routes/wishlist/wishlist.routes.js';
+import { blogRouter } from './routes/blog/blog.routes.js';
 
 export const app = express();
 
@@ -29,6 +30,7 @@ app.use(cors({
   credentials: true                            // Allow cookies to be sent
 }));
 
+app.use('/api/v2/user/blog' , blogRouter)
 app.use('/api/v2/auth', authenticationRoute);
 app.use('/api/v2/admin/products',productsAdminHandleRoute)
 app.use('/api/v2/admin/user',adminHandleUserRoute)
@@ -39,8 +41,8 @@ app.use('/api/v2/admin/order',orderHAndleByAdminRoute)
 app.use('/api/v2/user/cart' , cartRouter)
 app.use('/api/v2/user/wishlist' , wishlistHandlingRoute)
 app.use('/api/v2/user/address' , addressHandlerRouter)
-//common routes for requesting users for handling the products
 app.use('/api/v2/products' , commonRouter)
+
 
 //that is error handler middleware at normal error during api calling.
 app.use((err,req , res , next) =>{
