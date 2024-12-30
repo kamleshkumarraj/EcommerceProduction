@@ -5,7 +5,6 @@ import facebookImg from '../../assets/Images/facebook.png';
 import instagramImg from '../../assets/Images/instagram.png';
 import youtubeImg from '../../assets/Images/youtube.png';
 import AuthLinks from "../authLinks/AuthLinks";
-import ThemeToggle from "../themeToggle/ThemeToggle";
 import styles from "./header.module.css";
 
 
@@ -49,7 +48,7 @@ const Header = () => {
       </div>
       <div id="header-text" className={styles.logo}>My Blog</div>
       <div id="header-link" className={styles.links}>
-        <ThemeToggle />
+       
         <Link to={'/'}  id="link"  className={styles.link}>EcoMart</Link>
         <Link id="link" className={styles.link}>Contact</Link>
         <Link id="link"  className={styles.link}>About</Link>

@@ -1,12 +1,10 @@
-import { Outlet } from "react-router-dom";
-import Footer from "./components/footer/Footer";
-import Header from "./components/header/Header";
-import FooterM from "../components/FooterM";
 import { useEffect } from "react";
-import { fetchAllBlogs } from "../utils/blog.utils";
 import { useDispatch, useSelector } from "react-redux";
+import { Outlet } from "react-router-dom";
+import FooterM from "../components/FooterM";
 import { getAllBlogs } from "../store/slices/blog.slice";
-import CategoryCard from "./components/card/CategoryCard";
+import { fetchAllBlogs } from "../utils/blog.utils";
+import Header from "./components/header/Header";
 
 
 function BlogApp() {
@@ -23,7 +21,7 @@ function BlogApp() {
     <>
     <div className="relative wrapper bg-[#0f172a] text-white " id="blog-root" >
           <Header />
-          
+
           <Outlet />
           <FooterM />
       </div>
