@@ -4,15 +4,15 @@ import { productsModel } from "../../models/products.model.js";
 
 export const updateAndSetReviews = asyncHandler(async (req , res , next) =>{
 
-    const {comment , rating , productId} = req.body;
+    const {comment , rating } = req.body;
+    const productId = req.query.id
 
     const product = await productsModel.findById(productId)
 
     if(!product) return next(new ErrorHandler("Please enter valid productId",402));
     // new review that is given by user and save them in reviews array.
     const review = {
-        user : req.user.id,
-        name : req.user.firstname+" "+req.user.lastname,
+        reviewerId : req.user.id,
         rating : Number(rating),
         comment,
     
@@ -20,20 +20,17 @@ export const updateAndSetReviews = asyncHandler(async (req , res , next) =>{
 
     //method for checking this user is already reviewed or not.
     const isReviewed = async () =>{
-        return product.reviews.find((rev) => rev.user == req.user.id);
+        return product.reviews.find((rev) => rev.reviewerId == req.user.id);
     }
     // if user alredy reviewed then we only changed rating and comment.
     if(await isReviewed()){
         product.reviews.find((rev) => {
-            if(rev.user == req.user.id){
+            if(rev.reviewerId == req.user.id){
                 rev.rating = Number(rating);
                 rev.comment = comment;
             }
         })
     }
-           
-        
-    
     else{
         product.reviews.push(review);
     }

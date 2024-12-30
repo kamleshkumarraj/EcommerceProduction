@@ -1,18 +1,14 @@
-import React, { useContext } from "react";
-import styles from "./featured.module.css";
-import p1 from '../../assets/Images/p1.jpeg'
 import { useGSAP } from "@gsap/react";
 import gsap from "gsap";
-import blogImg from '../../assets/Images/blogHEr.jpg'
-import Button from "../reusuable/Button";
-import ImgSlider from "../imageSlider/ImgSlider";
 import ScrollTrigger from "gsap/src/ScrollTrigger";
-import { ThemeContext } from "../../context/ThemeContext";
+import React from "react";
 import { Link } from "react-router-dom";
+import ImgSlider from "../imageSlider/ImgSlider";
+import Button from "../reusuable/Button";
+import styles from "./featured.module.css";
 
 gsap.registerPlugin(ScrollTrigger)
 const Featured = () => {
-  const {theme} = useContext(ThemeContext)
   //! that block of code for apply gsap animation in our code.
   useGSAP(() => {
     const timeline = gsap.timeline();
@@ -50,7 +46,7 @@ const Featured = () => {
         backgroundSize : '100% 100%',
         backgroundRepeat : 'no-repeat'
       }} className="flex items-center justify-center w-full h-screen">
-      <div id="hero-layer" className={theme==='dark' ? 'bg-[#0f172a] absolute top-0 left-0 w-full h-[100.11vh]   ' : 'bg-[#EEEEEE] absolute top-0 left-0 w-full h-[100.11vh]   ' } style={{clipPath: `polygon(100% 82%, 0% 100%, 100% 100%)`}}></div>
+      <div id="hero-layer" className={ 'bg-[#0f172a] absolute top-0 left-0 w-full h-[100.11vh]  '  } style={{clipPath: `polygon(100% 82%, 0% 100%, 100% 100%)`}}></div>
         <div id="hero-container" className="lg:max-w-[60%] max-w-[80%]  flex flex-col items-center gap-[4rem]">
             <div id="hero-title" className="flex-col items-center flex gap-[1rem]">
               <h1 id="hero-title" className="font-[500] tracking-wider  text-[white] text-[3.5rem] text-center">Multi-purpose Template</h1>

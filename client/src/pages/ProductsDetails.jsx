@@ -14,6 +14,7 @@ function ProductsDetailsPage() {
   const product = useLocation()?.state?.products;
     const [img , setImg] = useState(product?.images[0]);
     const products = useSelector(getAllProducts)
+    const [changed , setChanged] = useState(true)
     const [filteredProducts , setFilterQuery] = useFilter(products || [], (item) => item?.category)
     useEffect(() => {
       setFilterQuery(product?.category || "")
@@ -43,10 +44,10 @@ function ProductsDetailsPage() {
             />
       </div>
       <div id="review-section" className="bg-white" >
-        <ReviewSection />
+        <ReviewSection changed={changed}  products={product} />
       </div>
       <div id="ratingForm" className="bg-white" >
-        <AddReviewForm />
+        <AddReviewForm products={product} changed={changed} setChanged={setChanged} />
       </div>
       <div id="top-related-products-body" className="bg-white mb-[20px]" >
         <TopRelatedProductsBody productsList={filteredProducts} />

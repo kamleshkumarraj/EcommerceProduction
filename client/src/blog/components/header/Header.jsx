@@ -48,7 +48,6 @@ const Header = () => {
       </div>
       <div id="header-text" className={styles.logo}>My Blog</div>
       <div id="header-link" className={styles.links}>
-       
         <Link to={'/'}  id="link"  className={styles.link}>EcoMart</Link>
         <Link id="link" className={styles.link}>Contact</Link>
         <Link id="link"  className={styles.link}>About</Link>

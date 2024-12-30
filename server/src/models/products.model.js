@@ -58,7 +58,7 @@ const productSchema = new mongoose.Schema(
             },
             reviewerId: {
                 type : mongoose.Schema.ObjectId,
-                ref : "usersModels"
+                ref : "user"
             },
           }
         ],

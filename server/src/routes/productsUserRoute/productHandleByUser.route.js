@@ -8,4 +8,4 @@ export const productHandleByUser = Router();
 
 productHandleByUser.route('/give-reviews').put(isLoggedIn,updateAndSetReviews)
 
-productHandleByUser.route('/all-reviews').get(isLoggedIn , getAllReviews)
+productHandleByUser.route('/all-reviews/:id').get(isLoggedIn , getAllReviews)
