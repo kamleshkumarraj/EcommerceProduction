@@ -6,6 +6,7 @@ import {
   deleteBlog,
   getAllActionBlog,
   getAllBlogs,
+  getCategoryBlog,
   getCommentsForABlog,
   getMyBlogs,
   replyBlogComment,
@@ -46,3 +47,5 @@ blogRouter.route('/create-reactions/:blogId').patch(createReactions);
 blogRouter.route('/get-all-reactions/:blogId').get(getAllActionBlog);
 
 blogRouter.route('/delete/:blogId').delete(deleteBlog);
+
+blogRouter.route('/get/:category').get(getCategoryBlog)

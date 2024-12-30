@@ -226,5 +226,16 @@ export const deleteBlog = asyncHandler(async (req , res , next) => {
     })
 })
 
+export const getCategoryBlog = asyncHandler(async (req , res , next) => {
+    const {category} = req.params; 
+    if(!category) return next(new ErrorHandler("Please provide the category", 400))
+    const blogData = await blogs.find({category})
+    res.status(200).json({
+        success : true,
+        message : "You get all blogs for this category successfully",
+        data : blogData
+    })
+})
+
 
 

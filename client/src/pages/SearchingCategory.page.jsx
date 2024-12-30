@@ -11,6 +11,7 @@ import { getAllProducts } from "../store/slices/productsHandler.slice";
 
 function SearchingCategoryPage() {
   const path = useLocation().state?.category || "Shop";
+  
   const {
     setSearchQuery,
     setSearchCategoryList,

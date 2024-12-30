@@ -8,6 +8,7 @@ import Button from "../reusuable/Button";
 import ImgSlider from "../imageSlider/ImgSlider";
 import ScrollTrigger from "gsap/src/ScrollTrigger";
 import { ThemeContext } from "../../context/ThemeContext";
+import { Link } from "react-router-dom";
 
 gsap.registerPlugin(ScrollTrigger)
 const Featured = () => {
@@ -98,7 +99,7 @@ const Featured = () => {
           laudantium repellat ducimus unde aspernatur fuga. Quo, accusantium
           quisquam! Harum unde sit culpa debitis.
         </p>
-        <button className={styles.button}>Read More</button>
+        <Link to={`/blog/blog-details/6736454gd64455464364`} className={styles.button}>Read More</Link>
       </div>
     </div>
       </div>

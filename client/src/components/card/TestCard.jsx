@@ -23,7 +23,7 @@ function TestCard({ title, sender, type }) {
 
         <p className="relative ">
           <img
-            className="relative left-[400px] top-[-20px] max-w-[20px]"
+            className="relative left-[350px] top-[-20px] max-w-[20px]"
             src={comma_r}
             alt=""
           />

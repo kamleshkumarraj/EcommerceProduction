@@ -26,7 +26,7 @@ const blogSlice = createSlice({
 
 export const blogReducers = blogSlice.reducer;
 export const {setAllBlogs , setMyCreatedBlogs , setMyLikedBlogs , setMySavedBlogs} = blogSlice.actions;
-export const getTotalBlogs = (state) => state.blogs.totalBlog;
+export const getAllBlogs = (state) => state.blogs.totalBlog;
 export const getMySavedBlogs = (state) => state.blogs.mySavedBlogs;
 export const getMyLikedBlogs = (state) => state.blogs.myLikedBlogs;
 export const getMyCreatedBlogs = (state) => state.blogs.myCreatedBlogs;

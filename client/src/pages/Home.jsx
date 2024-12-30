@@ -82,7 +82,9 @@ const Home = () => {
           <DiscountedProductsBody title={"Discountable Products"} products={products.slice(120,140)} />
         )}
       </div>
-      <TestimonialSection />
+      <div id="testominial-section" className="w-[100%] bg-white mx-auto px-[20px] lg:px-[40px] py-[20px] bg-gray-200">
+        <TestimonialSection />
+      </div>
     </div>
   );
 };

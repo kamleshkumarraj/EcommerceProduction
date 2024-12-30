@@ -11,8 +11,11 @@ import './blog-slide.css';
 
 // import required modules
 import { EffectCube, Pagination , Autoplay} from 'swiper/modules';
+import { useSelector } from 'react-redux';
+import { getAllBlogs } from '../../../store/slices/blog.slice';
 
 export default function ImgSlider() {
+  const allBlogs = useSelector(getAllBlogs);
   return (
     <>
       <Swiper style={{width : '100%' , height : '100%' , position : 'absolute'}}
@@ -23,18 +26,12 @@ export default function ImgSlider() {
         modules={[ Pagination ,Autoplay]}
         className="mySwiper"
       >
-        <SwiperSlide style={{backgroundPosition : 'center' , overflow : 'hidden' , borderRadius : '1rem' , backgroundSize : 'cover'}} >
-          <img alt='hii' src="https://swiperjs.com/demos/images/nature-1.jpg" />
-        </SwiperSlide  >
-        <SwiperSlide style={{backgroundPosition : 'center' , overflow : 'hidden' , borderRadius : '1rem' , backgroundSize : 'cover'}} >
-          <img alt='hii' src="https://swiperjs.com/demos/images/nature-2.jpg" />
-        </SwiperSlide  >
-        <SwiperSlide style={{backgroundPosition : 'center' , overflow : 'hidden' , borderRadius : '1rem' , backgroundSize : 'cover'}} >
-          <img alt='hii' src="https://swiperjs.com/demos/images/nature-3.jpg" />
-        </SwiperSlide  >
-        <SwiperSlide style={{backgroundPosition : 'center' , overflow : 'hidden' , borderRadius : '1rem' , backgroundSize : 'cover'}} >
-          <img alt='hii' src="https://swiperjs.com/demos/images/nature-4.jpg" />
-        </SwiperSlide  >
+        
+        {
+          allBlogs && allBlogs.length > 0 && allBlogs.slice(20,30).map((blog, index) => ( <SwiperSlide key={blog?._id} style={{backgroundPosition : 'center' , overflow : 'hidden' , borderRadius : '1rem' , backgroundSize : 'cover'}} >
+            <img alt='hii' src={blog?.thumbnail?.url} />
+          </SwiperSlide  >))
+        }
       </Swiper>
     </>
   );
