@@ -4,9 +4,9 @@ import { useDispatch, useSelector } from "react-redux";
 import { Link, useLocation } from "react-router-dom";
 import Loader from "../components/cart/Loader";
 import DeliveryChecker from "../components/order/DeliveryChecker";
-import LoginChecker from "../components/order/loginChecker";
 import OrderSummary from "../components/order/OrderSummary";
 import Payment from "../components/order/Payment";
+import LoginChecker from '../components/order/LoginChecker'
 import {
   getAllAddress,
   getSelectedAddress,
