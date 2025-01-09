@@ -83,13 +83,13 @@ function SingleOrder() {
                   style={
                     orders?.orderStatus == "pending"
                       ? { width: "7%" }
-                      : orders?.orderStatus == "Confirmed"
+                      : orders?.orderStatus == "confirmed"
                       ? { width: "28%" }
                       : orders?.orderStatus == "Shipped"
                       ? { width: "53%" }
-                      : orders?.orderStatus == "Out For Delivery"
+                      : orders?.orderStatus == "out for delivery"
                       ? { width: "78%" }
-                      : orders.orderStatus == "Delivered"
+                      : orders.orderStatus == "delivered"
                       ? { width: "100%" }
                       : { width: "0%" }
                   }

@@ -1,3 +1,5 @@
+import { toast } from "react-toastify"
+
 export const getWishlistIdUsingProductId = (productId , wishLists = []) => {
     const item = wishLists.find((wishlist) => wishlist.productId == productId)
     return item?._id || null
@@ -43,6 +45,15 @@ export function getRandomColor(format = "rgb") {
       default:
         throw new Error("Invalid format! Choose 'rgb', 'hex', or 'hsl'.");
     }
+  }
+
+  export const toastUpdate = ({toastId, message, type}) => {
+    toast.update(toastId, {
+      render: message,
+      type: type,
+      isLoading: false,
+      autoClose: 1000,
+    })
   }
   
 

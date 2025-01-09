@@ -7,14 +7,29 @@ import { getAllProducts } from '../../controllers/admin/getallproducts.controlle
 import isLoggedIn from '../../middlewares/isLoggedIn.middleware.js';
 import isAdmin from '../../middlewares/isAdmin.js';
 import { deleteReview } from '../../controllers/admin/deleteReview.js';
+import { uploads } from '../../middlewares/fileUploads/userPhotoUploads.js';
 
 export const productsAdminHandleRoute = Router();
 
-productsAdminHandleRoute.route('/create-product').post(isLoggedIn ,isAdmin,createProduct);
+productsAdminHandleRoute.route('/create-product').post(
+  isLoggedIn,
+  isAdmin,
+  uploads.fields([
+    { name: 'thumbnail', maxCount: 1 },
+    { name: 'images', maxCount: 10 },
+  ]),
+  createProduct,
+);
 
-productsAdminHandleRoute.route('/:id').put(isLoggedIn,isAdmin,updateProducts).delete(isLoggedIn,isAdmin,deleteProduct).get(singleProduct)
+productsAdminHandleRoute
+  .route('/:id')
+  .put(isLoggedIn, isAdmin, updateProducts)
+  .delete(isLoggedIn, isAdmin, deleteProduct)
+  .get(singleProduct);
 
 // productsAdminHandleRoute.route('/products-all').get(getAllProducts)
-productsAdminHandleRoute.route('/').get(getAllProducts)
+productsAdminHandleRoute.route('/').get(getAllProducts);
 
-productsAdminHandleRoute.route('/delete-review').delete(isLoggedIn , isAdmin , deleteReview)
+productsAdminHandleRoute
+  .route('/delete-review')
+  .delete(isLoggedIn, isAdmin, deleteReview);

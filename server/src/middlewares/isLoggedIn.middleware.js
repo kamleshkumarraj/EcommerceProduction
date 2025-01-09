@@ -8,6 +8,7 @@ import { userModels } from "../models/userRegistration.model.js";
 const isLoggedIn = asyncHandler(async (req , res , next) =>{
     let {tocken} = req.cookies;
     tocken ? tocken : req.query.tocken;
+
     if(!tocken){
         return next(new ErrorHandler("Please login to access this resource" , 405))
     }

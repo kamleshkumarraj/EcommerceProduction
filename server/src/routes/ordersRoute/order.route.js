@@ -1,11 +1,10 @@
 
 import { Router } from 'express';
+import { deleteSingleOrder } from '../../controllers/ordercontroller/deleteSingleOrder.js';
+import { getAllOrders } from '../../controllers/ordercontroller/getAllOrder.controller.js';
+import { getSingleOrder } from '../../controllers/ordercontroller/getSingleOrder.controller.js';
 import { createOrder } from '../../controllers/ordercontroller/orderCreate.controller.js';
 import isLoggedIn from '../../middlewares/isLoggedIn.middleware.js';
-import { validateAvailability } from '../../middlewares/orders/validateQuantity.js';
-import { getSingleOrder } from '../../controllers/ordercontroller/getSingleOrder.controller.js';
-import { getAllOrders } from '../../controllers/ordercontroller/getAllOrder.controller.js';
-import { deleteSingleOrder } from '../../controllers/ordercontroller/deleteSingleOrder.js';
 
 export const orderHandlerRouter = Router();
 

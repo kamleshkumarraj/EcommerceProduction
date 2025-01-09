@@ -22,7 +22,7 @@ const AuthLinks = () => {
         </Link>
       ) : (
         <>
-          <Link id="link" to="/write" className={styles.link}>
+          <Link id="link" to="/blog/write" className={styles.link}>
             Write
           </Link>
           <span id="link" className={styles.link} >

@@ -6,7 +6,8 @@ const blogSlice = createSlice({
         totalBlog : [],
         mySavedBlogs : [],
         myLikedBlogs : [],
-        myCreatedBlogs : []
+        myCreatedBlogs : [],
+        latestBlog : []
     },
     reducers : {
         setAllBlogs : (state , action) => {

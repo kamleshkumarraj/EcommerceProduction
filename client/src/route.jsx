@@ -1,116 +1,126 @@
+import "./index.css";
 import { createBrowserRouter } from "react-router-dom";
 import App from "./App.jsx";
-import Admin from "./admin/Admin.jsx";
-import AnalyticsPage from "./admin/pages/AnalyticsPage.jsx";
-import OrdersPage from "./admin/pages/OrdersPage.jsx";
-import OverviewPage from "./admin/pages/OverviewPage.jsx";
-import ProductsPage from "./admin/pages/ProductsPage.jsx";
-import SalesPage from "./admin/pages/SalesPage.jsx";
-import SettingsPage from "./admin/pages/SettingsPage.jsx";
-import UsersPage from "./admin/pages/UsersPage.jsx";
-import BlogApp from "./blog/Blog.jsx";
-import ForgotPassword from "./blog/components/authentication/ForgotPassword.jsx";
-import ResetPassword from "./blog/components/authentication/ResetPassword.jsx";
-import SinglePage from "./blog/components/singleBlog/page.jsx";
-import WritePage from "./blog/components/write/page.jsx";
-import BlogHome from "./blog/pages/Home.page.jsx";
-import BlogPage from "./blog/pages/blog/page.jsx";
-import DeliveryChecker from "./components/order/DeliveryChecker.jsx";
-import MyOrder from "./components/profile/MyOrder.jsx";
-import SingleOrder from "./components/profile/SingleOrderDetails.jsx";
-import "./index.css";
-import AboutUs from "./pages/About.jsx";
-import Cart from "./pages/Cart.jsx";
-import Checkout from "./pages/Checkout.jsx";
-import OrderConfirmation from "./pages/ConfirmedOrder.jsx";
-import ContactUs from "./pages/Contact.jsx";
 import Home from "./pages/Home.jsx";
-import Login from "./pages/Login.jsx";
-import MyAccount from "./pages/MyAccount.jsx";
-import MyProfile from "./pages/MyProfile.page.jsx";
-import ProductsDetails from "./pages/ProductsDetails.jsx";
-import Register from "./pages/Register.jsx";
-import SearchingCategoryPage from "./pages/SearchingCategory.page.jsx";
-import ShoppingPage from "./pages/ShoppingPage.jsx";
-import Wishlist from "./pages/Wishlist.jsx";
+import { lazy, Suspense } from "react";
+import FetchingLoading from "./components/cart/FetchingLoading.jsx";
+import Loader from "./components/cart/Loader.jsx";
+
+// that types of imports are lazy loading, which means they are loaded only when they are needed.
+
+const Admin = lazy(() => import("./admin/Admin.jsx"));
+const SinglePage = lazy(() => import("./blog/components/singleBlog/page.jsx"));
+const WritePage = lazy(() => import("./blog/components/write/page.jsx"));
+const BlogHome = lazy(() => import("./blog/pages/Home.page.jsx"));
+const BlogPage = lazy(() => import("./blog/pages/blog/page.jsx"));
+const AnalyticsPage = lazy(() => import("./admin/pages/AnalyticsPage.jsx"));
+const OrdersPage = lazy(() => import("./admin/pages/OrdersPage.jsx"));
+const OverviewPage = lazy(() => import("./admin/pages/OverviewPage.jsx"));
+const ProductsPage = lazy(() => import("./admin/pages/ProductsPage.jsx"));
+const SalesPage = lazy(() => import("./admin/pages/SalesPage.jsx"));
+const SettingsPage = lazy(() => import("./admin/pages/SettingsPage.jsx"));
+const UsersPage = lazy(() => import("./admin/pages/UsersPage.jsx"));
+const BlogApp = lazy(() => import("./blog/Blog.jsx"));
+const ForgotPassword = lazy(() => import("./blog/components/authentication/ForgotPassword.jsx"));
+const ResetPassword = lazy(() => import("./blog/components/authentication/ResetPassword.jsx"));
+const DeliveryChecker = lazy(() => import("./components/order/DeliveryChecker.jsx"));
+const MyOrder = lazy(() => import("./components/profile/MyOrder.jsx"));
+const SingleOrder = lazy(() => import("./components/profile/SingleOrderDetails.jsx"));
+const AboutUs = lazy(() => import("./pages/About.jsx"));
+const Cart = lazy(() => import("./pages/Cart.jsx"));
+const Checkout = lazy(() => import("./pages/Checkout.jsx"));
+const OrderConfirmation = lazy(() => import("./pages/ConfirmedOrder.jsx"));
+const ContactUs = lazy(() => import("./pages/Contact.jsx"));
+const Login = lazy(() => import("./pages/Login.jsx"));
+const MyAccount = lazy(() => import("./pages/MyAccount.jsx"));
+const MyProfile = lazy(() => import("./pages/MyProfile.page.jsx"));
+const ProductsDetails = lazy(() => import("./pages/ProductsDetails.jsx"));
+const Register = lazy(() => import("./pages/Register.jsx"));
+const SearchingCategoryPage = lazy(() => import("./pages/SearchingCategory.page.jsx"));
+const ShoppingPage = lazy(() => import("./pages/ShoppingPage.jsx"));
+const Wishlist = lazy(() => import("./pages/Wishlist.jsx"));
+
+const fallbackHandler = () => {
+  return <Loader />
+}
 
 export const router = createBrowserRouter([
   {
     path: "/",
-    element: <App />,
+    element: <App /> ,
     children: [
       {
         path: "/",
-        element: <Home />,
+        element: <Home /> ,
       },
       {
         path: "/login",
-        element: <Login />,
+        element: <Suspense fallback = {fallbackHandler} > <Login /> </Suspense>,
       },
       {
         path: "/signup",
-        element: <Register />,
+        element: <Suspense fallback = {fallbackHandler} > <Register /> </Suspense>,
       },
 
       {
         path: "/cart",
-        element: <Cart />,
+        element: <Suspense fallback = {fallbackHandler} > <Cart /> </Suspense> ,
       },
       {
         path: "/wishlist",
-        element: <Wishlist />,
+        element: <Suspense fallback = {fallbackHandler} > <Wishlist /> </Suspense> ,
       },
       {
         path: "/checkout",
-        element: <Checkout />,
+        element: <Suspense fallback = {fallbackHandler} > <Checkout /> </Suspense> ,
       },
       {
         path: "/order-confirmation",
-        element: <OrderConfirmation />,
+        element: <Suspense fallback = {fallbackHandler} > <OrderConfirmation /> </Suspense> ,
       },
       {
         path: "/orderDetails",
-        element: <SingleOrder />,
+        element: <Suspense fallback = {fallbackHandler} > <SingleOrder /> </Suspense> ,
       },
       {
         path: "/category/searching/:value",
-        element: <SearchingCategoryPage />,
+        element: <Suspense fallback = {fallbackHandler} > <SearchingCategoryPage /> </Suspense> ,
       },
       {
         path: "/shopping",
-        element: <ShoppingPage />,
+        element: <Suspense fallback = {fallbackHandler} > <ShoppingPage /> </Suspense> ,
       },
       {
         path: "/products-details/:id",
-        element: <ProductsDetails />,
+        element: <Suspense fallback = {fallbackHandler} > <ProductsDetails /> </Suspense> ,
       },
       {
         path : '/about',
-        element : <AboutUs />
+        element :<Suspense fallback = {fallbackHandler} >  <AboutUs /> </Suspense> 
       },
       {
         path : '/contact',
-        element : <ContactUs />
+        element :<Suspense fallback = {fallbackHandler} >  <ContactUs /> </Suspense> 
       },
       {
         path: "/my-account",
-        element: <MyAccount />,
+        element: <Suspense fallback = {fallbackHandler} > <MyAccount /> </Suspense> ,
         children: [
           {
             path: "/my-account/wishlist",
-            element: <Wishlist />,
+            element: <Suspense fallback = {fallbackHandler} > <Wishlist /> </Suspense> ,
           },
           {
             path: "/my-account/my-orders",
-            element: <MyOrder />,
+            element: <Suspense fallback = {fallbackHandler} > <MyOrder /> </Suspense> ,
           },
           {
             path: "/my-account/my-info",
-            element: <MyProfile />,
+            element: <Suspense fallback = {fallbackHandler} > <MyProfile /> </Suspense> ,
           },
           {
             path: "/my-account/address",
-            element: <DeliveryChecker />,
+            element: <Suspense fallback = {fallbackHandler} > <DeliveryChecker /> </Suspense> ,
           },
         ],
       },
@@ -118,79 +128,79 @@ export const router = createBrowserRouter([
   },
   {
     path: "/admin/dashboard",
-    element: <Admin />,
+    element: <Suspense fallback = {fallbackHandler} > <Admin /> </Suspense> ,
     children: [
       {
         path: "/admin/dashboard/products",
-        element: <ProductsPage />,
+        element: <Suspense fallback = {fallbackHandler} > <ProductsPage /> </Suspense> ,
       },
       {
         path: "/admin/dashboard/orders",
-        element: <OrdersPage />,
+        element: <Suspense fallback = {fallbackHandler} > <OrdersPage /> </Suspense> ,
       },
       {
         path: "/admin/dashboard/overview",
-        element: <OverviewPage />,
+        element: <Suspense fallback = {fallbackHandler} > <OverviewPage /> </Suspense> ,
       },
       {
         path: "/admin/dashboard/users",
-        element: <UsersPage />,
+        element: <Suspense fallback = {fallbackHandler} > <UsersPage /> </Suspense> ,
       },
       {
         path: "/admin/dashboard/settings",
-        element: <SettingsPage />,
+        element: <Suspense fallback = {fallbackHandler} > <SettingsPage /> </Suspense> ,
       },
       {
         path: "/admin/dashboard/sales",
-        element: <SalesPage />,
+        element: <Suspense fallback = {fallbackHandler} > <SalesPage /> </Suspense> ,
       },
       {
         path: "/admin/dashboard/analytics",
-        element: <AnalyticsPage />,
+        element: <Suspense fallback = {fallbackHandler} > <AnalyticsPage /> </Suspense> ,
       },
     ],
   },
   {
     path: "/blog",
     element: (
-        <BlogApp />
+         <Suspense fallback = {fallbackHandler} > <BlogApp /> </Suspense> 
     ),
     children: [
       {
         path: "/blog",
-        element: <BlogHome />,
+        element: <Suspense fallback = {fallbackHandler} > <BlogHome /> </Suspense> ,
       },
       {
         path: "/blog/blog-page",
-        element: <BlogPage />,
+        element: <Suspense fallback = {fallbackHandler} > <BlogPage /> </Suspense> ,
       },
       {
         path: "/blog/blog-details/:blog_id",
-        element: <SinglePage />,
+        element: <Suspense fallback = {fallbackHandler} > <SinglePage /> </Suspense> ,
       },
       {
         path: "/blog/login",
-        element: <Login />,
+        element: <Suspense fallback = {fallbackHandler} > <Login /> </Suspense> ,
       },
       {
         path: "/blog/signin",
-        element: <Register />,
+        element: <Suspense fallback = {fallbackHandler} > <Register /> </Suspense> ,
       },
       {
         path: "/blog/forgot-password",
-        element: <ForgotPassword />,
+        element: <Suspense fallback = {fallbackHandler} > <ForgotPassword /> </Suspense> ,
       },
       
       {
         path: "/blog/write",
-        element: <WritePage />,
+        element: <Suspense fallback = {fallbackHandler} > <WritePage /> </Suspense> ,
       },
     ],
   },
   {
     
       path: "/api/v1/auth/reset-password/:tocken",
-      element: <ResetPassword />,
+      element: <Suspense fallback = {fallbackHandler} > <ResetPassword /> </Suspense> ,
     
   }
 ]);

@@ -48,7 +48,7 @@ const Headers = () => {
 
   return (
     <div className="w-full bg-white pb-[1rem] sticky top-0 z-[9999]">
-      <div className="header-top bg-[#adadad] md-lg:hidden">
+      <div className="header-top bg-[#adadad] ">
         <div className="w-[85%] lg:w-[98%] mx-auto">
           <div className="flex w-full justify-between items-center h-[5rem] text-slate-500">
             <ul className="flex items-center justify-start gap-[3.2rem]">
@@ -62,30 +62,6 @@ const Headers = () => {
             </ul>
             <div>
               <div className="flex items-center justify-center gap-10">
-                <div className="flex items-center justify-center gap-4">
-                  <a href="#">
-                    <FaFacebookF />
-                  </a>
-                  <a href="#">
-                    <AiOutlineTwitter />
-                  </a>
-                  <a href="#">
-                    <FaLinkedinIn />
-                  </a>
-                  <a href="#">
-                    <AiFillGithub />
-                  </a>
-                </div>
-                <div className="flex group cursor-pointer text-slate-800 text-[1.4rem] justify-center items-center gap-1 relative after:h-[18px] after:w-[1px] after:bg-[#afafaf] after:-right-[16px] after:absolute before:absolute before:h-[18px] before:bg-[#afafaf] before:w-[1px] before:-left-[20px]">
-                  <img src="" alt="" />
-                  <span>
-                    <MdOutlineKeyboardArrowDown />
-                  </span>
-                  <ul className="absolute invisible transition-all to-12 rounded-sm duration-200 text-white p-2 w-[100px] flex flex-col gap-3 group-hover:visible group-hover:top-6 group-hover:bg-black z-10">
-                    <li>Bangla</li>
-                    <li>English</li>
-                  </ul>
-                </div>
                 {userInfo ? (
                   <Link
                     className="flex items-center justify-center gap-2 text-[1.4rem] cursor-pointer"
@@ -139,8 +115,8 @@ const Headers = () => {
               </div>
             </div>
             <div className="w-9/12 md-lg:w-full">
-              <div className="flex flex-wrap items-center justify-between pl-8 md-lg:justify-center">
-                <ul className="flex items-start justify-start gap-[3.2rem] text-[1.4rem] font-bold uppercase md-lg:hidden">
+              <div className="flex flex-wrap items-center justify-between w-full pl-8 md-lg:justify-center">
+                <ul className="sm:flex hidden items-start justify-start gap-[3.2rem] text-[1.4rem] font-bold uppercase md-lg:hidden">
                   <li>
                     <Link
                       className={`p-2 block ${
@@ -198,9 +174,21 @@ const Headers = () => {
                       Contact
                     </Link>
                   </li>
+                  <li>
+                    <Link
+                    to={'/admin/dashboard/overview'}
+                      className={`p-2 block ${
+                        pathname === "/contact"
+                          ? "text-[#7fad39]"
+                          : "text-slate-600"
+                      }`}
+                    >
+                     {userInfo && userInfo?.roles == 'admin' && 'Dashboard'}
+                    </Link>
+                  </li>
                 </ul>
                 <div className="flex items-center justify-center gap-5 md-lg:hidden">
-                  <div className="flex justify-center gap-5">
+                  <div className="flex justify-center gap-5 ml-auto">
                     <div
                       onClick={() =>
                         navigate(userInfo ? "/wishlist" : "/login")
@@ -258,10 +246,7 @@ const Headers = () => {
                 <span>
                   <MdOutlineKeyboardArrowDown />
                 </span>
-                <ul className="absolute invisible transition-all to-12 rounded-sm duration-200 text-white p-2 w-[100px] flex flex-col gap-3 group-hover:visible group-hover:top-6 group-hover:bg-black z-10">
-                  <li>Bangla</li>
-                  <li>English</li>
-                </ul>
+                
               </div>
               {userInfo ? (
                 <Link
@@ -371,7 +356,7 @@ const Headers = () => {
           </div>
         </div>
       </div>
-      <div className="w-[85%] lg:w-[90%] mx-auto">
+      <div className="w-[85%] hidden md:block lg:w-[90%] mx-auto">
         <div className="flex flex-wrap w-full md-lg:gap-[3.2rem]">
           <div className="w-3/12 md-lg:w-full">
             <div className="relative bg-white">
@@ -392,7 +377,7 @@ const Headers = () => {
               <div
                 className={`${
                   categoryShow ? "h-0" : "h-[400px]"
-                } overflow-hidden transition-all md-lg:relative duration-500 absolute z-[99999] bg-white w-full border-x`}
+                } overflow-hidden transition-all md-lg:relative duration-500 absolute z-[99999] hidden md:block bg-white w-full border-x`}
               >
                 <ul className="h-full py-2 overflow-auto font-medium text-slate-600">
                   {categorys.map((c, i) => {
@@ -430,25 +415,11 @@ const Headers = () => {
             </div>
           </div>
           <div className="w-9/12 pl-8 md-lg:pl-0 md-lg:w-full">
-            <div className="flex flex-wrap items-center justify-between w-full md-lg:gap-6">
+            <div className="flex-wrap items-center justify-between hidden w-full md:flex md-lg:gap-6">
               <div className="w-8/12 md-lg:w-full">
-                <div className="flex border h-[50px] items-center relative gap-5">
-                  <div className="relative after:absolute after:h-[25px] after:w-[1px] after:bg-[#afafaf] after:-right-[15px] md:hidden">
-                    <select
-                      className="w-[150px] text-slate-600 font-semibold bg-transparent px-2 h-full outline-0 border-none"
-                      name=""
-                      id=""
-                    >
-                      <option value="">Select category</option>
-                      {categorys.map((c, i) => (
-                        <option key={i} value={c.name}>
-                          {c.name}
-                        </option>
-                      ))}
-                    </select>
-                  </div>
+                <div className=" border md:flex hidden h-[50px] items-center relative gap-5">
                   <input
-                    className="relative w-full h-full px-3 bg-transparent text-slate-500 outline-0"
+                    className="relative hidden w-full h-full px-3 bg-transparent md:block text-slate-500 outline-0"
                     onChange={(e) => {
                       setSearchQuery(e.target.value);
                       setCategory("");

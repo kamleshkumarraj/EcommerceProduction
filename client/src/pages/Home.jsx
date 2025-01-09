@@ -11,25 +11,43 @@ import TradingProductsBody from "../components/body/TradingProductsBody";
 import {
   getAllProducts,
   getDiscountedProducts,
+  getLatestProducts,
   getTopRatedProducts,
 } from "../store/slices/productsHandler.slice";
 import TestimonialSection from "../components/body/TestomonialSection";
 import WhyChooseUs from "../components/body/ChooseWhy";
 import DiscountedProductsBody from "../components/body/DiscountedProductsBody";
 import { GlobalContext } from "../contexts/GlobalProvider";
-import { useContext, useEffect } from "react";
-import Loader from "../components/cart/Loader";
+import { useContext, useEffect, useState } from "react";
+import { getSocket } from "../contexts/Socket";
+import { NEW_PRODUCT_ADDED } from "../events";
+
+
 const Home = () => {
   const products = useSelector(getAllProducts);
   const topRated_product = useSelector(getTopRatedProducts);
   const discount_product = useSelector(getDiscountedProducts);
+  const latest_products = useSelector(getLatestProducts) || []
   const {setEventLoading , eventLoading} = useContext(GlobalContext)
-
+  const [newProductsData , setNewProductsData] = useState([]);
   useEffect(() => {
     setTimeout(() => {
       setEventLoading(false)
     },1000)
   },[eventLoading])
+
+  const socket = getSocket();
+  const newProductsHandler = ({productsData}) => {
+      setNewProductsData([...newProductsData , productsData])
+  }
+  const latestProducts = [...newProductsData , ...latest_products.slice(0,(latest_products.length - newProductsData.length))]
+
+  console.log(latestProducts)
+  
+  useEffect(() => {
+    socket.on(NEW_PRODUCT_ADDED , newProductsHandler)
+    return () => socket.off(NEW_PRODUCT_ADDED , newProductsHandler)
+  },[socket])
   
   return (
     <div className="w-full">
@@ -39,7 +57,7 @@ const Home = () => {
         <Categorys />
       </div>
       <div id="latest-products-body"  className="py-[45px] px-[20px] lg:px-[40px] w-[100%]">
-        <LatestProductsBody title={"Latest Products"} products={products.slice(0, 24)} />
+        <LatestProductsBody title={"Latest Products"} products={latestProducts} />
       </div>
       <div id="offer-banner">
         <OfferBanner />

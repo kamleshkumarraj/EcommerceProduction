@@ -10,7 +10,10 @@ export const getAllUsers = asyncHandler(async (req, res, next) =>{
     res.status(200).json({
         success : true,
         message : "Get all users Successfully",
-        users
+        data : {
+            users,
+            usersLength : users.length
+        }
     })
 })
 

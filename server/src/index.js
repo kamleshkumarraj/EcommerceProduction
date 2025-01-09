@@ -2,7 +2,7 @@ import { app } from './app.js';
 import dotenv from 'dotenv';
 import cloudinary from 'cloudinary';
 import connectdb from './db/dbConnection.js';
-
+import {server} from './socket.js'
 //now we handle uncaught errors.
 process.on('uncaughtException', (err) => {
   console.log(`Error : uncaught exception ${err}`);
@@ -20,7 +20,7 @@ cloudinary.config({
 });
 
 connectdb().then(() => {
-  app.listen(process.env.PORT || 3000, () => {
+  server.listen(process.env.PORT || 3000, () => {
     console.log(`server listening on ${process.env.PORT || 3000}`);
   });
 });
@@ -30,3 +30,4 @@ process.on('unhandledRejection', (err) => {
   console.log(`Error : unhandledRejection ${err}`);
   process.exit(1);
 });
+

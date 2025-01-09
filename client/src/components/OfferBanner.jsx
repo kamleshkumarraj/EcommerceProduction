@@ -1,3 +1,4 @@
+import { Link } from "react-router-dom";
 import { useCountDown } from "../hooks/useCountDown";
 
 const OfferBanner = () => {
@@ -51,9 +52,12 @@ const OfferBanner = () => {
 
         {/* Buttons */}
         <div className="mb-6">
-          <button className="px-6 py-3 font-medium text-white bg-red-500 rounded-[30px] hover:bg-red-600 text-[16px]">
+          <Link
+            to={"/shopping"}
+            className="px-6 py-3 font-medium text-white bg-red-500 rounded-[30px] hover:bg-red-600 text-[16px]"
+          >
             Shop Now
-          </button>
+          </Link>
         </div>
 
         {/* Limited Time Offer */}

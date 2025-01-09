@@ -7,6 +7,9 @@ import UsersTable from "../components/users/UsersTable";
 import UserGrowthChart from "../components/users/UserGrowthChart";
 import UserActivityHeatmap from "../components/users/UserActivityHeatmap";
 import UserDemographicsChart from "../components/users/UserDemographicsChart";
+import { useGetTotalUsersQuery } from "../../store/slices/adminApi";
+import { useError } from "../../hooks/useError";
+import ThreeDotProgressLoader from "../components/loader/ThreeDotProgressLoader";
 
 const userStats = {
   totalUsers: 152845,
@@ -15,15 +18,20 @@ const userStats = {
   churnRate: "2.4%",
 };
 
+
+
 const UsersPage = () => {
+  const {data : usersData , isLoading : isUsersLoading , error : usersError , isError : isUsersError} = useGetTotalUsersQuery();
+  
+  useError([{error : usersError , isError : isUsersError}]);
   return (
-    <div className="flex-1 overflow-auto relative z-10">
+    <div className="relative z-10 flex-1 overflow-auto">
       <Header title="Users" />
 
       <main className="max-w-[120rem] mx-auto py-[2.4rem] px-[1.6rem] lg:px-[3.2rem]">
         {/* STATS */}
         <motion.div
-          className="grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-4 mb-8"
+          className="grid grid-cols-1 gap-5 mb-8 sm:grid-cols-2 lg:grid-cols-4"
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 1 }}
@@ -54,10 +62,14 @@ const UsersPage = () => {
           />
         </motion.div>
 
-        <UsersTable />
+        {isUsersLoading ? (
+          <ThreeDotProgressLoader />
+        ) : (
+          !isUsersError && <UsersTable users={usersData?.data?.users} />
+        )}
 
         {/* USER CHARTS */}
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mt-8">
+        <div className="grid grid-cols-1 gap-6 mt-8 lg:grid-cols-2">
           <UserGrowthChart />
           <UserActivityHeatmap />
           <UserDemographicsChart />

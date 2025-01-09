@@ -16,7 +16,7 @@ function FeaturedCard({ item }) {
       >
         <img
           className={` p-[15px] ${item.category == 'smartphones' ? 'w-[80px]' : 'min-w-[180px]'}`}
-          src={item?.thumbnail}
+          src={item?.thumbnail?.url || item?.images[0]}
           alt="object-images"
         />
       </div>
@@ -28,10 +28,10 @@ function FeaturedCard({ item }) {
         </h1>
         <div id="rating" className="flex gap-[10px] items-center">
                   <span className="text-[16px] flex gap-[5px] text-red-600">
-                    {[[1,2,3,4,5] , [1,2,3,4,] , [1,2,3,] , [1,2] , [1]][5-Math.floor(item?.rating)].map(() => (
+                    {[[1,2,3,4,5] , [1,2,3,4,] , [1,2,3,] , [1,2] , [1] , []][5-Math.floor(item?.rating)].map(() => (
                       <IoStar key={Math.random()} size={20} color="#DC2626" />
                     ))}
-                    {[[1,2,3,4,5] , [1,2,3,4,] , [1,2,3,] , [1,2] , [1]][Math.floor(item?.rating)].map(() => (
+                    {[[1,2,3,4,5] , [1,2,3,4,] , [1,2,3,] , [1,2] , [1] , []][Math.floor(item?.rating)].map(() => (
                       <IoStarOutline key={Math.random()} size={20} color="#DC2626" />
                     ))}
                   </span>

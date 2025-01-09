@@ -1,33 +1,17 @@
-import { useEffect, useState } from "react";
 import { motion } from "framer-motion";
 import { Search } from "lucide-react";
-import { useDispatch } from "react-redux";
-import { apiCalling } from "../../../api/apiCalling.api";
+import userLoader from '../../../assets/Img/userEffect.jpg'
+import { useFilter } from "../../../hooks/useFilter.hook";
+import { useEffect, useState } from "react";
 
-const UsersTable = () => {
-  const [searchTerm, setSearchTerm] = useState("");
-  // const [filteredUsers, setFilteredUsers] = useState(userData);
-  const [users, setUsers] = useState([]);
-
-  const dispatch = useDispatch();
-  // now we write code for getting all users from the database or server.
-  useEffect(() => {
-    const options = {
-      method: "GET",
-      url: "http://localhost:5000/api/v1/admin/all-users",
-    };
-
-    (async function getAllUser() {
-      const response = await dispatch(apiCalling(options));
-      if (response?.success) {
-        setUsers(response?.data);
-      } else {
-        console.log(response?.message);
-      }
-    })();
-  }, []);
+const UsersTable = ({users}) => {
+  const [searchQuery, setSearchQuery] = useState("");
   
+  const [filterUser , setFilterQuery] = useFilter(users , (user) => user?.firstname)
 
+  useEffect(() => {
+    setFilterQuery(searchQuery.trim())
+  },[searchQuery])
   // const handleSearch = (e) => {
   //   const term = e.target.value.toLowerCase();
   //   setSearchTerm(term);
@@ -48,13 +32,15 @@ const UsersTable = () => {
     >
       <div className="flex items-center justify-between mb-6">
         <h2 className="text-[2rem] font-semibold text-gray-100">Users</h2>
-        <div className="relative">
+        <div className="relative px-2">
           <input
+            value={searchQuery}
+            onChange={(e) => setSearchQuery(e.target.value)}
             type="text"
             placeholder="Search users..."
-            className="py-2 pl-10 pr-4 text-white placeholder-gray-400 bg-gray-700 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+            className="py-2 pl-10 pr-4 mx-4 text-white placeholder-gray-400 bg-gray-700 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
           />
-          <Search className="absolute left-3 top-2.5 text-gray-400" size={18} />
+          <Search className="absolute left-8 top-2.5 text-gray-400" size={18} />
         </div>
       </div>
 
@@ -81,8 +67,8 @@ const UsersTable = () => {
           </thead>
 
           <tbody className="divide-y divide-gray-700">
-            {users.length > 0
-              ? users.map((user) => (
+            {filterUser.length > 0
+              ? filterUser.map((user) => (
                   <motion.tr
                     key={user.id}
                     initial={{ opacity: 0 }}
@@ -94,7 +80,12 @@ const UsersTable = () => {
                         <div className="flex-shrink-0 w-[4rem] h-[4rem]">
                           <div className="flex items-center justify-center min-w-[5rem] min-h-[5rem] font-semibold text-white rounded-full bg-gradient-to-r from-purple-400 to-blue-500">
                             <img
-                              src={user?.avatar?.url}
+                              src={
+                                user?.avatar?.url ==
+                                "https://myImage/image.png" || user?.avatar?.url == 'https://myavatar.png'
+                                  ? userLoader
+                                  : user?.avatar?.url
+                              }
                               className="rounded-full  h-[5rem] w-[5rem]"
                               alt=""
                             />
@@ -129,7 +120,7 @@ const UsersTable = () => {
                             : "bg-red-800 text-red-100"
                         }`}
                       >
-                        {user.userType}
+                        {'normal'}
                       </span>
                     </td>
 

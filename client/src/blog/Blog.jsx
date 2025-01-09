@@ -5,6 +5,7 @@ import FooterM from "../components/FooterM";
 import { getAllBlogs } from "../store/slices/blog.slice";
 import { fetchAllBlogs } from "../utils/blog.utils";
 import Header from "./components/header/Header";
+import { getSelf } from "../store/slices/selfHandler.slice";
 
 
 function BlogApp() {
@@ -14,14 +15,10 @@ function BlogApp() {
     fetchAllBlogs({dispatch})
   },[])
 
-  const allBlogs = useSelector(getAllBlogs) || []
- 
-  
   return (
     <>
     <div className="relative wrapper bg-[#0f172a] text-white " id="blog-root" >
           <Header />
-
           <Outlet />
           <FooterM />
       </div>

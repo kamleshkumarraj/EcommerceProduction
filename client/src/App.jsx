@@ -1,8 +1,7 @@
 import { useContext, useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Outlet } from "react-router-dom";
-import { ToastContainer } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
+
 import { apiCalling } from "./api/apiCalling.api";
 import Loader from "./components/cart/Loader";
 import FooterM from "./components/FooterM";
@@ -42,10 +41,10 @@ function App() {
       };
       const response = await dispatch(apiCalling(options));
       if (response?.success) {
-        dispatch(setAllProducts(response.data));
-        dispatch(setTopRatedProducts(response?.data?.slice(0, 40)));
-        dispatch(setLatestProducts(response?.data?.slice(55, 70)));
-        dispatch(setDiscountedProducts(response?.data?.slice(70, 90)));
+        dispatch(setAllProducts(response.data?.products));
+        dispatch(setTopRatedProducts(response?.data?.products?.slice(0, 40)));
+        dispatch(setLatestProducts(response?.data?.products?.slice(response?.data?.products?.length - 24 , response?.data?.products?.length).reverse()));
+        dispatch(setDiscountedProducts(response?.data?.products?.slice(70, 90)));
       } else console.log("Error during geting all products");
     })();
   }, []);
@@ -94,19 +93,16 @@ function App() {
   if (initialLoading) return <InitialLoader />;
   return (
     <>
-      <ToastContainer
-        position="top-right"
-        autoClose={2000}
-        style={{ zIndex: 999999999 }}
-      />
+      
       <div className="font-[roboto]  " id="container">
         <div id="advertisement-modals" className="relative w-full">
           <NewsletterModal />
         </div>
-        <Headers />
-        {eventLoading && <Loader />}
-        <Outlet />
-        <FooterM />
+        
+          <Headers />
+          {eventLoading && <Loader />}
+          <Outlet />
+          <FooterM />
       </div>
     </>
   );

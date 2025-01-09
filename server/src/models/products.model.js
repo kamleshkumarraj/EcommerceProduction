@@ -35,12 +35,14 @@ const productSchema = new mongoose.Schema(
         },
         shippingInformation: {
             type : String,
+            default : 'order delivered within 3-5 business days',
             required : true,
         },
         availabilityStatus: {
             type : String,
             required : true,
-            enum : ['available', 'unavailable']
+            enum : ['available', 'unavailable'],
+            default : 'available'
         },
         reviews: [
           {
@@ -72,8 +74,14 @@ const productSchema = new mongoose.Schema(
         },
         images: [],
         thumbnail: {
-            type : String,
-            required : true
+            public_id : {
+                type : String,
+                required : true
+            },
+            url : {
+                type : String,
+                required : true
+            }
         },
         quantity : {
             type : Number,

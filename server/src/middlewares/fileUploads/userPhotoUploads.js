@@ -2,8 +2,9 @@ import multer from 'multer';
 
 const storage = multer.diskStorage({
   destination: (req, file, cb) => {
-    if(file?.mimetype == 'image/png' || file?.mimetype == 'image/jpg') cb(null, './src/uploads');
-    else cb(new Error("Please upload only png and jpg images 1 ") , false)
+    // if(file?.mimetype == 'image/png' || file?.mimetype == 'image/jpg') 
+      cb(null, './src/uploads');
+    //else cb(new Error("Please upload only png and jpg images 1 ") , false)
   },
   filename: (req, file, cb) => {
     const prefix = Date.now() + '_' + (Math.floor(Math.random() * 200) + 1);
@@ -11,11 +12,11 @@ const storage = multer.diskStorage({
   },
 });
 
-const fileFilter = (req , file , cb) => {
-  if(file?.mimetype == 'image/png' || file?.mimetype == 'image/jpg') cb(null , true)
-  else cb(new Error("Please upload only png and jpg images 2 ") , false)
-}
+// const fileFilter = (req , file , cb) => {
+//   if(file?.mimetype == 'image/png' || file?.mimetype == 'image/jpg') cb(null , true)
+//   else cb(new Error("Please upload only png and jpg images ! ") , false)
+// }
 
-export const uploads = multer({ storage: storage , fileFilter });
+export const uploads = multer({ storage: storage });
 
 export const avatarUpload = uploads.single('avatar');
