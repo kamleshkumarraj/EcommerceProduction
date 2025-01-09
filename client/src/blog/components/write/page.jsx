@@ -3,13 +3,9 @@ import "react-quill/dist/quill.bubble.css";
 
 import { useState } from "react";
 import { useDispatch } from "react-redux";
+import { getSocket } from "../../../contexts/Socket";
 
 const WritePage = () => {
-  const [file, setFile] = useState([]);
-  const [summary, setSummary] = useState("");
-  const [content, setContent] = useState("");
-  const [title, setTitle] = useState("");
-  const [category, setCategory] = useState("");
   const categories = ["health", "medical", "education"];
 
   // blog images method and variables.

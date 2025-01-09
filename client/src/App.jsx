@@ -16,7 +16,7 @@ import {
   setLatestProducts,
   setTopRatedProducts,
 } from "./store/slices/productsHandler.slice";
-import { getSelf, setUser } from "./store/slices/selfHandler.slice";
+import { getSelf } from "./store/slices/selfHandler.slice";
 import getAllCart from "./utils/getAllCartApiCall";
 import { fetchOrder } from "./utils/order";
 import { fetchAllWishlistItem } from "./utils/wishlist";
@@ -67,22 +67,7 @@ function App() {
     })();
   }, []);
 
-  //api calling for when jwt token is not expired then login the user.
-  useEffect(() => {
-    (async function directLogin() {
-      const options = {
-        url: "http://localhost:2000/api/v2/auth/direct-login",
-        method: "POST",
-      };
-      const response = await dispatch(apiCalling(options));
-      if (response?.success) {
-        console.log("User logged in successfully");
-        dispatch(setUser(response.data));
-      } else {
-        console.log("We get error during login the user !");
-      }
-    })();
-  }, []);
+  
 
   useEffect(() => {
     getAllCart(dispatch, user);

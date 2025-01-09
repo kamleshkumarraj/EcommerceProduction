@@ -1,6 +1,6 @@
-import React, { useRef, useState } from 'react';
+import React from 'react';
 // Import Swiper React components
-import { Swiper, SwiperSlide   } from 'swiper/react';
+import { Swiper, SwiperSlide } from 'swiper/react';
 
 // Import Swiper styles
 import 'swiper/css';
@@ -10,12 +10,11 @@ import 'swiper/css/pagination';
 import './blog-slide.css';
 
 // import required modules
-import { EffectCube, Pagination , Autoplay} from 'swiper/modules';
-import { useSelector } from 'react-redux';
-import { getAllBlogs } from '../../../store/slices/blog.slice';
+import { Autoplay, Pagination } from 'swiper/modules';
+import { useGetAllBlogsQuery } from '../../../store/slices/blogApi';
 
 export default function ImgSlider() {
-  const allBlogs = useSelector(getAllBlogs);
+ const {data : allBlogs} = useGetAllBlogsQuery();
   return (
     <>
       <Swiper style={{width : '100%' , height : '100%' , position : 'absolute'}}
@@ -28,7 +27,7 @@ export default function ImgSlider() {
       >
         
         {
-          allBlogs && allBlogs.length > 0 && allBlogs.slice(20,30).map((blog, index) => ( <SwiperSlide key={blog?._id} style={{backgroundPosition : 'center' , overflow : 'hidden' , borderRadius : '1rem' , backgroundSize : 'cover'}} >
+          allBlogs && allBlogs?.data?.length > 0 && allBlogs?.data?.slice(20,30).map((blog, index) => ( <SwiperSlide key={blog?._id} style={{backgroundPosition : 'center' , overflow : 'hidden' , borderRadius : '1rem' , backgroundSize : 'cover'}} >
             <img alt='hii' src={blog?.thumbnail?.url} />
           </SwiperSlide  >))
         }

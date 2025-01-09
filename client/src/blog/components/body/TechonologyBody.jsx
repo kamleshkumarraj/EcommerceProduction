@@ -1,9 +1,8 @@
-import { useSelector } from "react-redux";
-import { getAllBlogs } from "../../../store/slices/blog.slice";
+import { useGetAllBlogsQuery } from "../../../store/slices/blogApi";
 import { TechonologyCard } from "../card/CategoryCard";
 
 function TechnologyBody() {
-    const allBlogs = useSelector(getAllBlogs) || []
+    const {data : allBlogs} = useGetAllBlogsQuery() || []
   return (
     <div
       id="technology-body"
@@ -17,14 +16,14 @@ function TechnologyBody() {
       </div>
       <div id="blog-section" className="grid auto-rows-auto  gap-[1rem] w-full grid-cols-1" >
             <div id="row-1" className="grid w-full grid-cols-2 gap-[3rem]" >
-                {allBlogs.length > 0 && allBlogs.slice(8,10).map((blog) => (<TechonologyCard headingSize={'2.8rem'} leadingSize={'leading-[3.2rem]'} imgWidth={'min-w-[40rem]'} imgHeight={'h-[35rem]'} blog={blog} key={blog._id}  />)) }
+                {allBlogs && allBlogs?.data?.length > 0 && allBlogs?.data?.slice(8,10).map((blog) => (<TechonologyCard headingSize={'2.8rem'} leadingSize={'leading-[3.2rem]'} imgWidth={'min-w-[40rem]'} imgHeight={'h-[35rem]'} blog={blog} key={blog._id}  />)) }
 
                
             </div> 
             <hr  className="w-full border-t-[1px] my-[1rem] border-gray-600" />
             <div id="row-2" className="flex gap-[2rem] justify-between" >
                 {
-                    allBlogs.length > 0 && allBlogs.slice(5,8).map((blog) => (<TechonologyCard headingSize={'1.6rem'} leadingSize={'1.6rem'} imgWidth={'w-[60rem]'} imgHeight={'h-[22rem]'}  blog={blog} key={blog._id}  />)) 
+                    allBlogs && allBlogs?.data?.length > 0 && allBlogs?.data?.slice(5,8).map((blog) => (<TechonologyCard headingSize={'1.6rem'} leadingSize={'1.6rem'} imgWidth={'w-[60rem]'} imgHeight={'h-[22rem]'}  blog={blog} key={blog._id}  />)) 
                 }
             </div>
       </div>

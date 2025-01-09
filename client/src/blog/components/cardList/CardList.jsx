@@ -1,10 +1,9 @@
 import React from "react";
-import styles from "./cardList.module.css";
+import { useGetAllBlogsQuery } from "../../../store/slices/blogApi";
+import postImg from '../../assets/Images/culture.png';
 import Card from "../card/Card";
-import postImg from '../../assets/Images/culture.png'
 import Pagination from "../pagination/Pagination";
-import { useSelector } from "react-redux";
-import { getAllBlogs } from "../../../store/slices/blog.slice";
+import styles from "./cardList.module.css";
 
 
 
@@ -12,7 +11,7 @@ const CardList =  () => {
   // const { posts, count } = await getData(page, cat);
 
   // const POST_PER_PAGE = 2;
-  const allBlogs = useSelector(getAllBlogs);
+  const {data : allBlogs} = useGetAllBlogsQuery();
   // const hasPrev = POST_PER_PAGE * (page - 1) > 0;
   // const hasNext = POST_PER_PAGE * (page - 1) + POST_PER_PAGE < count;
   const posts = [
@@ -27,7 +26,7 @@ const CardList =  () => {
     <div className={styles.container}>
       <h1 className={styles.title}>Recent Posts</h1>
       <div className={styles.posts}>
-        {allBlogs && allBlogs.length> 0 && allBlogs.slice(10,14).map((item) => (
+        {allBlogs && allBlogs?.data?.length> 0 && allBlogs?.data?.slice(10,14).map((item) => (
           <Card item={item} id={item._id} key={item._id} />
         ))}
       </div>
