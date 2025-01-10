@@ -19,8 +19,8 @@ import WhyChooseUs from "../components/body/ChooseWhy";
 import DiscountedProductsBody from "../components/body/DiscountedProductsBody";
 import { GlobalContext } from "../contexts/GlobalProvider";
 import { useContext, useEffect, useState } from "react";
-import { getSocket } from "../contexts/Socket";
 import { NEW_PRODUCT_ADDED } from "../events";
+import { useSocket } from "../contexts/Socket";
 
 
 const Home = () => {
@@ -36,7 +36,7 @@ const Home = () => {
     },1000)
   },[eventLoading])
 
-  const socket = getSocket();
+  const socket = useSocket();
   const newProductsHandler = ({productsData}) => {
       setNewProductsData([...newProductsData , productsData])
   }

@@ -49,3 +49,8 @@ export const removeFile = async (files = []) => {
     await Promise.all(files.map((file) => fs.unlink(file?.path)))
 }
 
+export const getEligibleSocketToGetMessage = (members = [] ,userSocketId) => {
+    const eligibleSocketList = members.map((memberId) => userSocketId.get(memberId))
+    return eligibleSocketList.filter((socket) => socket !== undefined)
+}
+

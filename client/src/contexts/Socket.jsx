@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 
 const SocketContext = createContext();
 
-export const getSocket = () => useContext(SocketContext).socket
+export const useSocket = () => useContext(SocketContext)?.socket
 
 export const SocketProvider = ({children}) => {
     const socket = useMemo(() => {

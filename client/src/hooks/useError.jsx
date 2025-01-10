@@ -8,7 +8,8 @@ export const useError = (errors = []) => {
         if (error?.isFallback) {
           error?.fallBack();
         } else {
-          toast.error(error?.data?.message || "Something went wrong");
+          console.error(error);
+          toast.error(error?.error?.data?.message || "Something went wrong");
         }
       }
     });

@@ -1,19 +1,20 @@
+import { useEffect } from "react";
 import { createRoot } from "react-dom/client";
 import { Provider, useDispatch } from "react-redux";
 import { RouterProvider } from "react-router-dom";
-import { router } from "./route";
-import { store } from "./store/store";
-import { GlobalProvider } from "./contexts/GlobalProvider";
-import { SocketProvider } from "./contexts/Socket";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import { setUser } from "./store/slices/selfHandler.slice";
 import { apiCalling } from "./api/apiCalling.api";
-import { useEffect } from "react";
+import { GlobalProvider } from "./contexts/GlobalProvider";
+import { SocketProvider } from "./contexts/Socket";
+import { router } from "./route";
+import { setUser } from "./store/slices/selfHandler.slice";
+import { store } from "./store/store";
 
 const MyApp = ({ children }) => {
   //api calling for when jwt token is not expired then login the user.
   const dispatch = useDispatch();
+  
   useEffect(() => {
     (async function directLogin() {
       const options = {
@@ -24,6 +25,7 @@ const MyApp = ({ children }) => {
       if (response?.success) {
         console.log("User logged in successfully");
         dispatch(setUser(response.data));
+        
       } else {
         console.log("We get error during login the user !");
       }
@@ -34,17 +36,17 @@ const MyApp = ({ children }) => {
 
 createRoot(document.getElementById("root")).render(
   <Provider store={store}>
-    <MyApp>
-      <GlobalProvider>
-        <SocketProvider>
+    <SocketProvider>
+      <MyApp>
+        <GlobalProvider>
           <ToastContainer
             position="top-right"
             autoClose={2000}
             style={{ zIndex: 999999999 }}
           />
           <RouterProvider router={router} />
-        </SocketProvider>
-      </GlobalProvider>
-    </MyApp>
+        </GlobalProvider>
+      </MyApp>
+    </SocketProvider>
   </Provider>
 );

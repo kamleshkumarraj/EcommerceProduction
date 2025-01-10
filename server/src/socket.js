@@ -1,12 +1,14 @@
 import { createServer } from 'node:http';
 import { app } from './app.js';
 import { Server } from 'socket.io';
-import { NEW_PRODUCT_ADDED } from './events.js';
+import { AUTHENTICATED, NEW_BLOG_ADDED, NEW_PRODUCT_ADDED } from './events.js';
+import cookieParser from 'cookie-parser';
+import { socketUserAuthentication } from './middlewares/socketUserAuthentication.middleware.js';
 
 
 export const server = createServer(app);
 
-const io = new Server(server, {
+export const io = new Server(server, {
   cors: {
     origin: [
       'http://localhost:3000',
@@ -17,16 +19,31 @@ const io = new Server(server, {
   },
 });
 
+io.use((socket , next) => {
+  cookieParser()(socket.request , socket.request.res , async (error) => {
+    await socketUserAuthentication(error , socket , next);
+  }) 
+})
+
+const userSocketMap = new Map();
+
 io.on('connection', (socket) => {
-  socket.broadcast.emit('welcome message',`new user connected with socket id : ${socket.id}`);
-  socket.emit('welcome message', 'Welcome to our chat room');
-
-
+  
+  if(socket?.user?._id){
+    userSocketMap.set(socket.user._id.toString() , socket.id);
+    console.log('User connected with socket id : ', socket.id);
+  }else console.log("Unknown user connected with socket id : " , socket.id)
+  
   socket.on(NEW_PRODUCT_ADDED , ({message , productsData}) => {
       io.emit(NEW_PRODUCT_ADDED , {message , productsData}) 
+  })
+
+  socket.on(NEW_BLOG_ADDED , ({message , data}) => {
+     io.emit(NEW_BLOG_ADDED , {message , data})
   })
 
   socket.on('disconnect', () => {
     console.log('User disconnected with socket id : ', socket.id);
   });
+
 });

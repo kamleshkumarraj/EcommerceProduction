@@ -4,15 +4,15 @@ import { useCreateProductsMutation } from "../../../store/slices/adminApi";
 import {toast} from 'react-toastify'
 import { toastUpdate } from "../../../helper/helper";
 import { useError } from "../../../hooks/useError";
-import { getSocket } from "../../../contexts/Socket";
 import { NEW_PRODUCT_ADDED } from "../../../events";
+import { useSocket } from "../../../contexts/Socket";
 
 function CreateProductForm() {
   const [thumbnail, setThumbnail] = useState(null);
   const [images, setImages] = useState([]);
   const [thumbnailFile , setThumbnailFile] = useState(null);
   const [imagesFiles, setImagesFiles] = useState([]);
-  const socket = getSocket();
+  const socket = useSocket();
 
   // file uploader funcanalities.
 

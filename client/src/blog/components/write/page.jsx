@@ -1,19 +1,24 @@
-import { FaCloudUploadAlt, FaUpload } from "react-icons/fa";
+import { FaUpload } from "react-icons/fa";
 import "react-quill/dist/quill.bubble.css";
 
 import { useState } from "react";
-import { useDispatch } from "react-redux";
-import { getSocket } from "../../../contexts/Socket";
+import { toast } from "react-toastify";
+import { useSocket } from "../../../contexts/Socket";
+import { NEW_BLOG_ADDED } from "../../../events";
+import { toastUpdate } from "../../../helper/helper";
+import { useError } from "../../../hooks/useError";
+import { useCreateBlogsMutation } from "../../../store/slices/blogApi";
 
 const WritePage = () => {
-  const categories = ["health", "medical", "education"];
+  const categories = ["style" , "fashion" , "food" , "traveling" , "culture" ,  "technology" , "products" , "external" , "video" , "audio" , "music" , "games" , "movies" , "books" , "education", "health" , "entertainment"];
 
   // blog images method and variables.
   const [thumbnail, setThumbnail] = useState(null);
   const [images, setImages] = useState([]);
   const [thumbnailFile, setThumbnailFile] = useState(null);
   const [imagesFiles, setImagesFiles] = useState([]);
-  const socket = getSocket();
+  const socket = useSocket();
+  const [createBlog , {isLoading : isBlogCreationLoading , isError: isBlogCreationError , error : blogCreationError}] = useCreateBlogsMutation()
 
   // file uploader funcanalities.
 
@@ -86,8 +91,8 @@ const WritePage = () => {
         message: "Summary must be at least 10 characters long",
       },
       {
-        maxLength: 200, // Adjust the maximum length as needed
-        message: "Summary must be at most 200 characters long",
+        maxLength: 1000, // Adjust the maximum length as needed
+        message: "Summary must be at most 1000 characters long",
       },
     ],
     slug: [
@@ -114,8 +119,8 @@ const WritePage = () => {
         message: "Description must be at least 10 characters long",
       },
       {
-        maxLength: 200, // Adjust the maximum length as needed
-        message: "Description must be at most 200 characters long",
+        maxLength: 2000, // Adjust the maximum length as needed
+        message: "Description must be at most 2000 characters long",
       },
     ],
   };
@@ -150,8 +155,46 @@ const WritePage = () => {
     return error;
   };
 
+  useError([{error : blogCreationError , isError : isBlogCreationError}])
+
   const uploadNews = async (e) => {
     e.preventDefault();
+    const error = validateError(blogDetails)
+    if(Object.keys(error).length > 0 ) {
+      console.log(error)
+    }
+    if(!thumbnailFile) {
+      toast.error("Please upload thumbnail image");
+      return;
+    }
+    if(imagesFiles.length < 3) {
+      toast.error("Please upload at least 3 images");
+      return;
+    }
+    const formData = new FormData();
+    Object.entries(blogDetails).forEach(([key, value]) => {
+      formData.append(key, value);
+    });
+    formData.append("thumbnail", thumbnailFile);
+    imagesFiles.forEach((image) => {
+      formData.append("images",image);
+    });
+    
+    const toastId = toast.loading("Uploading the news ...")
+    
+    try {
+      const {data }= await createBlog(formData);
+      if(data?.success){
+        toastUpdate({toastId,  message : data.message || "News uploaded successfully" , type : "success"})
+        socket.emit(NEW_BLOG_ADDED , {message : "New blog added" , data : data?.data})
+      }else{
+        toastUpdate({toastId,  message : data.message ||"Error while uploading the news" , type : "error"})
+      }
+    } catch (error) {
+      toastUpdate({toastId,  message : "Error while uploading the news" , type : "error"})
+      console.log(error)
+    }
+    
   };
   const inputHandler = (e) => {
     setErrors({
@@ -170,7 +213,6 @@ const WritePage = () => {
       <form
         method="post"
         encType="multipart/form-data"
-        action="http://localhost:5000/api/v1/news/admin/uploads-news"
         onSubmit={uploadNews}
         className=" w-full border-[1px]  gap-[4rem]  flex-col p-[2rem] lg:grid-cols-1 grid grid-cols-1 border-[#f3f0f038] rounded-[1rem]"
       >

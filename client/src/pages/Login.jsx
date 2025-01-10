@@ -1,18 +1,18 @@
 // import React from "react";
-import { Link } from "react-router-dom";
+import { useState } from "react";
+import { useDispatch } from "react-redux";
+import { Link, useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
-import axios from "axios";
-import { useContext, useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import { useNavigate } from "react-router-dom";
-import Or from "../assets/login/or.svg";
-import signIn1 from "../assets/login/signin.jpeg";
+import { apiCalling } from "../api/apiCalling.api";
 import googleLogo from "../assets/login/google.svg";
 import hideLogo from "../assets/login/hideLogo.svg";
+import Or from "../assets/login/or.svg";
+import signIn1 from "../assets/login/signin.jpeg";
 import twitterLogo from "../assets/login/twitter.svg";
 import visible from "../assets/login/visible.svg";
-import { apiCalling } from "../api/apiCalling.api";
 import { setUser } from "../store/slices/selfHandler.slice";
+import { useSocket } from "../contexts/Socket";
+import { AUTHENTICATED } from "../events";
 
 const SignIn = () => {
   const [email, setEmail] = useState("");
@@ -24,6 +24,7 @@ const SignIn = () => {
   const dispatch = useDispatch();
   const [loading, setLoading] = useState(true);
   const apiStatus = false;
+  const socket = useSocket();
 
   const handleLogin = async (e) => {
     e.preventDefault();
@@ -46,6 +47,7 @@ const SignIn = () => {
       console.log(response);
       dispatch(setUser(response.user));
       toast.success(response.message);
+      socket.emit(AUTHENTICATED , response?.user);
       navigate("/");
     } else {
       toast.error(response?.message);

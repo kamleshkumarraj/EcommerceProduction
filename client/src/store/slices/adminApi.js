@@ -69,7 +69,17 @@ export const adminApi = createApi({
         body : productsData,
       }),
       invalidatesTags : ['getProductsData']
+    }),
+
+    updateOrderStatus : builder.mutation({
+      query : ({orderId , status}) => ({
+        url : `/order/update-order-status?orderId=${orderId}&status=${status}` ,
+        method : "PATCH",
+        credentials : "include",
+      }),
+      invalidatesTags : ['getOrdersData']
     })
+
   }),
 });
 
@@ -78,5 +88,6 @@ export const {
   useGetTotalUsersQuery,
   useGetTotalProductsQuery,
   useCreateProductsMutation,
-  useGetTotalOrdersDataQuery
+  useGetTotalOrdersDataQuery,
+  useUpdateOrderStatusMutation
 } = adminApi;

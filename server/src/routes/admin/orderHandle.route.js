@@ -11,5 +11,5 @@ export const orderHAndleByAdminRoute = Router();
 
 orderHAndleByAdminRoute.route('/all-orders').get(isLoggedIn,isAdmin,getTotalOrderByAdmin)
 orderHAndleByAdminRoute.route('/single-order/:id').get(isLoggedIn , isAdmin , getSingleOrderByAdmin)
-orderHAndleByAdminRoute.route('/change-status').get(isLoggedIn , isAdmin , changeOrderStatus)
+orderHAndleByAdminRoute.route('/update-order-status').patch(isLoggedIn , isAdmin , changeOrderStatus)
 orderHAndleByAdminRoute.route('/total-sales').get(isLoggedIn , isAdmin , getTotalSales)

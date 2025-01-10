@@ -1,10 +1,27 @@
-import React from "react";
-import { useSelector } from "react-redux";
-import { getLatestBlogs } from "../../../store/slices/blog.slice";
+import { useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { useSocket } from "../../../contexts/Socket";
+import { NEW_BLOG_ADDED } from "../../../events";
+import { getLatestBlogs, getRealtimeNewBlog, setRealtimeNewBlog } from "../../../store/slices/blog.slice";
 import CategoryCard, { ImageWithInTextCard, WithoutImageCard } from "../card/CategoryCard";
 
 function LatestBlogBody() {
-    const allBlogs = useSelector(getLatestBlogs) || []
+    const socket = useSocket();
+    const latestBlogs = useSelector(getLatestBlogs) || []
+    const realtimeNewBlog = useSelector(getRealtimeNewBlog) || []
+    const dispatch = useDispatch();
+    
+    const realTimeBlogHandler = ({data}) => {
+      dispatch(setRealtimeNewBlog([...realtimeNewBlog , data]))
+    }
+    
+    useEffect(() => {
+      socket.on(NEW_BLOG_ADDED , realTimeBlogHandler)
+      return () => socket.off(NEW_BLOG_ADDED , realTimeBlogHandler)
+    } , [])
+
+    const allBlogs = [...realtimeNewBlog , ...latestBlogs.slice(0, (latestBlogs.length - realtimeNewBlog.length))]
+    
   return (
     <div className="latest-blog-body lg:px-[4rem] px-[2rem] py-[2rem]">
       <div id="heading" className="text-center flex justify-center items-center flex-col text-[3.6rem] mt-[20px] text-slate-600 font-bold relative pb-[45px]">

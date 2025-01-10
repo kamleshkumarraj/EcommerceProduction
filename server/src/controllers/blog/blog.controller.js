@@ -6,77 +6,55 @@ import { comments } from "../../models/blog/comments.models.js";
 import { v4 as uuidv4 } from 'uuid'
 
 export const createBlog = asyncHandler(async (req , res , next) =>{
-   
-    req.body = req.body.map((body) => {
-        body["images"] = body.images.map((image) => {
+    const thumbnailData = req?.files?.thumbnail || []
+    const imagesData = req?.files?.images || []
+    
+    //we extract the all properties from the request body
+    const {title , content , summary , slug , category} = req.body
+    // if user provide images but not thumbnail, then we will take the first image as thumbnail
+    if(thumbnailData.length == 0) {
+        if(imagesData.length > 0){
+            thumbnailData.push(imagesData[0])
+            imagesData.shift()
+        }else return next(new ErrorHandler("Please provide at least one image", 400))
+    }
+
+    // now we upload the thumbnail and images to cloudinary
+    const thumbnailResult = await uploadMultipleFilesOnCloudinary(thumbnailData)
+    if(thumbnailResult?.success == false) return next(new ErrorHandler(thumbnailResult.error, 400))
+    
+    // and then we get the publicId and url of the thumbnail and images for saving in the database
+    const thumbnail = {
+        publicId : thumbnailResult.results[0]?.public_id,
+        url : thumbnailResult.results[0]?.url
+    }
+    // now we remove the thumbnail file from the server
+    await removeFile(thumbnailData)
+
+    let images = [];
+
+    // if user provide images, then we will upload them to cloudinary and save the publicId and url in the database
+    if(imagesData.length > 0){
+        const imageResult = await uploadMultipleFilesOnCloudinary(imagesData)
+        if(imageResult?.success == false) return next(new ErrorHandler(imageResult.error, 400))
+
+        images = imageResult.results.map((image) => {
             return {
-                publicId : uuidv4() ,
-                url : image
+                publicId : image.public_id,
+                url : image.url
             }
-        }) 
-        body["thumbnail"] = {
-            publicId : uuidv4() , url : body.thumbnail} 
-            
-        body["creator"] = req?.user?._id
-        return body
-    })
-    // const thumbnail ={publicId : uuidv4() , url : req.body.thumbnail} 
-    await blogs.create(req.body);
+        })
+        await removeFile(imagesData)
+    }
+    
+    // now we create the blog in the database
+    const blog = await blogs.create({title , content , summary , slug , category, thumbnail, images , creator : req?.user?._id})
 
-    res.json({
+    res.status(201).json({
         success : true,
-        message : "Blog created successfully",  
+        message : "Blog created successfully",
+        data : blog
     })
-
-    // const thumbnailData = req?.files?.thumbnail || []
-    // const imagesData = req?.files?.images || []
-
-    // // if user provide images but not thumbnail, then we will take the first image as thumbnail
-    // if(thumbnailData.length == 0) {
-    //     if(imagesData.length > 0){
-    //         thumbnailData.push(imagesData[0])
-    //         imagesData.shift()
-    //     }else return next(new ErrorHandler("Please provide at least one image", 400))
-    // }
-
-    // // now we upload the thumbnail and images to cloudinary
-    // const thumbnailResult = await uploadMultipleFilesOnCloudinary(thumbnailData)
-    // if(thumbnailResult?.success == false) return next(new ErrorHandler(thumbnailResult.error, 400))
-    
-    // // and then we get the publicId and url of the thumbnail and images for saving in the database
-    // const thumbnail = {
-    //     publicId : thumbnailResult.results[0]?.publicId,
-    //     url : thumbnailResult.results[0]?.url
-    // }
-    // // now we remove the thumbnail file from the server
-    // await removeFile(thumbnailData)
-
-    // let images = [];
-
-    // // if user provide images, then we will upload them to cloudinary and save the publicId and url in the database
-    // if(imagesData.length > 0){
-    //     const imageResult = await uploadMultipleFilesOnCloudinary(imagesData)
-    //     if(imageResult?.success == false) return next(new ErrorHandler(imageResult.error, 400))
-
-    //     images = imageResult.results.map((image) => {
-    //         return {
-    //             publicId : image.publicId,
-    //             url : image.url
-    //         }
-    //     })
-    //     await removeFile(imagesData)
-    // }
-    
-    // // now we create the blog in the database
-    // await blogs.create({title , content , summary , slug , category, thumbnail, images , creator : req?.user?._id})
-
-    // res.status(201).json({
-    //     success : true,
-    //     message : "Blog created successfully",
-    //     data : {
-    //         title , content , summary , slug , category, thumbnail, images
-    //     }
-    // })
 
 })
 

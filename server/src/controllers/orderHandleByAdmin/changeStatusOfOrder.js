@@ -4,7 +4,7 @@ import { ordersModel } from "../../models/order.model.js";
 
 export const changeOrderStatus = asyncHandler(async (req , res , next) => {
    
-    const order = await ordersModel.findById(req.query.id);
+    const order = await ordersModel.findById(req.query.orderId);
 
     if(!order) return next(new ErrorHandler("Please send valid order id !"))
 

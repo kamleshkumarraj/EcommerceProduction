@@ -20,23 +20,23 @@ import {
 
 export const blogRouter = Router();
 
+blogRouter.route('/get-all').get(getAllBlogs);
+
 blogRouter.use(isLoggedIn);
 
 blogRouter.route('/create').post(
-//   uploads.fields([
-//     { name: 'thumbnail', maxCount: 1 },
-//     { name: 'images', maxCount: 10 },
-//   ]),
-//   blogCreationValidation(),
-//   validateFunc,
+  uploads.fields([
+    { name: 'thumbnail', maxCount: 1 },
+    { name: 'images', maxCount: 10 },
+  ]),
+  blogCreationValidation(),
+  validateFunc,
   createBlog,
 );
 
 blogRouter.route('/create/comment/:blogId').post(createComment);
 
 blogRouter.route('/my-blog').get(getMyBlogs);
-
-blogRouter.route('/get-all').get(getAllBlogs);
 
 blogRouter.route('/get-all-comments/:blogId').get(getCommentsForABlog);
 

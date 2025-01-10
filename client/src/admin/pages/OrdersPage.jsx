@@ -8,6 +8,7 @@ import OrderDistribution from "../components/orders/OrderDistribution";
 import OrdersTable from "../components/orders/OrdersTable";
 import { useGetTotalOrdersDataQuery } from "../../store/slices/adminApi";
 import { useError } from "../../hooks/useError";
+import SkeletonTable from "./TableSkeletonLoader";
 
 const orderStats = {
   totalOrders: "1,234",
@@ -68,7 +69,11 @@ const OrdersPage = () => {
           <OrderDistribution />
         </div>
 
-        <OrdersTable orders = {ordersData?.data?.orders} />
+        {ordersLoading ? (
+          <SkeletonTable />
+        ) : (
+          ordersData?.data && ordersData?.data?.orders.length > 0 && <OrdersTable orders={ordersData?.data?.orders} />
+        )}
       </main>
     </div>
   );
