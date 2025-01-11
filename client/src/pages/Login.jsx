@@ -10,19 +10,16 @@ import Or from "../assets/login/or.svg";
 import signIn1 from "../assets/login/signin.jpeg";
 import twitterLogo from "../assets/login/twitter.svg";
 import visible from "../assets/login/visible.svg";
-import { setUser } from "../store/slices/selfHandler.slice";
 import { useSocket } from "../contexts/Socket";
-import { AUTHENTICATED } from "../events";
+import { LOGIN_EVENT } from "../events";
+import { setUser } from "../store/slices/selfHandler.slice";
 
 const SignIn = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
-  const [error, setError] = useState("");
-  const [isAuthenticated, setIsAuthenticated] = useState(false);
   const navigate = useNavigate();
   const dispatch = useDispatch();
-  const [loading, setLoading] = useState(true);
   const apiStatus = false;
   const socket = useSocket();
 
@@ -47,7 +44,7 @@ const SignIn = () => {
       console.log(response);
       dispatch(setUser(response.user));
       toast.success(response.message);
-      socket.emit(AUTHENTICATED , response?.user);
+      socket.emit(LOGIN_EVENT , response?.user)
       navigate("/");
     } else {
       toast.error(response?.message);
@@ -55,13 +52,6 @@ const SignIn = () => {
     }
   };
 
-  const handleLogout = () => {
-    // Remove token from localStorage and update state
-    localStorage.removeItem("jwtToken");
-    setIsAuthenticated(false);
-    toast.info("Logged out successfully.");
-    navigate("/login");
-  };
   return (
     <>
       {/* <button className="w-16 px-2 py-3 my-3 text-white bg-red-600 rounded-lg mx-7">

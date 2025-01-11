@@ -1,19 +1,16 @@
-import { createContext, useContext, useMemo } from 'react'
-import {io} from 'socket.io-client'
 import PropTypes from 'prop-types';
-import { useSelector } from 'react-redux';
-import { getSelf } from '../store/slices/selfHandler.slice';
+import { createContext, useContext, useMemo } from 'react';
+import { io } from 'socket.io-client';
 
 const SocketContext = createContext();
 
 export const useSocket = () => useContext(SocketContext)?.socket
 
 export const SocketProvider = ({children}) => {
-    const user = useSelector(getSelf)
     const socket = useMemo(() => {
         const socket = io('http://localhost:2000', {withCredentials : true});
         return socket;
-    },[user]);
+    },[]);
 
     socket.on('welcome message', (message) => {
         console.log(message);

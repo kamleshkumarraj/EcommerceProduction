@@ -6,15 +6,17 @@ import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { apiCalling } from "./api/apiCalling.api";
 import { GlobalProvider } from "./contexts/GlobalProvider";
-import { SocketProvider } from "./contexts/Socket";
+import { SocketProvider, useSocket } from "./contexts/Socket";
 import { router } from "./route";
 import { setUser } from "./store/slices/selfHandler.slice";
 import { store } from "./store/store";
+import { LOGIN_EVENT } from "./events";
 
 const MyApp = ({ children }) => {
   //api calling for when jwt token is not expired then login the user.
   const dispatch = useDispatch();
-  
+  const socket = useSocket();
+
   useEffect(() => {
     (async function directLogin() {
       const options = {
@@ -25,7 +27,6 @@ const MyApp = ({ children }) => {
       if (response?.success) {
         console.log("User logged in successfully");
         dispatch(setUser(response.data));
-        
       } else {
         console.log("We get error during login the user !");
       }
