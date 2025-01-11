@@ -11,10 +11,14 @@ import InputField from "./InputField";
 import { apiCalling } from "../../api/apiCalling.api";
 import { getApiResponse } from "../../store/slices/apiResonseHandler.slice";
 import { FaCamera } from "react-icons/fa";
+import { useSocket } from "../../../contexts/Socket";
+import { NEW_USER_REGISTERED } from "../../../events";
+import { toastUpdate } from "../../../helper/helper";
 
 function Register() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
+  const socket = useSocket()
 
   const [formDataLocal, setFormDataLocal] = useState({
     firstname: "",
@@ -43,13 +47,14 @@ function Register() {
       formData,
       contentType: "multipart/form-data",
     };
+    const toastId = toast.loading("Creating account ...")
     const data = await dispatch(apiCalling(options));
 
     if (data.success) {
-      toast.success(data.message);
+      toastUpdate({toastId , message : data.message || "Account created successfully" , type : "success"})
       navigate("/login");
     } else {
-      toast.error(data.message);
+      toastUpdate({toastId , message : data.message || "Something went wrong" , type : "error"})
     }
   };
   const [errorConfig, setErrorConfig] = useState({

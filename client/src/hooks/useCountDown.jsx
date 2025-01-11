@@ -1,6 +1,6 @@
 import { useState } from "react";
 
-export const useCountDown = (date = "January 10, 2025 00:00:00") => {
+export const useCountDown = (date = "January 20, 2025 00:00:00") => {
   const now = new Date().getTime();
   const futureDate = new Date(date).getTime();
   let timeLeft = futureDate - now;

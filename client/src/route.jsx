@@ -79,7 +79,7 @@ export const router = createBrowserRouter([
         element: <Suspense fallback = {fallbackHandler} > <OrderConfirmation /> </Suspense> ,
       },
       {
-        path: "/orderDetails",
+        path: "/orderDetails/:id",
         element: <Suspense fallback = {fallbackHandler} > <SingleOrder /> </Suspense> ,
       },
       {

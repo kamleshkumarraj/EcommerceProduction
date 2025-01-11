@@ -6,11 +6,14 @@ import { useFilter } from "../../../hooks/useFilter.hook";
 import { toast } from "react-toastify";
 import { useUpdateOrderStatusMutation } from "../../../store/slices/adminApi";
 import { toastUpdate } from "../../../helper/helper";
+import { useSocket } from "../../../contexts/Socket";
+import { UPDATE_ORDER_STATUS } from "../../../events";
 
 const OrdersTable = ({ orders }) => {
   const [searchTerm, setSearchTerm] = useState("");
   const [isOpenUpdateStatus, setIsOpenUpdateStatus] = useState(false);
-  console.log(isOpenUpdateStatus)
+  const socket = useSocket();
+  
   const [filteredOrders, setSearchQuery] = useFilter(
     orders,
     (order) => order.paymentMethod
@@ -36,6 +39,7 @@ const OrdersTable = ({ orders }) => {
       if(data?.success){
         toastUpdate({toastId , message : data?.message ||  "Order Status Updated Successfully" , type :'success'})
         setIsOpenUpdateStatus(false)
+        socket.emit(UPDATE_ORDER_STATUS , selectOrderToUpdate)
       }else{
         toastUpdate({toastId , message : data?.message ||  "We get error during updating order status" , type : 'error'})
       }

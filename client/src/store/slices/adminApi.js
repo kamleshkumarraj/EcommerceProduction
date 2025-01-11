@@ -5,7 +5,7 @@ export const adminApi = createApi({
   baseQuery: fetchBaseQuery({
     baseUrl: "http://localhost:2000/api/v2/admin",
   }),
-  tagTypes: ["getSalesData", "getUsersData", "getProductsData",'getOrdersData'],
+  tagTypes: ["getSalesData", "getUsersData", "getProductsData",'getOrdersData' , 'getSingleOrdersData'],
 
   endpoints: (builder) => ({
     getAllSalesData: builder.query({
@@ -77,9 +77,7 @@ export const adminApi = createApi({
         method : "PATCH",
         credentials : "include",
       }),
-      invalidatesTags : ['getOrdersData']
-    })
-
+    }),
   }),
 });
 

@@ -6,9 +6,18 @@ import Sidebar from "./SideBar";
 import { FaTruckArrowRight } from "react-icons/fa6";
 import Loader from "../cart/Loader";
 import ProductOrderCard from "./ProductOrderCard";
+import { fetchSingleOrder } from "../../utils/order";
+import { useDispatch } from "react-redux";
+import { useSocket } from "../../contexts/Socket";
+import { UPDATE_ORDER_STATUS } from "../../events";
 function SingleOrder() {
   const [loading, setLoading] = useState(true);
-
+  const dispatch = useDispatch();
+  const url = useLocation().pathname;
+  const order_id_url = url.split("/")
+  const order_id = order_id_url[order_id_url.length - 1]
+  console.log(order_id)
+  
   useEffect(() => {
     const loadContent = setTimeout(() => {
       setLoading(false); // Set loading to false after 2 seconds (simulating data fetch or image loading)
@@ -16,11 +25,33 @@ function SingleOrder() {
 
     return () => clearTimeout(loadContent); // Cleanup timeout on component unmount
   }, []);
-  const { orders } = useLocation().state;
+  const orderData = useLocation()?.state?.orders;
+  const [orders , setOrders] = useState();
+  const socket = useSocket();
+
+  const handleSocket = async ({orderId}) => {
+    const {data , success} = await fetchSingleOrder({ dispatch, payload: orderId })
+    if(success) setOrders(data)
+  }
+  
+  useEffect(() => {
+    socket.on(UPDATE_ORDER_STATUS , handleSocket);
+    return () => socket.off(UPDATE_ORDER_STATUS , handleSocket)
+  } , [socket])
+  
+  useEffect(() => {
+    (async () => {
+      const {data , success} = await fetchSingleOrder({ dispatch, payload: orderData?._id || order_id })
+      if(success) setOrders(data)
+        
+    })()
+  } , [orderData , order_id])
+  ;
 
   const totalPrice = useMemo(() => {
+    if (!orders?.orderItems) return 0;
     return orders?.orderItems.reduce((acc, item) => acc + item.price, 0);
-  }, []);
+  }, [orders]);
 
   if (loading) {
     return (
@@ -57,7 +88,7 @@ function SingleOrder() {
           </div>
 
           {/* Order Details Body */}
-          <div id="order-details-body" className="space-y-8">
+          {orders &&  <div id="order-details-body" className="space-y-8">
             {/* Order Information */}
             <div className="flex justify-between p-5 border border-gray-200 rounded-lg shadow-md bg-gradient-to-r from-gray-50 via-white to-gray-100">
               <div className="flex flex-col gap-2">
@@ -85,7 +116,7 @@ function SingleOrder() {
                       ? { width: "7%" }
                       : orders?.orderStatus == "confirmed"
                       ? { width: "28%" }
-                      : orders?.orderStatus == "Shipped"
+                      : orders?.orderStatus == "shipping"
                       ? { width: "53%" }
                       : orders?.orderStatus == "out for delivery"
                       ? { width: "78%" }
@@ -186,7 +217,7 @@ function SingleOrder() {
                 return <ProductOrderCard key={idx} item={item} />;
               })}
             </div>
-          </div>
+          </div>}
         </div>
       </div>
     </div>

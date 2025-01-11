@@ -9,9 +9,8 @@ import { useMultipleTargetFilter } from "../../hooks/MultipleTargetFilter";
 import { useFilter } from "../../hooks/useFilter.hook";
 import { getAllProducts } from "../../store/slices/productsHandler.slice";
 import CategoryCard from "../card/CategoryCard";
-import TwoLayerCard from "../card/TwoLayerCard";
 import MobileCard from "../card/LengthCard";
-import { Pagination } from "swiper/modules";
+import TwoLayerCard from "../card/TwoLayerCard";
 
 function FilteringItemsBody() {
   const categoryUrl = useLocation().state?.category || "";

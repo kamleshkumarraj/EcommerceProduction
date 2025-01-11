@@ -15,12 +15,16 @@ import { FaCloudUploadAlt } from "react-icons/fa";
 import { useDispatch } from "react-redux";
 import { apiCalling } from "../api/apiCalling.api";
 import { setUser } from "../store/slices/selfHandler.slice";
+import { toastUpdate } from "../helper/helper";
+import { useSocket } from "../contexts/Socket";
+import { NEW_USER_REGISTERED } from "../events";
 
 const SignUp = () => {
   const navigate = useNavigate();
   const [showPassword, setShowPassword] = useState(false);
   const [file, setFile] = useState("");
   const dispatch = useDispatch();
+  const socket = useSocket();
   const [formDataLocal, setFormDataLocal] = useState({
     firstname: "",
     middlename: "",
@@ -52,14 +56,16 @@ const SignUp = () => {
       formData,
       contentType: "multipart/form-data",
     };
+    const toastId = toast.loading("Creating account ...")
     const data = await dispatch(apiCalling(options));
 
     if (data.success) {
-      toast.success(data.message);
+      toastUpdate({toastId , message : data.message || "Account created successfully" , type : "success"})
+      socket.emit(NEW_USER_REGISTERED , data?.data)
       navigate("/login");
       dispatch(setUser(data.user));
     } else {
-      toast.error(data.message);
+      toastUpdate({toastId , message : data.message || "Something went wrong" , type : "error"})
     }
   };
 

@@ -5,7 +5,7 @@ import { useCountDown } from '../../hooks/useCountDown';
 import Pair_3 from '../button/Pair_3';
 
 function OfferedProductCard({item}) {
-  const {days , hours , minutes , seconds} = useCountDown("January 10, 2025 23:59:59");
+  const {days , hours , minutes , seconds} = useCountDown();
   return (
     <div id='offered-product-card' className='flex flex-col gap-[10px] w-[470px] px-[30px] py-[20px] bg-white rounded-[10px]'>
       <div id="product" className='flex '>

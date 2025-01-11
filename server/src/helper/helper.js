@@ -50,7 +50,7 @@ export const removeFile = async (files = []) => {
 }
 
 export const getEligibleSocketToGetMessage = (members = [] ,userSocketId) => {
-    const eligibleSocketList = members.map((memberId) => userSocketId.get(memberId))
+    const eligibleSocketList = members.flatMap((memberId) => userSocketId.get(memberId))
     return eligibleSocketList.filter((socket) => socket !== undefined)
 }
 

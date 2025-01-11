@@ -33,3 +33,22 @@ export const fetchCreateOrder = async ({dispatch , payload}) => {
     }
 }
 
+export const fetchSingleOrder = async ({dispatch , payload}) => {
+    try {
+        const options = {
+            method : "GET",
+            url : `http://localhost:2000/api/v2/user/order/single-order/${payload}`,
+        }
+        
+        const response = await dispatch(apiCalling(options))
+        if(response?.success){
+            return {data : response?.data , success : true}
+        }else{
+            toast.error(response?.message || "Failed to fetch single order")
+            return {success : false , message : response?.message}
+        }
+    } catch (error) {
+        toast.error(error || "We get error during fetching single order")
+        return {success : false , message : error}
+    }
+}

@@ -10,6 +10,9 @@ import UserDemographicsChart from "../components/users/UserDemographicsChart";
 import { useGetTotalUsersQuery } from "../../store/slices/adminApi";
 import { useError } from "../../hooks/useError";
 import ThreeDotProgressLoader from "../components/loader/ThreeDotProgressLoader";
+import { useSocket } from "../../contexts/Socket";
+import { useEffect } from "react";
+import { NEW_USER_REGISTERED } from "../../events";
 
 const userStats = {
   totalUsers: 152845,
@@ -22,6 +25,16 @@ const userStats = {
 
 const UsersPage = () => {
   const {data : usersData , isLoading : isUsersLoading , error : usersError , isError : isUsersError} = useGetTotalUsersQuery();
+  const socket = useSocket();
+
+  const newUserSocketHandler = (data) => {
+    console.log(data);
+  }
+
+  useEffect(() => {
+    socket.on(NEW_USER_REGISTERED , newUserSocketHandler);
+    return () => socket.off(NEW_USER_REGISTERED , newUserSocketHandler);
+  } , [socket])
   
   useError([{error : usersError , isError : isUsersError}]);
   return (

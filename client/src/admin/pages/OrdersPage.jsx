@@ -9,6 +9,9 @@ import OrdersTable from "../components/orders/OrdersTable";
 import { useGetTotalOrdersDataQuery } from "../../store/slices/adminApi";
 import { useError } from "../../hooks/useError";
 import SkeletonTable from "./TableSkeletonLoader";
+import { useSocket } from "../../contexts/Socket";
+import { useEffect } from "react";
+import { UPDATE_ORDER_STATUS } from "../../events";
 
 const orderStats = {
   totalOrders: "1,234",
@@ -23,7 +26,20 @@ const OrdersPage = () => {
     isLoading: ordersLoading,
     isError: ordersIsError,
     error: ordersError,
+    refetch
   } = useGetTotalOrdersDataQuery();
+
+  const socket = useSocket();
+
+  const handleUpdateSocketStatus = () => {
+    console.log("We update the status event calling ...")
+    refetch();
+  }
+
+  useEffect(() => {
+    socket.on(UPDATE_ORDER_STATUS , handleUpdateSocketStatus);
+    return () => socket.off(UPDATE_ORDER_STATUS , handleUpdateSocketStatus);
+  },[socket])
 
   useError([{ error: ordersError, isError: ordersIsError }]);
 

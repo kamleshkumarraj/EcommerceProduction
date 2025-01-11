@@ -98,7 +98,7 @@ function OrderCard({ order }) {
             </div>
           </div>
           <Link
-            to={"/orderDetails"}
+            to={`/orderDetails/${order._id}`}
             state={{ orders: order }}
             id="btn"
             className="px-3 py-2 text-center transition-transform transform bg-purple-500 rounded-lg cursor-pointer hover:bg-purple-600 hover:scale-105"

@@ -9,7 +9,6 @@ export const registrationContoller = asyncHandler(async (req, res, next) => {
   //step 1 : check user is alredy registered or not. that is alredy verified from userSchema.
   const { firstname, lastname, email, password, username, middlename } =
     req.body;
-    console.log(req.body)
   const avatar = { public_id: '', url: '' };
   if(!req.file) return next(new ErrorHandler('file is required', 400));
   try {
@@ -39,6 +38,6 @@ export const registrationContoller = asyncHandler(async (req, res, next) => {
   res.status(200).json({
     success: true,
     message: 'User registered successfully',
-    user,
+    data : user,
   });
 });
