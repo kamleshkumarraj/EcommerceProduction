@@ -36,7 +36,7 @@ io.use((socket, next) => {
 const userSocketMap = new Map();
 const unKnownSocket = [];
 io.on('connection', (socket) => {
-  
+
   // if user is authenticated then add socket id to userSocketMap
   if (socket?.user?._id) {
     if (userSocketMap.has(socket.user._id.toString())) {
@@ -109,6 +109,7 @@ io.on('connection', (socket) => {
     const adminIdList = (
       await userModels.find({ roles: 'admin' }, { _id: 1 })
     ).map(({ _id }) => _id.toString());
+    
     const adminSocket = getEligibleSocketToGetMessage(
       adminIdList,
       userSocketMap,
