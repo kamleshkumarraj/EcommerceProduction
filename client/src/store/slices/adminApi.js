@@ -5,7 +5,7 @@ export const adminApi = createApi({
   baseQuery: fetchBaseQuery({
     baseUrl: "http://localhost:2000/api/v2/admin",
   }),
-  tagTypes: ["getSalesData", "getUsersData", "getProductsData",'getOrdersData' , 'getSingleOrdersData'],
+  tagTypes: ["getSalesData", "getUsersData", "getProductsData", "getOrdersData", "getSingleOrdersData"],
 
   endpoints: (builder) => ({
     getAllSalesData: builder.query({
@@ -78,6 +78,15 @@ export const adminApi = createApi({
         credentials : "include",
       }),
     }),
+
+    getAllProductsCategoriesWise : builder.query({
+      query : () => ({
+        url : "/products/get-categories-wise-products",
+        method : "GET",
+        credentials : "include"
+      }),
+      providesTags : ["getProductsData"],
+    })
   }),
 });
 
@@ -87,5 +96,6 @@ export const {
   useGetTotalProductsQuery,
   useCreateProductsMutation,
   useGetTotalOrdersDataQuery,
-  useUpdateOrderStatusMutation
+  useUpdateOrderStatusMutation,
+  useGetAllProductsCategoriesWiseQuery
 } = adminApi;

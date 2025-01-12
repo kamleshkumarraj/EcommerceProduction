@@ -6,7 +6,7 @@ import StatCard from "../components/common/StatCard";
 import DailyOrders from "../components/orders/DailyOrders";
 import OrderDistribution from "../components/orders/OrderDistribution";
 import OrdersTable from "../components/orders/OrdersTable";
-import { useGetTotalOrdersDataQuery } from "../../store/slices/adminApi";
+import { useGetAllProductsCategoriesWiseQuery, useGetTotalOrdersDataQuery } from "../../store/slices/adminApi";
 import { useError } from "../../hooks/useError";
 import SkeletonTable from "./TableSkeletonLoader";
 import { useSocket } from "../../contexts/Socket";
@@ -21,6 +21,9 @@ const orderStats = {
 };
 
 const OrdersPage = () => {
+  
+  
+  
   const {
     data: ordersData,
     isLoading: ordersLoading,
@@ -41,7 +44,7 @@ const OrdersPage = () => {
     return () => socket.off(UPDATE_ORDER_STATUS , handleUpdateSocketStatus);
   },[socket])
 
-  useError([{ error: ordersError, isError: ordersIsError }]);
+  useError([{ error: ordersError, isError: ordersIsError } , { error: categoriesWiseError, isError: categoriesWiseIsError }]);
 
   return (
     <div className="relative z-10 flex-1 overflow-auto">

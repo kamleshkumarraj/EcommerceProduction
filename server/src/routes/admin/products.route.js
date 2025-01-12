@@ -8,6 +8,7 @@ import isLoggedIn from '../../middlewares/isLoggedIn.middleware.js';
 import isAdmin from '../../middlewares/isAdmin.js';
 import { deleteReview } from '../../controllers/admin/deleteReview.js';
 import { uploads } from '../../middlewares/fileUploads/userPhotoUploads.js';
+import { getCategoriesWiseTotalProducts } from '../../controllers/admin/getCategoriesWiseProducts.controller.js';
 
 export const productsAdminHandleRoute = Router();
 
@@ -20,6 +21,7 @@ productsAdminHandleRoute.route('/create-product').post(
   ]),
   createProduct,
 );
+productsAdminHandleRoute.route("/get-categories-wise-products").get(isLoggedIn , isAdmin , getCategoriesWiseTotalProducts)
 
 productsAdminHandleRoute
   .route('/:id')
@@ -33,3 +35,5 @@ productsAdminHandleRoute.route('/').get(getAllProducts);
 productsAdminHandleRoute
   .route('/delete-review')
   .delete(isLoggedIn, isAdmin, deleteReview);
+
+

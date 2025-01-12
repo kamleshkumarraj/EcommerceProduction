@@ -1,20 +1,18 @@
-import { UserCheck, UserPlus, UsersIcon, UserX } from "lucide-react";
 import { motion } from "framer-motion";
-
+import { UserCheck, UserPlus, UsersIcon, UserX } from "lucide-react";
+import { useEffect } from "react";
+import { useDispatch } from "react-redux";
+import { useSocket } from "../../contexts/Socket";
+import { NEW_USER_REGISTERED } from "../../events";
+import { useError } from "../../hooks/useError";
+import { adminApi, useGetTotalUsersQuery } from "../../store/slices/adminApi";
 import Header from "../components/common/Header";
 import StatCard from "../components/common/StatCard";
-import UsersTable from "../components/users/UsersTable";
-import UserGrowthChart from "../components/users/UserGrowthChart";
+import ThreeDotProgressLoader from "../components/loader/ThreeDotProgressLoader";
 import UserActivityHeatmap from "../components/users/UserActivityHeatmap";
 import UserDemographicsChart from "../components/users/UserDemographicsChart";
-import { adminApi, useGetTotalUsersQuery } from "../../store/slices/adminApi";
-import { useError } from "../../hooks/useError";
-import ThreeDotProgressLoader from "../components/loader/ThreeDotProgressLoader";
-import { useSocket } from "../../contexts/Socket";
-import { useEffect } from "react";
-import { NEW_USER_REGISTERED } from "../../events";
-import { useDispatch } from "react-redux";
-import { VscDebugRestartFrame } from "react-icons/vsc";
+import UserGrowthChart from "../components/users/UserGrowthChart";
+import UsersTable from "../components/users/UsersTable";
 
 const userStats = {
   totalUsers: 152845,

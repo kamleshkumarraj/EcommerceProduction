@@ -53,7 +53,7 @@ const OverviewPage = () => {
 
 				{/* CHARTS */}
 
-				<div className='grid grid-cols-1 gap-[3.2rem] lg:grid-cols-2'>
+				<div className=''>
 					<SalesOverviewChart />
 					<CategoryDistributionChart />
 					<SalesChannelChart />
