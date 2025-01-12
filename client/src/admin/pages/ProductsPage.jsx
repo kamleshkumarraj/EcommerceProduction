@@ -72,7 +72,7 @@ const ProductsPage = () => {
         { isProductsLoading ? <SkeletonTable /> : (!isProductsError && <ProductsTable products = {totalProducts?.data?.products} />)}
 
         {/* CHARTS */}
-        <div className="grid grid-col-1 lg:grid-cols-2 gap-[3.2rem]">
+        <div className="">
           <SalesTrendChart />
           <CategoryDistributionChart />
         </div>

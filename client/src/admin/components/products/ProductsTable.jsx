@@ -1,63 +1,40 @@
 import { motion } from "framer-motion";
 import { Edit, Search, Trash2 } from "lucide-react";
 import { useEffect, useState } from "react";
-import { useFilter } from "../../../hooks/useFilter.hook";
-import CreateProductForm from "./CreateProductsForm";
-import { setIsCreateProductsFormOpen } from "../../../store/slices/misc.slice";
 import { useDispatch } from "react-redux";
+import { useFilter } from "../../../hooks/useFilter.hook";
+import { setIsCreateProductsFormOpen } from "../../../store/slices/misc.slice";
+import { useDeleteSingleProductsMutation } from "../../../store/slices/adminApi";
+import { useError } from "../../../hooks/useError";
+import {  toast } from "react-toastify";
+import { toastUpdate } from "../../../helper/helper";
 
-const PRODUCT_DATA = [
-  {
-    id: 1,
-    name: "Wireless Earbuds",
-    category: "Electronics",
-    price: 59.99,
-    stock: 143,
-    sales: 1200,
-  },
-  {
-    id: 2,
-    name: "Leather Wallet",
-    category: "Accessories",
-    price: 39.99,
-    stock: 89,
-    sales: 800,
-  },
-  {
-    id: 3,
-    name: "Smart Watch",
-    category: "Electronics",
-    price: 199.99,
-    stock: 56,
-    sales: 650,
-  },
-  {
-    id: 4,
-    name: "Yoga Mat",
-    category: "Fitness",
-    price: 29.99,
-    stock: 210,
-    sales: 950,
-  },
-  {
-    id: 5,
-    name: "Coffee Maker",
-    category: "Home",
-    price: 79.99,
-    stock: 78,
-    sales: 720,
-  },
-];
+
 
 const ProductsTable = ({products}) => {
   const [searchTerm, setSearchTerm] = useState("");
   const dispatch = useDispatch();
   const [filteredProducts , setFilterQuery] = useFilter(products , (product) => product.title)
-
+  const [deleteProducts , {isLoading : isDeletingLoading , error : deleteProductsError , isError : isDeleteProductsError}] = useDeleteSingleProductsMutation();
   useEffect(() => {
     setFilterQuery(searchTerm)
   },[searchTerm])
 
+  const handleDeleteProducts = async (productId) => {
+    const toastId = toast.loading("products is deleting ...");
+    try {
+      const {data} = await deleteProducts(productId);
+      if(data?.success){
+        toastUpdate({toastId , message : data?.message || "Product deleted successfully" , type : "success"})
+      }else{
+        toastUpdate({toastId , message : data?.message || "We get error during deleting product" , type : "error"})
+      }
+    } catch (error) {
+      console.log("We get error during deleting product")
+      toastUpdate({toastId , message : error ||  "We get error during deleting product" , type : "error"})
+    }
+  }
+  useError([{error : deleteProductsError , isError : isDeleteProductsError}])
   return (
     <motion.div
       className="p-6 mb-8 bg-gray-800 bg-opacity-50 border border-gray-700 shadow-lg backdrop-blur-md rounded-xl"
@@ -143,7 +120,9 @@ const ProductsTable = ({products}) => {
                   <button className="mr-2 text-indigo-400 hover:text-indigo-300">
                     <Edit size={18} />
                   </button>
-                  <button className="text-red-400 hover:text-red-300">
+                  <button onClick={() => {
+                    handleDeleteProducts(product._id)
+                  }}  className="text-red-400 hover:text-red-300">
                     <Trash2 size={18} />
                   </button>
                 </td>

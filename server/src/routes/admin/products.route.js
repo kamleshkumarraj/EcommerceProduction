@@ -30,7 +30,7 @@ productsAdminHandleRoute
   .get(singleProduct);
 
 // productsAdminHandleRoute.route('/products-all').get(getAllProducts)
-productsAdminHandleRoute.route('/').get(getAllProducts);
+productsAdminHandleRoute.route('/').get(isLoggedIn , isAdmin , getAllProducts);
 
 productsAdminHandleRoute
   .route('/delete-review')

@@ -1,4 +1,4 @@
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import Advertisement from "../components/Advertisment1";
 import Banner from "../components/Banner";
 import Categorys from "../components/Categorys";
@@ -13,12 +13,13 @@ import {
   getDiscountedProducts,
   getLatestProducts,
   getTopRatedProducts,
+  setSingleLatestProducts,
 } from "../store/slices/productsHandler.slice";
 import TestimonialSection from "../components/body/TestomonialSection";
 import WhyChooseUs from "../components/body/ChooseWhy";
 import DiscountedProductsBody from "../components/body/DiscountedProductsBody";
 import { GlobalContext } from "../contexts/GlobalProvider";
-import { useContext, useEffect, useState } from "react";
+import { useCallback, useContext, useEffect, useState } from "react";
 import { NEW_PRODUCT_ADDED } from "../events";
 import { useSocket } from "../contexts/Socket";
 
@@ -27,9 +28,9 @@ const Home = () => {
   const products = useSelector(getAllProducts);
   const topRated_product = useSelector(getTopRatedProducts);
   const discount_product = useSelector(getDiscountedProducts);
-  const latest_products = useSelector(getLatestProducts) || []
+  const latestProducts = useSelector(getLatestProducts) || []
   const {setEventLoading , eventLoading} = useContext(GlobalContext)
-  const [newProductsData , setNewProductsData] = useState([]);
+  
   useEffect(() => {
     setTimeout(() => {
       setEventLoading(false)
@@ -37,13 +38,12 @@ const Home = () => {
   },[eventLoading])
 
   const socket = useSocket();
-  const newProductsHandler = ({productsData}) => {
-      setNewProductsData([...newProductsData , productsData])
-  }
-  const latestProducts = [...newProductsData , ...latest_products.slice(0,(latest_products.length - newProductsData.length))]
+  const dispatch = useDispatch();
 
-  console.log(latestProducts)
-  
+  const newProductsHandler = useCallback(({productsData}) => {
+      dispatch(setSingleLatestProducts(productsData))      
+  },[])
+
   useEffect(() => {
     socket.on(NEW_PRODUCT_ADDED , newProductsHandler)
     return () => socket.off(NEW_PRODUCT_ADDED , newProductsHandler)

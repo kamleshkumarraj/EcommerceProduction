@@ -86,6 +86,15 @@ export const adminApi = createApi({
         credentials : "include"
       }),
       providesTags : ["getProductsData"],
+    }),
+    
+    deleteSingleProducts : builder.mutation({
+      query : (productId) => ({
+        url : `/products/${productId}`,
+        method : "DELETE",
+        credentials : "include"
+      }),
+      invalidatesTags : ['getProductsData']
     })
   }),
 });
@@ -97,5 +106,6 @@ export const {
   useCreateProductsMutation,
   useGetTotalOrdersDataQuery,
   useUpdateOrderStatusMutation,
-  useGetAllProductsCategoriesWiseQuery
+  useGetAllProductsCategoriesWiseQuery,
+  useDeleteSingleProductsMutation
 } = adminApi;

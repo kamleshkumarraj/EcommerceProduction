@@ -30,18 +30,25 @@ app.use(cors({
   credentials: true                            // Allow cookies to be sent
 }));
 
-app.use('/api/v2/user/blog' , blogRouter)
+//routes related from authentication
 app.use('/api/v2/auth', authenticationRoute);
-app.use('/api/v2/admin/products',productsAdminHandleRoute)
+
+//routes related from admin panel
 app.use('/api/v2/admin/user',adminHandleUserRoute)
+app.use('/api/v2/admin/products',productsAdminHandleRoute)
+app.use('/api/v2/admin/order',orderHAndleByAdminRoute)
+
+// routes related from user panel
+app.use('/api/v2/user/blog' , blogRouter)
 app.use('/api/v2/user',handleUserProfileRoute)
 app.use('/api/v2/user/product',productHandleByUser)
 app.use('/api/v2/user/order',orderHandlerRouter)
-app.use('/api/v2/admin/order',orderHAndleByAdminRoute)
 app.use('/api/v2/user/cart' , cartRouter)
 app.use('/api/v2/user/wishlist' , wishlistHandlingRoute)
 app.use('/api/v2/user/address' , addressHandlerRouter)
-app.use('/api/v2/products' , commonRouter)
+
+// common routes for unknown user.
+app.use('/api/v2/common/products' , commonRouter)
 
 
 //that is error handler middleware at normal error during api calling.

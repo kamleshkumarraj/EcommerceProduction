@@ -1,6 +1,5 @@
-import { asyncHandler } from "../../errors/asynHandler.js"
-import { productsModel } from "../../models/products.model.js"
-import apiFetures from "../../utils/apiFeatures.js";
+import { asyncHandler } from "../../errors/asynHandler.js";
+import { productsModel } from "../../models/products.model.js";
 export const getAllProducts = asyncHandler(async (req , res , next) =>{
     
     //logic for getting from apifeatures class and apply all feature.

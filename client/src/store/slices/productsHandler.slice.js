@@ -20,6 +20,9 @@ const slice = createSlice({
       console.log("latest running", action.payload);
       state.latestProducts = action.payload;
     },
+    setSingleLatestProducts : (state , action) => {
+      state.latestProducts.push(action.payload)
+    },
     setTopRatedProducts: (state, action) => {
       state.topRatedProducts = action.payload;
     },
@@ -36,10 +39,14 @@ export const {
   setDiscountedProducts,
   setLatestProducts,
   setTopRatedProducts,
+  setSingleLatestProducts
 } = slice.actions;
 export const getAllProducts = (state) => state.productsList.products;
 export const getAllCategories = (state) => state.productsList.categories;
-export const getLatestProducts = (state) => state.productsList.latestProducts;
+export const getLatestProducts = (state) => {
+  const latestProducts = state.productsList.latestProducts;
+  return [...latestProducts].reverse() || [];
+};
 export const getTopRatedProducts = (state) =>
   state.productsList.topRatedProducts;
 export const getDiscountedProducts = (state) =>

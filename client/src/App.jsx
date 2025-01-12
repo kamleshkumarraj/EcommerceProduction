@@ -26,6 +26,7 @@ function App() {
   const dispatch = useDispatch();
   const user = useSelector(getSelf);
   const [initialLoading, setInitialLoading] = useState(true);
+  
   useEffect(() => {
     setTimeout(() => {
       setInitialLoading(false);
@@ -37,13 +38,13 @@ function App() {
     (async function getAllProducts() {
       const options = {
         method: "GET",
-        url: "http://localhost:2000/api/v2/admin/products",
+        url: "http://localhost:2000/api/v2/common/products/all-products",
       };
       const response = await dispatch(apiCalling(options));
       if (response?.success) {
         dispatch(setAllProducts(response.data?.products));
         dispatch(setTopRatedProducts(response?.data?.products?.slice(0, 40)));
-        dispatch(setLatestProducts(response?.data?.products?.slice(response?.data?.products?.length - 24 , response?.data?.products?.length).reverse()));
+        dispatch(setLatestProducts(response?.data?.products?.slice(response?.data?.products?.length - 24 , response?.data?.products?.length)));
         dispatch(setDiscountedProducts(response?.data?.products?.slice(70, 90)));
       } else console.log("Error during geting all products");
     })();
@@ -53,7 +54,7 @@ function App() {
   useEffect(() => {
     (async function getAllCategories() {
       const options = {
-        url: "http://localhost:2000/api/v2/products/get-categories",
+        url: "http://localhost:2000/api/v2/common/products/get-categories",
         method: "GET",
       };
       const response = await dispatch(apiCalling(options));
