@@ -44,7 +44,7 @@ const OrdersPage = () => {
     return () => socket.off(UPDATE_ORDER_STATUS , handleUpdateSocketStatus);
   },[socket])
 
-  useError([{ error: ordersError, isError: ordersIsError } , { error: categoriesWiseError, isError: categoriesWiseIsError }]);
+  useError([{ error: ordersError, isError: ordersIsError }]);
 
   return (
     <div className="relative z-10 flex-1 overflow-auto">

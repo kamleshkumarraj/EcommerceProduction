@@ -1,5 +1,4 @@
 import { asyncHandler } from "../../errors/asynHandler.js";
-import ErrorHandler from "../../errors/errorHandler.js";
 import { ordersModel } from "../../models/order.model.js";
 import { productsModel } from "../../models/products.model.js";
 
@@ -17,8 +16,6 @@ export const createOrder = asyncHandler(async (req , res , next) =>{
         validateStock(order)
     })
     
-    
-
     const order = await ordersModel.create({shippingInfo , user : req.user.id , orderItems , itemsPrice , shippingPrice , taxPrice , totalPrice , paidAt : Date.now() , paymentInfo}) 
    
     res.status(200).json({

@@ -1,17 +1,21 @@
 // import React from "react";
 
-import { useState } from "react";
+import { useCallback, useState } from "react";
 import { FaPenAlt } from "react-icons/fa";
 import { useDispatch } from "react-redux";
 import { toast } from "react-toastify";
 import { apiCalling } from "../../api/apiCalling.api";
 import Rating from "../common/Rating";
+import { useHandleSocket } from "../../hooks/useHandleSocket";
+import { CREATE_REVIEW_RATING } from "../../events";
+import { useSocket } from "../../contexts/Socket";
 const AddReviewForm = ({products , setChanged , changed}) => {
   const [ratingCount , setRatingCount] = useState(0);
   const [reviewData , setReviewsData] = useState({
     comment : '',
     rating : 4
   })
+  const socket = useSocket();
   const dispatch = useDispatch();
   const postReviews = async () => {
     const options = {
@@ -23,11 +27,14 @@ const AddReviewForm = ({products , setChanged , changed}) => {
     console.log(response)
     if(response?.success){
       setChanged(!changed)
-      toast.success("We get rating and reviews successfully.")
+      socket.emit(CREATE_REVIEW_RATING , 'review create successfully !')
+      toast.success("We give rating and reviews successfully.")
     }else{
-      toast.error("We get error during rating and reviews !")
+      toast.error("We get error during rating and reviews!")
     }
   }
+  
+  
   return (
     <div className="bg-gray-50 ">
       <div className="w-[100%] px-[100px] p-[2.4rem] mx-auto bg-white rounded shadow-md">

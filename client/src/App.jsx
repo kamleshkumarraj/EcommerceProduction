@@ -10,11 +10,7 @@ import { InitialLoader } from "./components/InitialLoader";
 import NewsletterModal from "./components/Model";
 import { GlobalContext } from "./contexts/GlobalProvider";
 import {
-  setAllCategories,
-  setAllProducts,
-  setDiscountedProducts,
-  setLatestProducts,
-  setTopRatedProducts,
+  setAllCategories
 } from "./store/slices/productsHandler.slice";
 import { getSelf } from "./store/slices/selfHandler.slice";
 import getAllCart from "./utils/getAllCartApiCall";
@@ -27,27 +23,12 @@ function App() {
   const user = useSelector(getSelf);
   const [initialLoading, setInitialLoading] = useState(true);
   
+  
+
   useEffect(() => {
     setTimeout(() => {
       setInitialLoading(false);
     }, 1000);
-  }, []);
-
-  //! first we get all products calling the api and store our data in store.
-  useEffect(() => {
-    (async function getAllProducts() {
-      const options = {
-        method: "GET",
-        url: "http://localhost:2000/api/v2/common/products/all-products",
-      };
-      const response = await dispatch(apiCalling(options));
-      if (response?.success) {
-        dispatch(setAllProducts(response.data?.products));
-        dispatch(setTopRatedProducts(response?.data?.products?.slice(0, 40)));
-        dispatch(setLatestProducts(response?.data?.products?.slice(response?.data?.products?.length - 24 , response?.data?.products?.length)));
-        dispatch(setDiscountedProducts(response?.data?.products?.slice(70, 90)));
-      } else console.log("Error during geting all products");
-    })();
   }, []);
 
   //! now we get all categories from server using api.

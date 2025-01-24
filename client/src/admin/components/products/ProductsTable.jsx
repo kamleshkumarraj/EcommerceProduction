@@ -1,24 +1,51 @@
 import { motion } from "framer-motion";
 import { Edit, Search, Trash2 } from "lucide-react";
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useMemo, useState } from "react";
 import { useDispatch } from "react-redux";
 import { useFilter } from "../../../hooks/useFilter.hook";
 import { setIsCreateProductsFormOpen } from "../../../store/slices/misc.slice";
-import { useDeleteSingleProductsMutation } from "../../../store/slices/adminApi";
+import { adminApi, useDeleteSingleProductsMutation } from "../../../store/slices/adminApi";
 import { useError } from "../../../hooks/useError";
 import {  toast } from "react-toastify";
 import { toastUpdate } from "../../../helper/helper";
-
+import { useSocket } from "../../../contexts/Socket";
+import { DELETE_PRODUCT } from "../../../events";
+import { useHandleSocket } from "../../../hooks/useHandleSocket";
+import Pagination from "../../../components/common/Pagination";
 
 
 const ProductsTable = ({products}) => {
+  // pagination related state variables.
+  const [startIdx , setStartIdx] = useState(0);
+  const [endIdx , setEndIdx] = useState(20);
+  const [startPageIdx , setStartPageIdx] = useState(0);
+  const [endPageIdx , setEndPageIdx] = useState(7);
+  const [selectIdx , setSelectIdx] = useState(1);
+
   const [searchTerm, setSearchTerm] = useState("");
   const dispatch = useDispatch();
   const [filteredProducts , setFilterQuery] = useFilter(products , (product) => product.title)
   const [deleteProducts , {isLoading : isDeletingLoading , error : deleteProductsError , isError : isDeleteProductsError}] = useDeleteSingleProductsMutation();
+  const socket = useSocket();
+
+  const pageData = useMemo(() => {
+    const totalPage = Math.ceil(filteredProducts?.length / 20);
+    return { totalPage };
+  },[filteredProducts])
+
+  useEffect(() => {
+    // setStartIdx(0)
+    // setEndIdx(20)
+    // setSelectIdx(1)
+    // setStartPageIdx(0)
+    // setEndPageIdx(7)
+  },[filteredProducts])
+ 
+
   useEffect(() => {
     setFilterQuery(searchTerm)
   },[searchTerm])
+
 
   const handleDeleteProducts = async (productId) => {
     const toastId = toast.loading("products is deleting ...");
@@ -26,6 +53,7 @@ const ProductsTable = ({products}) => {
       const {data} = await deleteProducts(productId);
       if(data?.success){
         toastUpdate({toastId , message : data?.message || "Product deleted successfully" , type : "success"})
+        socket.emit(DELETE_PRODUCT , productId)
       }else{
         toastUpdate({toastId , message : data?.message || "We get error during deleting product" , type : "error"})
       }
@@ -34,7 +62,24 @@ const ProductsTable = ({products}) => {
       toastUpdate({toastId , message : error ||  "We get error during deleting product" , type : "error"})
     }
   }
+  const deleteProductHandlerSocket = useCallback((productId) => {
+    console.log(productId);
+    dispatch(adminApi.util.updateQueryData("getTotalProducts" , undefined , (draft) => {
+      return {
+        ...draft,
+        data : {
+          ...draft.data,
+          products : draft.data.products.filter((product) => product._id !== productId),
+          productsLength : draft.data.products.length - 1
+        }
+      }
+    }))
+  },[])
+  
+  useHandleSocket({[DELETE_PRODUCT] : deleteProductHandlerSocket})
+  
   useError([{error : deleteProductsError , isError : isDeleteProductsError}])
+  
   return (
     <motion.div
       className="p-6 mb-8 bg-gray-800 bg-opacity-50 border border-gray-700 shadow-lg backdrop-blur-md rounded-xl"
@@ -88,7 +133,7 @@ const ProductsTable = ({products}) => {
           </thead>
 
           <tbody className="divide-y divide-gray-700">
-            {filteredProducts.slice(0,30).map((product) => (
+            {filteredProducts.slice(startIdx , endIdx).map((product) => (
               <motion.tr
                 key={product.id}
                 initial={{ opacity: 0 }}
@@ -129,7 +174,22 @@ const ProductsTable = ({products}) => {
               </motion.tr>
             ))}
           </tbody>
+          
         </table>
+        <Pagination 
+            endIdx={endIdx}
+            endPageIdx={endPageIdx}
+            pageData={pageData}
+            selectIdx={selectIdx}
+            setEndIdx={setEndIdx}
+            setEndPageIdx={setEndPageIdx}
+            setSelectIdx={setSelectIdx} 
+            setStartIdx={setStartIdx}
+            setStartPageIdx={setStartPageIdx}
+            startIdx={startIdx}
+            startPageIdx={startPageIdx}
+            perPageData={20}
+        />
       </div>
     </motion.div>
   );

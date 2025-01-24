@@ -3,9 +3,12 @@ import { getAllProducts } from "../../store/slices/productsHandler.slice";
 import OfferedProductCard from "../card/OffredProductCard";
 import MobileCard from "../card/LengthCard";
 import FeaturedCard from "../card/FeaturedCard";
+import { useGetUserTotalProductsQuery } from "../../store/slices/userApi";
 
 function LaptopComputerBody() {
-  const allProducts = useSelector(getAllProducts) || [];
+  const { data: productsData, error : productsError, isLoading } =
+    useGetUserTotalProductsQuery();
+  const allProducts = productsData?.data?.products || [];
   const laptops = allProducts?.filter(
     (product) => product.category === "laptops"
   );

@@ -2,6 +2,8 @@ import { createServer } from 'node:http';
 import { app } from './app.js';
 import { Server } from 'socket.io';
 import {
+  CREATE_REVIEW_RATING,
+  DELETE_PRODUCT,
   LOGIN_EVENT,
   LOGOUT_EVENT,
   NEW_BLOG_ADDED,
@@ -116,6 +118,15 @@ io.on('connection', (socket) => {
     );
     io.to(adminSocket).emit(NEW_USER_REGISTERED, user);
   });
+
+  socket.on(DELETE_PRODUCT , (productId) => {
+    console.log("Products is deleting")
+    io.emit(DELETE_PRODUCT , productId)
+  })
+
+  socket.on(CREATE_REVIEW_RATING , (data) => {
+    io.emit(CREATE_REVIEW_RATING , data)
+  })
 
   // handling event for when user is logged out.
   socket.on('disconnect', () => {

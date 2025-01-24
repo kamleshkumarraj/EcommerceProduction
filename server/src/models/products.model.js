@@ -51,7 +51,7 @@ const productSchema = new mongoose.Schema(
                 default : 0
             },
             comment: {
-                type : String,
+                type : [],
                 
             },
             date: {

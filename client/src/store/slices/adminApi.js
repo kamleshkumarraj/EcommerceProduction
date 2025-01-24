@@ -94,7 +94,6 @@ export const adminApi = createApi({
         method : "DELETE",
         credentials : "include"
       }),
-      invalidatesTags : ['getProductsData']
     })
   }),
 });

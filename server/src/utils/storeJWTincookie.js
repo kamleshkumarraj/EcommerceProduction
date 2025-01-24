@@ -4,7 +4,7 @@ export const storetokenAndGetJWT = (res,user,statusCode) =>{
     console.log("Tocken created ...")
     const option = {
         expires : new Date(
-            Date.now() + process.env.JWT_EXPIRY*60*60*1000
+            Date.now() + process.env.TOKEN_EXPIRY*60*60*1000
         ),
         httpOnly: true, 
        

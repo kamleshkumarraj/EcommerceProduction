@@ -11,6 +11,7 @@ import { blogReducers } from "./slices/blog.slice.js";
 import { adminApi } from "./slices/adminApi.js";
 import { miscReducer } from "./slices/misc.slice.js";
 import { blogApi } from "./slices/blogApi.js";
+import { userApi } from "./slices/userApi.js";
 
 export const store = configureStore({
   reducer: {
@@ -26,10 +27,12 @@ export const store = configureStore({
     misc: miscReducer,
     [adminApi.reducerPath]: adminApi.reducer,
     [blogApi.reducerPath]: blogApi.reducer,
+    [userApi.reducerPath] : userApi.reducer
   },
   middleware: (defaultMiddleware) =>
     defaultMiddleware().concat(
       adminApi.middleware,
-      blogApi.middleware
+      blogApi.middleware,
+      userApi.middleware
     ),
 });

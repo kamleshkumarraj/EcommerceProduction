@@ -14,7 +14,7 @@ export const updateAndSetReviews = asyncHandler(async (req , res , next) =>{
     const review = {
         reviewerId : req.user.id,
         rating : Number(rating),
-        comment,
+        comment : [comment],
     
     }
 
@@ -27,7 +27,7 @@ export const updateAndSetReviews = asyncHandler(async (req , res , next) =>{
         product.reviews.find((rev) => {
             if(rev.reviewerId == req.user.id){
                 rev.rating = Number(rating);
-                rev.comment = comment;
+                rev.comment.push(comment);
             }
         })
     }

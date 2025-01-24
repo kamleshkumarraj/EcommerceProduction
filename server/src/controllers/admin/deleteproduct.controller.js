@@ -11,6 +11,7 @@ export const deleteProduct = asyncHandler(async (req, res , next) =>{
    await productsModel.findByIdAndDelete(req.params.id)
     res.status(200).json({
         success : true,
-        message : "products deleted Successfully"
+        message : "products deleted Successfully",
+        data : req.params.id
     })
 })
