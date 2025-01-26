@@ -9,7 +9,6 @@ import {
 
 export async function fetchAllWishlistItem(dispatch, user) {
   if (!user) {
-    toast.error("Please login to access this resources !");
     return;
   }
   const options = {

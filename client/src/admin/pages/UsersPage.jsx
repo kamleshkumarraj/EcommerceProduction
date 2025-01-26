@@ -63,7 +63,7 @@ const UsersPage = () => {
           <StatCard
             name="Total Users"
             icon={UsersIcon}
-            value={userStats.totalUsers.toLocaleString()}
+            value={usersData?.data?.users?.length || 0}
             color="#6366F1"
           />
           <StatCard
