@@ -199,7 +199,7 @@ function DeliveryChecker({
                           setCustomerInfo(address);
                           setClickAddButton(false)
                         }}
-                        defaultChecked={address._id == selectedAddress._id}
+                        defaultChecked={address._id == customerInfo._id}
                         type="radio"
                         id="radio"
                         name="radio"
