@@ -1,9 +1,10 @@
 import { toast } from "react-toastify"
 
-export const getWishlistIdUsingProductId = (productId , wishLists = []) => {
+export const getTargetIdUsingProductId = (productId , wishLists = []) => {
     const item = wishLists.find((wishlist) => wishlist.productId == productId)
     return item?._id || null
 }
+
 
 export const getCartIdUsingProductId = (productId , cartItems = []) => {
     const item = cartItems.find((cart) => cart.productId == productId)

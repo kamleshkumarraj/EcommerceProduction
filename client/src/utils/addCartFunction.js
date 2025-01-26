@@ -4,11 +4,11 @@ import getAllCart from "./getAllCartApiCall"
 
 export const addToCart = async (_id , dispatch , user , setEventLoading) => {
     
-    // if(!user) {
-    //     toast.error("Please login to access this resources !")
-    //     navigate('/login');
-    //     return;
-    // }
+    if(!user) {
+        toast.error("Please login to access this resources !")
+        navigate('/login');
+        return;
+    }
     setEventLoading(true)
     const options = {
       url : `http://localhost:2000/api/v2/user/cart/add/${_id}`,
@@ -20,6 +20,28 @@ export const addToCart = async (_id , dispatch , user , setEventLoading) => {
       getAllCart(dispatch , user)
     }else{
       toast.error("Failed to add product to cart !")
+    }
+    setEventLoading(false)
+  }
+
+
+  export const removeToCart = async (cart , dispatch , user , setEventLoading) => {
+    if(!user) {
+        toast.error("Please login to access this resources !")
+        navigate('/login');
+        return;
+    }
+    setEventLoading(true)
+    const options = {
+      url : `http://localhost:2000/api/v2/user/cart/remove/${cart._id}`,
+      method : "DELETE"
+    }
+    const response = await dispatch(apiCalling(options))
+    if(response?.success){
+      toast.success("Product removed from cart successfully")
+      getAllCart(dispatch , user)
+    }else{
+      toast.error("Failed to remove product from cart !")
     }
     setEventLoading(false)
   }

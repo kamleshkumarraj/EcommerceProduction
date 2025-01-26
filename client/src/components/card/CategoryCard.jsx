@@ -4,7 +4,6 @@ import Pair_3 from "../button/Pair_3"
 import PropTypes from "prop-types";
 import { IoStar, IoStarOutline } from "react-icons/io5";
 
-
 function CategoryCard({item}) {
   return (
     <div className="product-card px-[15px] py-[10px] flex flex-col gap-[20px] border-[.5px] border-[#8080807a] rounded-[20px] w-[350px] group bg-[white]" >
