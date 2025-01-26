@@ -37,7 +37,8 @@ function Pair_3({ item, bgColor }) {
                 {
                   _id: getTargetIdUsingProductId(item?._id, wishlist),
                 },
-                setEventLoading
+                setEventLoading,
+                user
               );
             }}
           >
@@ -46,7 +47,7 @@ function Pair_3({ item, bgColor }) {
         ) : (
           <p
             onClick={() => {
-              addWishlistItem(dispatch, item, setEventLoading);
+              addWishlistItem(dispatch, item, setEventLoading , user);
             }}
           >
             <VscHeart size={20} />

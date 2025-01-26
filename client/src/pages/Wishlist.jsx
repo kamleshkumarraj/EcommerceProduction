@@ -8,11 +8,13 @@ import CartLoader from "../components/cart/CartLoader";
 import FetchingLoading from "../components/cart/FetchingLoading";
 import { getAllWishlistItems } from "../store/slices/wishlist.slice";
 import { removeWishlistItem, updateWishlistQty } from "../utils/wishlist";
+import { getSelf } from "../store/slices/selfHandler.slice";
 
 function Wishlist() {
   const wishlistItems = useSelector(getAllWishlistItems);
   const [apiStatus] = useState(false);
   const dispatch = useDispatch();
+  const user = useSelector(getSelf);
 
   if (wishlistItems.length == 0)
     return (
@@ -97,7 +99,7 @@ function Wishlist() {
                     id="decreaseBtn"
                     className="font-[600] text-[28px] p-[5px] grid place-content-center py-[-2rem] border-[1px] rounded-[.5rem] hover:cursor-pointer"
                     onClick={() => {
-                      updateWishlistQty(dispatch, { _id }, "decrease");
+                      updateWishlistQty(dispatch, { _id }, "decrease" , user);
                     }}
                   >
                     {" "}
