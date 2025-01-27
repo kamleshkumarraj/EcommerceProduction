@@ -6,7 +6,7 @@ import { useSelector } from 'react-redux'
 import { getSelectedAddress } from '../../store/slices/addressHandler.slice'
 import PropTypes from 'prop-types'
 
-function LoginChecker({checkLoginClicked , setCheckLoginClicked , setCheckDileveryClick , setSelectedButton}) {
+function LoginChecker({checkLoginClicked , setCheckLoginClicked , setCheckDileveryClick , setSelectedButton, setCheckPayemntClick, setCheckSummaryClick}) {
   
   const selectedAddress = useSelector(getSelectedAddress)
   console.log(checkLoginClicked)
@@ -29,6 +29,8 @@ function LoginChecker({checkLoginClicked , setCheckLoginClicked , setCheckDileve
         {setCheckLoginClicked(!checkLoginClicked)
           setSelectedButton(selectedAddress)
           setCheckDileveryClick(false)
+          setCheckPayemntClick(false)
+          setCheckSummaryClick(false)
         }}  className="px-[30px] py-[10px] text-[16px] font-600 text-blue-600 cursor-pointer hover:text-blue-800 bg-gray-200 border-[1px] border-blue-600 rounded-[5px]">CHANGE</p>
     </div>}
 

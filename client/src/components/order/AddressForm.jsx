@@ -4,6 +4,7 @@ import {
   fetchUpdateAddress,
   fetchUpdateSelectedAddress,
 } from "../../utils/address.utils";
+import { FaS } from "react-icons/fa6";
 
 function AddressForm({
   addr,
@@ -189,7 +190,10 @@ function AddressForm({
         </div>
         <div>
           <p
-            onClick={() => {}}
+            onClick={() => {
+              setCheckDeliveryClick(false)
+              setCheckSummaryClick(true)
+            }}
             className="mx-[30px] font-[500] text-[17px] hover:cursor-pointer text-blue-600"
           >
             CANCEL

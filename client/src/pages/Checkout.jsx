@@ -19,10 +19,13 @@ import {
 } from "../store/slices/orderItems";
 const Checkout = () => {
   const cartItems = useSelector(getAllCartItems);
+  
+  // all state for related from open and close the all buttons.
   const [checkLoginClicked, setCheckLoginClicked] = useState(false);
   const [checkDileveryClick, setCheckDileveryClick] = useState(true);
   const [checkSummaryClick, setCheckSummaryClick] = useState(false);
   const [checkPaymentClick, setCheckPaymentClick] = useState(false);
+  
   const [selectedButton, setSelectedButton] = useState(null);
   const dispatch = useDispatch();
   const address = useSelector(getAllAddress);
@@ -85,6 +88,8 @@ const Checkout = () => {
             setCheckLoginClicked={setCheckLoginClicked}
             checkLoginClicked={checkLoginClicked}
             setCheckDileveryClick={setCheckDileveryClick}
+            setCheckPayemntClick={setCheckPaymentClick}
+            setCheckSummaryClick={setCheckSummaryClick}
             setSelectedButton={setSelectedButton}
           />
 
@@ -95,6 +100,8 @@ const Checkout = () => {
             setSelectedButton={setSelectedButton}
             selectedButton={selectedButton}
             setCheckSummaryClick={setCheckSummaryClick}
+            setCheckPaymentClick={setCheckPaymentClick}
+            setCheckLoginClicked={setCheckLoginClicked}
           />
 
           <OrderSummary

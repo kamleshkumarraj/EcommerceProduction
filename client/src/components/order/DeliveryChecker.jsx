@@ -21,6 +21,8 @@ function DeliveryChecker({
   selectedButton,
   setSelectedButton,
   setCheckSummaryClick,
+  setCheckPaymentClick,
+  setCheckLoginClicked
 }) {
   //direct variable
   const user = useSelector(getSelf);
@@ -166,6 +168,9 @@ function DeliveryChecker({
               onClick={() => {
                 setCheckDileveryClick(!checkDileveryClick);
                 setSelectedButton(selectedAddress);
+                setCheckLoginClicked(false)
+                setCheckSummaryClick(false)
+                setCheckPaymentClick(false)
               }}
               className="px-[30px] py-[10px] text-[16px] font-600 text-blue-600 cursor-pointer hover:text-blue-800 bg-gray-200 border-[1px] border-blue-600 rounded-[5px]"
             >
@@ -256,6 +261,7 @@ function DeliveryChecker({
                       _id={address._id}
                       setCheckSummaryClick = {setCheckSummaryClick}
                       setCheckDeliveryClick = {setCheckDileveryClick}
+                      
                     />
                   )}
                 </div>
