@@ -73,6 +73,7 @@ const productSchema = new mongoose.Schema(
             default : 1,
         },
         images: [],
+        
         thumbnail: {
             public_id : {
                 type : String,

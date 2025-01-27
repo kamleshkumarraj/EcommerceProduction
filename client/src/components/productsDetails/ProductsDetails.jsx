@@ -1,27 +1,23 @@
-import React, { useContext } from "react";
-import { FiMinus, FiPlus } from "react-icons/fi";
+import { useContext } from "react";
 import { IoStar, IoStarOutline } from "react-icons/io5";
-import { Link } from "react-router-dom";
-import Button from "./Button";
-import { checkAvailibility } from "../../utils/checkAvailibility";
 import { useDispatch, useSelector } from "react-redux";
-import { getAllWishlistItems } from "../../store/slices/wishlist.slice";
-import {
-  getAllCartItems,
-  removeCartItems,
-} from "../../store/slices/cart.slice";
-import { addWishlistItem, removeWishlistItem } from "../../utils/wishlist";
-import { getWishlistIdUsingProductId } from "../../helper/helper";
+import { Link } from "react-router-dom";
 import { GlobalContext } from "../../contexts/GlobalProvider";
-import { addToCart } from "../../utils/addCartFunction";
+import { getTargetIdUsingProductId } from "../../helper/helper";
+import { getAllCartItems } from "../../store/slices/cart.slice";
 import { getSelf } from "../../store/slices/selfHandler.slice";
+import { getAllWishlistItems } from "../../store/slices/wishlist.slice";
+import { addToCart } from "../../utils/addCartFunction";
+import { checkAvailibility } from "../../utils/checkAvailibility";
+import { addWishlistItem, removeWishlistItem } from "../../utils/wishlist";
+import Button from "./Button";
 
 function ProductsDetails({ img, product, setImg }) {
   const wishlistItem = useSelector(getAllWishlistItems);
   const cartItem = useSelector(getAllCartItems);
   const dispatch = useDispatch();
   const { setEventLoading } = useContext(GlobalContext);
-  const user = useSelector(getSelf)
+  const user = useSelector(getSelf);
   return (
     <>
       {wishlistItem && cartItem && (
@@ -182,7 +178,7 @@ function ProductsDetails({ img, product, setImg }) {
                       removeWishlistItem(
                         dispatch,
                         {
-                          _id: getWishlistIdUsingProductId(
+                          _id: getTargetIdUsingProductId(
                             product?._id,
                             wishlistItem
                           ),
