@@ -7,7 +7,7 @@ export const getAllCartItems = asyncHandler(async (req , res , next) => {
     const userId = req.user.id
     if(mongoose.isValidObjectId(userId) == false) return ErrorHandler("Please send valid user id !");
     const cartItems = await cart.find({userId}).populate('productId' , 'title thumbnail category price quantity availabilityStatus rating _id quantity')
-    console.log(cartItems)
+    // console.log(cartItems)
     const transformData = cartItems.map(({productId , quantity , _id}) => {
        
         return {
