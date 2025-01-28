@@ -29,7 +29,7 @@ export const createOrder = asyncHandler(async (req, res, next) => {
 export const checkout = asyncHandler(async (req, res, next) => {
   const { orderItems, amount } = req.body;
   const options = {
-    amount: amount*100,
+    amount: amount * 100,
     currency: 'INR',
   };
   const instance = await createRazorInstance();
@@ -39,5 +39,14 @@ export const checkout = asyncHandler(async (req, res, next) => {
     success: true,
     message: 'Order created successfully.',
     data: response,
+  });
+});
+
+export const getRazorAPIKey = asyncHandler(async (req, res, next) => {
+  const RAZOR_API_KEY = process.env.RAZOR_API_KEY;
+  return res.status(200).json({
+    message: 'You get successfully api key',
+    success: true,
+    data: RAZOR_API_KEY,
   });
 });
