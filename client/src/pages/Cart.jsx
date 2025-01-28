@@ -139,7 +139,7 @@ const Cart = () => {
           ) : (
             cartItems &&
             cartItems.length > 0 &&
-            cartItems.map(({ _id, thumbnail, price, quantity, title }) => (
+            cartItems.map(({ _id, thumbnail, price, quantity, title, availabilityStatus }) => (
               <div
                 key={_id}
                 className="flex items-center justify-between py-4 border-b"
@@ -152,10 +152,14 @@ const Cart = () => {
                   <p className="text-[14px] text-gray-600">
                     Price : ${price.toFixed(2)}
                   </p>
+                  <p className={`${availabilityStatus == 'available' ? 'text-green-600' : 'text-red-600'} text-[16px] font-[500]`} id="stock-status">
+                  {availabilityStatus == 'available' ? 'In stock' : 'Out of Stock'}
+                </p>
                 </div>
                 <p className="text-[1.8rem] font-bold lg:pr-[100px]">
                   ${(price * quantity).toFixed(2)}
                 </p>
+                
                 <div
                   id="quantity"
                   className="flex gap-[1rem] justify-center pr-[1rem] items-center"
