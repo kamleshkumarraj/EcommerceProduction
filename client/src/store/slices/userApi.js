@@ -21,7 +21,10 @@ export const userApi = createApi({
                 method : "GET",
                 credentials : "include"
             }),
-            providesTags : ['getAllProductsImages']
+            providesTags : ['getAllProductsImages'],
+            transformResponse : (res) => {
+                return res.data
+            }
         })
     })
 })

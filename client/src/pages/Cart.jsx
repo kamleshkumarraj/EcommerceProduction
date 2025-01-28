@@ -153,14 +153,14 @@ const Cart = () => {
                 <div className="flex-grow px-4">
                   <p className="font-semibold">{title}</p>
                   <p className="text-[14px] text-gray-600">
-                    Price : ${price.toFixed(2)}
+                    Price : ${price?.toFixed(2)}
                   </p>
                   <p className={`${availabilityStatus == 'available' ? 'text-green-600' : 'text-red-600'} text-[16px] font-[500]`} id="stock-status">
                   {availabilityStatus == 'available' ? 'In stock' : 'Out of Stock'}
                 </p>
                 </div>
                 <p className="text-[1.8rem] font-bold lg:pr-[100px]">
-                  ${(price * quantity).toFixed(2)}
+                  ${(price * quantity)?.toFixed(2)}
                 </p>
                 
                 <div

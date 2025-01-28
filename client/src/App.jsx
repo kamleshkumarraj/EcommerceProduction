@@ -14,38 +14,22 @@ import { getSelf } from "./store/slices/selfHandler.slice";
 import getAllCart from "./utils/getAllCartApiCall";
 import { fetchOrder } from "./utils/order";
 import { fetchAllWishlistItem } from "./utils/wishlist";
-import { loadModel, searchSimilarProducts } from "./models/searchImages";
-import { useGetImagesForTotalProductsQuery } from "./store/slices/userApi";
 
 function App() {
   const { eventLoading, setEventLoading } = useContext(GlobalContext);
   const dispatch = useDispatch();
   const user = useSelector(getSelf);
   const [initialLoading, setInitialLoading] = useState(true);
-  const { data: totalProductsImages } = useGetImagesForTotalProductsQuery();
+  // const { data: totalProductsImages } = useGetImagesForTotalProductsQuery();
   // search similar products from images.
-  useEffect(() => {
-    if(totalProductsImages && totalProductsImages?.length > 0){
-      async function run() {
-        // Load the model
-        await loadModel();
-        // const productsImage = await
-        // Get the user-provided image (e.g., from an <input> element)
-        const userImage =  "https://cdn.dummyjson.com/products/images/womens-watches/Watch%20Gold%20for%20Women/1.png";
-  
-        // Get product images (e.g., from an array of image elements)
-        const productImages = totalProductsImages
-  
-        // Search for similar products
-        const similarProducts = await searchSimilarProducts(
-          userImage,
-          productImages
-        );
-        console.log("Similar Products:", similarProducts);
-      }
-      run();
-    }else return
-  }, [totalProductsImages]);
+  // useEffect(() => {
+  //   if(totalProductsImages && totalProductsImages?.length > 0){
+      
+  //     (async () => {
+  //       await run({userImages : "https://cdn.dummyjson.com/products/images/furniture/Bedside%20Table%20African%20Cherry/1.png", productsImages : totalProductsImages});
+  //     })()
+  //   }else return
+  // }, [totalProductsImages]);
 
   useEffect(() => {
     setTimeout(() => {
