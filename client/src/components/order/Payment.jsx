@@ -5,7 +5,7 @@ import { fetchCreateOrder } from "../../utils/order";
 import { fetchRemoveMultipleCartItems } from "../../utils/cart.utils";
 import { useNavigate } from "react-router-dom";
 import PropTypes from "prop-types";
-import { useCheckoutOrderMutation } from "../../store/slices/userApi";
+import { useCheckoutOrderMutation, useLazyGetRazorAPIKeyQuery } from "../../store/slices/userApi";
 
 function Payment({ checkPaymentClick , orderItems , cartTotal }) {
   const [paymentMethod , setPaymentMethod] = useState('')
@@ -28,10 +28,12 @@ function Payment({ checkPaymentClick , orderItems , cartTotal }) {
 
   const deletableProducts =  orderItems?.map((order) => order?._id)
   const [createOrderOnRazor] = useCheckoutOrderMutation();
-  const 
+  const [getRazorApiKey] = useLazyGetRazorAPIKeyQuery();
+  
   const checkoutProducts = async () => {
     const razor_key = await getRazorApiKey();
     const response = await createOrderOnRazor(payload);
+    console.log(response, razor_key)
     
   }
   return (

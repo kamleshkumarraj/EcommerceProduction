@@ -54,5 +54,5 @@ export const {
   useGetUserTotalProductsQuery,
   useGetImagesForTotalProductsQuery,
   useCheckoutOrderMutation,
-  useLazyGetRazorAPIKeyQueryw
+  useLazyGetRazorAPIKeyQuery
 } = userApi;
