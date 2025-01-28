@@ -18,6 +18,17 @@ function ProductsDetails({ img, product, setImg }) {
   const dispatch = useDispatch();
   const { setEventLoading } = useContext(GlobalContext);
   const user = useSelector(getSelf);
+  const makeOrderableProducts = (products) => {
+    return {
+      productId : product?._id,
+      rating : product?.rating,
+      quantity : 1,
+      price : product?.price,
+      category : products?.category,
+      thumbnail : product?.thumbnail?.url || products.thumbnail,
+      title : product?.title
+    }
+  }
   return (
     <>
       {wishlistItem && cartItem && (
@@ -154,7 +165,7 @@ function ProductsDetails({ img, product, setImg }) {
               id="btn"
               className="flex gap-[20px] my-[20px] flex-col sm:flex-row"
             >
-              <Link to={"/checkout"} state={{ orderedProducts: [product] }}>
+              <Link to={"/checkout"} state={{ orderedProducts: [makeOrderableProducts(product)] }}>
                 <Button label={"Buy Now"} bgColor={"bg-[#E5A018]"} />
               </Link>
               <div id="cart-btn">
