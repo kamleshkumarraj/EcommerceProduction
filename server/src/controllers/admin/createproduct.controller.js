@@ -17,14 +17,13 @@ const createProduct = asyncHandler(async (req , res , next) =>{
         url : urlResult.results[0].url
     }
 
-    req.body.images = {
-        images : urlResult.results.slice(1).map((image) => {
+    req.body.images = urlResult.results.slice(1).map((image) => {
             return ({
                 public_id : image.public_id,
                 url : image.url
             })
         })
-    }
+    
 
     req.body.created_By = {user_Id : req.user.id}; 
     const product = await productsModel.create(req.body)
