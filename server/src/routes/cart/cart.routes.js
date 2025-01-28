@@ -7,7 +7,12 @@ import { decreaseCartQty } from '../../controllers/cart/decreaseCartQty.controll
 import isLoggedIn from '../../middlewares/isLoggedIn.middleware.js'
 import { removeMultipleCartItems } from '../../controllers/cart/removeMultipleItems.controller.js'
 
+
+
+
+
 export const cartRouter = Router()
+
 cartRouter.use(isLoggedIn)
 cartRouter.route('/get').get(getAllCartItems)
 cartRouter.route('/add/:productId').post(addCartItem)

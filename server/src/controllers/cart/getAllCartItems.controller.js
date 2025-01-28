@@ -5,11 +5,11 @@ export const getAllCartItems = asyncHandler(async (req , res , next) => {
     const userId = req.user.id
     const cartItems = await cart.find({userId}).populate('productId' , 'title thumbnail category price quantity availabilityStatus rating _id quantity')
     const transformData = cartItems.map(({productId , quantity , _id}) => {
-        console.log(productId.quantity)
+       
         return {
             _id,
             title : productId.title,
-            thumbnail : productId.thumbnail,
+            thumbnail : productId.thumbnail?.url || productId.thumbnail,
             category : productId.category,
             price : productId.price,
             quantity,

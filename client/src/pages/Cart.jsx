@@ -50,7 +50,6 @@ const Cart = () => {
 
   // now we write code for incrementing the cart quantity.
   const increamentCartQty = async (_id) => {
-    dispatch(increaseCartQty({ _id }));
     const options = {
       url: `http://localhost:2000/api/v2/user/cart/increase/${_id}`,
       method: "PATCH",
@@ -58,6 +57,7 @@ const Cart = () => {
     const response = await dispatch(apiCalling(options));
     if (response?.success) {
       toast.success("Quantity is increased by 1");
+      getAllCart(dispatch, user);
     } else {
       toast.error("Quantity is not increased !");
       getAllCart(dispatch, user);
@@ -65,7 +65,6 @@ const Cart = () => {
   };
 
   const decreamentCartQty = async (_id, qty) => {
-    dispatch(decreasedCartQty({ _id }));
 
     const options = {
       url: `http://localhost:2000/api/v2/user/cart/decrease/${_id}`,
@@ -73,9 +72,13 @@ const Cart = () => {
     };
     const response = await dispatch(apiCalling(options));
     if (response?.success) {
-      if (qty == 1)
+      if (qty == 1){
         toast.success("Product is removed from cart list successfully.");
-      else toast.success(response?.message || "Quantity is decreased by 1");
+        getAllCart(dispatch, user)
+      }
+      else {toast.success(response?.message || "Quantity is decreased by 1");
+        getAllCart(dispatch, user)
+      }
     } else {
       toast.error(response?.message || "Quantity is not decreased !");
       getAllCart(dispatch, user);
@@ -221,7 +224,7 @@ const Cart = () => {
 
           <Link
             to={"/checkout"}
-            state={{ cartTotal, orderedProducts: cartItems }}
+            state={{ cartTotal, orderedProducts: cartItems.filter(product => product.availabilityStatus == "available") }}
           >
             <button className="w-full py-3 bg-black text-white font-semibold mb-4 rounded-[8px]">
               Checkout

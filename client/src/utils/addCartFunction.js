@@ -2,7 +2,7 @@ import { toast } from "react-toastify"
 import { apiCalling } from "../api/apiCalling.api"
 import getAllCart from "./getAllCartApiCall"
 
-export const addToCart = async (_id , dispatch , user , setEventLoading) => {
+export const addToCart = async (_id , dispatch , user , setEventLoading, navigate) => {
     
     if(!user) {
         toast.error("Please login to access this resources !")
@@ -25,7 +25,7 @@ export const addToCart = async (_id , dispatch , user , setEventLoading) => {
   }
 
 
-  export const removeToCart = async (cart , dispatch , user , setEventLoading) => {
+  export const removeToCart = async (cart , dispatch , user , setEventLoading, navigate) => {
     if(!user) {
         toast.error("Please login to access this resources !")
         navigate('/login');

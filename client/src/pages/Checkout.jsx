@@ -51,7 +51,7 @@ const Checkout = () => {
     setSelectedButton(selectedAddress);
   }, [address]);
   useEffect(() => {
-    dispatch(setOrderedProducts(orderedProducts || cartItems));
+    dispatch(setOrderedProducts(orderedProducts || cartItems.filter((product) => product.availabilityStatus == "available")));
     return () => dispatch(resetOrderProductsStore());
   }, [cartItems]);
 
