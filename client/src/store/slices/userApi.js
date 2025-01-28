@@ -37,6 +37,16 @@ export const userApi = createApi({
         return res.data;
       },
     }),
+    getRazorAPIKey: builder.query({
+      query: () => ({
+        url: "/user/order/get-razor-api-key",
+        method: "GET",
+        credentials: "include",
+      }),
+      transformResponse: (res) => {
+        return res.data;
+      },
+    }),
   }),
 });
 
@@ -44,4 +54,5 @@ export const {
   useGetUserTotalProductsQuery,
   useGetImagesForTotalProductsQuery,
   useCheckoutOrderMutation,
+  useLazyGetRazorAPIKeyQueryw
 } = userApi;

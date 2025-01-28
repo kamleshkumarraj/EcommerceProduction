@@ -28,6 +28,7 @@ function Payment({ checkPaymentClick , orderItems , cartTotal }) {
 
   const deletableProducts =  orderItems?.map((order) => order?._id)
   const [createOrderOnRazor] = useCheckoutOrderMutation();
+  const 
   const checkoutProducts = async () => {
     const razor_key = await getRazorApiKey();
     const response = await createOrderOnRazor(payload);
