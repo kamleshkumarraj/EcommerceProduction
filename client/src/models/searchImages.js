@@ -4,13 +4,13 @@ import * as mobilenet from '@tensorflow-models/mobilenet';
 
 // Load MobileNet model
 let model;
-async function loadModel() {
+export async function loadModel() {
     model = await mobilenet.load();
     console.log('Model loaded');
 }
 
 // Function to extract features from an image
-async function extractFeatures(imgElement) {
+export async function extractFeatures(imgElement) {
     // Convert the image to a tensor
     const imgTensor = tf.browser.fromPixels(imgElement).toFloat();
 
@@ -30,7 +30,7 @@ async function extractFeatures(imgElement) {
 }
 
 // Function to compare feature vectors using cosine similarity
-function cosineSimilarity(vectorA, vectorB) {
+export function cosineSimilarity(vectorA, vectorB) {
     const dotProduct = tf.dot(vectorA, vectorB);
     const magnitudeA = tf.norm(vectorA);
     const magnitudeB = tf.norm(vectorB);
@@ -38,7 +38,7 @@ function cosineSimilarity(vectorA, vectorB) {
 }
 
 // Function to search for similar products
-async function searchSimilarProducts(userImage, productImages) {
+export async function searchSimilarProducts(userImage, productImages) {
     // Extract features from the user-provided image
     const userFeatures = await extractFeatures(userImage);
 
@@ -59,24 +59,6 @@ async function searchSimilarProducts(userImage, productImages) {
 }
 
 // Example usage
-async function run() {
-    // Load the model
-    await loadModel();
-    // const productsImage = await 
-    // Get the user-provided image (e.g., from an <input> element)
-    const userImage = document.getElementById('user-image');
 
-    // Get product images (e.g., from an array of image elements)
-    const productImages = [
-        document.getElementById('product1'),
-        document.getElementById('product2'),
-        document.getElementById('product3'),
-    ];
-
-    // Search for similar products
-    const similarProducts = await searchSimilarProducts(userImage, productImages);
-    console.log('Similar Products:', similarProducts);
-}
 
 // Run the example
-run();

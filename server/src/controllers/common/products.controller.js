@@ -2,9 +2,9 @@ import { asyncHandler } from "../../errors/asynHandler.js";
 import { productsModel } from "../../models/products.model.js";
 
 export const getAllProductsImages = asyncHandler(async (req, res, next) => {
-    const products = await productsModel.find().limit(1).sort({createdAt : -1});
+    const products = await productsModel.find();
 
-    const productsImages = products.map((product) => product)
+    const productsImages = products.map((product) => product?.images[0]?.url || product.images[0])
 
     res.status(200).json({
         success: true,

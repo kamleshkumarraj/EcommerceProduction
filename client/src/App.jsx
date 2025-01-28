@@ -9,21 +9,43 @@ import Headers from "./components/Headers";
 import { InitialLoader } from "./components/InitialLoader";
 import NewsletterModal from "./components/Model";
 import { GlobalContext } from "./contexts/GlobalProvider";
-import {
-  setAllCategories
-} from "./store/slices/productsHandler.slice";
+import { setAllCategories } from "./store/slices/productsHandler.slice";
 import { getSelf } from "./store/slices/selfHandler.slice";
 import getAllCart from "./utils/getAllCartApiCall";
 import { fetchOrder } from "./utils/order";
 import { fetchAllWishlistItem } from "./utils/wishlist";
+import { loadModel, searchSimilarProducts } from "./models/searchImages";
+import { useGetImagesForTotalProductsQuery } from "./store/slices/userApi";
 
 function App() {
   const { eventLoading, setEventLoading } = useContext(GlobalContext);
   const dispatch = useDispatch();
   const user = useSelector(getSelf);
   const [initialLoading, setInitialLoading] = useState(true);
+  const { data: totalProductsImages } = useGetImagesForTotalProductsQuery();
+  // search similar products from images.
+  useEffect(() => {
+    if(totalProductsImages && totalProductsImages?.length > 0){
+      async function run() {
+        // Load the model
+        await loadModel();
+        // const productsImage = await
+        // Get the user-provided image (e.g., from an <input> element)
+        const userImage =  "https://cdn.dummyjson.com/products/images/womens-watches/Watch%20Gold%20for%20Women/1.png";
   
+        // Get product images (e.g., from an array of image elements)
+        const productImages = totalProductsImages
   
+        // Search for similar products
+        const similarProducts = await searchSimilarProducts(
+          userImage,
+          productImages
+        );
+        console.log("Similar Products:", similarProducts);
+      }
+      run();
+    }else return
+  }, [totalProductsImages]);
 
   useEffect(() => {
     setTimeout(() => {
@@ -49,8 +71,6 @@ function App() {
     })();
   }, []);
 
-  
-
   useEffect(() => {
     getAllCart(dispatch, user);
     fetchAllWishlistItem(dispatch, user);
@@ -60,16 +80,15 @@ function App() {
   if (initialLoading) return <InitialLoader />;
   return (
     <>
-      
       <div className="font-[roboto]  " id="container">
         <div id="advertisement-modals" className="relative w-full">
           <NewsletterModal />
         </div>
-        
-          <Headers />
-          {eventLoading && <Loader />}
-          <Outlet />
-          <FooterM />
+
+        <Headers />
+        {eventLoading && <Loader />}
+        <Outlet />
+        <FooterM />
       </div>
     </>
   );

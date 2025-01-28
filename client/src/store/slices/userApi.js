@@ -5,7 +5,7 @@ export const userApi = createApi({
     baseQuery : fetchBaseQuery({
         baseUrl : 'http://localhost:2000/api/v2'
     }),
-    tagTypes : ['getAllProducts'],
+    tagTypes : ['getAllProducts', 'getAllProductsImages'],
     endpoints : (builder) => ({
         getUserTotalProducts : builder.query({
             query : () => ({
@@ -14,8 +14,16 @@ export const userApi = createApi({
                 credentials : "include"
             }),
             providesTags : ['getAllProducts']
+        }),
+        getImagesForTotalProducts : builder.query({
+            query : () => ({
+                url : "/common/products/get-products-images",
+                method : "GET",
+                credentials : "include"
+            }),
+            providesTags : ['getAllProductsImages']
         })
     })
 })
 
-export const {useGetUserTotalProductsQuery} = userApi
+export const {useGetUserTotalProductsQuery, useGetImagesForTotalProductsQuery} = userApi
