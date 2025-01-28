@@ -3,7 +3,7 @@ import { Router } from 'express';
 import { deleteSingleOrder } from '../../controllers/ordercontroller/deleteSingleOrder.js';
 import { getAllOrders } from '../../controllers/ordercontroller/getAllOrder.controller.js';
 import { getSingleOrder } from '../../controllers/ordercontroller/getSingleOrder.controller.js';
-import { checkout, createOrder } from '../../controllers/ordercontroller/orderCreate.controller.js';
+import { checkout, createOrder, getRazorAPIKey, verifyOrder } from '../../controllers/ordercontroller/orderCreate.controller.js';
 import isLoggedIn from '../../middlewares/isLoggedIn.middleware.js';
 
 export const orderHandlerRouter = Router();
@@ -13,3 +13,5 @@ orderHandlerRouter.route('/single-order/:id').get(isLoggedIn,getSingleOrder)
 orderHandlerRouter.route('/all-orders').get(isLoggedIn , getAllOrders)
 orderHandlerRouter.route('/delete-single-order/:id').get(isLoggedIn,deleteSingleOrder) 
 orderHandlerRouter.route('/checkout').post(isLoggedIn,checkout);
+orderHandlerRouter.route('/get-razor-api-key').get(getRazorAPIKey);
+orderHandlerRouter.route('/verify-order').post(verifyOrder)

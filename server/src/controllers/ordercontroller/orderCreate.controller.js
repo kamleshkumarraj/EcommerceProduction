@@ -50,3 +50,11 @@ export const getRazorAPIKey = asyncHandler(async (req, res, next) => {
     data: RAZOR_API_KEY,
   });
 });
+
+export const verifyOrder = asyncHandler(async (req, res, next) => {
+  console.log(req);
+  return res.json({
+    success : true,
+    message : "Payment is verified."
+  })
+})
