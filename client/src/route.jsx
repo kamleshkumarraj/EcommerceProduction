@@ -172,7 +172,7 @@ export const router = createBrowserRouter([
         element: <Suspense fallback = {fallbackHandler} > <BlogHome /> </Suspense> ,
       },
       {
-        path : '/blog/about-page',
+        path : '/blog/about',
         element : <Suspense fallback = {fallbackHandler} >  <About /> </Suspense>
       },
       {
