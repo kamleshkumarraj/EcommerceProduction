@@ -104,9 +104,24 @@ export const verifyOrder = asyncHandler(async (req, res, next) => {
     .digest('hex');
 
   if (generated_signature == razorpay_signature) {
-    
-    
+    await ordersModel.updateOne({
+      paymentInfo : {razorpay_order_id : razorpay_order_id},
+    },
+    {
+      $set : {
+        paymentInfo : {status : 'paid' , razorpay_payment_id : razorpay_payment_id , razorpay_signature : razorpay_signature, },
+        paidAt : Date.now(),
+        orderStatus : 'confirm'
+      }
+    }
+  )
+    res.status(200).json({
+      success : true,
+      message : 'Payment verified successfully',
+      data : response
+    });
   }else{
+    await ordersModel.deleteOne({paymentInfo : {razorpay_order_id : razorpay_order_id}})
     return next(new ErrorHandler('Failed to verify payment order.', 500));
   }
 
