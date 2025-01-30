@@ -5,7 +5,6 @@ import ErrorHandler from '../../errors/errorHandler.js';
 import { ordersModel } from '../../models/order.model.js';
 import { productsModel } from '../../models/products.model.js';
 import crypto from 'crypto';
-import fs from 'fs/promises';
 
 export const createOrder = asyncHandler(async (req, res, next) => {
   const { orderItems } = req.body;
