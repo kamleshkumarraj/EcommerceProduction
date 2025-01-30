@@ -24,19 +24,19 @@ const Featured = () => {
       duration : 1
     })
     
-    gsap.to('.animeHeading' , {
-      transform : 'translateX(-180%)',
+    // gsap.to('.animeHeading' , {
+    //   transform : 'translateX(-180%)',
      
-      scrollTrigger : {
-        trigger :'.animeHeading',
-        scroll : 'body',
-        start : 'top 10%',
-        end : 'top -280%',
-        scrub : true,
-        pin : true
+    //   scrollTrigger : {
+    //     trigger :'.animeHeading',
+    //     scroll : 'body',
+    //     start : 'top 10%',
+    //     end : 'top -280%',
+    //     scrub : true,
+    //     pin : true
       
-      }
-    })
+    //   }
+    // })
   })
   return (
     <div id="featured" style={{overflowX : 'hidden'}}  className={styles.container}>
@@ -73,10 +73,10 @@ const Featured = () => {
         </div>
       </div>
 
-      <div id="heading" className="relative flex-col items-center justify-center inline ">
+     { /* <div id="heading" className="relative flex-col items-center justify-center inline ">
       <h1 className={`text-[35rem] font-[600] text-center  mt-[1rem] pb-[-5rem] ${styles.animateHeading} animeHeading `}>Welcome in our new Blog </h1>
       
-      </div>
+      </div> */}
       <div id="featured-section" className="px-[4rem] py-[2rem] ">
       <div className={styles.post}>
       <div className={styles.imgContainer}>
