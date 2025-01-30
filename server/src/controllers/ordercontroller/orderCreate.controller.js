@@ -118,7 +118,6 @@ export const verifyOrder = asyncHandler(async (req, res, next) => {
     res.status(200).json({
       success : true,
       message : 'Payment verified successfully',
-      data : response
     });
   }else{
     await ordersModel.deleteOne({paymentInfo : {razorpay_order_id : razorpay_order_id}})
