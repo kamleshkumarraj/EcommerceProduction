@@ -4,7 +4,6 @@ import { productsModel } from "../../models/products.model.js";
 
 export const getAllReviews = asyncHandler(async (req , res , next) =>{
     const reviewsData = await productsModel.findById(req.params.id , {reviews : 1}).populate("reviews.reviewerId" , "firstname lastname avatar")
-    console.log(reviewsData)
     if(!reviewsData) return next(new ErrorHandler("please send valid products Id"))
     const sendingData = reviewsData.reviews.map(({comment , rating , reviewerId}) => {
         return {

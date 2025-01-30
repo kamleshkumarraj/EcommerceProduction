@@ -3,6 +3,7 @@ import { asyncHandler } from '../../errors/asynHandler.js';
 import ErrorHandler from '../../errors/errorHandler.js';
 import { ordersModel } from '../../models/order.model.js';
 import { productsModel } from '../../models/products.model.js';
+import crypto from 'crypto'
 
 export const createOrder = asyncHandler(async (req, res, next) => {
   const { orderItems } = req.body;
@@ -27,9 +28,20 @@ export const createOrder = asyncHandler(async (req, res, next) => {
 });
 
 export const checkout = asyncHandler(async (req, res, next) => {
-  const { orderItems, amount } = req.body;
+  const {orders } = req.body;
+  const orderItemId = orders.orderItems.map((order) => order.productId);
+  const amount = ordersModel.aggregate([
+    { $match: { _id: { $in: orderItemId } } },
+    { $group: {
+      _id : "null",
+      total : { $sum : "$price" }
+    }},
+    { $project: { total : 1 , _id : 0 } }
+  ])
+  
+  console.log(amount)
   const options = {
-    amount: amount * 100,
+    amount: 5000 * 100,
     currency: 'INR',
   };
   const instance = await createRazorInstance();
@@ -52,7 +64,19 @@ export const getRazorAPIKey = asyncHandler(async (req, res, next) => {
 });
 
 export const verifyOrder = asyncHandler(async (req, res, next) => {
-  console.log(req);
+  const {razorpay_payment_id, razorpay_order_id, razorpay_signature } = req.body;
+  
+  const sign = razorpay_order_id +"|"+razorpay_payment_id;
+
+  const generated_signature = crypto.createHmac('sha256', process.env.RAZOR_API_SECRET).update(sign).digest('hex');
+
+  if(generated_signature == razorpay_signature){
+    const orderForDB = 
+    req.redirect("http://localhost:5173/checkout/success")
+  }
+
+    
+
   return res.json({
     success : true,
     message : "Payment is verified."
