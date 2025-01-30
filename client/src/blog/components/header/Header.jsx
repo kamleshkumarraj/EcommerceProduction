@@ -49,7 +49,7 @@ const Header = () => {
       <div id="header-text" className={styles.logo}>My Blog</div>
       <div id="header-link" className={styles.links}>
         <Link to={'/'}  id="link"  className={styles.link}>EcoMart</Link>
-        <Link id="link" className={styles.link}>Contact</Link>
+        <Link id="link" to={'/blog/contact'} className={styles.link}>Contact</Link>
         <Link id="link" to={'/blog/about'}  className={styles.link}>About</Link>
         <AuthLinks />
       </div>
