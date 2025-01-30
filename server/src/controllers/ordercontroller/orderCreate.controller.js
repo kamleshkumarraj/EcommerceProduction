@@ -5,7 +5,7 @@ import ErrorHandler from '../../errors/errorHandler.js';
 import { ordersModel } from '../../models/order.model.js';
 import { productsModel } from '../../models/products.model.js';
 import crypto from 'crypto';
-import fs from 'fs/promises'
+import fs from 'fs/promises';
 
 export const createOrder = asyncHandler(async (req, res, next) => {
   const { orderItems } = req.body;
@@ -31,27 +31,25 @@ export const createOrder = asyncHandler(async (req, res, next) => {
 
 export const checkout = asyncHandler(async (req, res, next) => {
   const order = req.body;
-  // console.log(payload)
+
   const orderItemId = order.orderItems.map(
     (order) => new mongoose.Types.ObjectId(order.productId),
   );
 
   const amount = await productsModel.aggregate([
     { $match: { _id: { $in: orderItemId } } },
-    
     {
       $project: {
         _id: 0,
-        price : 1,
+        price: 1,
       },
     },
   ]);
 
-  const price = amount.reduce((acc , {price}, idx) => {
-    console.log(idx)
-    acc += price * order?.orderItems[idx]?.quantity 
+  const price = amount.reduce((acc, { price }, idx) => {
+    acc += price * order?.orderItems[idx]?.quantity;
     return acc;
-  },0);
+  }, 0);
 
   const taxPrice = price * 0.018;
   const totalPrice = price + taxPrice;
@@ -63,18 +61,24 @@ export const checkout = asyncHandler(async (req, res, next) => {
   const instance = await createRazorInstance();
   const response = await instance.orders.create(options);
 
-  console.log(response)
+  if (response.status == 'created') {
+    await ordersModel.create({
+      ...order,
+      shippingPrice: 0,
+      totalPrice: totalPrice,
+      taxPrice: taxPrice,
+      paymentInfo: { razorpay_order_id: response.id },
+      user: req?.user?.id,
+    });
 
-  await fs.writeFile('log.json', [JSON.stringify(response) , JSON.stringify(order)] , {encoding : 'utf-8'});
-  // if(response.status == "created"){
-  //   const orders = await ordersModel.create({shippingPrice : 0, totalPrice : totalPrice, taxPrice : taxPrice})
-  // }
-
-  return res.status(200).json({
-    success: true,
-    message: 'Order created successfully.',
-    data: response,
-  });
+    return res.status(200).json({
+      success: true,
+      message: 'Order created successfully.',
+      data: response,
+    });
+  } else {
+    return next(new ErrorHandler('Failed to create order.', 500));
+  }
 });
 
 export const getRazorAPIKey = asyncHandler(async (req, res, next) => {
@@ -87,8 +91,10 @@ export const getRazorAPIKey = asyncHandler(async (req, res, next) => {
 });
 
 export const verifyOrder = asyncHandler(async (req, res, next) => {
+
   const { razorpay_payment_id, razorpay_order_id, razorpay_signature } =
     req.body;
+  console.log(razorpay_order_id)
 
   const sign = razorpay_order_id + '|' + razorpay_payment_id;
 
@@ -98,11 +104,11 @@ export const verifyOrder = asyncHandler(async (req, res, next) => {
     .digest('hex');
 
   if (generated_signature == razorpay_signature) {
-    const orderForDB = req.redirect('http://localhost:5173/checkout/success');
+    
+    
+  }else{
+    return next(new ErrorHandler('Failed to verify payment order.', 500));
   }
 
-  return res.json({
-    success: true,
-    message: 'Payment is verified.',
-  });
+  
 });

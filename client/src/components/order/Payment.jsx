@@ -45,7 +45,7 @@ function Payment({ checkPaymentClick, orderItems, cartTotal }) {
   const checkoutProducts = async () => {
     const {data : razor_key} = await getRazorApiKey();
     const {data : razorRes} = await createOrderOnRazor(payload);
-   
+    console.log(razorRes)
 
     const options = {
       "key": razor_key, // Enter the Key ID generated from the Dashboard
@@ -54,8 +54,7 @@ function Payment({ checkPaymentClick, orderItems, cartTotal }) {
       "name": "My Ecomart Platform",
       "description": "Test Transaction",
       "image": user?.avatar?.url,
-      "order_id": razorRes.order_id, //This is a sample Order ID. Pass the `id` obtained in the response of Step 1
-      "callback_url": "http://localhost:2000/api/v2/user/order/verify-order",
+      "order_id": razorRes.id, 
       "prefill": {
           "name": user?.firstname + " " + user?.lastname,
           "email": user?.email,
@@ -66,7 +65,26 @@ function Payment({ checkPaymentClick, orderItems, cartTotal }) {
       },
       "theme": {
           "color": "#3399cc"
-      }
+      },
+      handler: async function (response) {
+        console.log("Payment Response:", response);
+    
+        // ✅ Send Payment Data to Backend
+        const verifyRes = await fetch("http://localhost:2000/api/v2/user/order/verify-order", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            razorpay_payment_id: response.razorpay_payment_id,
+            razorpay_order_id: response.razorpay_order_id,
+            razorpay_signature: response.razorpay_signature,
+          }),
+        });
+    
+        const result = await verifyRes.json();
+        console.log("Verification Response:", result);
+      },
   };
   const razor = new window.Razorpay(options);
   razor.open()
