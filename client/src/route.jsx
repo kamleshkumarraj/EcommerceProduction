@@ -39,7 +39,8 @@ const Register = lazy(() => import("./pages/Register.jsx"));
 const SearchingCategoryPage = lazy(() => import("./pages/SearchingCategory.page.jsx"));
 const ShoppingPage = lazy(() => import("./pages/ShoppingPage.jsx"));
 const Wishlist = lazy(() => import("./pages/Wishlist.jsx"));
-const About = lazy(() => import('./blog/pages/About.page.jsx'))
+const About = lazy(() => import('./blog/pages/About.page.jsx'));
+const ContactBlog = lazy(() => import("./blog/pages/Contact.page.jsx"))
 
 const fallbackHandler = () => {
   return <Loader />
@@ -174,6 +175,10 @@ export const router = createBrowserRouter([
       {
         path : '/blog/about',
         element : <Suspense fallback = {fallbackHandler} >  <About /> </Suspense>
+      },
+      {
+        path : '/blog/contact',
+        element : <Suspense fallback = {fallbackHandler} >  <ContactBlog /> </Suspense>
       },
       {
         path: "/blog/blog-page",
