@@ -1,0 +1,52 @@
+[{
+    "amount": 1203300,
+    "amount_due": 1203300,
+    "amount_paid": 0,
+    "attempts": 0,
+    "created_at": 1738232465,
+    "currency": "INR",
+    "entity": "order",
+    "id": "order_PpcUXmQl325HaP",
+    "notes": [],
+    "offer_id": null,
+    "receipt": null,
+    "status": "created"
+},
+{
+    "orderItems": [
+        {
+            "name": "Watch Gold for Women",
+            "price": 799.99,
+            "image": "https://cdn.dummyjson.com/products/images/womens-watches/Watch%20Gold%20for%20Women/thumbnail.png",
+            "quantity": 1,
+            "productId": "66f84485f13e82727bbe0b97"
+        },
+        {
+            "name": "Watch Gold for Women",
+            "price": 799.99,
+            "image": "https://cdn.dummyjson.com/products/images/womens-watches/Watch%20Gold%20for%20Women/thumbnail.png",
+            "quantity": 1,
+            "productId": "66f84485f13e82727bbe0b97"
+        },
+        {
+            "name": "Tropical Earring",
+            "price": 19.99,
+            "image": "https://cdn.dummyjson.com/products/images/womens-jewellery/Tropical%20Earring/thumbnail.png",
+            "quantity": 1,
+            "productId": "66f84485f13e82727bbe0b73"
+        },
+        {
+            "name": "Rolex Datejust Women",
+            "price": 10999.99,
+            "image": "https://cdn.dummyjson.com/products/images/womens-watches/Rolex%20Datejust%20Women/thumbnail.png",
+            "quantity": 1,
+            "productId": "66f84485f13e82727bbe0b93"
+        }
+    ],
+    "shippingInfo": "67646540b914742adbc30c2a",
+    "itemsPrice": "12619.96",
+    "taxPrice": "378.60",
+    "totalPrice": "12998.56",
+    "orderStatus": "pending",
+    "paymentMethod": "online"
+}]

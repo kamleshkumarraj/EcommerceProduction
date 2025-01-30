@@ -37,24 +37,24 @@ function Payment({ checkPaymentClick, orderItems, cartTotal }) {
       paymentMethod,
     };
   }, [paymentMethod, orderItems, cartTotal, selectedAddress]);
-
+  console.log(payload)
   const deletableProducts = orderItems?.map((order) => order?._id);
   const [createOrderOnRazor] = useCheckoutOrderMutation();
   const [getRazorApiKey] = useLazyGetRazorAPIKeyQuery();
 
   const checkoutProducts = async () => {
     const {data : razor_key} = await getRazorApiKey();
-    const response = await createOrderOnRazor({amount : 5000});
-    console.log(response, razor_key);
+    const {data : razorRes} = await createOrderOnRazor(payload);
+   
 
-    var options = {
+    const options = {
       "key": razor_key, // Enter the Key ID generated from the Dashboard
-      "amount": response.amount, // Amount is in currency subunits. Default currency is INR. Hence, 50000 refers to 50000 paise
+      "amount": razorRes.amount, // Amount is in currency subunits. Default currency is INR. Hence, 50000 refers to 50000 paise
       "currency": "INR",
       "name": "My Ecomart Platform",
       "description": "Test Transaction",
       "image": user?.avatar?.url,
-      "order_id": response.order_id, //This is a sample Order ID. Pass the `id` obtained in the response of Step 1
+      "order_id": razorRes.order_id, //This is a sample Order ID. Pass the `id` obtained in the response of Step 1
       "callback_url": "http://localhost:2000/api/v2/user/order/verify-order",
       "prefill": {
           "name": user?.firstname + " " + user?.lastname,
