@@ -1,7 +1,7 @@
 import { useMemo, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { getSelectedAddress } from "../../store/slices/addressHandler.slice";
-import { fetchCreateOrder } from "../../utils/order";
+import { fetchCreateOrder, fetchOrder } from "../../utils/order";
 import { fetchRemoveMultipleCartItems } from "../../utils/cart.utils";
 import { Navigate, useNavigate } from "react-router-dom";
 import PropTypes from "prop-types";
@@ -88,6 +88,11 @@ function Payment({ checkPaymentClick, orderItems, cartTotal }) {
         if(result?.success){
           toast.success(result?.message || "Order has been successfully placed .");
           navigate("/order-confirmation");
+          fetchOrder(dispatch);
+          fetchRemoveMultipleCartItems({
+            dispatch,
+            cartIdList: deletableProducts,
+          });
         }else{
           toast.error(result?.message || "Payment verification is failed !");
         }
@@ -156,8 +161,8 @@ function Payment({ checkPaymentClick, orderItems, cartTotal }) {
         </div>
       )}
 
-      {paymentMethod == "cash" ||
-        (paymentMethod == "online" && (
+      {((paymentMethod == "cash" ||
+        paymentMethod == "online") && (
           <div
             id="place-rder-button"
             className="flex px-4 py-2 bg-white mt-[10px] justify-between items-center"
@@ -176,6 +181,7 @@ function Payment({ checkPaymentClick, orderItems, cartTotal }) {
                   navigate("/order-confirmation");
                 } else if (paymentMethod == "online") {
                   checkoutProducts();
+
                 }
               }}
               className="px-[60px] py-[15px] bg-[#FB641B] text-center text-white font-700 text-[18px] cursor-pointer hover:bg-[#FB641B] hover:text-white"
