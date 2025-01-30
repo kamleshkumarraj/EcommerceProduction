@@ -46,7 +46,7 @@ const Header = () => {
         <img src={facebookImg} alt="tiktok" width={24} height={24} />
         <img src={youtubeImg} alt="youtube" width={24} height={24} />
       </div>
-      <div id="header-text" className={styles.logo}>My Blog</div>
+      <Link to={'/blog'} id="header-text" className={styles.logo}>My Blog</Link>
       <div id="header-link" className={styles.links}>
         <Link to={'/'}  id="link"  className={styles.link}>EcoMart</Link>
         <Link id="link" to={'/blog/contact'} className={styles.link}>Contact</Link>
