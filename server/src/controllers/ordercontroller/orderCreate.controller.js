@@ -111,7 +111,7 @@ export const verifyOrder = asyncHandler(async (req, res, next) => {
       $set : {
         paymentInfo : {status : 'paid' , razorpay_payment_id : razorpay_payment_id , razorpay_signature : razorpay_signature, },
         paidAt : Date.now(),
-        orderStatus : 'confirm'
+        orderStatus : 'confirmed'
       }
     }
   )

@@ -3,13 +3,14 @@ import { useDispatch, useSelector } from "react-redux";
 import { getSelectedAddress } from "../../store/slices/addressHandler.slice";
 import { fetchCreateOrder } from "../../utils/order";
 import { fetchRemoveMultipleCartItems } from "../../utils/cart.utils";
-import { useNavigate } from "react-router-dom";
+import { Navigate, useNavigate } from "react-router-dom";
 import PropTypes from "prop-types";
 import {
   useCheckoutOrderMutation,
   useLazyGetRazorAPIKeyQuery,
 } from "../../store/slices/userApi";
 import { getSelf } from "../../store/slices/selfHandler.slice";
+import { toast } from "react-toastify";
 
 function Payment({ checkPaymentClick, orderItems, cartTotal }) {
   const [paymentMethod, setPaymentMethod] = useState("");
@@ -37,7 +38,8 @@ function Payment({ checkPaymentClick, orderItems, cartTotal }) {
       paymentMethod,
     };
   }, [paymentMethod, orderItems, cartTotal, selectedAddress]);
-  console.log(payload)
+  
+
   const deletableProducts = orderItems?.map((order) => order?._id);
   const [createOrderOnRazor] = useCheckoutOrderMutation();
   const [getRazorApiKey] = useLazyGetRazorAPIKeyQuery();
@@ -83,12 +85,18 @@ function Payment({ checkPaymentClick, orderItems, cartTotal }) {
         });
     
         const result = await verifyRes.json();
-        console.log("Verification Response:", result);
+        if(result?.success){
+          toast.success(result?.message || "Order has been successfully placed .");
+          navigate("/order-confirmation");
+        }else{
+          toast.error(result?.message || "Payment verification is failed !");
+        }
       },
   };
   const razor = new window.Razorpay(options);
   razor.open()
   };
+
   return (
     <div>
       <div
