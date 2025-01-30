@@ -154,3 +154,54 @@ export const getAllProductsBlog = asyncHandler(async (req, res, next) => {
     data : productsBlogs
   })
 });
+
+export const getMyCreatedProductBlogs = asyncHandler(async (req, res, next) => {
+    const myCreatedProductBlogs = await ProductsBlogs.aggregate([
+        {
+          $match: {creator : req.user.id},
+        },
+        {
+          $lookup: {
+            from: 'User',
+            localField: 'creator',
+            foreignField: '_id',
+            as: creatorDetails,
+            pipeline: [
+              {
+                $project: {
+                  creatorName: { $concat: ['$firstName', ' ', '$lastName'] },
+                  avatar: 1,
+                  email: 1,
+                  username: 1,
+                },
+              },
+            ],
+          },
+        },
+        {
+          $project: {
+            creatorDetails: 1,
+            title: 1,
+            content: 1,
+            summary: 1,
+            slug: 1,
+            category: 1,
+            thumbnail: 1,
+            images: 1,
+            subCategory: 1,
+            createdAt: 1,
+            updatedAt: 1,
+          },
+        },
+        { $sort: { createdAt: -1 } },
+        { $skip: skip },
+        { $limit: limit },
+      ]);
+
+    return res.status(200).json({
+        success : true,
+        message : "You get all your created products blogs successfully.",
+        data : myCreatedProductBlogs
+      })
+    
+})
