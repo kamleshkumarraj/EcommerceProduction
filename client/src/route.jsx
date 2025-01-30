@@ -40,7 +40,8 @@ const SearchingCategoryPage = lazy(() => import("./pages/SearchingCategory.page.
 const ShoppingPage = lazy(() => import("./pages/ShoppingPage.jsx"));
 const Wishlist = lazy(() => import("./pages/Wishlist.jsx"));
 const About = lazy(() => import('./blog/pages/About.page.jsx'));
-const ContactBlog = lazy(() => import("./blog/pages/Contact.page.jsx"))
+const ContactBlog = lazy(() => import("./blog/pages/Contact.page.jsx"));
+const ServiceBlog = lazy(() => import("./blog/pages/Service.page.jsx"))
 
 const fallbackHandler = () => {
   return <Loader />
@@ -179,6 +180,10 @@ export const router = createBrowserRouter([
       {
         path : '/blog/contact',
         element : <Suspense fallback = {fallbackHandler} >  <ContactBlog /> </Suspense>
+      },
+      {
+        path : '/blog/service',
+        element : <Suspense fallback = {fallbackHandler} >  <ServiceBlog /> </Suspense>
       },
       {
         path: "/blog/blog-page",
