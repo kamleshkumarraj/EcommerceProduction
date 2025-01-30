@@ -1,0 +1,47 @@
+import { asyncHandler } from "../../errors/asynHandler.js"
+import ErrorHandler from "../../errors/errorHandler.js"
+import { removeFile, uploadMultipleFilesOnCloudinary } from "../../helper/helper.js"
+import { ProductsBlogs } from "../../models/blog/productsBlog.model.js"
+
+export const createBlog = asyncHandler(async (req , res , next) =>{
+    const thumbnailData = req?.files?.thumbnail || []
+    const imagesData = req?.files?.images || []
+    
+    //we extract the all properties from the request body
+    const {title , content , summary , slug , category="products", subCategory} = req.body
+    // if user provide images but not thumbnail, then we will take the first image as thumbnail
+    if(thumbnailData.length == 0) {
+        if(imagesData.length > 0){
+            thumbnailData.push(imagesData[0])
+        }else return next(new ErrorHandler("Please provide at least one image", 400))
+    }
+
+    // now we upload the thumbnail and images to cloudinary
+    const thumbnailResult = await uploadMultipleFilesOnCloudinary([...thumbnailData , ...imagesData])
+    if(thumbnailResult?.success == false) return next(new ErrorHandler(thumbnailResult.error, 400))
+    
+    // and then we get the publicId and url of the thumbnail and images for saving in the database
+    const thumbnail = {
+        publicId : thumbnailResult.results[0]?.public_id,
+        url : thumbnailResult.results[0]?.url
+    }
+
+    const images = thumbnailResult.results.slice(1, thumbnailResult.length).map((image) => {
+        return {
+            publicId : image.public_id,
+            url : image.url
+        }
+    })
+    // now we remove the thumbnail file from the server
+    await removeFile(thumbnailData)
+    
+    // now we create the blog in the database
+    const blog = await ProductsBlogs.create({title , content , summary , slug , category, thumbnail, images , creator : req?.user?._id, subCategory})
+
+    res.status(201).json({
+        success : true,
+        message : "Blog created successfully for products",
+        data : blog
+    })
+
+})
