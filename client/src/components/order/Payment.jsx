@@ -68,11 +68,8 @@ function Payment({ checkPaymentClick, orderItems, cartTotal }) {
           "color": "#3399cc"
       }
   };
-  var rzp1 = new Razorpay(options);
-  document.getElementById('rzp-button1').onclick = function(e){
-      rzp1.open();
-      e.preventDefault();
-  }
+  const razor = new window.Razorpay(options);
+  razor.open()
   };
   return (
     <div>
