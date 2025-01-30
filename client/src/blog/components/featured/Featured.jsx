@@ -55,9 +55,11 @@ const Featured = () => {
             </div>
             <div id="hero-btn" className="flex gap-[3rem]">
               <div id="service-btn" className="text-white  bg-[#ffffff0a] border-[3px] border-[#ffffff3d] rounded-[.6rem] px-[3.2rem] py-[1rem] text-[1.6rem] font-[600]" style={{backdropFilter : 'blur(5px)'}}>
+                <Link to={'/blog/service'} >
                 <Button 
                   label={"SERVICES"}
                 />
+                </Link>
               </div>
               <div id="about-btn" className="text-green-400 bg-[#fff] border-[3px] border-[#fff] px-[3.2rem] py-[1rem] text-[1.6rem] font-[600] rounded-[.4rem]" >
                 <Link to={'/blog/aboutwe '} >
