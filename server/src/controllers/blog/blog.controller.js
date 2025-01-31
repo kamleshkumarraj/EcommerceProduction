@@ -2,7 +2,6 @@ import { asyncHandler } from "../../errors/asynHandler.js";
 import ErrorHandler from "../../errors/errorHandler.js";
 import { blogFindQuery, removeFile, removeMultipleFileFromCloudinary, uploadMultipleFilesOnCloudinary } from "../../helper/helper.js";
 import { blogs } from "../../models/blog/blog.model.js";
-import { comments } from "../../models/blog/comments.models.js";
 
 export const createBlog = asyncHandler(async (req , res , next) =>{
     const thumbnailData = req?.files?.thumbnail || []
@@ -106,7 +105,7 @@ export const getCategoryBlog = asyncHandler(async (req , res , next) => {
     const {category} = req.params; 
     const {limit = 20, page= 1} = req.query;
     const skip = (page - 1) * limit;
-    
+
     if(!category) return next(new ErrorHandler("Please provide the category", 400))
     const blogData = await blogs.aggregate(
         blogFindQuery({matchQuery : {category} , limit , skip})
