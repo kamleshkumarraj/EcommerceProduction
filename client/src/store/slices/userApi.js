@@ -128,7 +128,32 @@ export const userApi = createApi({
         credentials : "include",
         body : data
       })
+    }),
+
+    getAllProductsBlogs : builder.query({
+      query : () => ({
+        url : `/user/products-blogs/get-all`,
+        method : "GET",
+        credentials : "include",
+        
+      }),
+      transformResponse : (res) => {
+        return res.data
+      }
+    }),
+
+    getSingleProductsBlog : builder.query({
+      query : (productBlogId) => ({
+        url : `/user/products-blogs/single/${productBlogId}`,
+        method : "GET",
+        credentials : "include",
+      }),
+      transformResponse : (res) => {
+        return res?.data
+      } 
+
     })
+
 
 
 
