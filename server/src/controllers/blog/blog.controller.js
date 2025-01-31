@@ -1,9 +1,8 @@
 import { asyncHandler } from "../../errors/asynHandler.js";
 import ErrorHandler from "../../errors/errorHandler.js";
-import { removeFile, removeMultipleFileFromCloudinary, uploadMultipleFilesOnCloudinary } from "../../helper/helper.js";
+import { blogFindQuery, removeFile, removeMultipleFileFromCloudinary, uploadMultipleFilesOnCloudinary } from "../../helper/helper.js";
 import { blogs } from "../../models/blog/blog.model.js";
 import { comments } from "../../models/blog/comments.models.js";
-import { v4 as uuidv4 } from 'uuid'
 
 export const createBlog = asyncHandler(async (req , res , next) =>{
     const thumbnailData = req?.files?.thumbnail || []
@@ -59,7 +58,11 @@ export const createBlog = asyncHandler(async (req , res , next) =>{
 })
 
 export const getMyBlogs = asyncHandler(async (req , res , next) => {
-    const blogsData = await blogs.find({creator : req?.user?._id})
+    const {limit = 20, page = 1} = req.query;
+    const skip = (page - 1) * limit;
+    const blogsData = await blogs.aggregate(
+        blogFindQuery({matchQuery : {creator : req?.user?._id}, limit , skip})
+    )
 
     res.status(200).json({
         success : true,
