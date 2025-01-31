@@ -236,3 +236,14 @@ export const deleteBlog = asyncHandler(async (req, res, next) => {
     message: 'Blog deleted successfully',
   });
 });
+
+export const getCategoryBlogs = asyncHandler(async (req, res, next) => {
+    const blogs = ProductsBlogs.aggregate(
+        blogFindQuery({matchQuery : {category : req.params.category} , skip, limit})
+    );
+    return res.status(200).json({
+        success : true,
+        message : "You get all blogs that you created",
+        data : blogs
+    })
+})
