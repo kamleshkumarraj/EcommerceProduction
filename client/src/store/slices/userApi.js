@@ -86,6 +86,18 @@ export const userApi = createApi({
       })
     }),
 
+    getCommentForBlog : builder.query({
+      query : (blogId) => ({
+        url : `/user/reaction/get-comment-for-blog/${blogId}`,
+        method : "GET",
+        credentials : "include",
+
+      }),
+      transformResponse : (res) => {
+        return res.data
+      }
+    }),
+
     
   }),
 });
