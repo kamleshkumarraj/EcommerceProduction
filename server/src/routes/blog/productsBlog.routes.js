@@ -9,8 +9,10 @@ import {
   getSingleProductsBlog,
 } from '../../controllers/blog/productsBlog.controller.js';
 import isLoggedIn from '../../middlewares/isLoggedIn.middleware.js';
+import { uploads } from '../../middlewares/fileUploads/userPhotoUploads.js';
+import { blogCreationValidation, validateFunc } from '../../validators/validation.js';
 
-const productsBlogRouter = Router();
+export const productsBlogRouter = Router();
 
 productsBlogRouter.route('/get-all').get(getAllProductsBlog);
 productsBlogRouter

@@ -11,7 +11,7 @@ export const createComment = asyncHandler(async (req, res, next) => {
   if (mongoose.isValidObjectId(blogId) == false) {
     return next(new ErrorHandler('Please send valid blog id !', 401));
   }
-  await Comments.create({ creator: req.user.id, blogId, comment });
+  await Comments.create({ creator: req?.user?.id, blogId, comment });
 
   res.status(200).json({
     success: true,

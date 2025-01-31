@@ -14,6 +14,8 @@ import { addressHandlerRouter } from './routes/shippingAddress/address.routes.js
 import { handleUserProfileRoute } from './routes/userSelf/userHandleProfile.route.js';
 import { wishlistHandlingRoute } from './routes/wishlist/wishlist.routes.js';
 import { blogRouter } from './routes/blog/blog.routes.js';
+import { productsBlogRouter } from './routes/blog/productsBlog.routes.js';
+import { reactionRouter } from './routes/blog/reactions.routes.js';
 
 export const app = express();
 
@@ -46,6 +48,8 @@ app.use('/api/v2/user/order',orderHandlerRouter)
 app.use('/api/v2/user/cart' , cartRouter)
 app.use('/api/v2/user/wishlist' , wishlistHandlingRoute)
 app.use('/api/v2/user/address' , addressHandlerRouter)
+app.use('/api/v2/user/products-blogs' , productsBlogRouter)
+app.use('/api/v2/user/reaction' , reactionRouter)
 
 // common routes for unknown user.
 app.use('/api/v2/common/products' , commonRouter)
