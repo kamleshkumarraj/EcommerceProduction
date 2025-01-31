@@ -20,14 +20,14 @@ export const createComment = asyncHandler(async (req, res, next) => {
 });
 
 export const createReplyForComment = asyncHandler(async (req, res, next) => {
-  const { commentId, replyMessage } = req.body;
+  const { commentId, reply } = req.body;
   if (mongoose.isValidObjectId(commentId) == false) {
     return next(new ErrorHandler('Please send valid blog id !', 400));
   }
 
   await ReplyComments.create({
     commentId,
-    reply: replyMessage,
+    reply,
     creator: req.user.id,
   });
 
