@@ -85,33 +85,6 @@ export const getAllBlogs = asyncHandler(async (req , res , next) => {
     })
 })
 
-export const getCommentsForABlog = asyncHandler(async (req , res , next) => {
-    const {blogId} = req.params;
-    const commentsData = await comments.find({blogId});
-
-    res.status(200).json({
-        success : true,
-        message : "You get all comments successfully",
-        data : commentsData
-    })
-})
-
-export const getAllActionBlog = asyncHandler(async (req , res , next) => {
-    const action = req.query.action;
-    if(!action) return next(new ErrorHandler("Please provide the action type", 400))
-
-     // if the action is history, then we will get all the blogs that the user has viewed
-    const actionType = ['like' , 'save' , 'history' , 'share']
-    if(!actionType.includes(action)) return next(new ErrorHandler("Please provide the correct action type", 400))
-
-    const savedBlog = await blogs.find({reactions : { $elemMatch : { creator : req?.user?._id , action : action == 'history' ? "view" : action } } })
-
-    res.status(200).json({
-        success : true,
-        message : "You get all saved blogs successfully",
-        data : savedBlog
-    })
-})
 
 export const deleteBlog = asyncHandler(async (req , res , next) => {
     const {blogId} = req.params;
@@ -131,8 +104,13 @@ export const deleteBlog = asyncHandler(async (req , res , next) => {
 
 export const getCategoryBlog = asyncHandler(async (req , res , next) => {
     const {category} = req.params; 
+    const {limit = 20, page= 1} = req.query;
+    const skip = (page - 1) * limit;
+    
     if(!category) return next(new ErrorHandler("Please provide the category", 400))
-    const blogData = await blogs.find({category})
+    const blogData = await blogs.aggregate(
+        blogFindQuery({matchQuery : {category} , limit , skip})
+    )
     res.status(200).json({
         success : true,
         message : "You get all blogs for this category successfully",
