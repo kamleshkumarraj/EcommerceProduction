@@ -151,3 +151,143 @@ export const getAllLikeAndCreatorForBlog = asyncHandler(
     });
   },
 );
+
+export const getAllCommentsForBlog = asyncHandler(async (req, res, next) => {
+  const { id: blogId } = req.params;
+  const { page = 1, limit = 20 } = req.query;
+  const skip = (page - 1) * limit;
+
+  const commentData = await Comments.aggregate([
+    { $match: { blogId } },
+    {
+      $lookup: {
+        from: 'users',
+        localField: 'creator',
+        foreignField: '_id',
+        as: 'creatorDetails',
+        pipeline: [
+          {
+            $project: {
+              creatorName: { $concat: ['$firstname', ' ', '$lastname'] },
+              avatar: 1,
+              username: 1,
+              email: 1,
+              _id: 1,
+            },
+          },
+        ],
+      },
+    },
+    {
+      $lookup: {
+        from: 'replycomments',
+        localField: '_id',
+        foreignField: 'commentId',
+        as: 'replyComment',
+        pipeline: [
+          {
+            $lookup: {
+              from: 'users',
+              localField: 'creator',
+              foreignField: '_id',
+              as: 'creatorDetails',
+              pipeline: [
+                {
+                  $project: {
+                    creatorName: { $concat: ['$firstname', ' ', '$lastname'] },
+                    avatar: 1,
+                    username: 1,
+                    email: 1,
+                    _id: 1,
+                  },
+                },
+              ],
+            },
+          },
+          {
+            $lookup: {
+              from: 'commentReactions',
+              foreignField: 'commentId',
+              localField: '_id',
+              as: 'replyReactions',
+              pipeline: [
+                {
+                  $group: {
+                    _id: '$reaction',
+                    count: { $sum: 1 },
+                  },
+                },
+                {
+                  $project: {
+                    reaction: '$_id',
+                    count: { $sum: 1 },
+                  },
+                },
+              ],
+            },
+          },
+          {
+            $unwind: '$creatorDetails',
+          },
+          {
+            $project: {
+              creatorDetails: 1,
+              reply: 1,
+              _id: 1,
+              replyReactions: 1,
+            },
+          },
+        ],
+      },
+    },
+    {
+      $unwind: '$creatorDetails',
+    },
+    // now we find like count for a comment.
+    {
+      $lookup: {
+        from: 'commentReactions',
+        localField: '_id',
+        foreignField: 'commentId',
+        as: 'commentReactions',
+        pipeline: [
+          {
+            $group: {
+              _id: '$reaction',
+              count: { $sum: 1 },
+            },
+          },
+          {
+            $project: {
+              reaction: '$_id',
+              count: 1,
+            },
+          },
+        ],
+      },
+    },
+    {
+      $project: {
+        creatorDetails: 1,
+        comment: 1,
+        replyComment: 1,
+        replySize: { $size: '$replyComment' },
+        commentReactions: 1,
+      },
+    },
+    {
+      $skip: skip,
+    },
+    {
+      $limit: limit,
+    },
+  ]);
+
+  return res.status(200).json({
+    success: false,
+    message: 'You get all comments for blog successfully.',
+    data: commentData,
+  });
+});
+
+
