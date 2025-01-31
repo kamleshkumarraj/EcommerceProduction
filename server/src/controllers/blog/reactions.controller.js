@@ -290,4 +290,58 @@ export const getAllCommentsForBlog = asyncHandler(async (req, res, next) => {
   });
 });
 
+export const getReactionCreatorForComment = asyncHandler(
+  async (req, res, next) => {
+    const { id: commentId } = req.query;
+    if (mongoose.isValidObjectId(commentId) == false) {
+      return next(new ErrorHandler('Please send valid comment id !', 400));
+    }
+    const likeCreatorForComments = await CommentReactions.aggregate([
+      {
+        $match: { commentId },
+      },
+      {
+        $lookup: {
+          from: 'users',
+          localField: 'creator',
+          foreignField: '_id',
+          as: 'creatorDetails',
+          pipeline: [
+            {
+              $project: {
+                creatorName: { $concat: ['$firstname', ' ', '$lastname'] },
+                avatar: 1,
+                username: 1,
+                email: 1,
+                _id: 1,
+              },
+            },
+          ],
+        },
+      },
+      {
+        $unwind: '$creatorDetails',
+      },
+      {
+        $group: {
+          _id: '$reaction',
+          count: { $sum: 1 },
+          creator: { $push: '$creatorDetails' },
+        },
+      },
+      {
+        $project: {
+          reaction: '$_id',
+          creator: 1,
+          count: 1,
+        },
+      },
+    ]);
 
+    return res.status(200).json({
+        success : true,
+        message : "You get all like creator for comment successfully.",
+        data : likeCreatorForComments
+    })
+  },
+);
