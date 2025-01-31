@@ -4,8 +4,8 @@ const blogReactions = new mongoose.Schema({
     reaction: {
         type: String,
         required: true,
-        enum: ['like' , 'dislike', 'none'],
-        default: 'none'
+        enum: ['like' , 'dislike'],
+        
     },
     creator: {
         type: mongoose.Schema.Types.ObjectId,

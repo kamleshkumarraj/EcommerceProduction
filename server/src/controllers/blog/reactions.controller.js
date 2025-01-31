@@ -50,9 +50,12 @@ export const createReactionForBlog = asyncHandler(async (req, res, next) => {
   });
 
   if (existReaction) {
-    BlogReactions.updateOne(
+    await BlogReactions.updateOne(
       { blogId, creator: req.user.id },
       { $set: { reaction: reactionType } },
+      {
+        runValidators: true,
+      },
     );
   } else {
     await BlogReactions.create({
@@ -92,6 +95,10 @@ export const createReactionForComments = asyncHandler(
         reaction: reactionType,
       });
     }
+    return res.status(200).json({
+      success: true,
+      message: 'Reaction created successfully for comment.',
+    })
   },
 );
 
@@ -104,7 +111,7 @@ export const getAllLikeAndCreatorForBlog = asyncHandler(
 
     const blogReactions = await BlogReactions.aggregate([
       {
-        $match: { blogId },
+        $match: { blogId : new mongoose.Types.ObjectId(blogId) },
       },
       {
         $lookup: {
@@ -130,16 +137,17 @@ export const getAllLikeAndCreatorForBlog = asyncHandler(
       },
       {
         $group: {
-          _id: '$reactions',
+          _id: '$reaction',
           count: { $sum: 1 },
           creator: { $push: '$creatorDetails' },
         },
       },
       {
         $project: {
-          creatorDetails: 1,
+          count : 1,
           creator: 1,
           reaction: '$_id',
+          _id : 0
         },
       },
     ]);
@@ -158,7 +166,7 @@ export const getAllCommentsForBlog = asyncHandler(async (req, res, next) => {
   const skip = (page - 1) * limit;
 
   const commentData = await Comments.aggregate([
-    { $match: { blogId } },
+    { $match: { blogId  : new mongoose.Types.ObjectId(blogId)} },
     {
       $lookup: {
         from: 'users',
@@ -206,7 +214,7 @@ export const getAllCommentsForBlog = asyncHandler(async (req, res, next) => {
           },
           {
             $lookup: {
-              from: 'commentReactions',
+              from: 'commentreactions',
               foreignField: 'commentId',
               localField: '_id',
               as: 'replyReactions',
@@ -221,6 +229,7 @@ export const getAllCommentsForBlog = asyncHandler(async (req, res, next) => {
                   $project: {
                     reaction: '$_id',
                     count: { $sum: 1 },
+                    _id : 0
                   },
                 },
               ],
@@ -246,7 +255,7 @@ export const getAllCommentsForBlog = asyncHandler(async (req, res, next) => {
     // now we find like count for a comment.
     {
       $lookup: {
-        from: 'commentReactions',
+        from: 'commentreactions',
         localField: '_id',
         foreignField: 'commentId',
         as: 'commentReactions',
@@ -261,6 +270,7 @@ export const getAllCommentsForBlog = asyncHandler(async (req, res, next) => {
             $project: {
               reaction: '$_id',
               count: 1,
+              _id: 0
             },
           },
         ],
@@ -292,13 +302,13 @@ export const getAllCommentsForBlog = asyncHandler(async (req, res, next) => {
 
 export const getReactionCreatorForComment = asyncHandler(
   async (req, res, next) => {
-    const { id: commentId } = req.query;
+    const { id: commentId } = req.params;
     if (mongoose.isValidObjectId(commentId) == false) {
       return next(new ErrorHandler('Please send valid comment id !', 400));
     }
     const likeCreatorForComments = await CommentReactions.aggregate([
       {
-        $match: { commentId },
+        $match: { commentId : new mongoose.Types.ObjectId(commentId) },
       },
       {
         $lookup: {
@@ -334,14 +344,15 @@ export const getReactionCreatorForComment = asyncHandler(
           reaction: '$_id',
           creator: 1,
           count: 1,
+          _id : 0
         },
       },
     ]);
 
     return res.status(200).json({
-        success : true,
-        message : "You get all like creator for comment successfully.",
-        data : likeCreatorForComments
-    })
+      success: true,
+      message: 'You get all like creator for comment successfully.',
+      data: likeCreatorForComments,
+    });
   },
 );

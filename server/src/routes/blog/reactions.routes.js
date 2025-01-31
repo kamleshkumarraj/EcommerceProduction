@@ -22,8 +22,8 @@ reactionRouter
   .post(createReactionForComments);
 
 // getting route.
-reactionRouter.route('/get-comment-for-blog').get(getAllCommentsForBlog);
-reactionRouter.route('/get-reaction-for-blog').get(getAllLikeAndCreatorForBlog);
+reactionRouter.route('/get-comment-for-blog/:id').get(getAllCommentsForBlog);
+reactionRouter.route('/get-reaction-for-blog/:id').get(getAllLikeAndCreatorForBlog);
 reactionRouter
-  .route('/get-reaction-for-comment')
+  .route('/get-reaction-for-comment/:id')
   .get(getReactionCreatorForComment);
