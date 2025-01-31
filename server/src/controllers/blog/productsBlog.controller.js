@@ -1,13 +1,13 @@
+import mongoose from 'mongoose';
 import { asyncHandler } from '../../errors/asynHandler.js';
 import ErrorHandler from '../../errors/errorHandler.js';
 import {
-    blogFindQuery,
-    removeFile,
-    removeMultipleFileFromCloudinary,
-    uploadMultipleFilesOnCloudinary,
+  blogFindQuery,
+  removeFile,
+  removeMultipleFileFromCloudinary,
+  uploadMultipleFilesOnCloudinary,
 } from '../../helper/helper.js';
 import { ProductsBlogs } from '../../models/blog/productsBlog.model.js';
-
 
 export const createBlog = asyncHandler(async (req, res, next) => {
   const thumbnailData = req?.files?.thumbnail || [];
@@ -110,8 +110,8 @@ export const getAllProductsBlog = asyncHandler(async (req, res, next) => {
   const { page = 1, limit = 20 } = req.query;
   const skip = (page - 1) * limit;
   const productsBlogs = await ProductsBlogs.aggregate(
-    blogFindQuery({matchQuery : {} , skip, limit})
-);
+    blogFindQuery({ matchQuery: {}, skip, limit }),
+  );
 
   return res.status(200).json({
     success: true,
@@ -122,7 +122,7 @@ export const getAllProductsBlog = asyncHandler(async (req, res, next) => {
 
 export const getMyCreatedProductBlogs = asyncHandler(async (req, res, next) => {
   const myCreatedProductBlogs = await ProductsBlogs.aggregate(
-    blogFindQuery({matchQuery : {creator : req?.user?._id} , skip, limit})
+    blogFindQuery({ matchQuery: { creator: req?.user?._id }, skip, limit }),
   );
 
   return res.status(200).json({
@@ -132,7 +132,7 @@ export const getMyCreatedProductBlogs = asyncHandler(async (req, res, next) => {
   });
 });
 
-export const deleteBlog = asyncHandler(async (req, res, next) => {
+export const deleteProductsBlog = asyncHandler(async (req, res, next) => {
   const { blogId } = req.params;
   const deletedBlog = await ProductsBlogs.findByIdAndDelete(blogId);
 
@@ -149,12 +149,32 @@ export const deleteBlog = asyncHandler(async (req, res, next) => {
 });
 
 export const getCategoryBlogs = asyncHandler(async (req, res, next) => {
-    const blogs = ProductsBlogs.aggregate(
-        blogFindQuery({matchQuery : {category : req.params.category} , skip, limit})
-    );
-    return res.status(200).json({
-        success : true,
-        message : "You get all blogs that you created",
-        data : blogs
-    })
-})
+  const blogs = ProductsBlogs.aggregate(
+    blogFindQuery({
+      matchQuery: { category: req.params.category },
+      skip,
+      limit,
+    }),
+  );
+  return res.status(200).json({
+    success: true,
+    message: 'You get all blogs that you created',
+    data: blogs,
+  });
+});
+
+export const getSingleBlog = asyncHandler(async (req, res, next) => {
+  const { id: blogId } = req.params;
+  if (mongoose.isValidObjectId(blogId) == false)
+    return next(new ErrorHandler('Please send valid blog id !', 400));
+
+  const blogsData = await ProductsBlogs.aggregate(
+    blogFindQuery({ matchQuery: { _id: blogId }, limit: 1, skip: 0 }),
+  );
+
+  return res.status(200).json({
+    success: true,
+    message: 'You get blog successfully',
+    data: blogsData,
+  });
+});

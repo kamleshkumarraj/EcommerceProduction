@@ -5,6 +5,7 @@ import {
   getAllBlogs,
   getCategoryBlog,
   getMyBlogs,
+  getMyCreatedBlog,
   getSingleBlog
 } from '../../controllers/blog/blog.controller.js';
 import { uploads } from '../../middlewares/fileUploads/userPhotoUploads.js';
@@ -33,6 +34,8 @@ blogRouter.route('/create').post(
 );
 
 blogRouter.route('/my-blog').get(getMyBlogs);
+
+blogRouter.route('/get-my-created-blog').get(getMyCreatedBlog);
 
 blogRouter.route('/delete/:blogId').delete(deleteBlog);
 
