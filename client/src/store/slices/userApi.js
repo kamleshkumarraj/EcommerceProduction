@@ -5,7 +5,7 @@ export const userApi = createApi({
   baseQuery: fetchBaseQuery({
     baseUrl: "http://localhost:2000/api/v2",
   }),
-  tagTypes: ["getAllProducts", "getAllProductsImages"],
+  tagTypes: ["getAllProducts", "getAllProductsImages", "create-comment"],
   endpoints: (builder) => ({
     getUserTotalProducts: builder.query({
       query: () => ({
@@ -47,6 +47,35 @@ export const userApi = createApi({
         return res.data;
       },
     }),
+
+    // all endpoint related from reactions for blogs and products-blogs.
+    createComment : builder.mutation({
+      query : (data) => ({
+        url : "/user/reaction/create-comment",
+        credentials : "include",
+        method : "POST",
+        body : data
+      }),
+    }),
+
+    createReactionForComments : builder.mutation({
+      query : (data) => ({
+        url : "user/reaction/create-reaction-comment",
+        credentials : "include",
+        method : "POST",
+        body : data
+      }),
+      
+    }),
+
+    createReactionForBlogs : builder.mutation({
+      query : (data) => ({
+        url : "/user/reaction/create-reaction-blog",
+        credentials : "include",
+        method : "POST",
+        body : data
+      })
+    })
   }),
 });
 
