@@ -23,6 +23,7 @@ productsBlogRouter.route('/get-category/:category').get(getCategoryBlogs);
 
 productsBlogRouter.use(isLoggedIn);
 
+
 productsBlogRouter.route('/create').post(
   uploads.fields([
     { name: 'thumbnail', maxCount: 1 },
