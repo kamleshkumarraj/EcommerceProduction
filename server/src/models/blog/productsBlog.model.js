@@ -82,6 +82,11 @@ const blogSchema = new mongoose.Schema({
             }
         ],
         default : []
+    },
+    productId : {
+        type : mongoose.Schema.ObjectId,
+        ref : 'products',
+        required : [true , "Please enter product id"]
     }
 } , {timestamps : true})
 
