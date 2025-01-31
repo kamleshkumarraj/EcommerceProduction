@@ -1,7 +1,7 @@
 import { asyncHandler } from "../../errors/asynHandler.js";
 import ErrorHandler from "../../errors/errorHandler.js";
 import { blogFindQuery, removeFile, removeMultipleFileFromCloudinary, uploadMultipleFilesOnCloudinary } from "../../helper/helper.js";
-import { blogs } from "../../models/blog/blog.model.js";
+import { blogs, blogs, blogs } from "../../models/blog/blog.model.js";
 
 export const createBlog = asyncHandler(async (req , res , next) =>{
     const thumbnailData = req?.files?.thumbnail || []
@@ -84,6 +84,19 @@ export const getAllBlogs = asyncHandler(async (req , res , next) => {
     })
 })
 
+export const getSingleBlog= asyncHandler(async (req, res, next) => {
+    const {id : blogId} = req.params;
+
+    const blogsData = await blogs.aggregate(
+        blogFindQuery({matchQuery : {_id : blogId} , limit : 1, skip : 0})
+    )
+
+    res.status(200).json({
+        success : true,
+        message : "We get a single blog successfully !",
+        data : blogsData
+    })
+})
 
 export const deleteBlog = asyncHandler(async (req , res , next) => {
     const {blogId} = req.params;
