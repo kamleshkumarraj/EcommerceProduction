@@ -1,3 +1,4 @@
+import mongoose from "mongoose";
 import { asyncHandler } from "../../errors/asynHandler.js";
 import ErrorHandler from "../../errors/errorHandler.js";
 import { blogFindQuery, removeFile, removeMultipleFileFromCloudinary, uploadMultipleFilesOnCloudinary } from "../../helper/helper.js";
@@ -87,8 +88,8 @@ export const getAllBlogs = asyncHandler(async (req , res , next) => {
 export const getSingleBlog= asyncHandler(async (req, res, next) => {
     const {id : blogId} = req.params;
 
-    const blogsData = await blogs.aggregate(
-        blogFindQuery({matchQuery : {_id : blogId} , limit : 1, skip : 0})
+    const [blogsData] = await blogs.aggregate(
+        blogFindQuery({matchQuery : {_id : new mongoose.Types.ObjectId(blogId)} , limit : 1, skip : 0})
     )
 
     res.status(200).json({
@@ -134,8 +135,8 @@ export const getMyCreatedBlog = asyncHandler(async (req, res, next) => {
     const {limit = 20 , page = 1} = req.query;
     const skip = (page - 1) * limit;
 
-    const myCreatedBlogs = blogs.aggregate(
-        blogFindQuery({matchQuery : {creator : req.user.id} , limit , skip})
+    const myCreatedBlogs = await blogs.aggregate(
+        blogFindQuery({matchQuery : {creator : new mongoose.Types.ObjectId(req.user.id)} , limit , skip})
     )
 
     res.status(200).json({
@@ -144,6 +145,38 @@ export const getMyCreatedBlog = asyncHandler(async (req, res, next) => {
         data : myCreatedBlogs
     })
 })
+
+export const getAllBlogsDetailsCategoriesWise = asyncHandler(
+  async (req, res, next) => {
+    const productsBlogs = await blogs.aggregate([
+      {
+        $match: {},
+      },
+      {
+        $group: {
+          _id: '$category',
+          count: { $sum: 1 },
+          thumbnail: { $push: '$thumbnail' },
+        },
+      },
+      { $sort: { count: -1 } },
+      {
+        $project: {
+          count: 1,
+          thumbnail: 1,
+          category : '$_id',
+          _id : 0
+        },
+      },
+    ]);
+
+    return res.status(200).json({
+      success: true,
+      message: 'Products Blogs Details Categories Wise',
+      data: productsBlogs,
+    });
+  },
+);
 
 
 

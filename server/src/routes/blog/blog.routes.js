@@ -3,6 +3,7 @@ import {
   createBlog,
   deleteBlog,
   getAllBlogs,
+  getAllBlogsDetailsCategoriesWise,
   getCategoryBlog,
   getMyBlogs,
   getMyCreatedBlog,
@@ -14,6 +15,7 @@ import {
   blogCreationValidation,
   validateFunc,
 } from '../../validators/validation.js';
+// import { getAllBlogsDetailsCategoriesWise } from '../../controllers/blog/productsBlog.controller.js';
 
 export const blogRouter = Router();
 
@@ -38,5 +40,7 @@ blogRouter.route('/my-blog').get(getMyBlogs);
 blogRouter.route('/get-my-created-blog').get(getMyCreatedBlog);
 
 blogRouter.route('/delete/:blogId').delete(deleteBlog);
+
+blogRouter.route('/get-blogs-categories-wise').get(getAllBlogsDetailsCategoriesWise)
 
 
