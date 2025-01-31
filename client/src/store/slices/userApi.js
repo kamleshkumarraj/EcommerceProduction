@@ -174,8 +174,63 @@ export const userApi = createApi({
       transformResponse : (res) => {
         return res.data
       }
-    }) 
+    }),
 
+    // all api calling endpoint related from blogs.
+    createBlogs : builder.mutation({
+      query : (data) => ({
+        url : "/user/blog/create",
+        method : "POST",
+        credentials : "include",
+        body : data
+      })
+    }),
+
+    getAllBlogs : builder.query({
+      query : () => ({
+        url : `/user/blog/get-all`,
+        method : "GET",
+        credentials : "include",
+        
+      }),
+      transformResponse : (res) => {
+        return res.data
+      }
+    }),
+
+    getSingleBlog : builder.query({
+      query : (blogId) => ({
+        url : `/user/blogs/single/${blogId}`,
+        method : "GET",
+        credentials : "include",
+      }),
+      transformResponse : (res) => {
+        return res?.data
+      } 
+
+    }),
+
+    getMyCreatedBlogs : builder.query({
+      query : () => ({
+        url : `/user/blog/get-my-created-blog`,
+        method : "GET",
+        credentials : "include"
+      }),
+      transformResponse : (res) => {
+        return res?.data
+      }
+    }),
+
+    getCategoriesWiseBlogs : builder.query({
+      query : () => ({
+        url : `/user/blog/get-blogs-categories-wise`,
+        method : "GET",
+        credentials : "include"
+      }),
+      transformResponse : (res) => {
+        return res.data
+      }
+    }),
 
 
 
@@ -193,5 +248,10 @@ export const {
   useCreateReplyCommentMutation,
   useLazyGetCommentForBlogQuery,
   useLazyGetReactionForBlogQuery,
-  useLazyGetReactionForCommentQuery
+  useLazyGetReactionForCommentQuery,
+  useCreateProductsBlogsMutation,
+  useGetAllProductsBlogsQuery,
+  useLazyGetSingleProductsBlogQuery,
+  useLazyGetCategoriesWiseProductsBlogsQuery,
+  useLazyGetMyCreatedProductsBlogsQuery
 } = userApi;
