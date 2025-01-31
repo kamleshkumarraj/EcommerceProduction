@@ -4,13 +4,12 @@ import { userModels } from "../../models/userRegistration.model.js";
 import { storetokenAndGetJWT } from "../../utils/storeJWTincookie.js";
 
 const userLogin = asyncHandler(async (req , res , next) =>{
-    const {email , password} = req.body;
+    const {email , password, username} = req.body;
 
     if(!email || !password){
         return next(new ErrorHandler("please enter email and password" , 401));
     }
-    let user = await userModels.findOne({email}).select("+password");
-    user = user ? user : await userModels.findOne({username : email}).select("+password");
+    const user = await userModels.findOne({$or : [{email : email} , {username : username}]})
     if(!user){
        return next(new ErrorHandler("Invalid email or password" , 402))
     }

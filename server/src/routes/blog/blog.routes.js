@@ -22,7 +22,7 @@ blogRouter.use(isLoggedIn);
 blogRouter.route('/create').post(
   uploads.fields([
     { name: 'thumbnail', maxCount: 1 },
-    { name: 'images', maxCount: 10 },
+    { name: 'images', maxCount: 3 },
   ]),
   blogCreationValidation(),
   validateFunc,

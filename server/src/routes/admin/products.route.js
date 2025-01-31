@@ -17,7 +17,7 @@ productsAdminHandleRoute.route('/create-product').post(
   isAdmin,
   uploads.fields([
     { name: 'thumbnail', maxCount: 1 },
-    { name: 'images', maxCount: 10 },
+    { name: 'images', maxCount: 3 },
   ]),
   createProduct,
 );

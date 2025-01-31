@@ -9,6 +9,7 @@ export const  forgotPassword = asyncHandler(async (req, res, next) =>{
     if(!user){ 
         return next(new ErrorHandler("Users deosnot exist !"))
     }
+    
     const resetTocken = user.generateResetPasswordTocken();
     await user.save({validateBeforeSave : true})
 
