@@ -56,9 +56,18 @@ app.use((err,req , res , next) =>{
   
   err.status = err.status || 500;
   err.message = err.message || "Interval server error"
+  
   // now e handle mongodb cast errors;
   if(err.name == 'castError'){
     new ErrorHandler(`Resources not found ${err.path}`,500)
+  }
+  if(err?.code == "LIMIT_UNEXPECTED_FILE" && err?.field == "images") {
+    err.message = "Maximum 3 files are allowed to uploading for images!"
+    err.status = 400
+  }
+  if(err?.code == "LIMIT_UNEXPECTED_FILE" && err?.field == "thumbnail") {
+    err.message = "Maximum 1 files are allowed to uploading for thumbnail !"
+    err.status = 400
   }
   res.status(err.status).json({
     success : false,

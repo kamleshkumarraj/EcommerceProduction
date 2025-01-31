@@ -1,7 +1,7 @@
 import { asyncHandler } from "../../errors/asynHandler.js";
 import ErrorHandler from "../../errors/errorHandler.js";
 import { blogFindQuery, removeFile, removeMultipleFileFromCloudinary, uploadMultipleFilesOnCloudinary } from "../../helper/helper.js";
-import { blogs, blogs, blogs } from "../../models/blog/blog.model.js";
+import { blogs } from "../../models/blog/blog.model.js";
 
 export const createBlog = asyncHandler(async (req , res , next) =>{
     const thumbnailData = req?.files?.thumbnail || []

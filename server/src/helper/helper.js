@@ -67,7 +67,7 @@ export const blogFindQuery =  ({matchQuery , limit, skip,}) => [
         pipeline: [
           {
             $project: {
-              creatorName: { $concat: ['$firstName', ' ', '$lastName'] },
+              creatorName: { $concat: ['$firstname', ' ', '$lastname'] },
               avatar: 1,
               email: 1,
               username: 1,
@@ -81,18 +81,7 @@ export const blogFindQuery =  ({matchQuery , limit, skip,}) => [
         from: 'comments',
         localField: '_id',
         foreignField: 'blogId',
-        as: 'comments',
-        pipeline: [
-          {
-            $count: 'commentsCounts',
-          },
-          {
-            $project: {
-              _id: 0,
-              commentsCounts: 1,
-            },
-          },
-        ],
+        as: 'commentsData',
       },
     },
     {
@@ -135,8 +124,10 @@ export const blogFindQuery =  ({matchQuery , limit, skip,}) => [
         subCategory: 1,
         createdAt: 1,
         updatedAt: 1,
-        comments: 1,
-        blogReactions : 1
+        commentCount: {$size : "$commentsData"},
+        blogReactions : 1,
+        shareCount : 1,
+        viewCount : 1
       },
     },
     { $sort: { createdAt: -1 } },

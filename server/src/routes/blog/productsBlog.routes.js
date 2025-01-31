@@ -7,8 +7,8 @@ import {
   getCategoryBlogs,
   getMyCreatedProductBlogs,
   getSingleProductsBlog,
-} from '../../controllers/blog/productsBlog.controller';
-import isLoggedIn from '../../middlewares/isLoggedIn.middleware';
+} from '../../controllers/blog/productsBlog.controller.js';
+import isLoggedIn from '../../middlewares/isLoggedIn.middleware.js';
 
 const productsBlogRouter = Router();
 
