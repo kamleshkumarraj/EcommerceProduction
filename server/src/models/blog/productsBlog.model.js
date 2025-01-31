@@ -64,40 +64,10 @@ const blogSchema = new mongoose.Schema({
         type : Number,
         default : 0
     },
-    likeCount : {
-        type : Number,
-        default : 0
-    },
-    commentCount : {
-        type : Number,
-        default : 0
-    },
     shareCount : {
         type : Number,
         default : 0
     },
-    dislikeCount : {
-        type : Number,
-        default : 0
-    },
-    reactions : [{
-        creator : {
-            type : mongoose.Schema.ObjectId,
-            ref : 'users',
-            required : [true , "Please enter blog creator"]
-        },
-        action : {
-            type : [String],
-            required : [true , "Please enter blog actions"],
-            enum : ["like" , "dislike" , "share" , "view" , "save" , "unsave"]
-        }
-    }],
-    
-    comments : {
-        type : mongoose.Schema.ObjectId,
-        ref : 'comments'
-    },
-    
     images : {
         type : [
             {
