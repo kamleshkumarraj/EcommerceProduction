@@ -98,7 +98,16 @@ export const userApi = createApi({
       }
     }),
 
-    
+    getReactionForBlog : builder.query({
+      query : (blogId) => ({
+        url : `/user/reaction/get-reaction-for-blog/${blogId}`,
+        method : "GET",
+        credentials : "include"
+      }),
+      transformResponse : (res) => {
+        return res.data
+      }
+    })
   }),
 });
 
