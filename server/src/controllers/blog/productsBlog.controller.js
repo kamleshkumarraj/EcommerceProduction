@@ -1,102 +1,13 @@
 import { asyncHandler } from '../../errors/asynHandler.js';
 import ErrorHandler from '../../errors/errorHandler.js';
 import {
-  removeFile,
-  removeMultipleFileFromCloudinary,
-  uploadMultipleFilesOnCloudinary,
+    blogFindQuery,
+    removeFile,
+    removeMultipleFileFromCloudinary,
+    uploadMultipleFilesOnCloudinary,
 } from '../../helper/helper.js';
-import { comments } from '../../models/blog/comments.models.js';
 import { ProductsBlogs } from '../../models/blog/productsBlog.model.js';
 
-const blogFindQuery =  ({matchQuery , limit, skip,}) => [
-    {
-      $match: matchQuery,
-    },
-    {
-      $lookup: {
-        from: 'User',
-        localField: 'creator',
-        foreignField: '_id',
-        as: creatorDetails,
-        pipeline: [
-          {
-            $project: {
-              creatorName: { $concat: ['$firstName', ' ', '$lastName'] },
-              avatar: 1,
-              email: 1,
-              username: 1,
-            },
-          },
-        ],
-      },
-    },
-    {
-      $lookup: {
-        from: 'comments',
-        localField: '_id',
-        foreignField: 'blogId',
-        as: comments,
-        pipeline: [
-          {
-            $count: 'commentsCounts',
-          },
-          {
-            $project: {
-              _id: 0,
-              commentsCounts: 1,
-            },
-          },
-        ],
-      },
-    },
-    {
-      $lookup: {
-        from: 'blogReactions',
-        localField: '_id',
-        foreignField: 'blogId',
-        as: blogReactions,
-        pipeline: [
-          {
-            $group: {
-              _id: '$reaction',
-              count: { $sum: 1 },
-            },
-          },
-          {
-            $project: {
-              reactionType: '$_id',
-              count: 1,
-            },
-          },
-        ],
-      },
-    },
-
-    {
-      $unwind: '$creatorDetails',
-    },
-
-    {
-      $project: {
-        creatorDetails: 1,
-        title: 1,
-        content: 1,
-        summary: 1,
-        slug: 1,
-        category: 1,
-        thumbnail: 1,
-        images: 1,
-        subCategory: 1,
-        createdAt: 1,
-        updatedAt: 1,
-        comments: 1,
-        blogReactions : 1
-      },
-    },
-    { $sort: { createdAt: -1 } },
-    { $skip: skip },
-    { $limit: limit },
-  ]
 
 export const createBlog = asyncHandler(async (req, res, next) => {
   const thumbnailData = req?.files?.thumbnail || [];
