@@ -163,7 +163,7 @@ export const getCategoryBlogs = asyncHandler(async (req, res, next) => {
   });
 });
 
-export const getSingleBlog = asyncHandler(async (req, res, next) => {
+export const getSingleProductsBlog = asyncHandler(async (req, res, next) => {
   const { id: blogId } = req.params;
   if (mongoose.isValidObjectId(blogId) == false)
     return next(new ErrorHandler('Please send valid blog id !', 400));
@@ -178,3 +178,5 @@ export const getSingleBlog = asyncHandler(async (req, res, next) => {
     data: blogsData,
   });
 });
+
+

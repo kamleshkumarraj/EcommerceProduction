@@ -1,12 +1,23 @@
-import { Router } from "express";
-import { createBlog, getAllBlogsDetailsCategoriesWise, getAllProductsBlog } from "../../controllers/blog/productsBlog.controller";
+import { Router } from 'express';
+import {
+  createBlog,
+  deleteProductsBlog,
+  getAllBlogsDetailsCategoriesWise,
+  getAllProductsBlog,
+  getCategoryBlogs,
+  getMyCreatedProductBlogs,
+  getSingleProductsBlog,
+} from '../../controllers/blog/productsBlog.controller';
+import isLoggedIn from '../../middlewares/isLoggedIn.middleware';
 
 const productsBlogRouter = Router();
 
 productsBlogRouter.route('/get-all').get(getAllProductsBlog);
-productsBlogRouter.route('/get/categories-wise').get(getAllBlogsDetailsCategoriesWise);
-productsBlogRouter.route('/single/:id').get(getSingleBlog)
-
+productsBlogRouter
+  .route('/get/categories-wise')
+  .get(getAllBlogsDetailsCategoriesWise);
+productsBlogRouter.route('/single/:id').get(getSingleProductsBlog);
+productsBlogRouter.route('/get-category/:category').get(getCategoryBlogs);
 
 productsBlogRouter.use(isLoggedIn);
 
@@ -20,8 +31,6 @@ productsBlogRouter.route('/create').post(
   createBlog,
 );
 
-productsBlogRouter.route('/my-blog').get(getMyBlogs);
+productsBlogRouter.route('/get-my-created-blog').get(getMyCreatedProductBlogs);
 
-productsBlogRouter.route('/get-my-created-blog').get(getMyCreatedBlog);
-
-productsBlogRouter.route('/delete/:blogId').delete(deleteBlog);
+productsBlogRouter.route('/delete/:blogId').delete(deleteProductsBlog);
