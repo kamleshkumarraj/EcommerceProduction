@@ -75,7 +75,18 @@ export const userApi = createApi({
         method : "POST",
         body : data
       })
-    })
+    }),
+
+    createReplyComment : builder.mutation({
+      query : (data) => ({
+        url : "/user/reaction/create-reply-comment",
+        credentials : "include",
+        method : "POST",
+        body : data
+      })
+    }),
+
+    
   }),
 });
 
