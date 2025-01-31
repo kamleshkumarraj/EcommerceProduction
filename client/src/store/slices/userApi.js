@@ -152,7 +152,29 @@ export const userApi = createApi({
         return res?.data
       } 
 
-    })
+    }),
+
+    getMyCreatedProductsBlogs : builder.query({
+      query : () => ({
+        url : `/user/products-blogs/get-my-created-blog`,
+        method : "GET",
+        credentials : "include"
+      }),
+      transformResponse : (res) => {
+        return res?.data
+      }
+    }),
+
+    getCategoriesWiseProductsBlogs : builder.query({
+      query : () => ({
+        url : `/user/products-blogs/get/categories-wise`,
+        method : "GET",
+        credentials : "include"
+      }),
+      transformResponse : (res) => {
+        return res.data
+      }
+    }) 
 
 
 
