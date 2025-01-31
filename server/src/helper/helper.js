@@ -60,10 +60,10 @@ export const blogFindQuery =  ({matchQuery , limit, skip,}) => [
     },
     {
       $lookup: {
-        from: 'User',
+        from: 'users',
         localField: 'creator',
         foreignField: '_id',
-        as: creatorDetails,
+        as: 'creatorDetails',
         pipeline: [
           {
             $project: {
@@ -81,7 +81,7 @@ export const blogFindQuery =  ({matchQuery , limit, skip,}) => [
         from: 'comments',
         localField: '_id',
         foreignField: 'blogId',
-        as: comments,
+        as: 'comments',
         pipeline: [
           {
             $count: 'commentsCounts',
@@ -100,7 +100,7 @@ export const blogFindQuery =  ({matchQuery , limit, skip,}) => [
         from: 'blogReactions',
         localField: '_id',
         foreignField: 'blogId',
-        as: blogReactions,
+        as: 'blogReactions',
         pipeline: [
           {
             $group: {
