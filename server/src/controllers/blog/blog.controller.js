@@ -78,21 +78,6 @@ export const getAllBlogs = asyncHandler(async (req , res , next) => {
     })
 })
 
-export const createComment = asyncHandler(async (req , res , next) => {
-    const {blogId} = req.params;
-    const {message} = req.body;
-
-    const blog = await blogs.findById(blogId);
-    if(!blog) return next(new ErrorHandler("Blog not found", 404))
-
-    await comments.create({comment : {message} , blogId , creator : req?.user?._id })
-
-    res.status(201).json({
-        success : true,
-        message : "Comment created successfully",
-    })
-})
-
 export const getCommentsForABlog = asyncHandler(async (req , res , next) => {
     const {blogId} = req.params;
     const commentsData = await comments.find({blogId});
@@ -102,73 +87,6 @@ export const getCommentsForABlog = asyncHandler(async (req , res , next) => {
         message : "You get all comments successfully",
         data : commentsData
     })
-})
-
-export const replyBlogComment = asyncHandler(async (req , res , next) => {
-    const {commentId} = req.params;
-    const {message} = req.body;
-    const commentData = await comments.findById(commentId);
-
-    if(!commentData) return next(new ErrorHandler("Comment not found", 404))
-
-    // check if the user is the already replying.
-
-    const existComment = commentData.comment.reply.find((reply) => reply.creator.toString() === req?.user?._id.toString())
-
-    if(existComment) existComment.message.push(message)
-
-    else commentData.comment.reply.push({message : [message] , creator : req?.user?._id})
-
-    await commentData.save();
-
-    res.status(201).json({
-        success : true,
-        message : "Reply created successfully",
-    })
-})
-
-export const createReactions = asyncHandler(async (req , res , next) => {
-    const {blogId} = req.params;
-    const {type} = req.query;
-    if(!type) return next(new ErrorHandler("Please provide the type of reaction", 400))
-
-    const blog = await blogs.findById(blogId);
-
-    if(!blog) return next(new ErrorHandler("Blog not found", 404))
-
-    const existingReactions = blog.reactions.find((reaction) => reaction.creator.toString() == req?.user?._id.toString())
-
-    if(type == 'unsave' || type == 'unlike'){
-        if(!existingReactions) return next(new ErrorHandler("You have not reacted to this blog yet", 400))
-        existingReactions.action.splice(existingReactions.action.indexOf(type), 1)
-        if(type == 'unlike') blog.likeCount -= 1;
-       
-
-        await blog.save();
-        return res.status(200).json({
-            success : true,
-            message : `You have removed ${type} reaction from this blog`
-        })
-    }
-
-    if(existingReactions) existingReactions.action.push(type);
-    
-    else blog.reactions.push({creator : req?.user?._id , action : type})
-
-    switch(type){
-        case "like":
-            blog.likeCount += 1;
-            break;
-        case "share":
-            blog.shareCount += 1;
-            break;
-        case "view":
-            blog.viewCount += 1;
-            break;
-       
-    }
-
-
 })
 
 export const getAllActionBlog = asyncHandler(async (req , res , next) => {
