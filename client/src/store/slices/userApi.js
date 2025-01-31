@@ -118,7 +118,20 @@ export const userApi = createApi({
       transformResponse : (res) => {
         return res.data
       }
+    }),
+
+    // all api endpoint for products-blogs.
+    createProductsBlogs : builder.mutation({
+      query : (data) => ({
+        url : "/user/products-blogs/create",
+        method : "POST",
+        credentials : "include",
+        body : data
+      })
     })
+
+
+
   }),
 });
 
@@ -126,5 +139,12 @@ export const {
   useGetUserTotalProductsQuery,
   useGetImagesForTotalProductsQuery,
   useCheckoutOrderMutation,
-  useLazyGetRazorAPIKeyQuery
+  useLazyGetRazorAPIKeyQuery,
+  useCreateCommentMutation,
+  useCreateReactionForBlogsMutation,
+  useCreateReactionForCommentsMutation,
+  useCreateReplyCommentMutation,
+  useLazyGetCommentForBlogQuery,
+  useLazyGetReactionForBlogQuery,
+  useLazyGetReactionForCommentQuery
 } = userApi;
