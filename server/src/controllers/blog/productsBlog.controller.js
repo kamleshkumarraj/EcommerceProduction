@@ -2,6 +2,7 @@ import { asyncHandler } from '../../errors/asynHandler.js';
 import ErrorHandler from '../../errors/errorHandler.js';
 import {
   removeFile,
+  removeMultipleFileFromCloudinary,
   uploadMultipleFilesOnCloudinary,
 } from '../../helper/helper.js';
 import { ProductsBlogs } from '../../models/blog/productsBlog.model.js';
@@ -218,5 +219,21 @@ export const createComment = asyncHandler(async (req , res , next) => {
     res.status(201).json({
         success : true,
         message : "Comment created successfully",
+    })
+})
+
+export const deleteBlog = asyncHandler(async (req , res , next) => {
+    const {blogId} = req.params;
+    const deletedBlog = await ProductsBlogs.findByIdAndDelete(blogId);
+
+    const thumbnail = deletedBlog.thumbnail;
+    const images = deletedBlog.images;
+
+    const status = await removeMultipleFileFromCloudinary([thumbnail , ...images])
+    if(status.success == false) return next(new ErrorHandler(status.error, 400))
+
+    res.status(200).json({
+        success : true,
+        message : "Blog deleted successfully"
     })
 })
