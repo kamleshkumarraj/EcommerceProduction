@@ -130,5 +130,20 @@ export const getCategoryBlog = asyncHandler(async (req , res , next) => {
     })
 })
 
+export const getMyCreatedBlog = asyncHandler(async (req, res, next) => {
+    const {limit = 20 , page = 1} = req.query;
+    const skip = (page - 1) * limit;
+
+    const myCreatedBlogs = blogs.aggregate(
+        blogFindQuery({matchQuery : {creator : req.user.id} , limit , skip})
+    )
+
+    res.status(200).json({
+        success : true,
+        message : "You get all your created blogs successfully",
+        data : myCreatedBlogs
+    })
+})
+
 
 

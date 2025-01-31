@@ -4,7 +4,8 @@ import {
   deleteBlog,
   getAllBlogs,
   getCategoryBlog,
-  getMyBlogs
+  getMyBlogs,
+  getSingleBlog
 } from '../../controllers/blog/blog.controller.js';
 import { uploads } from '../../middlewares/fileUploads/userPhotoUploads.js';
 import isLoggedIn from '../../middlewares/isLoggedIn.middleware.js';
@@ -16,6 +17,8 @@ import {
 export const blogRouter = Router();
 
 blogRouter.route('/get-all').get(getAllBlogs);
+blogRouter.route('/get/:category').get(getCategoryBlog);
+blogRouter.route('/single/:id').get(getSingleBlog)
 
 blogRouter.use(isLoggedIn);
 
@@ -33,4 +36,4 @@ blogRouter.route('/my-blog').get(getMyBlogs);
 
 blogRouter.route('/delete/:blogId').delete(deleteBlog);
 
-blogRouter.route('/get/:category').get(getCategoryBlog)
+

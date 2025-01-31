@@ -97,7 +97,7 @@ export const blogFindQuery =  ({matchQuery , limit, skip,}) => [
     },
     {
       $lookup: {
-        from: 'blogReactions',
+        from: 'blogreactions',
         localField: '_id',
         foreignField: 'blogId',
         as: 'blogReactions',
