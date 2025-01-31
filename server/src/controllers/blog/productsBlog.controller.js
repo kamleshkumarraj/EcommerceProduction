@@ -207,21 +207,6 @@ export const getMyCreatedProductBlogs = asyncHandler(async (req, res, next) => {
     
 })
 
-export const createComment = asyncHandler(async (req , res , next) => {
-    const {blogId} = req.params;
-    const {message} = req.body;
-
-    const blog = await ProductsBlogs.findById(blogId);
-    if(!blog) return next(new ErrorHandler("Blog not found", 404))
-
-    await comments.create({comment : {message} , blogId , creator : req?.user?._id })
-
-    res.status(201).json({
-        success : true,
-        message : "Comment created successfully",
-    })
-})
-
 export const deleteBlog = asyncHandler(async (req , res , next) => {
     const {blogId} = req.params;
     const deletedBlog = await ProductsBlogs.findByIdAndDelete(blogId);
