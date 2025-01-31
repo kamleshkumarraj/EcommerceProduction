@@ -49,191 +49,182 @@ export const userApi = createApi({
     }),
 
     // all endpoint related from reactions for blogs and products-blogs.
-    createComment : builder.mutation({
-      query : (data) => ({
-        url : "/user/reaction/create-comment",
-        credentials : "include",
-        method : "POST",
-        body : data
+    createComment: builder.mutation({
+      query: (data) => ({
+        url: "/user/reaction/create-comment",
+        credentials: "include",
+        method: "POST",
+        body: data,
       }),
     }),
 
-    createReactionForComments : builder.mutation({
-      query : (data) => ({
-        url : "user/reaction/create-reaction-comment",
-        credentials : "include",
-        method : "POST",
-        body : data
+    createReactionForComments: builder.mutation({
+      query: (data) => ({
+        url: "user/reaction/create-reaction-comment",
+        credentials: "include",
+        method: "POST",
+        body: data,
       }),
-      
     }),
 
-    createReactionForBlogs : builder.mutation({
-      query : (data) => ({
-        url : "/user/reaction/create-reaction-blog",
-        credentials : "include",
-        method : "POST",
-        body : data
-      })
-    }),
-
-    createReplyComment : builder.mutation({
-      query : (data) => ({
-        url : "/user/reaction/create-reply-comment",
-        credentials : "include",
-        method : "POST",
-        body : data
-      })
-    }),
-
-    getCommentForBlog : builder.query({
-      query : (blogId) => ({
-        url : `/user/reaction/get-comment-for-blog/${blogId}`,
-        method : "GET",
-        credentials : "include",
-
+    createReactionForBlogs: builder.mutation({
+      query: (data) => ({
+        url: "/user/reaction/create-reaction-blog",
+        credentials: "include",
+        method: "POST",
+        body: data,
       }),
-      transformResponse : (res) => {
-        return res.data
-      }
     }),
 
-    getReactionForBlog : builder.query({
-      query : (blogId) => ({
-        url : `/user/reaction/get-reaction-for-blog/${blogId}`,
-        method : "GET",
-        credentials : "include"
+    createReplyComment: builder.mutation({
+      query: (data) => ({
+        url: "/user/reaction/create-reply-comment",
+        credentials: "include",
+        method: "POST",
+        body: data,
       }),
-      transformResponse : (res) => {
-        return res.data
-      }
     }),
 
-    getReactionForComment : builder.query({
-      query : (commentId) => ({
-        url : `/user/reaction/get-reaction-for-comment/${commentId}`,
-        method : "GET",
-        credentials : "include"
+    getCommentForBlog: builder.query({
+      query: (blogId) => ({
+        url: `/user/reaction/get-comment-for-blog/${blogId}`,
+        method: "GET",
+        credentials: "include",
       }),
-      transformResponse : (res) => {
-        return res.data
-      }
+      transformResponse: (res) => {
+        return res.data;
+      },
+    }),
+
+    getReactionForBlog: builder.query({
+      query: (blogId) => ({
+        url: `/user/reaction/get-reaction-for-blog/${blogId}`,
+        method: "GET",
+        credentials: "include",
+      }),
+      transformResponse: (res) => {
+        return res.data;
+      },
+    }),
+
+    getReactionForComment: builder.query({
+      query: (commentId) => ({
+        url: `/user/reaction/get-reaction-for-comment/${commentId}`,
+        method: "GET",
+        credentials: "include",
+      }),
+      transformResponse: (res) => {
+        return res.data;
+      },
     }),
 
     // all api endpoint for products-blogs.
-    createProductsBlogs : builder.mutation({
-      query : (data) => ({
-        url : "/user/products-blogs/create",
-        method : "POST",
-        credentials : "include",
-        body : data
-      })
+    createProductsBlogs: builder.mutation({
+      query: (data) => ({
+        url: "/user/products-blogs/create",
+        method: "POST",
+        credentials: "include",
+        body: data,
+      }),
     }),
 
-    getAllProductsBlogs : builder.query({
-      query : () => ({
-        url : `/user/products-blogs/get-all`,
-        method : "GET",
-        credentials : "include",
-        
+    getAllProductsBlogs: builder.query({
+      query: () => ({
+        url: `/user/products-blogs/get-all`,
+        method: "GET",
+        credentials: "include",
       }),
-      transformResponse : (res) => {
-        return res.data
-      }
+      transformResponse: (res) => {
+        return res.data;
+      },
     }),
 
-    getSingleProductsBlog : builder.query({
-      query : (productBlogId) => ({
-        url : `/user/products-blogs/single/${productBlogId}`,
-        method : "GET",
-        credentials : "include",
+    getSingleProductsBlog: builder.query({
+      query: (productBlogId) => ({
+        url: `/user/products-blogs/single/${productBlogId}`,
+        method: "GET",
+        credentials: "include",
       }),
-      transformResponse : (res) => {
-        return res?.data
-      } 
-
+      transformResponse: (res) => {
+        return res?.data;
+      },
     }),
 
-    getMyCreatedProductsBlogs : builder.query({
-      query : () => ({
-        url : `/user/products-blogs/get-my-created-blog`,
-        method : "GET",
-        credentials : "include"
+    getMyCreatedProductsBlogs: builder.query({
+      query: () => ({
+        url: `/user/products-blogs/get-my-created-blog`,
+        method: "GET",
+        credentials: "include",
       }),
-      transformResponse : (res) => {
-        return res?.data
-      }
+      transformResponse: (res) => {
+        return res?.data;
+      },
     }),
 
-    getCategoriesWiseProductsBlogs : builder.query({
-      query : () => ({
-        url : `/user/products-blogs/get/categories-wise`,
-        method : "GET",
-        credentials : "include"
+    getCategoriesWiseProductsBlogs: builder.query({
+      query: () => ({
+        url: `/user/products-blogs/get/categories-wise`,
+        method: "GET",
+        credentials: "include",
       }),
-      transformResponse : (res) => {
-        return res.data
-      }
+      transformResponse: (res) => {
+        return res.data;
+      },
     }),
 
     // all api calling endpoint related from blogs.
-    createBlogs : builder.mutation({
-      query : (data) => ({
-        url : "/user/blog/create",
-        method : "POST",
-        credentials : "include",
-        body : data
-      })
-    }),
-
-    getAllBlogs : builder.query({
-      query : () => ({
-        url : `/user/blog/get-all`,
-        method : "GET",
-        credentials : "include",
-        
+    createBlogs: builder.mutation({
+      query: (data) => ({
+        url: "/user/blog/create",
+        method: "POST",
+        credentials: "include",
+        body: data,
       }),
-      transformResponse : (res) => {
-        return res.data
-      }
     }),
 
-    getSingleBlog : builder.query({
-      query : (blogId) => ({
-        url : `/user/blogs/single/${blogId}`,
-        method : "GET",
-        credentials : "include",
+    getAllBlogs: builder.query({
+      query: () => ({
+        url: `/user/blog/get-all`,
+        method: "GET",
+        credentials: "include",
       }),
-      transformResponse : (res) => {
-        return res?.data
-      } 
-
+      transformResponse: (res) => {
+        return res.data;
+      },
     }),
 
-    getMyCreatedBlogs : builder.query({
-      query : () => ({
-        url : `/user/blog/get-my-created-blog`,
-        method : "GET",
-        credentials : "include"
+    getSingleBlog: builder.query({
+      query: (blogId) => ({
+        url: `/user/blogs/single/${blogId}`,
+        method: "GET",
+        credentials: "include",
       }),
-      transformResponse : (res) => {
-        return res?.data
-      }
+      transformResponse: (res) => {
+        return res?.data;
+      },
     }),
 
-    getCategoriesWiseBlogs : builder.query({
-      query : () => ({
-        url : `/user/blog/get-blogs-categories-wise`,
-        method : "GET",
-        credentials : "include"
+    getMyCreatedBlogs: builder.query({
+      query: () => ({
+        url: `/user/blog/get-my-created-blog`,
+        method: "GET",
+        credentials: "include",
       }),
-      transformResponse : (res) => {
-        return res.data
-      }
+      transformResponse: (res) => {
+        return res?.data;
+      },
     }),
 
-
-
+    getCategoriesWiseBlogs: builder.query({
+      query: () => ({
+        url: `/user/blog/get-blogs-categories-wise`,
+        method: "GET",
+        credentials: "include",
+      }),
+      transformResponse: (res) => {
+        return res.data;
+      },
+    }),
   }),
 });
 
@@ -253,5 +244,10 @@ export const {
   useGetAllProductsBlogsQuery,
   useLazyGetSingleProductsBlogQuery,
   useLazyGetCategoriesWiseProductsBlogsQuery,
-  useLazyGetMyCreatedProductsBlogsQuery
+  useLazyGetMyCreatedProductsBlogsQuery,
+  useCreateBlogsMutation,
+  useGetAllBlogsQuery,
+  useLazyGetSingleBlogQuery,
+  useLazyGetCategoriesWiseBlogsQuery,
+  useLazyGetMyCreatedBlogsQuery,
 } = userApi;
