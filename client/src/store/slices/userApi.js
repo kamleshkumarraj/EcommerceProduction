@@ -107,6 +107,17 @@ export const userApi = createApi({
       transformResponse : (res) => {
         return res.data
       }
+    }),
+
+    getReactionForComment : builder.query({
+      query : (commentId) => ({
+        url : `/user/reaction/get-reaction-for-comment/${commentId}`,
+        method : "GET",
+        credentials : "include"
+      }),
+      transformResponse : (res) => {
+        return res.data
+      }
     })
   }),
 });
