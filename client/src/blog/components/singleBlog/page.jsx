@@ -3,24 +3,24 @@ import Comments from "../comments/Comments";
 import Menu from "../Menu/Menu";
 import styles from "./singlePage.module.css";
 import userImg from '../../assets/Images/travel.png'
+import { useLocation, useParams } from "react-router-dom";
+import { useGetSingleBlogQuery } from "../../../store/slices/userApi";
+import { BlogLoader } from "../loader/BlogLoader";
+import { useEffect } from "react";
+import Loader from "../../../components/cart/Loader";
 
 const SinglePage =  () => {
-  
+  const blogId = useParams()?.blog_id
 
-  const data = {
-    user : {
-      username : 'Kamelsh Kumar',
-      image : userImg
-    },
-    title : "Bangladesh's first ever tourist attraction",
-    img : userImg,
-    desc : `Bangladesh's first ever tourist attraction is the world-famous Bangla National Park. It is located in the southern part of the country and is a UNESCO World Heritage Site. The park is a 12,000-acre site that contains a wide range of natural and man-made wonders.
-    <br /> <br />
-    The park is located in the center of the city, and is a popular tourist destination for both visitors and locals alike. The park is home to a wide range of animals, including lions, leopards, hyenas, and elephants. The park is also home to a variety of birds, including eagles, hawks, and parrots. The park is also home to a wide range of plants, including trees, shrubs, and flowers. The park is also home to a variety of mammals, including elephants, lions, and hyenas. 
-    <br /> <br />
-    The park is also home to a variety of reptiles, including snakes, lizards, and crocodiles. 
-    The park is also home to a variety of fungi, including mushrooms and lichens. The park is also home to a variety of insects, including beetles,`
-  }
+  const {data , isLoading , refetch} = useGetSingleBlogQuery(blogId);
+  
+  const createdAt = new Date(data?.createdAt).toLocaleDateString('en-GB');
+  console.log(data)
+  useEffect(() => {
+    refetch();
+  },[blogId, refetch])
+  console.log(isLoading)
+  if(isLoading) return <Loader />
 
   return (
     <div style={{paddingInline : '4rem'}} className={styles.container}>
@@ -28,20 +28,20 @@ const SinglePage =  () => {
         <div className={styles.textContainer}>
           <h1 className={styles.title}>{data?.title}</h1>
           <div className={styles.user}>
-            {data?.user?.image && (
+            {data?.creatorDetails?.avatar?.url && (
               <div className={styles.userImageContainer}>
-                <img src={data.user.image} alt=""  className={styles.avatar} />
+                <img src={data?.creatorDetails?.avatar?.url} alt=""  className={styles.avatar} />
               </div>
             )}
             <div className={styles.userTextContainer}>
-              <span className={styles.username}>{data?.user.name}</span>
-              <span className={styles.date}>01.01.2024</span>
+              <span className={styles.username}>{data?.creatorDetails?.creatorName}</span>
+              <span className={styles.date}>{createdAt}</span>
             </div>
           </div>
         </div>
-        {data?.img && (
+        {data?.thumbnail &&(
           <div className={styles.imageContainer}>
-            <img src={data.img} alt=""  className={styles.image} />
+            <img src={data?.thumbnail?.url} alt="blog-images"  className={styles.image} />
           </div>
         )}
       </div>
@@ -49,7 +49,13 @@ const SinglePage =  () => {
         <div className={styles.post}>
           <div
             className={styles.description}
-            dangerouslySetInnerHTML={{ __html: data?.desc }}
+            style={{fontSize : '16px'}}
+            dangerouslySetInnerHTML={{ __html: data?.content }}
+          />
+          <div
+            className={styles.description}
+            style={{marginTop : '30px' , fontSize : '16px'}}
+            dangerouslySetInnerHTML={{ __html: data?.summary }}
           />
           <div className={styles.comment}>
             <Comments postSlug={'cullture'}/>

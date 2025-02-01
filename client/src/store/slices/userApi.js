@@ -195,7 +195,7 @@ export const userApi = createApi({
 
     getSingleBlog: builder.query({
       query: (blogId) => ({
-        url: `/user/blogs/single/${blogId}`,
+        url: `/user/blog/single/${blogId}`,
         method: "GET",
         credentials: "include",
       }),
@@ -247,7 +247,7 @@ export const {
   useLazyGetMyCreatedProductsBlogsQuery,
   useCreateBlogsMutation,
   useGetAllBlogsQuery,
-  useLazyGetSingleBlogQuery,
+  useGetSingleBlogQuery,
   useLazyGetCategoriesWiseBlogsQuery,
   useLazyGetMyCreatedBlogsQuery,
 } = userApi;

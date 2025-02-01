@@ -62,7 +62,7 @@ const Featured = () => {
                 </Link>
               </div>
               <div id="about-btn" className="text-green-400 bg-[#fff] border-[3px] border-[#fff] px-[3.2rem] py-[1rem] text-[1.6rem] font-[600] rounded-[.4rem]" >
-                <Link to={'/blog/aboutwe '} >
+                <Link to={'/blog/about'} >
                 <Button className="block" 
                   label={"ABOUT US"}
                 />

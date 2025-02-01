@@ -11,6 +11,7 @@ import { addToCart } from "../../utils/addCartFunction";
 import { checkAvailibility } from "../../utils/checkAvailibility";
 import { addWishlistItem, removeWishlistItem } from "../../utils/wishlist";
 import Button from "./Button";
+import ImageZoom from "react-image-zoom";
 
 function ProductsDetails({ img, product, setImg }) {
   const wishlistItem = useSelector(getAllWishlistItems);
@@ -29,6 +30,12 @@ function ProductsDetails({ img, product, setImg }) {
       title : product?.title
     }
   }
+  const zoomProps = {
+    width: product?.category == "smartphones" ? 250 : 500 , // Image width
+    // height: 500, // Image height
+    zoomWidth: 500, // Zoomed image width
+    img: img, // Image URL
+  };
   return (
     <>
       {wishlistItem && cartItem && (
@@ -41,13 +48,7 @@ function ProductsDetails({ img, product, setImg }) {
             className="w-[100%] flex flex-col border-[.5px] border-[#00000121] rounded-[20px] p-[20px] flex-wrap items-center justify-center gap-[20px] "
           >
             <div id="big-image" className="my-auto">
-              <img
-                className={`mx-auto ${
-                  product?.category == "smartphones" ? "w-[75%]" : "w-[95%]"
-                }`}
-                src={img}
-                alt=""
-              />
+              <ImageZoom {...zoomProps}  />
             </div>
             <div
               id="img-box"

@@ -1,3 +1,4 @@
+import { Link } from "react-router-dom"
 
 function CategoryCard({blog}) {
   return (
@@ -28,7 +29,7 @@ export const WithoutImageCard = ({blog}) => {
 
 export const ImageWithInTextCard = ({blog}) => {
     return (
-        <div id="image-within-text-card" className="flex flex-col gap-[20px] max-w-[28rem] relative">
+        <Link to={`/blog/blog-details/${blog._id}`} id="image-within-text-card" className="flex flex-col gap-[20px] max-w-[28rem] relative">
       <div id="image-section" className="">
         <img className="min-w-[45rem] h-[40rem] rounded-[10px]" src={blog?.thumbnail?.url} alt={blog?.title} />
       </div>
@@ -38,7 +39,7 @@ export const ImageWithInTextCard = ({blog}) => {
           <h2 id="title" className="text-[20px] leading-[23px] font-[600]">{blog.content.substring(0,90) + "..."}</h2>
           <p className="text-[14px] font-[400] text-white" id="date">{blog.createdAt}</p>
       </div>
-    </div>
+    </Link>
     )
 }
 
