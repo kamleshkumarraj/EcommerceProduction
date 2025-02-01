@@ -10,3 +10,6 @@ export const CREATE_REVIEW_RATING = 'CREATE_REVIEW_RATING';
 // authentication related events
 export const LOGIN_EVENT = 'LOGIN_EVENT';
 export const LOGOUT_EVENT = 'LOGOUT_EVENT';
+
+// event related from blog.
+export const NEW_COMMENT_ADDED = 'NEW_COMMENT_ADDED';

@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { FaThumbsUp, FaThumbsDown, FaReply } from "react-icons/fa";
 import { useParams } from "react-router-dom";
 import {
@@ -10,6 +10,9 @@ import { useSelector } from "react-redux";
 import { getSelf } from "../../../store/slices/selfHandler.slice";
 import { toast } from "react-toastify";
 import { toastUpdate } from "../../../helper/helper";
+import { useSocket } from "../../../contexts/Socket";
+import { useHandleSocket } from "../../../hooks/useHandleSocket";
+import { NEW_COMMENT_ADDED } from "../../../events";
 
 const CommentSection = () => {
   const [
@@ -21,42 +24,65 @@ const CommentSection = () => {
   const [commentMessage, setCommentMessage] = useState("");
   const status = user?.firstname ? "authenticated" : "unauthenticated";
   const [createComment] = useCreateCommentMutation();
+  const socket = useSocket();
+  let commentData = [];
+  const [realTimeComment , setRealTimeComments] = useState([]);
+  
   useEffect(() => {
     getCommentsData(blogId);
   }, [blogId]);
 
+  // const sendComment = async () => {
+  //   if (!commentMessage) {
+  //     toast.error("Please enter a comment first!");
+  //     return;
+  //   }
+  //   const toastId = toast.loading("comment creating...");
+  //   const payload = { comment: commentMessage, blogId };
+  //   try {
+  //     const {data} = await createComment(payload);
+      
+  //     if (data?.success) {
+  //       toastUpdate({
+  //         message: data?.message || "Comment posted successfully!",
+  //         type: "success",
+  //         toastId,
+  //       });
+  //       setCommentMessage("");
+  //     } else {
+  //       toastUpdate({
+  //         message: data?.message || "comment creating failed !",
+  //         type: "error",
+  //         toastId,
+  //       });
+  //     }
+  //   } catch (error) {
+  //     toastUpdate({
+  //       message: error.message || "comment creating failed !",
+  //       type: "error",
+  //       toastId,
+  //     });
+  //   }
+  // };
+
+  // now we handle the comment using socket.
+
+  //code for creating message and send on server using socket.
+  const addCommentsSocketHandler = useCallback((payload) => {
+    console.log(payload);
+  },[])
+  commentData = [...comments, ...realTimeComment]
+  useHandleSocket({[NEW_COMMENT_ADDED] : addCommentsSocketHandler})
+  
   const sendComment = async () => {
     if (!commentMessage) {
       toast.error("Please enter a comment first!");
       return;
     }
-    const toastId = toast.loading("comment creating...");
     const payload = { comment: commentMessage, blogId };
-    try {
-      const {data} = await createComment(payload);
-      
-      if (data?.success) {
-        toastUpdate({
-          message: data?.message || "Comment posted successfully!",
-          type: "success",
-          toastId,
-        });
-        setCommentMessage("");
-      } else {
-        toastUpdate({
-          message: data?.message || "comment creating failed !",
-          type: "error",
-          toastId,
-        });
-      }
-    } catch (error) {
-      toastUpdate({
-        message: error.message || "comment creating failed !",
-        type: "error",
-        toastId,
-      });
-    }
+    socket.emit(NEW_COMMENT_ADDED , payload);
   };
+  
 
   if (isCommentLoading)
     return (
@@ -64,6 +90,7 @@ const CommentSection = () => {
         Comment Data is Loading...
       </h1>
     );
+    
   if (isCommentError)
     return (
       <h1 className="text-[1.8rem] text-red-500">
@@ -92,9 +119,9 @@ const CommentSection = () => {
       </div>
 
       <div className="max-w-[100rem] p-4 mx-auto text-white bg-gray-900 rounded-lg">
-        {comments &&
-          comments.length > 0 &&
-          comments.map((comment) => (
+        {commentData &&
+          commentData.length > 0 &&
+          commentData.map((comment) => (
             <Comment key={comment._id} comment={comment} />
           ))}
       </div>
