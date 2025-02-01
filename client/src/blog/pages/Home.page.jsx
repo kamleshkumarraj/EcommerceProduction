@@ -19,7 +19,7 @@ function BlogHome() {
   useError([{error : blogError, isError : isBlogError}])
 
   useEffect(() => {
-    blogData && dispatch(setLatestBlogs(blogData?.data?.slice(0,30)))
+    blogData && dispatch(setLatestBlogs(blogData))
   },[blogData])
   return (
     <div className='pb-[4rem]' >

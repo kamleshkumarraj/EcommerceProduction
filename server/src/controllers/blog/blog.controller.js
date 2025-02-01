@@ -72,7 +72,7 @@ export const getMyBlogs = asyncHandler(async (req , res , next) => {
 })
 
 export const getAllBlogs = asyncHandler(async (req , res , next) => {
-    const {page = 1, limit=20} = req.query;
+    const {page = 1, limit=100} = req.query;
     const skip = (page - 1) * limit;
     const blogData = await blogs.aggregate(
         blogFindQuery({matchQuery : {} , limit , skip})

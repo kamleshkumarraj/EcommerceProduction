@@ -35,7 +35,7 @@ function LatestBlogBody() {
             </div>
             <hr className=" border-gray-600 my-[2.5rem]" />
             <div id="row-2" className="grid grid-cols-2 my-[1.5rem] gap-y-[3rem] gap-x-[2rem]" >
-                {allBlogs.length > 0 && allBlogs.slice(2,6).map((blog) => (<WithoutImageCard key={blog._id} blog={blog}  />))}
+                {allBlogs.length > 0 && allBlogs.slice(allBlogs.length-4,allBlogs.length).map((blog) => (<WithoutImageCard key={blog._id} blog={blog}  />))}
             </div>
         </div>
         <div id="col-2" className="grid grid-cols-2 gap-[2rem] justify-items-center" >

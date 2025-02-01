@@ -42,14 +42,14 @@ const CategoryList =  () => {
     <div className={`${styles.container} body`}>
       <h1 className={styles.title}>Popular slug</h1>
       <div id="category-body" className="flex gap-[20px]" >
-        {data && data?.length > 0 &&  data?.map((item , idx) => {
+        {allBlogs && allBlogs?.length > 0 &&  data?.map((item , idx) => {
           return (
             <div  key={item._id} id="category"className="relative " >
-              <img className="h-[150px] rounded-[10px]" src={idx==4 ? allBlogs?.data[36]?.thumbnail?.url : allBlogs?.data?.[idx*10+2]?.thumbnail?.url} alt="" />
+              <img className="h-[150px] rounded-[10px]" src={idx==4 ? allBlogs[36]?.thumbnail?.url : allBlogs?.[idx*10+2]?.thumbnail?.url} alt="" />
               <div className="absolute top-[50%] left-[50%] translate-x-[-50%] translate-y-[-50%] bg-[#2a2a2a69] h-[180px] w-full" id="layer">
               
               </div>
-              <Link className="absolute bottom-[10%] left-[50%] translate-x-[-50%] text-[18px] text-white font-[600]" to={`/blog/blog-page`}>{idx==4 ? "Culture" : allBlogs?.data?.[idx*10+2]?.category}</Link>
+              <Link className="absolute bottom-[10%] left-[50%] translate-x-[-50%] text-[18px] text-white font-[600]" to={`/blog/blog-page`}>{idx==4 ? "Culture" : allBlogs?.[idx*10+2]?.category}</Link>
             </div>
           )
         })}

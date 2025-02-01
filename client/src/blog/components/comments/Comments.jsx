@@ -1,22 +1,21 @@
 import { useEffect, useState } from "react";
 import { FaThumbsUp, FaThumbsDown, FaReply } from "react-icons/fa";
-
 import { useParams } from "react-router-dom";
 import { useLazyGetCommentForBlogQuery } from "../../../store/slices/blogApi";
 
 const CommentSection = () => {
   const [getCommentsData , {data : comments , isLoading : isCommentLoading , isError : isCommentError}] = useLazyGetCommentForBlogQuery();
-  const blogId = useParams().blog_id
+  const blogId = useParams().blog_id;
 
   useEffect(() => {
-    getCommentsData(blogId)
-  },[blogId])
+    getCommentsData(blogId);
+  }, [blogId]);
   
-  if(isCommentLoading) return <h1>Comment Data is Loading...</h1>
-  if(isCommentError) return <h1> There was an error while fetching comments...</h1>
+  if (isCommentLoading) return <h1 className="text-[1.8rem] text-gray-400">Comment Data is Loading...</h1>;
+  if (isCommentError) return <h1 className="text-[1.8rem] text-red-500">There was an error while fetching comments...</h1>;
   
   return (
-    <div className="max-w-2xl p-4 mx-auto">
+    <div className="max-w-[100rem] p-4 mx-auto text-white bg-gray-900 rounded-lg">
       {comments && comments.length > 0 && comments.map((comment) => (
         <Comment key={comment._id} comment={comment} />
       ))}
@@ -32,29 +31,29 @@ const Comment = ({ comment }) => {
   const [showReplies, setShowReplies] = useState(false);
 
   return (
-    <div className="p-2 border-b">
-      <div className="flex items-center gap-2">
+    <div className="p-4 border-b border-gray-700">
+      <div className="flex items-center gap-4">
         <img
           src={comment.creatorDetails.avatar.url}
           alt="avatar"
-          className="w-8 h-8 rounded-full"
+          className="border-blue-500 rounded-full h-14 borer-2 w-14"
         />
-        <span className="font-semibold">{comment.creatorDetails.creatorName}</span>
+        <span className="text-[2rem] font-semibold text-blue-400">{comment.creatorDetails.creatorName}</span>
       </div>
-      <p className="ml-10 text-gray-700">{comment.comment}</p>
-      <div className="flex items-center gap-4 mt-2 ml-10 text-gray-500">
-        <button onClick={() => setLikeCount(likeCount + 1)} className="flex items-center gap-1">
+      <p className="text-gray-300 ml-14 text-[1.7rem] font-[500]">{comment.comment}</p>
+      <div className="flex items-center gap-6 mt-2 text-gray-400 ml-14">
+        <button onClick={() => setLikeCount(likeCount + 1)} className="flex items-center gap-2 hover:text-green-400">
           <FaThumbsUp /> {likeCount}
         </button>
-        <button onClick={() => setDislikeCount(dislikeCount + 1)} className="flex items-center gap-1">
+        <button onClick={() => setDislikeCount(dislikeCount + 1)} className="flex items-center gap-2 hover:text-red-400">
           <FaThumbsDown /> {dislikeCount}
         </button>
-        <button onClick={() => setShowReplies(!showReplies)} className="flex items-center gap-1">
+        <button onClick={() => setShowReplies(!showReplies)} className="flex items-center gap-2 hover:text-yellow-400">
           <FaReply /> Reply ({comment.replySize})
         </button>
       </div>
       {showReplies && (
-        <div className="pl-4 mt-2 ml-10 border-l">
+        <div className="pl-6 mt-2 border-l border-gray-700 ml-14">
           {comment.replyComment.map((reply) => (
             <Reply key={reply._id} reply={reply} />
           ))}
@@ -70,20 +69,20 @@ const Reply = ({ reply }) => {
 
   return (
     <div className="mt-2">
-      <div className="flex items-center gap-2">
+      <div className="flex items-center gap-4">
         <img
           src={reply.creatorDetails.avatar.url}
           alt="avatar"
-          className="w-6 h-6 rounded-full"
+          className="w-12 h-12 border-2 border-purple-500 rounded-full"
         />
-        <span className="text-sm font-semibold">{reply.creatorDetails.creatorName}</span>
+        <span className="text-[1.6rem] font-semibold text-purple-400">{reply.creatorDetails.creatorName}</span>
       </div>
-      <p className="ml-8 text-sm text-gray-700">{reply.reply}</p>
-      <div className="flex items-center gap-4 ml-8 text-sm text-gray-500">
-        <button onClick={() => setLikeCount(likeCount + 1)} className="flex items-center gap-1">
+      <p className="text-[1.5rem] text-gray-300 ml-14">{reply.reply}</p>
+      <div className="flex items-center gap-6 text-sm text-gray-400 ml-14">
+        <button onClick={() => setLikeCount(likeCount + 1)} className="flex items-center gap-2 hover:text-green-400">
           <FaThumbsUp /> {likeCount}
         </button>
-        <button onClick={() => setDislikeCount(dislikeCount + 1)} className="flex items-center gap-1">
+        <button onClick={() => setDislikeCount(dislikeCount + 1)} className="flex items-center gap-2 hover:text-red-400">
           <FaThumbsDown /> {dislikeCount}
         </button>
       </div>
