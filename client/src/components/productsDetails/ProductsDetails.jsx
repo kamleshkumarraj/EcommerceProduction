@@ -57,22 +57,22 @@ function ProductsDetails({ img, product, setImg }) {
                 className={` ${
                   product?.category == "smartphones" ? "w-[10%]" : "w-[15%]"
                 } p-[5px] border-[.5px] rounded-[5px] border-[#00000021] `}
-                src={product?.thumbnail}
+                src={product?.thumbnail?.url || product?.thumbnail}
                 alt=""
                 onClick={() => {
-                  setImg(product?.thumbnail);
+                  setImg(product?.thumbnail?.url || product?.thumbnail);
                 }}
               />
-              {product?.images?.map((images, idx) => {
+              {product?.images?.map((image, idx) => {
                 return (
                   <img
                     key={idx}
                     className={` ${
                       product.category == "smartphones" ? "w-[10%]" : "w-[15%]"
                     } p-[5px] border-[.5px] rounded-[5px] border-[#00000021] `}
-                    src={images}
+                    src={image?.url || image}
                     onClick={() => {
-                      setImg(images);
+                      setImg(image?.url || image);
                     }}
                     alt=""
                   />
@@ -94,12 +94,12 @@ function ProductsDetails({ img, product, setImg }) {
               <h1 className="text-[18px]">Rating :</h1>
               <div id="rating" className="flex gap-[10px] items-center">
                 <span className="text-[16px] flex gap-[5px] text-red-600">
-                  {[[1, 2, 3, 4, 5], [1, 2, 3, 4], [1, 2, 3], [1, 2], [1]][
+                  {[[1, 2, 3, 4, 5], [1, 2, 3, 4], [1, 2, 3], [1, 2], [1],[0]][
                     5 - Math.floor(product?.rating) || 0
                   ].map(() => (
                     <IoStar key={Math.random()} size={20} color="#DC2626" />
                   ))}
-                  {[[1, 2, 3, 4, 5], [1, 2, 3, 4], [1, 2, 3], [1, 2], [1]][
+                  {[[1, 2, 3, 4, 5], [1, 2, 3, 4], [1, 2, 3], [1, 2], [1],[0]][
                     Math.floor(product?.rating) || 4
                   ].map(() => (
                     <IoStarOutline

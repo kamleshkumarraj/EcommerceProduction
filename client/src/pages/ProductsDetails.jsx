@@ -12,7 +12,7 @@ import ProductsSliderBody from "../components/slider/ProductsSliderBody";
 
 function ProductsDetailsPage() {
   const product = useLocation()?.state?.products;
-    const [img , setImg] = useState(product?.images[0]);
+    const [img , setImg] = useState(product?.images[0]?.url || product?.images[0]);
     const products = useSelector(getAllProducts)
     const [changed , setChanged] = useState(true)
     const [filteredProducts , setFilterQuery] = useFilter(products || [], (item) => item?.category)
@@ -20,7 +20,7 @@ function ProductsDetailsPage() {
       setFilterQuery(product?.category || "")
     },[product])
     useEffect(() => {
-      setImg(product?.images[0])
+      setImg(product?.images[0]?.url || product?.images[0])
     },[product])
   return (
     <div className="w-full bg-gray-200">
