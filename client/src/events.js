@@ -13,3 +13,5 @@ export const LOGOUT_EVENT = 'LOGOUT_EVENT';
 
 // event related from blog.
 export const NEW_COMMENT_ADDED = 'NEW_COMMENT_ADDED';
+export const JOIN_ROOM_FOR_BLOG = "JOIN_ROOM_FOR_BLOG";
+export const LEAVE_ROOM_FOR_BLOG = "LEAVE_ROOM_FOR_BLOG";

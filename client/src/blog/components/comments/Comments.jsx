@@ -12,9 +12,10 @@ import { toast } from "react-toastify";
 import { toastUpdate } from "../../../helper/helper";
 import { useSocket } from "../../../contexts/Socket";
 import { useHandleSocket } from "../../../hooks/useHandleSocket";
-import { NEW_COMMENT_ADDED } from "../../../events";
+import { JOIN_ROOM_FOR_BLOG, LEAVE_ROOM_FOR_BLOG, NEW_COMMENT_ADDED } from "../../../events";
 
 const CommentSection = () => {
+  
   let [
     getCommentsData,
     { data: comments, isLoading: isCommentLoading, isError: isCommentError },
@@ -31,6 +32,16 @@ const CommentSection = () => {
   useEffect(() => {
     getCommentsData(blogId);
   }, [blogId]);
+
+  // code for join room for getting comment and after leave the page we remove from room.
+  useEffect(() => {
+    socket.emit(JOIN_ROOM_FOR_BLOG, blogId)
+
+    return () => {
+      socket.emit(LEAVE_ROOM_FOR_BLOG, blogId);
+      socket.off()
+    }
+  },[blogId])
 
   // const sendComment = async () => {
   //   if (!commentMessage) {
@@ -68,6 +79,7 @@ const CommentSection = () => {
   // now we handle the comment using socket.
 
   //code for creating message and send on server using socket.
+  
   const addCommentsSocketHandler = useCallback((payload) => {
     console.log(payload);
   },[])

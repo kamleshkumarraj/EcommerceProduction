@@ -242,8 +242,8 @@ export const getSingleComment = async (commentId) => {
     const [commentData] = await Comments.aggregate(
       commentFindQuery({matchQuery : {_id : new mongoose.Types.ObjectId(commentId)}, skip: 0, limit: 1})
     )
-    return commentData;
+    return {success: true, commentData};
   } catch (error) {
-    return error;
+    return {success : false, commentData : error};
   }
 }

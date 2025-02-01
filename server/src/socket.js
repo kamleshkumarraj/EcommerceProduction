@@ -4,6 +4,8 @@ import { Server } from 'socket.io';
 import {
   CREATE_REVIEW_RATING,
   DELETE_PRODUCT,
+  JOIN_ROOM_FOR_BLOG,
+  LEAVE_ROOM_FOR_BLOG,
   LOGIN_EVENT,
   LOGOUT_EVENT,
   NEW_BLOG_ADDED,
@@ -17,6 +19,7 @@ import { socketUserAuthentication } from './middlewares/socketUserAuthentication
 import { getEligibleSocketToGetMessage } from './helper/helper.js';
 import { userModels } from './models/userRegistration.model.js';
 import { Comments } from './models/blog/comments.models.js';
+import { getSingleComment } from './controllers/blog/reactions.controller.js';
 
 export const server = createServer(app);
 
@@ -130,15 +133,36 @@ io.on('connection', (socket) => {
     io.emit(CREATE_REVIEW_RATING , data)
   })
 
+  socket.on(JOIN_ROOM_FOR_BLOG , (blogId) => {
+    socket.join(blogId);
+    console.log("New user added in room for blog : ", socket.id)
+  })
+  socket.on(LEAVE_ROOM_FOR_BLOG, (blogId) => {
+    socket.leave(blogId);
+    console.log("User removed from room for blog : ", socket.id)
+  })
+
   socket.on(NEW_COMMENT_ADDED , async (data) => {
     // first we create comment for db.
+    const {comment, blogId, userId} = data;
+
+    if(!comment || !blogId || !userId){
+      socket.emit(NEW_COMMENT_ADDED , {success : false, commentData: "Please fill all fields!"})
+      return;
+    }
     try{
-      await Comments.create(data);
-      io.emit(NEW_COMMENT_ADDED, comment)
+      const comment = await Comments.create(data);
+      const {success, commentData} = await getSingleComment(comment._id);
+      if(success){
+        io.to(blogId).emit(NEW_COMMENT_ADDED, {success , commentData})
+      }else{
+        socket.emit(NEW_COMMENT_ADDED , {success, commentData})
+      }
+      
     }
     catch(err){
       console.log("We get error during creating comment");
-      socket.emit(NEW_COMMENT_ADDED , err.message)
+      socket.emit(NEW_COMMENT_ADDED , {success : false, commentData: err})
     }
 
   })
