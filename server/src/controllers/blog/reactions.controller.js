@@ -277,6 +277,11 @@ export const getAllCommentsForBlog = asyncHandler(async (req, res, next) => {
       },
     },
     {
+      $sort: {
+        createdAt: -1,
+      },
+    },
+    {
       $project: {
         creatorDetails: 1,
         comment: 1,
@@ -285,6 +290,7 @@ export const getAllCommentsForBlog = asyncHandler(async (req, res, next) => {
         commentReactions: 1,
       },
     },
+    
     {
       $skip: skip,
     },

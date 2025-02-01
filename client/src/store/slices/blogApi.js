@@ -5,7 +5,7 @@ export const blogApi = createApi({
   baseQuery: fetchBaseQuery({
     baseUrl: "http://localhost:2000/api/v2",
   }),
-  tagTypes: ["getAllBlogs", "createBlogs"],
+  tagTypes: ["getAllBlogs", "createBlogs","getAllCommentsForBlog"],
   endpoints: (builder) => ({
     // all endpoint related from reactions for blogs and products-blogs.
     createComment: builder.mutation({
@@ -15,6 +15,7 @@ export const blogApi = createApi({
         method: "POST",
         body: data,
       }),
+      invalidatesTags : ['getAllCommentsForBlog']
     }),
 
     createReactionForComments: builder.mutation({
@@ -53,6 +54,7 @@ export const blogApi = createApi({
       transformResponse: (res) => {
         return res.data;
       },
+      providesTags : ['getAllCommentsForBlog']
     }),
 
     getReactionForBlog: builder.query({

@@ -1,25 +1,104 @@
 import { useEffect, useState } from "react";
 import { FaThumbsUp, FaThumbsDown, FaReply } from "react-icons/fa";
 import { useParams } from "react-router-dom";
-import { useLazyGetCommentForBlogQuery } from "../../../store/slices/blogApi";
+import {
+  useCreateCommentMutation,
+  useLazyGetCommentForBlogQuery,
+} from "../../../store/slices/blogApi";
+import styles from "./comments.module.css";
+import { useSelector } from "react-redux";
+import { getSelf } from "../../../store/slices/selfHandler.slice";
+import { toast } from "react-toastify";
+import { toastUpdate } from "../../../helper/helper";
 
 const CommentSection = () => {
-  const [getCommentsData , {data : comments , isLoading : isCommentLoading , isError : isCommentError}] = useLazyGetCommentForBlogQuery();
+  const [
+    getCommentsData,
+    { data: comments, isLoading: isCommentLoading, isError: isCommentError },
+  ] = useLazyGetCommentForBlogQuery();
   const blogId = useParams().blog_id;
-
+  const user = useSelector(getSelf);
+  const [commentMessage, setCommentMessage] = useState("");
+  const status = user?.firstname ? "authenticated" : "unauthenticated";
+  const [createComment] = useCreateCommentMutation();
   useEffect(() => {
     getCommentsData(blogId);
   }, [blogId]);
-  
-  if (isCommentLoading) return <h1 className="text-[1.8rem] text-gray-400">Comment Data is Loading...</h1>;
-  if (isCommentError) return <h1 className="text-[1.8rem] text-red-500">There was an error while fetching comments...</h1>;
-  
+
+  const sendComment = async () => {
+    if (!commentMessage) {
+      toast.error("Please enter a comment first!");
+      return;
+    }
+    const toastId = toast.loading("comment creating...");
+    const payload = { comment: commentMessage, blogId };
+    try {
+      const {data} = await createComment(payload);
+      
+      if (data?.success) {
+        toastUpdate({
+          message: data?.message || "Comment posted successfully!",
+          type: "success",
+          toastId,
+        });
+        setCommentMessage("");
+      } else {
+        toastUpdate({
+          message: data?.message || "comment creating failed !",
+          type: "error",
+          toastId,
+        });
+      }
+    } catch (error) {
+      toastUpdate({
+        message: error.message || "comment creating failed !",
+        type: "error",
+        toastId,
+      });
+    }
+  };
+
+  if (isCommentLoading)
+    return (
+      <h1 className="text-[1.8rem] text-gray-400">
+        Comment Data is Loading...
+      </h1>
+    );
+  if (isCommentError)
+    return (
+      <h1 className="text-[1.8rem] text-red-500">
+        There was an error while fetching comments...
+      </h1>
+    );
+
   return (
-    <div className="max-w-[100rem] p-4 mx-auto text-white bg-gray-900 rounded-lg">
-      {comments && comments.length > 0 && comments.map((comment) => (
-        <Comment key={comment._id} comment={comment} />
-      ))}
-    </div>
+    <>
+      <div className={styles.container}>
+        <h1 className={styles.title}>Comments</h1>
+        {status === "authenticated" ? (
+          <div className={styles.write}>
+            <textarea
+              placeholder="write a comment..."
+              className={styles.input}
+              onChange={(e) => setCommentMessage(e.target.value)}
+              value={commentMessage}
+              style={{color : 'black'}}
+            />
+            <button className={styles.button} onClick={sendComment} >Send</button>
+          </div>
+        ) : (
+          <h1>Please login for writing the comment</h1>
+        )}
+      </div>
+
+      <div className="max-w-[100rem] p-4 mx-auto text-white bg-gray-900 rounded-lg">
+        {comments &&
+          comments.length > 0 &&
+          comments.map((comment) => (
+            <Comment key={comment._id} comment={comment} />
+          ))}
+      </div>
+    </>
   );
 };
 
@@ -38,17 +117,30 @@ const Comment = ({ comment }) => {
           alt="avatar"
           className="border-blue-500 rounded-full h-14 borer-2 w-14"
         />
-        <span className="text-[2rem] font-semibold text-blue-400">{comment.creatorDetails.creatorName}</span>
+        <span className="text-[2rem] font-semibold text-blue-400">
+          {comment.creatorDetails.creatorName}
+        </span>
       </div>
-      <p className="text-gray-300 ml-14 text-[1.7rem] font-[500]">{comment.comment}</p>
+      <p className="text-gray-300 ml-14 text-[1.7rem] font-[500]">
+        {comment.comment}
+      </p>
       <div className="flex items-center gap-6 mt-2 text-gray-400 ml-14">
-        <button onClick={() => setLikeCount(likeCount + 1)} className="flex items-center gap-2 hover:text-green-400">
+        <button
+          onClick={() => setLikeCount(likeCount + 1)}
+          className="flex items-center gap-2 hover:text-green-400"
+        >
           <FaThumbsUp /> {likeCount}
         </button>
-        <button onClick={() => setDislikeCount(dislikeCount + 1)} className="flex items-center gap-2 hover:text-red-400">
+        <button
+          onClick={() => setDislikeCount(dislikeCount + 1)}
+          className="flex items-center gap-2 hover:text-red-400"
+        >
           <FaThumbsDown /> {dislikeCount}
         </button>
-        <button onClick={() => setShowReplies(!showReplies)} className="flex items-center gap-2 hover:text-yellow-400">
+        <button
+          onClick={() => setShowReplies(!showReplies)}
+          className="flex items-center gap-2 hover:text-yellow-400"
+        >
           <FaReply /> Reply ({comment.replySize})
         </button>
       </div>
@@ -75,14 +167,22 @@ const Reply = ({ reply }) => {
           alt="avatar"
           className="w-12 h-12 border-2 border-purple-500 rounded-full"
         />
-        <span className="text-[1.6rem] font-semibold text-purple-400">{reply.creatorDetails.creatorName}</span>
+        <span className="text-[1.6rem] font-semibold text-purple-400">
+          {reply.creatorDetails.creatorName}
+        </span>
       </div>
       <p className="text-[1.5rem] text-gray-300 ml-14">{reply.reply}</p>
       <div className="flex items-center gap-6 text-sm text-gray-400 ml-14">
-        <button onClick={() => setLikeCount(likeCount + 1)} className="flex items-center gap-2 hover:text-green-400">
+        <button
+          onClick={() => setLikeCount(likeCount + 1)}
+          className="flex items-center gap-2 hover:text-green-400"
+        >
           <FaThumbsUp /> {likeCount}
         </button>
-        <button onClick={() => setDislikeCount(dislikeCount + 1)} className="flex items-center gap-2 hover:text-red-400">
+        <button
+          onClick={() => setDislikeCount(dislikeCount + 1)}
+          className="flex items-center gap-2 hover:text-red-400"
+        >
           <FaThumbsDown /> {dislikeCount}
         </button>
       </div>
