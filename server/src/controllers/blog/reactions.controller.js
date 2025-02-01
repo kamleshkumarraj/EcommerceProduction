@@ -5,6 +5,7 @@ import ErrorHandler from '../../errors/errorHandler.js';
 import { ReplyComments } from '../../models/blog/replyComment.model.js';
 import { BlogReactions } from '../../models/blog/blogReactions.model.js';
 import { CommentReactions } from '../../models/blog/commentReactions.model.js';
+import { commentFindQuery } from '../../helper/helper.js';
 
 export const createComment = asyncHandler(async (req, res, next) => {
   const { blogId, comment } = req.body;
@@ -165,140 +166,10 @@ export const getAllCommentsForBlog = asyncHandler(async (req, res, next) => {
   const { page = 1, limit = 20 } = req.query;
   const skip = (page - 1) * limit;
 
-  
-  const commentData = await Comments.aggregate([
-    { $match: { blogId  : new mongoose.Types.ObjectId(blogId)} },
-    {
-      $lookup: {
-        from: 'users',
-        localField: 'creator',
-        foreignField: '_id',
-        as: 'creatorDetails',
-        pipeline: [
-          {
-            $project: {
-              creatorName: { $concat: ['$firstname', ' ', '$lastname'] },
-              avatar: 1,
-              username: 1,
-              email: 1,
-              _id: 1,
-            },
-          },
-        ],
-      },
-    },
-    {
-      $lookup: {
-        from: 'replycomments',
-        localField: '_id',
-        foreignField: 'commentId',
-        as: 'replyComment',
-        pipeline: [
-          {
-            $lookup: {
-              from: 'users',
-              localField: 'creator',
-              foreignField: '_id',
-              as: 'creatorDetails',
-              pipeline: [
-                {
-                  $project: {
-                    creatorName: { $concat: ['$firstname', ' ', '$lastname'] },
-                    avatar: 1,
-                    username: 1,
-                    email: 1,
-                    _id: 1,
-                  },
-                },
-              ],
-            },
-          },
-          {
-            $lookup: {
-              from: 'commentreactions',
-              foreignField: 'commentId',
-              localField: '_id',
-              as: 'replyReactions',
-              pipeline: [
-                {
-                  $group: {
-                    _id: '$reaction',
-                    count: { $sum: 1 },
-                  },
-                },
-                {
-                  $project: {
-                    reaction: '$_id',
-                    count: { $sum: 1 },
-                    _id : 0
-                  },
-                },
-              ],
-            },
-          },
-          {
-            $unwind: '$creatorDetails',
-          },
-          {
-            $project: {
-              creatorDetails: 1,
-              reply: 1,
-              _id: 1,
-              replyReactions: 1,
-            },
-          },
-        ],
-      },
-    },
-    {
-      $unwind: '$creatorDetails',
-    },
-    // now we find like count for a comment.
-    {
-      $lookup: {
-        from: 'commentreactions',
-        localField: '_id',
-        foreignField: 'commentId',
-        as: 'commentReactions',
-        pipeline: [
-          {
-            $group: {
-              _id: '$reaction',
-              count: { $sum: 1 },
-            },
-          },
-          {
-            $project: {
-              reaction: '$_id',
-              count: 1,
-              _id: 0
-            },
-          },
-        ],
-      },
-    },
-    {
-      $sort: {
-        createdAt: -1,
-      },
-    },
-    {
-      $project: {
-        creatorDetails: 1,
-        comment: 1,
-        replyComment: 1,
-        replySize: { $size: '$replyComment' },
-        commentReactions: 1,
-      },
-    },
-    
-    {
-      $skip: skip,
-    },
-    {
-      $limit: limit,
-    },
-  ]);
+
+  const commentData = await Comments.aggregate(
+    commentFindQuery({matchQuery : { blogId  : new mongoose.Types.ObjectId(blogId)}, skip, limit})
+  );
 
   return res.status(200).json({
     success: false,
@@ -306,6 +177,7 @@ export const getAllCommentsForBlog = asyncHandler(async (req, res, next) => {
     data: commentData,
   });
 });
+
 
 export const getReactionCreatorForComment = asyncHandler(
   async (req, res, next) => {
@@ -363,3 +235,15 @@ export const getReactionCreatorForComment = asyncHandler(
     });
   },
 );
+
+// helper controller for socket.
+export const getSingleComment = async (commentId) => {
+  try {
+    const [commentData] = await Comments.aggregate(
+      commentFindQuery({matchQuery : {_id : new mongoose.Types.ObjectId(commentId)}, skip: 0, limit: 1})
+    )
+    return commentData;
+  } catch (error) {
+    return error;
+  }
+}

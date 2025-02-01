@@ -7,6 +7,7 @@ import {
   LOGIN_EVENT,
   LOGOUT_EVENT,
   NEW_BLOG_ADDED,
+  NEW_COMMENT_ADDED,
   NEW_PRODUCT_ADDED,
   NEW_USER_REGISTERED,
   UPDATE_ORDER_STATUS,
@@ -15,6 +16,7 @@ import cookieParser from 'cookie-parser';
 import { socketUserAuthentication } from './middlewares/socketUserAuthentication.middleware.js';
 import { getEligibleSocketToGetMessage } from './helper/helper.js';
 import { userModels } from './models/userRegistration.model.js';
+import { Comments } from './models/blog/comments.models.js';
 
 export const server = createServer(app);
 
@@ -126,6 +128,19 @@ io.on('connection', (socket) => {
 
   socket.on(CREATE_REVIEW_RATING , (data) => {
     io.emit(CREATE_REVIEW_RATING , data)
+  })
+
+  socket.on(NEW_COMMENT_ADDED , async (data) => {
+    // first we create comment for db.
+    try{
+      await Comments.create(data);
+      io.emit(NEW_COMMENT_ADDED, comment)
+    }
+    catch(err){
+      console.log("We get error during creating comment");
+      socket.emit(NEW_COMMENT_ADDED , err.message)
+    }
+
   })
 
   // handling event for when user is logged out.

@@ -135,3 +135,137 @@ export const blogFindQuery =  ({matchQuery , limit, skip,}) => [
     { $limit: limit },
   ]
 
+export const commentFindQuery = ({matchQuery, skip, limit}) => [
+  { $match: matchQuery },
+  {
+    $lookup: {
+      from: 'users',
+      localField: 'creator',
+      foreignField: '_id',
+      as: 'creatorDetails',
+      pipeline: [
+        {
+          $project: {
+            creatorName: { $concat: ['$firstname', ' ', '$lastname'] },
+            avatar: 1,
+            username: 1,
+            email: 1,
+            _id: 1,
+          },
+        },
+      ],
+    },
+  },
+  {
+    $lookup: {
+      from: 'replycomments',
+      localField: '_id',
+      foreignField: 'commentId',
+      as: 'replyComment',
+      pipeline: [
+        {
+          $lookup: {
+            from: 'users',
+            localField: 'creator',
+            foreignField: '_id',
+            as: 'creatorDetails',
+            pipeline: [
+              {
+                $project: {
+                  creatorName: { $concat: ['$firstname', ' ', '$lastname'] },
+                  avatar: 1,
+                  username: 1,
+                  email: 1,
+                  _id: 1,
+                },
+              },
+            ],
+          },
+        },
+        {
+          $lookup: {
+            from: 'commentreactions',
+            foreignField: 'commentId',
+            localField: '_id',
+            as: 'replyReactions',
+            pipeline: [
+              {
+                $group: {
+                  _id: '$reaction',
+                  count: { $sum: 1 },
+                },
+              },
+              {
+                $project: {
+                  reaction: '$_id',
+                  count: { $sum: 1 },
+                  _id : 0
+                },
+              },
+            ],
+          },
+        },
+        {
+          $unwind: '$creatorDetails',
+        },
+        {
+          $project: {
+            creatorDetails: 1,
+            reply: 1,
+            _id: 1,
+            replyReactions: 1,
+          },
+        },
+      ],
+    },
+  },
+  {
+    $unwind: '$creatorDetails',
+  },
+  // now we find like count for a comment.
+  {
+    $lookup: {
+      from: 'commentreactions',
+      localField: '_id',
+      foreignField: 'commentId',
+      as: 'commentReactions',
+      pipeline: [
+        {
+          $group: {
+            _id: '$reaction',
+            count: { $sum: 1 },
+          },
+        },
+        {
+          $project: {
+            reaction: '$_id',
+            count: 1,
+            _id: 0
+          },
+        },
+      ],
+    },
+  },
+  {
+    $sort: {
+      createdAt: -1,
+    },
+  },
+  {
+    $project: {
+      creatorDetails: 1,
+      comment: 1,
+      replyComment: 1,
+      replySize: { $size: '$replyComment' },
+      commentReactions: 1,
+    },
+  },
+  
+  {
+    $skip: skip,
+  },
+  {
+    $limit: limit,
+  },
+]
+

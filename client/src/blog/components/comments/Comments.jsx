@@ -15,7 +15,7 @@ import { useHandleSocket } from "../../../hooks/useHandleSocket";
 import { NEW_COMMENT_ADDED } from "../../../events";
 
 const CommentSection = () => {
-  const [
+  let [
     getCommentsData,
     { data: comments, isLoading: isCommentLoading, isError: isCommentError },
   ] = useLazyGetCommentForBlogQuery();
@@ -71,6 +71,7 @@ const CommentSection = () => {
   const addCommentsSocketHandler = useCallback((payload) => {
     console.log(payload);
   },[])
+  comments = !comments ? [] : comments;
   commentData = [...comments, ...realTimeComment]
   useHandleSocket({[NEW_COMMENT_ADDED] : addCommentsSocketHandler})
   
