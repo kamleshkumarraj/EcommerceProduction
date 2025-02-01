@@ -1,6 +1,7 @@
 import {v2 as cloudinary} from 'cloudinary'
 import { v4 as uuidv4 } from 'uuid'
 import fs from 'fs/promises'
+import mongoose from 'mongoose'
 
 export const uploadMultipleFilesOnCloudinary = async (files = [] , folder) => {
     if(files.length === 0) return {success : 'file not found' , error : 'No any files found !'}
@@ -135,7 +136,7 @@ export const blogFindQuery =  ({matchQuery , limit, skip,}) => [
     { $limit: limit },
   ]
 
-export const commentFindQuery = ({matchQuery, skip, limit}) => [
+export const commentFindQuery = ({matchQuery, skip, limit, userId}) => [
   { $match: matchQuery },
   {
     $lookup: {
@@ -193,13 +194,29 @@ export const commentFindQuery = ({matchQuery, skip, limit}) => [
                 $group: {
                   _id: '$reaction',
                   count: { $sum: 1 },
+                  likeCreatorList : {$push : {
+                    $cond : {
+                      if : {$eq : ["$reaction" , "like"]},
+                      then : "$creator",
+                      else : null
+                    }
+                  }},
+                  dislikeCreatorList : {$push : {
+                    $cond : {
+                      if : {$eq : ["$reaction" , "dislike"]},
+                      then : "$creator",
+                      else : null
+                    }
+                  }},
                 },
               },
               {
                 $project: {
                   reaction: '$_id',
                   count: { $sum: 1 },
-                  _id : 0
+                  _id : 0,
+                  likeCreatorList : 1,
+                  dislikeCreatorList : 1
                 },
               },
             ],
@@ -234,18 +251,35 @@ export const commentFindQuery = ({matchQuery, skip, limit}) => [
           $group: {
             _id: '$reaction',
             count: { $sum: 1 },
+            likeCreatorList : {$push : {
+              $cond : {
+                if : {$eq : ["$reaction" , "like"]},
+                then : "$creator",
+                else : null
+              }
+            }},
+            dislikeCreatorList : {$push : {
+              $cond : {
+                if : {$eq : ["$reaction" , "dislike"]},
+                then : "$creator",
+                else : null
+              }
+            }},
           },
         },
         {
           $project: {
             reaction: '$_id',
             count: 1,
+            likeCreatorList : 1,
+            dislikeCreatorList : 1,
             _id: 0
           },
         },
       ],
     },
   },
+  
   {
     $sort: {
       createdAt: -1,

@@ -168,7 +168,7 @@ export const getAllCommentsForBlog = asyncHandler(async (req, res, next) => {
 
 
   const commentData = await Comments.aggregate(
-    commentFindQuery({matchQuery : { blogId  : new mongoose.Types.ObjectId(blogId)}, skip, limit})
+    commentFindQuery({matchQuery : { blogId  : new mongoose.Types.ObjectId(blogId)}, skip, limit, userId: req.user.id})
   );
 
   return res.status(200).json({

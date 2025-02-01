@@ -9,13 +9,26 @@ import styles from "./comments.module.css";
 import { useSelector } from "react-redux";
 import { getSelf } from "../../../store/slices/selfHandler.slice";
 import { toast } from "react-toastify";
-import { toastUpdate } from "../../../helper/helper";
+import {
+  checkAlreadyLiked,
+  checkDisLiked,
+  toastUpdate,
+} from "../../../helper/helper";
 import { useSocket } from "../../../contexts/Socket";
 import { useHandleSocket } from "../../../hooks/useHandleSocket";
-import { JOIN_ROOM_FOR_BLOG, LEAVE_ROOM_FOR_BLOG, NEW_COMMENT_ADDED } from "../../../events";
+import {
+  CREATE_REACTION_FOR_COMMENT,
+  CREATE_REACTION_FOR_REPLY,
+  CREATE_REPLY_FOR_COMMENT,
+  JOIN_ROOM_FOR_BLOG,
+  LEAVE_ROOM_FOR_BLOG,
+  NEW_COMMENT_ADDED,
+} from "../../../events";
+import { BiLike, BiSolidDislike } from "react-icons/bi";
+import { BiDislike } from "react-icons/bi";
+import { BiSolidLike } from "react-icons/bi";
 
 const CommentSection = () => {
-  
   let [
     getCommentsData,
     { data: comments, isLoading: isCommentLoading, isError: isCommentError },
@@ -27,79 +40,73 @@ const CommentSection = () => {
   const [createComment] = useCreateCommentMutation();
   const socket = useSocket();
   let commentData = [];
-  const [realTimeComment , setRealTimeComments] = useState([]);
-  
+  const [realTimeComment, setRealTimeComments] = useState([]);
+
   useEffect(() => {
     getCommentsData(blogId);
   }, [blogId]);
 
   // code for join room for getting comment and after leave the page we remove from room.
   useEffect(() => {
-    socket.emit(JOIN_ROOM_FOR_BLOG, blogId)
+    socket.emit(JOIN_ROOM_FOR_BLOG, blogId);
 
     return () => {
       socket.emit(LEAVE_ROOM_FOR_BLOG, blogId);
-      socket.off()
-    }
-  },[blogId])
+      socket.off();
+    };
+  }, [blogId]);
 
-  // const sendComment = async () => {
-  //   if (!commentMessage) {
-  //     toast.error("Please enter a comment first!");
-  //     return;
-  //   }
-  //   const toastId = toast.loading("comment creating...");
-  //   const payload = { comment: commentMessage, blogId };
-  //   try {
-  //     const {data} = await createComment(payload);
-      
-  //     if (data?.success) {
-  //       toastUpdate({
-  //         message: data?.message || "Comment posted successfully!",
-  //         type: "success",
-  //         toastId,
-  //       });
-  //       setCommentMessage("");
-  //     } else {
-  //       toastUpdate({
-  //         message: data?.message || "comment creating failed !",
-  //         type: "error",
-  //         toastId,
-  //       });
-  //     }
-  //   } catch (error) {
-  //     toastUpdate({
-  //       message: error.message || "comment creating failed !",
-  //       type: "error",
-  //       toastId,
-  //     });
-  //   }
-  // };
-
-  // now we handle the comment using socket.
-
-  //code for creating message and send on server using socket.
   
-  const addCommentsSocketHandler = useCallback(({success, commentData}) => {
-    if(success){
-      setRealTimeComments((prev) => [ commentData, ...prev]);
-    }else{
-      console.log("Comment created failed",commentData);
+  const addCommentsSocketHandler = useCallback(({ success, commentData }) => {
+    if (success) {
+      setRealTimeComments((prev) => [commentData, ...prev]);
+    } else {
+      console.log("Comment created failed", commentData);
     }
-  },[])
+  }, []);
+
+  const addCreateReactionForComment = useCallback((data) => {
+    console.log(data);
+  }, []);
+
+  const addCreateReplyForComment = useCallback((data) => {
+    console.log(data);
+  }, []);
+
+  const addCreateReactionForReply = useCallback((data) => {
+    console.log(data);
+  }, []);
+
   comments = !comments ? [] : comments;
-  commentData = [...realTimeComment, ...comments,]
-  useHandleSocket({[NEW_COMMENT_ADDED] : addCommentsSocketHandler})
+  commentData = [...realTimeComment, ...comments];
   
+  useHandleSocket({
+    [NEW_COMMENT_ADDED]: addCommentsSocketHandler,
+    [CREATE_REACTION_FOR_COMMENT]: addCreateReactionForComment,
+    [CREATE_REACTION_FOR_REPLY]: addCreateReactionForReply,
+    [CREATE_REPLY_FOR_COMMENT]: addCreateReplyForComment,
+  });
+
   const sendComment = async () => {
     if (!commentMessage) {
       toast.error("Please enter a comment first!");
       return;
     }
-    const payload = { comment: commentMessage, blogId, creator : user._id };
-    socket.emit(NEW_COMMENT_ADDED , payload);
+    const payload = { comment: commentMessage, blogId, creator: user._id };
+    socket.emit(NEW_COMMENT_ADDED, payload);
   };
-  
+
+  const createReactionForComment = async () => {
+    socket.emit(CREATE_REACTION_FOR_COMMENT , {commentId : '' , reaction : "like"})
+  }
+
+  const createReactionForReply = async () => {
+    socket.emit(CREATE_REACTION_FOR_REPLY , {commentId : '' , reaction : "like"})
+  }
+
+  const createReplyForComment = async () => {
+    socket.emit(CREATE_REPLY_FOR_COMMENT , {commentId : '' , reaction : "like"})
+  } 
 
   if (isCommentLoading)
     return (
@@ -107,7 +114,7 @@ const CommentSection = () => {
         Comment Data is Loading...
       </h1>
     );
-    
+
   if (isCommentError)
     return (
       <h1 className="text-[1.8rem] text-red-500">
@@ -126,9 +133,11 @@ const CommentSection = () => {
               className={styles.input}
               onChange={(e) => setCommentMessage(e.target.value)}
               value={commentMessage}
-              style={{color : 'black'}}
+              style={{ color: "black" }}
             />
-            <button className={styles.button} onClick={sendComment} >Send</button>
+            <button className={styles.button} onClick={sendComment}>
+              Send
+            </button>
           </div>
         ) : (
           <h1>Please login for writing the comment</h1>
@@ -173,13 +182,23 @@ const Comment = ({ comment }) => {
           onClick={() => setLikeCount(likeCount + 1)}
           className="flex items-center gap-2 hover:text-green-400"
         >
-          <FaThumbsUp /> {likeCount}
+          {checkAlreadyLiked() ? (
+            <BiSolidLike size={"22"} color="#F44336" />
+          ) : (
+            <BiLike size={"22"} />
+          )}{" "}
+          {likeCount}
         </button>
         <button
           onClick={() => setDislikeCount(dislikeCount + 1)}
           className="flex items-center gap-2 hover:text-red-400"
         >
-          <FaThumbsDown /> {dislikeCount}
+          {checkDisLiked() ? (
+            <BiSolidDislike size={"22"} color="gray" />
+          ) : (
+            <BiDislike size={"22"} />
+          )}{" "}
+          {dislikeCount}
         </button>
         <button
           onClick={() => setShowReplies(!showReplies)}

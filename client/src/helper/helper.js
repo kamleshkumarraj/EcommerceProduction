@@ -57,5 +57,11 @@ export function getRandomColor(format = "rgb") {
     })
   }
   
+export const checkAlreadyLiked = () => {
+  return true
+}
 
+export const checkDisLiked = () => {
+  return true
+}
   
