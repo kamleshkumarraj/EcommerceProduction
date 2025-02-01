@@ -144,9 +144,9 @@ io.on('connection', (socket) => {
 
   socket.on(NEW_COMMENT_ADDED , async (data) => {
     // first we create comment for db.
-    const {comment, blogId, userId} = data;
+    const {comment, blogId, creator} = data;
 
-    if(!comment || !blogId || !userId){
+    if(!comment || !blogId || !creator){
       socket.emit(NEW_COMMENT_ADDED , {success : false, commentData: "Please fill all fields!"})
       return;
     }

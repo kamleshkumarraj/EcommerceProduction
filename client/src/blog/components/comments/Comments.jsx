@@ -80,11 +80,15 @@ const CommentSection = () => {
 
   //code for creating message and send on server using socket.
   
-  const addCommentsSocketHandler = useCallback((payload) => {
-    console.log(payload);
+  const addCommentsSocketHandler = useCallback(({success, commentData}) => {
+    if(success){
+      setRealTimeComments((prev) => [ commentData, ...prev]);
+    }else{
+      console.log("Comment created failed",commentData);
+    }
   },[])
   comments = !comments ? [] : comments;
-  commentData = [...comments, ...realTimeComment]
+  commentData = [...realTimeComment, ...comments,]
   useHandleSocket({[NEW_COMMENT_ADDED] : addCommentsSocketHandler})
   
   const sendComment = async () => {
@@ -92,7 +96,7 @@ const CommentSection = () => {
       toast.error("Please enter a comment first!");
       return;
     }
-    const payload = { comment: commentMessage, blogId };
+    const payload = { comment: commentMessage, blogId, creator : user._id };
     socket.emit(NEW_COMMENT_ADDED , payload);
   };
   
