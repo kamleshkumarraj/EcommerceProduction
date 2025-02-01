@@ -1,7 +1,8 @@
 import { useEffect, useState } from "react";
 import { FaThumbsUp, FaThumbsDown, FaReply } from "react-icons/fa";
-import { useLazyGetCommentForBlogQuery } from "../../../store/slices/userApi";
+
 import { useParams } from "react-router-dom";
+import { useLazyGetCommentForBlogQuery } from "../../../store/slices/blogApi";
 
 const CommentSection = () => {
   const [getCommentsData , {data : comments , isLoading : isCommentLoading , isError : isCommentError}] = useLazyGetCommentForBlogQuery();
@@ -16,7 +17,7 @@ const CommentSection = () => {
   
   return (
     <div className="max-w-2xl p-4 mx-auto">
-      {comments.map((comment) => (
+      {comments && comments.length > 0 && comments.map((comment) => (
         <Comment key={comment._id} comment={comment} />
       ))}
     </div>

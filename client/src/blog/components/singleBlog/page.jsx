@@ -1,13 +1,11 @@
 
+import { useEffect } from "react";
+import { useParams } from "react-router-dom";
+import Loader from "../../../components/cart/Loader";
+import { useGetSingleBlogQuery } from "../../../store/slices/blogApi";
 import Comments from "../comments/Comments";
 import Menu from "../Menu/Menu";
 import styles from "./singlePage.module.css";
-import userImg from '../../assets/Images/travel.png'
-import { useLocation, useParams } from "react-router-dom";
-import { useGetSingleBlogQuery } from "../../../store/slices/userApi";
-import { BlogLoader } from "../loader/BlogLoader";
-import { useEffect } from "react";
-import Loader from "../../../components/cart/Loader";
 
 const SinglePage =  () => {
   const blogId = useParams()?.blog_id
