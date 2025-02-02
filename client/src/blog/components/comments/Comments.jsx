@@ -65,10 +65,6 @@ const CommentSection = () => {
     }
   }, []);
 
-  const addCreateReactionForComment = useCallback((data) => {
-    console.log(data);
-  }, []);
-
   const addCreateReplyForComment = useCallback((data) => {
     console.log(data);
   }, []);
@@ -82,7 +78,6 @@ const CommentSection = () => {
 
   useHandleSocket({
     [NEW_COMMENT_ADDED]: addCommentsSocketHandler,
-    [CREATE_REACTION_FOR_COMMENT]: addCreateReactionForComment,
     [CREATE_REACTION_FOR_REPLY]: addCreateReactionForReply,
     [CREATE_REPLY_FOR_COMMENT]: addCreateReplyForComment,
   });
@@ -94,15 +89,6 @@ const CommentSection = () => {
     }
     const payload = { comment: commentMessage, blogId, creator: user._id };
     socket.emit(NEW_COMMENT_ADDED, payload);
-  };
-
-  const createReactionForComment = async (payload) => {
-    if(!user) {
-      toast.error("Please login to create comment!");
-      navigate("/login")
-      return;
-    }
-    socket.emit(CREATE_REACTION_FOR_COMMENT, {...payload, creator : user?._id,blogId});
   };
 
   const createReactionForReply = async () => {
@@ -156,9 +142,6 @@ const CommentSection = () => {
             <Comment
               key={comment._id}
               comment={comment}
-              createReactionForComment={createReactionForComment}
-              createReplyForComment={createReplyForComment}
-              createReactionForReply={createReactionForReply}
             />
           ))}
       </div>
@@ -168,58 +151,131 @@ const CommentSection = () => {
 
 const Comment = ({
   comment,
-  createReactionForComment,
-  createReplyForComment,
-  createReactionForReply,
 }) => {
-  const [likeCount, setLikeCount] = useState(
-    comment.commentReactions.find((r) => r.reaction === "like")?.count || 0
-  );
+  const socket = useSocket();
+  const navigate = useNavigate();
+  const blogId = useParams().blog_id;
   const user = useSelector(getSelf);
-  const [dislikeCount, setDislikeCount] = useState(comment.commentReactions.find((r) => r.reaction === "dislike")?.count || 0);
+  const [commentData, setCommentData] = useState(comment);
+  const [likeCount, setLikeCount] = useState(
+    commentData.commentReactions.find((r) => r.reaction === "like")?.count || 0
+  );
+
+  const [dislikeCount, setDislikeCount] = useState(
+    commentData.commentReactions.find((r) => r.reaction === "dislike")?.count ||
+      0
+  );
+
   const [showReplies, setShowReplies] = useState(false);
+
+  const addCreateReactionForComment = useCallback(
+    ({ success, commentData }) => {
+      if (success) {
+        setCommentData((prev) => {
+          if (prev._id == commentData?._id) {
+            setLikeCount(
+              commentData.commentReactions.find((r) => r.reaction === "like")
+                ?.count || 0
+            );
+            setDislikeCount(
+              commentData.commentReactions.find((r) => r.reaction === "dislike")
+                ?.count || 0
+            );
+            return commentData;
+          } else {
+            return prev;
+          }
+        });
+      } else {
+        toast.error("Reaction creation failed !");
+      }
+    },
+    []
+  );
+
+  useHandleSocket({
+    [CREATE_REACTION_FOR_COMMENT]: addCreateReactionForComment,
+  });
+
+  const createReactionForComment = async (payload) => {
+    if (!user) {
+      toast.error("Please login to create comment!");
+      navigate("/login");
+      return;
+    }
+    socket.emit(CREATE_REACTION_FOR_COMMENT, {
+      ...payload,
+      creator: user?._id,
+      blogId,
+    });
+  };
 
   return (
     <div className="p-4 border-b border-gray-700">
       <div className="flex items-center gap-4">
         <img
-          src={comment.creatorDetails.avatar.url}
+          src={commentData.creatorDetails.avatar.url}
           alt="avatar"
           className="border-blue-500 rounded-full h-14 borer-2 w-14"
         />
         <span className="text-[2rem] font-semibold text-blue-400">
-          {comment.creatorDetails.creatorName}
+          {commentData.creatorDetails.creatorName}
         </span>
       </div>
       <p className="text-gray-300 ml-14 text-[1.7rem] font-[500]">
-        {comment.comment}
+        {commentData.comment}
       </p>
       <div className="flex items-center gap-6 mt-2 text-gray-400 ml-14">
-        <button
-          className="flex items-center gap-2 hover:text-green-400"
-        >
-          {checkAlreadyLiked({ commentData: comment, userId: user?._id }) ? (
-            <BiSolidLike onClick={() => {
-              createReactionForComment({commentId : comment?._id, reaction: "none" })
-            }} size={"22"} color="#F44336" />
+        <button className="flex items-center gap-2 hover:text-green-400">
+          {checkAlreadyLiked({
+            commentData: commentData,
+            userId: user?._id,
+          }) ? (
+            <BiSolidLike
+              onClick={() => {
+                createReactionForComment({
+                  commentId: commentData?._id,
+                  reaction: "none",
+                });
+              }}
+              size={"22"}
+              color="#F44336"
+            />
           ) : (
-            <BiLike onClick={() => {
-              createReactionForComment({commentId : comment?._id, reaction: "like" })
-            }}  size={"22"} />
+            <BiLike
+              onClick={() => {
+                createReactionForComment({
+                  commentId: commentData?._id,
+                  reaction: "like",
+                });
+              }}
+              size={"22"}
+            />
           )}{" "}
           {likeCount}
         </button>
-        <button
-          className="flex items-center gap-2 hover:text-red-400"
-        >
-          {checkDisLiked({ commentData: comment, userId: user?._id }) ? (
-            <BiSolidDislike onClick={() => {
-              createReactionForComment({commentId : comment?._id, reaction : 'none'})
-            }} size={"22"} color="gray" />
+        <button className="flex items-center gap-2 hover:text-red-400">
+          {checkDisLiked({ commentData: commentData, userId: user?._id }) ? (
+            <BiSolidDislike
+              onClick={() => {
+                createReactionForComment({
+                  commentId: commentData?._id,
+                  reaction: "none",
+                });
+              }}
+              size={"22"}
+              color="gray"
+            />
           ) : (
-            <BiDislike onClick={() => {
-              createReactionForComment({commentId : comment?._id, reaction : 'dislike'})
-            }} size={"22"} />
+            <BiDislike
+              onClick={() => {
+                createReactionForComment({
+                  commentId: commentData?._id,
+                  reaction: "dislike",
+                });
+              }}
+              size={"22"}
+            />
           )}{" "}
           {dislikeCount}
         </button>
@@ -227,12 +283,12 @@ const Comment = ({
           onClick={() => setShowReplies(!showReplies)}
           className="flex items-center gap-2 hover:text-yellow-400"
         >
-          <FaReply /> Reply ({comment.replySize})
+          <FaReply /> Reply ({commentData.replySize})
         </button>
       </div>
       {showReplies && (
         <div className="pl-6 mt-2 border-l border-gray-700 ml-14">
-          {comment.replyComment.map((reply) => (
+          {commentData.replyComment.map((reply) => (
             <Reply key={reply._id} reply={reply} />
           ))}
         </div>
