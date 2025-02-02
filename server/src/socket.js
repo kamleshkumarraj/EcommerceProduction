@@ -177,14 +177,17 @@ io.on('connection', (socket) => {
     try {
       const { commentId, reaction, creator, blogId } = payload;
       console.log(commentId, reaction, creator);
+
       // first we perform db operation we create reaction for comment.
       const { success, message } = await createReactionForComments({
         commentId,
         reaction,
         creator,
       });
-  
+      
+      // after creating reactions we send from fetching the db.
       if (success) {
+        // code for fetching the db.
         const { success, commentData } = await getSingleComment(commentId);
         if (success)
           io.to(blogId).emit(CREATE_REACTION_FOR_COMMENT, {
