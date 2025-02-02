@@ -151,7 +151,7 @@ const Comment = ({ comment }) => {
     commentData.commentReactions.find((r) => r.reaction === "like")?.count || 0
   );
   const [reply, setReply] = useState({
-    message : "",
+    reply : "",
     commentId : "",
   });
 
@@ -187,8 +187,19 @@ const Comment = ({ comment }) => {
     []
   );
 
-  const addCreateReplyForComment = useCallback((data) => {
-    console.log(data);
+  const addCreateReplyForComment = useCallback(({success, commentData}) => {
+    if (success) {
+      setCommentData((prev) => {
+        if (prev._id == commentData?._id) {
+          setReply({reply : "", commentId : ''});
+          return commentData;
+        } else {
+          return prev;
+        }
+      });
+    } else {
+      toast.error("Reply creation failed !");
+    }
   }, []);
   
   useHandleSocket({
@@ -215,11 +226,11 @@ const Comment = ({ comment }) => {
       navigate("/login");
       return;
     }
-    if(!reply.message){
+    if(!reply.reply){
       toast.error("Please enter a reply first!");
       return;
     }
-    socket.emit(CREATE_REACTION_FOR_COMMENT, {
+    socket.emit(CREATE_REPLY_FOR_COMMENT, {
       ...reply,
       creator: user?._id,
       blogId,
@@ -312,9 +323,9 @@ const Comment = ({ comment }) => {
             <textarea
               className="w-full p-3 text-white placeholder-gray-400 bg-transparent border-b-2 resize-none border-b-pink-800 border-gradient focus:outline-none focus:border-b-green-800"
               rows="1"
-              value={reply?.message}
+              value={reply?.reply}
               onChange={(e) => {
-                setReply({message : e.target.value , commentId : commentData._id})
+                setReply({reply : e.target.value , commentId : commentData._id})
               }}
               placeholder="Type your reply..."
             />

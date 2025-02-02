@@ -229,7 +229,7 @@ io.on('connection', (socket) => {
   socket.on(CREATE_REPLY_FOR_COMMENT , async (payload) => {
     try {
       const { commentId , reply , creator , blogId } = payload;
-
+      console.log(commentId)
       if (!commentId || !reply || !creator || !blogId) {
         socket.emit(CREATE_REPLY_FOR_COMMENT, {
           success: false,
