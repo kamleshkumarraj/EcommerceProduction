@@ -136,7 +136,7 @@ export const blogFindQuery =  ({matchQuery , limit, skip,}) => [
     { $limit: limit },
   ]
 
-export const commentFindQuery = ({matchQuery, skip, limit, userId}) => [
+export const commentFindQuery = ({matchQuery, skip, limit}) => [
   { $match: matchQuery },
   {
     $lookup: {
