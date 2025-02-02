@@ -65,9 +65,7 @@ const CommentSection = () => {
     }
   }, []);
 
-  const addCreateReplyForComment = useCallback((data) => {
-    console.log(data);
-  }, []);
+  
 
   const addCreateReactionForReply = useCallback((data) => {
     console.log(data);
@@ -79,7 +77,6 @@ const CommentSection = () => {
   useHandleSocket({
     [NEW_COMMENT_ADDED]: addCommentsSocketHandler,
     [CREATE_REACTION_FOR_REPLY]: addCreateReactionForReply,
-    [CREATE_REPLY_FOR_COMMENT]: addCreateReplyForComment,
   });
 
   const sendComment = async () => {
@@ -95,9 +92,7 @@ const CommentSection = () => {
     socket.emit(CREATE_REACTION_FOR_REPLY, { commentId: "", reaction: "like" });
   };
 
-  const createReplyForComment = async () => {
-    socket.emit(CREATE_REPLY_FOR_COMMENT, { commentId: "", reaction: "like" });
-  };
+  
 
   if (isCommentLoading)
     return (
@@ -139,19 +134,14 @@ const CommentSection = () => {
         {commentData &&
           commentData.length > 0 &&
           commentData.map((comment) => (
-            <Comment
-              key={comment._id}
-              comment={comment}
-            />
+            <Comment key={comment._id} comment={comment} />
           ))}
       </div>
     </>
   );
 };
 
-const Comment = ({
-  comment,
-}) => {
+const Comment = ({ comment }) => {
   const socket = useSocket();
   const navigate = useNavigate();
   const blogId = useParams().blog_id;
@@ -160,6 +150,10 @@ const Comment = ({
   const [likeCount, setLikeCount] = useState(
     commentData.commentReactions.find((r) => r.reaction === "like")?.count || 0
   );
+  const [reply, setReply] = useState({
+    message : "",
+    commentId : "",
+  });
 
   const [dislikeCount, setDislikeCount] = useState(
     commentData.commentReactions.find((r) => r.reaction === "dislike")?.count ||
@@ -193,8 +187,13 @@ const Comment = ({
     []
   );
 
+  const addCreateReplyForComment = useCallback((data) => {
+    console.log(data);
+  }, []);
+  
   useHandleSocket({
     [CREATE_REACTION_FOR_COMMENT]: addCreateReactionForComment,
+    [CREATE_REPLY_FOR_COMMENT] : addCreateReplyForComment
   });
 
   const createReactionForComment = async (payload) => {
@@ -205,6 +204,23 @@ const Comment = ({
     }
     socket.emit(CREATE_REACTION_FOR_COMMENT, {
       ...payload,
+      creator: user?._id,
+      blogId,
+    });
+  };
+
+  const createReplyForComment = async () => {
+    if (!user) {
+      toast.error("Please login to create comment!");
+      navigate("/login");
+      return;
+    }
+    if(!reply.message){
+      toast.error("Please enter a reply first!");
+      return;
+    }
+    socket.emit(CREATE_REACTION_FOR_COMMENT, {
+      ...reply,
       creator: user?._id,
       blogId,
     });
@@ -291,6 +307,21 @@ const Comment = ({
           {commentData.replyComment.map((reply) => (
             <Reply key={reply._id} reply={reply} />
           ))}
+
+          <div className="flex w-full max-w-lg p-4 rounded-xl">
+            <textarea
+              className="w-full p-3 text-white placeholder-gray-400 bg-transparent border-b-2 resize-none border-b-pink-800 border-gradient focus:outline-none focus:border-b-green-800"
+              rows="1"
+              value={reply?.message}
+              onChange={(e) => {
+                setReply({message : e.target.value , commentId : commentData._id})
+              }}
+              placeholder="Type your reply..."
+            />
+            <button className="w-[12rem] py-4 font-bold text-black transition-transform  shadow-md bg-gradient-to-r from-purple-500 via-pink-500 to-yellow-500 hover:scale-105" onClick={createReplyForComment} >
+              Send 🚀
+            </button>
+          </div>
         </div>
       )}
     </div>
