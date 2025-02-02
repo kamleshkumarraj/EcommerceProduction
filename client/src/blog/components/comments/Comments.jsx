@@ -12,6 +12,8 @@ import { toast } from "react-toastify";
 import {
   checkAlreadyLiked,
   checkDisLiked,
+  checkReplyAlreadyLiked,
+  checkReplyDisLiked,
   toastUpdate,
 } from "../../../helper/helper";
 import { useSocket } from "../../../contexts/Socket";
@@ -37,11 +39,9 @@ const CommentSection = () => {
   const user = useSelector(getSelf);
   const [commentMessage, setCommentMessage] = useState("");
   const status = user?.firstname ? "authenticated" : "unauthenticated";
-  const [createComment] = useCreateCommentMutation();
   const socket = useSocket();
   let commentData = [];
   const [realTimeComment, setRealTimeComments] = useState([]);
-  const navigate = useNavigate();
 
   useEffect(() => {
     getCommentsData(blogId);
@@ -67,16 +67,13 @@ const CommentSection = () => {
 
   
 
-  const addCreateReactionForReply = useCallback((data) => {
-    console.log(data);
-  }, []);
+  
 
   comments = !comments ? [] : comments;
   commentData = [...realTimeComment, ...comments];
 
   useHandleSocket({
     [NEW_COMMENT_ADDED]: addCommentsSocketHandler,
-    [CREATE_REACTION_FOR_REPLY]: addCreateReactionForReply,
   });
 
   const sendComment = async () => {
@@ -88,9 +85,7 @@ const CommentSection = () => {
     socket.emit(NEW_COMMENT_ADDED, payload);
   };
 
-  const createReactionForReply = async () => {
-    socket.emit(CREATE_REACTION_FOR_REPLY, { commentId: "", reaction: "like" });
-  };
+  
 
   
 
@@ -134,14 +129,16 @@ const CommentSection = () => {
         {commentData &&
           commentData.length > 0 &&
           commentData.map((comment) => (
-            <Comment key={comment._id} comment={comment} />
+            <Comment key={comment._id} 
+            comment={comment}
+            />
           ))}
       </div>
     </>
   );
 };
 
-const Comment = ({ comment }) => {
+const Comment = ({ comment, }) => {
   const socket = useSocket();
   const navigate = useNavigate();
   const blogId = useParams().blog_id;
@@ -217,6 +214,7 @@ const Comment = ({ comment }) => {
       ...payload,
       creator: user?._id,
       blogId,
+      parentCommentId : commentData?._id
     });
   };
 
@@ -265,7 +263,7 @@ const Comment = ({ comment }) => {
                   reaction: "none",
                 });
               }}
-              size={"22"}
+              size={"20"}
               color="#F44336"
             />
           ) : (
@@ -276,7 +274,7 @@ const Comment = ({ comment }) => {
                   reaction: "like",
                 });
               }}
-              size={"22"}
+              size={"20"}
             />
           )}{" "}
           {likeCount}
@@ -290,7 +288,7 @@ const Comment = ({ comment }) => {
                   reaction: "none",
                 });
               }}
-              size={"22"}
+              size={"20"}
               color="gray"
             />
           ) : (
@@ -301,7 +299,7 @@ const Comment = ({ comment }) => {
                   reaction: "dislike",
                 });
               }}
-              size={"22"}
+              size={"20"}
             />
           )}{" "}
           {dislikeCount}
@@ -316,7 +314,7 @@ const Comment = ({ comment }) => {
       {showReplies && (
         <div className="pl-6 mt-2 border-l border-gray-700 ml-14">
           {commentData.replyComment.map((reply) => (
-            <Reply key={reply._id} reply={reply} />
+            <Reply key={reply._id} reply={reply} createReactionForComment={createReactionForComment} />
           ))}
 
           <div className="flex w-full max-w-lg p-4 rounded-xl">
@@ -339,10 +337,10 @@ const Comment = ({ comment }) => {
   );
 };
 
-const Reply = ({ reply }) => {
-  const [likeCount, setLikeCount] = useState(0);
-  const [dislikeCount, setDislikeCount] = useState(0);
-
+const Reply = ({ reply, createReactionForComment }) => {
+  const likeCount = reply?.replyReactions?.find((r) => r.reaction === "like")?.count || 0;
+  const dislikeCount = reply?.replyReactions?.find((r) => r.reaction === "dislike")?.count || 0;
+  const user = useSelector(getSelf);
   return (
     <div className="mt-2">
       <div className="flex items-center gap-4">
@@ -358,16 +356,60 @@ const Reply = ({ reply }) => {
       <p className="text-[1.5rem] text-gray-300 ml-14">{reply.reply}</p>
       <div className="flex items-center gap-6 text-sm text-gray-400 ml-14">
         <button
-          onClick={() => setLikeCount(likeCount + 1)}
-          className="flex items-center gap-2 hover:text-green-400"
+          className="flex text-[1.4rem] items-center gap-2 hover:text-green-400"
         >
-          <FaThumbsUp /> {likeCount}
+          {checkReplyAlreadyLiked({
+            commentData: reply,
+            userId: user?._id,
+          }) ? (
+            <BiSolidLike
+              onClick={() => {
+                createReactionForComment({
+                  commentId: reply?._id,
+                  reaction: "none",
+                });
+              }}
+              size={"16"}
+              color="#F44336"
+            />
+          ) : (
+            <BiLike
+              onClick={() => {
+                createReactionForComment({
+                  commentId: reply?._id,
+                  reaction: "like",
+                });
+              }}
+              size={"16"}
+            />
+          )}{" "}
+          {likeCount}
         </button>
         <button
-          onClick={() => setDislikeCount(dislikeCount + 1)}
-          className="flex items-center gap-2 hover:text-red-400"
-        >
-          <FaThumbsDown /> {dislikeCount}
+          className="flex text-[1.4rem] items-center gap-2 hover:text-red-400"
+        >{checkReplyDisLiked({ commentData: reply, userId: user?._id }) ? (
+          <BiSolidDislike
+            onClick={() => {
+              createReactionForComment({
+                commentId: reply?._id,
+                reaction: "none",
+              });
+            }}
+            size={"16"}
+            color="gray"
+          />
+        ) : (
+          <BiDislike
+            onClick={() => {
+              createReactionForComment({
+                commentId: reply?._id,
+                reaction: "dislike",
+              });
+            }}
+            size={"16"}
+          />
+        )}{" "}
+        {dislikeCount}
         </button>
       </div>
     </div>

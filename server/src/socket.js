@@ -178,7 +178,7 @@ io.on('connection', (socket) => {
 
   socket.on(CREATE_REACTION_FOR_COMMENT, async (payload) => {
     try {
-      const { commentId, reaction, creator, blogId } = payload;
+      const { commentId, reaction, creator, blogId,parentCommentId } = payload;
       if (!commentId || !reaction || !creator || !blogId) {
         socket.emit(CREATE_REACTION_FOR_COMMENT, {
           success: false,
@@ -196,8 +196,9 @@ io.on('connection', (socket) => {
 
       // after creating reactions we send from fetching the db.
       if (success) {
+        
         // code for fetching the db.
-        const { success, commentData } = await getSingleComment(commentId);
+        const { success, commentData } = await getSingleComment(parentCommentId);
         if (success) {
           io.to(blogId).emit(CREATE_REACTION_FOR_COMMENT, {
             success,

@@ -71,3 +71,19 @@ export const checkDisLiked = ({ commentData, userId }) => {
   );
   return likeList ? true : false;
 };
+
+export const checkReplyAlreadyLiked = ({ commentData, userId }) => {
+  if (!userId) return false;
+  const likeList = commentData?.replyReactions?.find(
+    (r) => r.reaction === "like" && r?.likeCreatorList?.includes(userId)
+  );
+  return likeList ? true : false;
+};
+
+export const checkReplyDisLiked = ({ commentData, userId }) => {
+  if (!userId) return false;
+  const likeList = commentData?.replyReactions?.find(
+    (r) => r.reaction === "dislike" && r?.dislikeCreatorList?.includes(userId)
+  );
+  return likeList ? true : false;
+};
