@@ -1,4 +1,4 @@
-import React from 'react';
+
 // Import Swiper React components
 import { Swiper, SwiperSlide } from 'swiper/react';
 
@@ -27,7 +27,7 @@ export default function ImgSlider() {
       >
         
         {
-          allBlogs && allBlogs?.data?.length > 0 && allBlogs?.data?.slice(20,30).map((blog, index) => ( <SwiperSlide key={blog?._id} style={{backgroundPosition : 'center' , overflow : 'hidden' , borderRadius : '1rem' , backgroundSize : 'cover'}} >
+          allBlogs && allBlogs?.length > 0 && allBlogs?.slice(20,30).map((blog) => ( <SwiperSlide key={blog?._id} style={{backgroundPosition : 'center' , overflow : 'hidden' , borderRadius : '1rem' , backgroundSize : 'cover'}} >
             <img alt='hii' src={blog?.thumbnail?.url} />
           </SwiperSlide  >))
         }
