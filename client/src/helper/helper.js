@@ -57,11 +57,15 @@ export function getRandomColor(format = "rgb") {
     })
   }
   
-export const checkAlreadyLiked = () => {
-  return true
+export const checkAlreadyLiked = ({commentData, userId}) => {
+  if(!userId) return false
+  const likeList = commentData?.commentReactions?.find((r) => r.reaction === "like" && r?.likeCreatorList?.includes(userId))
+  return likeList ? true : false;
 }
 
-export const checkDisLiked = () => {
-  return true
+export const checkDisLiked = ({commentData, userId}) => {
+  if(!userId) return false
+  const likeList = commentData?.commentReactions?.find((r) => r.reaction === "dislike" && r?.likeCreatorList?.includes(userId))
+  return likeList ? true : false;
 }
   

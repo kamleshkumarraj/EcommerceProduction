@@ -159,6 +159,7 @@ const Comment = ({ comment }) => {
   const [likeCount, setLikeCount] = useState(
     comment.commentReactions.find((r) => r.reaction === "like")?.count || 0
   );
+  const user = useSelector(getSelf)
   const [dislikeCount, setDislikeCount] = useState(0);
   const [showReplies, setShowReplies] = useState(false);
 
@@ -182,7 +183,7 @@ const Comment = ({ comment }) => {
           onClick={() => setLikeCount(likeCount + 1)}
           className="flex items-center gap-2 hover:text-green-400"
         >
-          {checkAlreadyLiked() ? (
+          {checkAlreadyLiked({commentData : comment, userId: user?._id}) ? (
             <BiSolidLike size={"22"} color="#F44336" />
           ) : (
             <BiLike size={"22"} />
@@ -193,7 +194,7 @@ const Comment = ({ comment }) => {
           onClick={() => setDislikeCount(dislikeCount + 1)}
           className="flex items-center gap-2 hover:text-red-400"
         >
-          {checkDisLiked() ? (
+          {checkDisLiked({commentData : comment, userId : user?._id}) ? (
             <BiSolidDislike size={"22"} color="gray" />
           ) : (
             <BiDislike size={"22"} />
