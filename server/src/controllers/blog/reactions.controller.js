@@ -72,36 +72,7 @@ export const createReactionForBlog = asyncHandler(async (req, res, next) => {
   });
 });
 
-export const createReactionForComments = asyncHandler(
-  async (req, res, next) => {
-    const { commentId, reactionType } = req.body;
 
-    if (mongoose.isValidObjectId(commentId) == false) {
-      return next(new ErrorHandler('Please send valid comment id !', 400));
-    }
-
-    const existReaction = await CommentReactions.findOne({
-      commentId,
-      creator: req.user.id,
-    });
-    if (existReaction) {
-      await CommentReactions.updateOne(
-        { commentId, creator: req.user.id },
-        { $set: { reaction: reactionType } },
-      );
-    } else {
-      await CommentReactions.create({
-        commentId,
-        creator: req.user.id,
-        reaction: reactionType,
-      });
-    }
-    return res.status(200).json({
-      success: true,
-      message: 'Reaction created successfully for comment.',
-    })
-  },
-);
 
 export const getAllLikeAndCreatorForBlog = asyncHandler(
   async (req, res, next) => {
@@ -112,7 +83,7 @@ export const getAllLikeAndCreatorForBlog = asyncHandler(
 
     const blogReactions = await BlogReactions.aggregate([
       {
-        $match: { blogId : new mongoose.Types.ObjectId(blogId) },
+        $match: { blogId: new mongoose.Types.ObjectId(blogId) },
       },
       {
         $lookup: {
@@ -145,10 +116,10 @@ export const getAllLikeAndCreatorForBlog = asyncHandler(
       },
       {
         $project: {
-          count : 1,
+          count: 1,
           creator: 1,
           reaction: '$_id',
-          _id : 0
+          _id: 0,
         },
       },
     ]);
@@ -166,9 +137,12 @@ export const getAllCommentsForBlog = asyncHandler(async (req, res, next) => {
   const { page = 1, limit = 20 } = req.query;
   const skip = (page - 1) * limit;
 
-
   const commentData = await Comments.aggregate(
-    commentFindQuery({matchQuery : { blogId  : new mongoose.Types.ObjectId(blogId)}, skip, limit, })
+    commentFindQuery({
+      matchQuery: { blogId: new mongoose.Types.ObjectId(blogId) },
+      skip,
+      limit,
+    }),
   );
 
   return res.status(200).json({
@@ -178,7 +152,6 @@ export const getAllCommentsForBlog = asyncHandler(async (req, res, next) => {
   });
 });
 
-
 export const getReactionCreatorForComment = asyncHandler(
   async (req, res, next) => {
     const { id: commentId } = req.params;
@@ -187,7 +160,7 @@ export const getReactionCreatorForComment = asyncHandler(
     }
     const likeCreatorForComments = await CommentReactions.aggregate([
       {
-        $match: { commentId : new mongoose.Types.ObjectId(commentId) },
+        $match: { commentId: new mongoose.Types.ObjectId(commentId) },
       },
       {
         $lookup: {
@@ -223,7 +196,7 @@ export const getReactionCreatorForComment = asyncHandler(
           reaction: '$_id',
           creator: 1,
           count: 1,
-          _id : 0
+          _id: 0,
         },
       },
     ]);
@@ -240,10 +213,56 @@ export const getReactionCreatorForComment = asyncHandler(
 export const getSingleComment = async (commentId) => {
   try {
     const [commentData] = await Comments.aggregate(
-      commentFindQuery({matchQuery : {_id : new mongoose.Types.ObjectId(commentId)}, skip: 0, limit: 1})
-    )
-    return {success: true, commentData};
+      commentFindQuery({
+        matchQuery: { _id: new mongoose.Types.ObjectId(commentId) },
+        skip: 0,
+        limit: 1,
+      }),
+    );
+    return { success: true, commentData };
   } catch (error) {
-    return {success : false, commentData : error};
+    return { success: false, commentData: error };
   }
-}
+};
+
+//socket operation for creating reactions for comment
+export const createReactionForComments = async ({
+  reaction,
+  creator,
+  commentId,
+}) => {
+  if (mongoose.isValidObjectId(commentId) == false) {
+    return { success: false, message: 'Please send valid comment id !' };
+  }
+
+  const existReaction = await CommentReactions.findOne({
+    commentId,
+    creator,
+  });
+
+  try {
+    if (existReaction) {
+      if (reaction == 'none') {
+        await existReaction.deleteOne();
+        return {
+          success: true,
+          message: 'we create reaction for the comments',
+        };
+      }
+      await CommentReactions.updateOne(
+        { commentId, creator },
+        { $set: { reaction } },
+      );
+      return { success: true, message: 'we create reaction for the comments' };
+    } else {
+      await CommentReactions.create({
+        commentId,
+        creator,
+        reaction,
+      });
+      return { success: true, message: 'we create reaction for the comments' };
+    }
+  } catch (error) {
+    return { success: false, message: error };
+  }
+};

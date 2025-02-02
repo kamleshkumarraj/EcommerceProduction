@@ -2,6 +2,7 @@ import { createServer } from 'node:http';
 import { app } from './app.js';
 import { Server } from 'socket.io';
 import {
+  CREATE_REACTION_FOR_COMMENT,
   CREATE_REVIEW_RATING,
   DELETE_PRODUCT,
   JOIN_ROOM_FOR_BLOG,
@@ -165,6 +166,12 @@ io.on('connection', (socket) => {
       socket.emit(NEW_COMMENT_ADDED , {success : false, commentData: err})
     }
 
+  })
+
+  socket.on(CREATE_REACTION_FOR_COMMENT , async (payload) => {
+    const {commentId, reaction, creator} = payload
+    console.log(commentId, reaction, creator)
+    // first we perform db operation.
   })
 
   // handling event for when user is logged out.
