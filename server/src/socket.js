@@ -143,6 +143,7 @@ io.on('connection', (socket) => {
     socket.join(blogId);
     console.log('New user added in room for blog : ', socket.id);
   });
+
   socket.on(LEAVE_ROOM_FOR_BLOG, (blogId) => {
     socket.leave(blogId);
     console.log('User removed from room for blog : ', socket.id);
@@ -176,8 +177,12 @@ io.on('connection', (socket) => {
   socket.on(CREATE_REACTION_FOR_COMMENT, async (payload) => {
     try {
       const { commentId, reaction, creator, blogId } = payload;
-      if(!commentId || !reaction || !creator || !blogId){
-        return {success : false, message : 'Please fill all fields!' }
+      if (!commentId || !reaction || !creator || !blogId) {
+        socket.emit(CREATE_REACTION_FOR_COMMENT, {
+          success: false,
+          message: 'Please fill all fields!',
+        });
+        return;
       }
 
       // first we perform db operation we create reaction for comment.
@@ -186,29 +191,36 @@ io.on('connection', (socket) => {
         reaction,
         creator,
       });
-      
+
       // after creating reactions we send from fetching the db.
       if (success) {
         // code for fetching the db.
         const { success, commentData } = await getSingleComment(commentId);
-        if (success)
+        if (success) {
           io.to(blogId).emit(CREATE_REACTION_FOR_COMMENT, {
             success,
             commentData,
           });
-        else
+          return;
+        } else {
           socket.emit(CREATE_REACTION_FOR_COMMENT, {
             success: false,
             commentData,
           });
+          return;
+        }
       } else {
         socket.emit(CREATE_REACTION_FOR_COMMENT, {
           success: false,
           message,
         });
+        return;
       }
     } catch (error) {
-      socket.emit(CREATE_REACTION_FOR_COMMENT, {success : false, message : error?.message || error || "Something went wrong !"})
+      socket.emit(CREATE_REACTION_FOR_COMMENT, {
+        success: false,
+        message: error?.message || error || 'Something went wrong !',
+      });
     }
   });
 
