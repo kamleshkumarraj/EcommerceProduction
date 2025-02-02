@@ -3,6 +3,7 @@ import { app } from './app.js';
 import { Server } from 'socket.io';
 import {
   CREATE_REACTION_FOR_COMMENT,
+  CREATE_REPLY_FOR_COMMENT,
   CREATE_REVIEW_RATING,
   DELETE_PRODUCT,
   JOIN_ROOM_FOR_BLOG,
@@ -24,6 +25,7 @@ import {
   createReactionForComments,
   getSingleComment,
 } from './controllers/blog/reactions.controller.js';
+import { ReplyComments } from './models/blog/replyComment.model.js';
 
 export const server = createServer(app);
 
@@ -223,6 +225,43 @@ io.on('connection', (socket) => {
       });
     }
   });
+
+  socket.on(CREATE_REPLY_FOR_COMMENT , async (payload) => {
+    try {
+      const { commentId , reply , creator , blogId } = payload;
+
+      if (!commentId || !reply || !creator || !blogId) {
+        socket.emit(CREATE_REPLY_FOR_COMMENT, {
+          success: false,
+          message: 'Please fill all fields!',
+        });
+        return;
+      }
+      // first we perform db operation we create reply for comment.
+      await ReplyComments.create({commentId, reply, creator});
+      
+        // code for fetching the db.
+        const { success, commentData } = await getSingleComment(commentId);
+        if (success) {
+          io.to(blogId).emit(CREATE_REPLY_FOR_COMMENT, {
+            success,
+            commentData,
+          });
+          return;
+        } else {
+          socket.emit(CREATE_REPLY_FOR_COMMENT, {
+            success: false,
+            commentData,
+          });
+          return;
+        }
+    } catch (error) {
+      socket.emit(CREATE_REPLY_FOR_COMMENT, {
+        success: false,
+        message: error?.message || error || 'Something went wrong !',
+      });
+    }
+  })
 
   // handling event for when user is logged out.
   socket.on('disconnect', () => {
