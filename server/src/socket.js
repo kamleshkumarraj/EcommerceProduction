@@ -176,7 +176,9 @@ io.on('connection', (socket) => {
   socket.on(CREATE_REACTION_FOR_COMMENT, async (payload) => {
     try {
       const { commentId, reaction, creator, blogId } = payload;
-      console.log(commentId, reaction, creator);
+      if(!commentId || !reaction || !creator || !blogId){
+        return {success : false, message : 'Please fill all fields!' }
+      }
 
       // first we perform db operation we create reaction for comment.
       const { success, message } = await createReactionForComments({
