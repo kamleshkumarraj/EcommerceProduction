@@ -3,7 +3,7 @@ import gsap from "gsap";
 import ScrollTrigger from "gsap/src/ScrollTrigger";
 import React from "react";
 import { Link } from 'react-router-dom';
-import { useGetAllBlogsQuery } from "../../../store/slices/blogApi";
+import { useGetAllBlogsQuery, useLazyGetCategoriesWiseBlogsQuery } from "../../../store/slices/blogApi";
 import travelImg from '../..//assets/Images/travel.png';
 import codingImg from '../../assets/Images/coding.png';
 import cultureImg from '../../assets/Images/culture.png';
@@ -14,15 +14,9 @@ import styles from "./categoryList.module.css";
 
 const CategoryList =  () => {
   gsap.registerPlugin(ScrollTrigger)
-  const data = [
-    {_id : '1' , img : styleImg , title : 'Entertainment' , slug : 'style'},
-    {_id : '2' , img : fashionImg , title : 'Fashion', slug : 'fashion'},
-    {_id : '3' , img : foodImg , title : 'Food', slug : 'food'},
-    {_id : '4' , img : travelImg , title : 'Travel', slug : 'travel'},
-    {_id : '5' , img : cultureImg , title : 'Culture', slug : 'culture'},
-    {_id : '6' , img : codingImg , title : 'Coding', slug : 'coding'},
-  ];
-  const {data : allBlogs} = useGetAllBlogsQuery();
+  const [getCategoryWiseBlogs, {data, isLoading, isError}] = useLazyGetCategoriesWiseBlogsQuery();
+
+  
   useGSAP(() => {
     gsap.from('#category' , {
       y : -200,

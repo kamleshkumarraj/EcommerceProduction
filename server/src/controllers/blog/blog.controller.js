@@ -156,7 +156,7 @@ export const getAllBlogsDetailsCategoriesWise = asyncHandler(
         $group: {
           _id: '$category',
           count: { $sum: 1 },
-          thumbnail: { $push: '$thumbnail' },
+          thumbnail: { $first: '$thumbnail' },
         },
       },
       { $sort: { count: -1 } },
