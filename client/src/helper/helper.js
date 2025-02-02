@@ -67,7 +67,7 @@ export const checkAlreadyLiked = ({ commentData, userId }) => {
 export const checkDisLiked = ({ commentData, userId }) => {
   if (!userId) return false;
   const likeList = commentData?.commentReactions?.find(
-    (r) => r.reaction === "dislike" && r?.likeCreatorList?.includes(userId)
+    (r) => r.reaction === "dislike" && r?.dislikeCreatorList?.includes(userId)
   );
   return likeList ? true : false;
 };

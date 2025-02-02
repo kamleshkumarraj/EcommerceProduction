@@ -102,8 +102,7 @@ const CommentSection = () => {
       navigate("/login")
       return;
     }
-    socket.emit(CREATE_REACTION_FOR_COMMENT, {...payload, creator : user?._id});
-    console.log(payload)
+    socket.emit(CREATE_REACTION_FOR_COMMENT, {...payload, creator : user?._id,blogId});
   };
 
   const createReactionForReply = async () => {
@@ -177,7 +176,7 @@ const Comment = ({
     comment.commentReactions.find((r) => r.reaction === "like")?.count || 0
   );
   const user = useSelector(getSelf);
-  const [dislikeCount, setDislikeCount] = useState(0);
+  const [dislikeCount, setDislikeCount] = useState(comment.commentReactions.find((r) => r.reaction === "dislike")?.count || 0);
   const [showReplies, setShowReplies] = useState(false);
 
   return (
