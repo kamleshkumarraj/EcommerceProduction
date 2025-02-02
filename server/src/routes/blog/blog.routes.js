@@ -22,6 +22,7 @@ export const blogRouter = Router();
 blogRouter.route('/get-all').get(getAllBlogs);
 blogRouter.route('/get/:category').get(getCategoryBlog);
 blogRouter.route('/single/:id').get(getSingleBlog)
+blogRouter.route('/get-blogs-categories-wise').get(getAllBlogsDetailsCategoriesWise)
 
 blogRouter.use(isLoggedIn);
 
@@ -41,6 +42,6 @@ blogRouter.route('/get-my-created-blog').get(getMyCreatedBlog);
 
 blogRouter.route('/delete/:blogId').delete(deleteBlog);
 
-blogRouter.route('/get-blogs-categories-wise').get(getAllBlogsDetailsCategoriesWise)
+
 
 
