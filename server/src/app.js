@@ -28,7 +28,7 @@ app.use(
 
 
 app.use(cors({
-  origin: ['http://localhost:5174', 'http://localhost:5173'],  // Allow your frontend domain
+  origin: ['http://localhost:5174', 'http://localhost:5173', "https://ecommerce-production-omega.vercel.app/"],  // Allow your frontend domain
   credentials: true                            // Allow cookies to be sent
 }));
 
