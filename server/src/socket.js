@@ -35,6 +35,7 @@ export const io = new Server(server, {
       'http://localhost:3000',
       'http://localhost:5173',
       'http://localhost:5174',
+      "https://ecommerce-production-omega.vercel.app/"
     ],
     credentials: true,
   },
