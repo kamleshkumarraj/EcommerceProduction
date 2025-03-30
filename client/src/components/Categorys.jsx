@@ -1,28 +1,29 @@
-import  { useContext, useEffect, useState } from 'react'
+import { useContext } from 'react'
 import Carousel from 'react-multi-carousel'
 import 'react-multi-carousel/lib/styles.css'
-import { useDispatch } from 'react-redux'
-import { Link , useNavigate } from 'react-router-dom'
-import { apiCalling } from '../api/apiCalling.api'
+import { useSelector } from 'react-redux'
+import { Link, useNavigate } from 'react-router-dom'
 import { GlobalContext } from '../contexts/GlobalProvider'
+import { getAllCategories } from '../store/slices/productsHandler.slice'
 
 const Categorys = () => {
-    const [categories , setCategories] = useState([])
-    const  dispatch = useDispatch()
+    const categories = useSelector(getAllCategories)
+    // const  dispatch = useDispatch()
     const navigate = useNavigate();
     const {setSearchQuery , setEventLoading} = useContext(GlobalContext)
-    useEffect(() => {
-        const options = {
-            method : "GET",
-            url : "http://localhost:2000/api/v2/products/get-categories"
-        }
-        ;(async function getCategories(){
-            const response = await dispatch(apiCalling(options))
-            if(response?.success){
-                setCategories(response?.data)
-            }else console.log("Get error during fetching the category !")
-        })()
-    },[])
+    console.log(categories)
+    // useEffect(() => {
+    //     const options = {
+    //         method : "GET",
+    //         url : "http://localhost:2000/api/v2/products/get-categories"
+    //     }
+    //     ;(async function getCategories(){
+    //         const response = await dispatch(apiCalling(options))
+    //         if(response?.success){
+    //             setCategories(response?.data)
+    //         }else console.log("Get error during fetching the category !")
+    //     })()
+    // },[])
     
     const responsive = {
         superLargeDesktop: {

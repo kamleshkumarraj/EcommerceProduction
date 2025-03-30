@@ -13,8 +13,9 @@ import TestimonialSection from "../components/body/TestomonialSection";
 import TopRatedProductsBody from "../components/body/TopRatedProductsBody";
 import TradingProductsBody from "../components/body/TradingProductsBody";
 import { GlobalContext } from "../contexts/GlobalProvider";
-import { useSocket } from "../contexts/Socket";
 import { DELETE_PRODUCT, NEW_PRODUCT_ADDED } from "../events";
+import { useHandleSocket } from "../hooks/useHandleSocket";
+import { deleteSingleProductsInStore } from "../store/reducers";
 import {
   getDiscountedProducts,
   getLatestProducts,
@@ -26,8 +27,6 @@ import {
   setTopRatedProducts
 } from "../store/slices/productsHandler.slice";
 import { useGetUserTotalProductsQuery } from "../store/slices/userApi";
-import { useHandleSocket } from "../hooks/useHandleSocket";
-import { deleteSingleProductsInStore } from "../store/reducers";
 
 const Home = () => {
   const topRated_product = useSelector(getTopRatedProducts);

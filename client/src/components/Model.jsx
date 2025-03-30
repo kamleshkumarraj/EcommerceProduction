@@ -1,6 +1,7 @@
 // NewsletterModal.jsx
 import { useEffect, useState } from "react";
 import { RxCross1 } from "react-icons/rx";
+import modelImage from '../assets/Img/modalImg.jpg';
 
 const NewsletterModal = () => {
   const [isVisible, setIsVisible] = useState(false);
@@ -22,7 +23,7 @@ const NewsletterModal = () => {
         {/* Image Section */}
         <div className="w-[45%]">
           <img
-            src="https://ecomarts.aipdfquery.com/assets/images/modal/common-modal.jpg"
+            src={modelImage}
             alt="Newsletter"
             className="object-cover w-full h-full rounded-lg"
           />

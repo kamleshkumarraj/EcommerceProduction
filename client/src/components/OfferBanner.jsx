@@ -1,5 +1,6 @@
 import { Link } from "react-router-dom";
 import { useCountDown } from "../hooks/useCountDown";
+import offerImg from '../assets/Img/offerImg.png'
 
 const OfferBanner = () => {
   const { days, hours, minutes, seconds } = useCountDown();
@@ -9,9 +10,9 @@ const OfferBanner = () => {
       {/* Image Section */}
       <div className="flex self-end flex-1 mt-auto">
         <img
-          src="https://ecomarts.aipdfquery.com/assets/images/offer/offerThumb2_1.png" // Replace with the actual image URL
+          src={offerImg} // Replace with the actual image URL
           alt="Clearance Sale"
-          className="self-end rounded-lg"
+          className="self-end rounded-lg w-[50rem]"
         />
       </div>
 

@@ -1,4 +1,5 @@
 import { Link } from "react-router-dom"
+import PropTypes from "prop-types"
 
 function CategoryCard({blog}) {
   return (
@@ -57,3 +58,22 @@ export const TechonologyCard = ({blog , imgWidth, imgHeight , headingSize , lead
     </Link>
   )
 }
+
+TechonologyCard.propTypes = {
+  blog : PropTypes.object,
+  imgWidth : PropTypes.string,
+  imgHeight : PropTypes.string,
+  headingSize : PropTypes.string,
+  leadingSize : PropTypes.string
+}
+
+ImageWithInTextCard.propTypes = {
+  blog : PropTypes.object,
+}
+WithoutImageCard.propTypes = {
+  blog : PropTypes.object,
+}
+CategoryCard.propTypes = {
+  blog : PropTypes.object,
+}
+
