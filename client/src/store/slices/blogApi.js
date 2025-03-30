@@ -3,9 +3,9 @@ import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 export const blogApi = createApi({
   reducerPath: "blogApi",
   baseQuery: fetchBaseQuery({
-    baseUrl: "http://localhost:2000/api/v2",
+    baseUrl: "https://ecommerceproduction.onrender.com/api/v2",
   }),
-  tagTypes: ["getAllBlogs", "createBlogs","getAllCommentsForBlog"],
+  tagTypes: ["getAllBlogs", "createBlogs", "getAllCommentsForBlog"],
   endpoints: (builder) => ({
     // all endpoint related from reactions for blogs and products-blogs.
     createComment: builder.mutation({
@@ -15,7 +15,7 @@ export const blogApi = createApi({
         method: "POST",
         body: data,
       }),
-      invalidatesTags : ['getAllCommentsForBlog']
+      invalidatesTags: ["getAllCommentsForBlog"],
     }),
 
     createReactionForComments: builder.mutation({
@@ -54,7 +54,7 @@ export const blogApi = createApi({
       transformResponse: (res) => {
         return res.data;
       },
-      providesTags : ['getAllCommentsForBlog']
+      providesTags: ["getAllCommentsForBlog"],
     }),
 
     getReactionForBlog: builder.query({

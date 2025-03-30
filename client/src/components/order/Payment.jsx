@@ -17,7 +17,7 @@ function Payment({ checkPaymentClick, orderItems, cartTotal }) {
   const selectedAddress = useSelector(getSelectedAddress);
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const user = useSelector(getSelf)
+  const user = useSelector(getSelf);
   const payload = useMemo(() => {
     const orderItem = orderItems?.map((item) => {
       return {
@@ -38,68 +38,72 @@ function Payment({ checkPaymentClick, orderItems, cartTotal }) {
       paymentMethod,
     };
   }, [paymentMethod, orderItems, cartTotal, selectedAddress]);
-  
 
   const deletableProducts = orderItems?.map((order) => order?._id);
   const [createOrderOnRazor] = useCheckoutOrderMutation();
   const [getRazorApiKey] = useLazyGetRazorAPIKeyQuery();
 
   const checkoutProducts = async () => {
-    const {data : razor_key} = await getRazorApiKey();
-    const {data : razorRes} = await createOrderOnRazor(payload);
-    console.log(razorRes)
+    const { data: razor_key } = await getRazorApiKey();
+    const { data: razorRes } = await createOrderOnRazor(payload);
+    console.log(razorRes);
 
     const options = {
-      "key": razor_key, // Enter the Key ID generated from the Dashboard
-      "amount": razorRes.amount, // Amount is in currency subunits. Default currency is INR. Hence, 50000 refers to 50000 paise
-      "currency": "INR",
-      "name": "My Ecomart Platform",
-      "description": "Test Transaction",
-      "image": user?.avatar?.url,
-      "order_id": razorRes.id, 
-      "prefill": {
-          "name": user?.firstname + " " + user?.lastname,
-          "email": user?.email,
-          "contact": "8603416388"
+      key: razor_key, // Enter the Key ID generated from the Dashboard
+      amount: razorRes.amount, // Amount is in currency subunits. Default currency is INR. Hence, 50000 refers to 50000 paise
+      currency: "INR",
+      name: "My Ecomart Platform",
+      description: "Test Transaction",
+      image: user?.avatar?.url,
+      order_id: razorRes.id,
+      prefill: {
+        name: user?.firstname + " " + user?.lastname,
+        email: user?.email,
+        contact: "8603416388",
       },
-      "notes": {
-          "address": "Razorpay Corporate Office"
+      notes: {
+        address: "Razorpay Corporate Office",
       },
-      "theme": {
-          "color": "#3399cc"
+      theme: {
+        color: "#3399cc",
       },
       handler: async function (response) {
         console.log("Payment Response:", response);
-    
+
         // ✅ Send Payment Data to Backend
-        const verifyRes = await fetch("http://localhost:2000/api/v2/user/order/verify-order", {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({
-            razorpay_payment_id: response.razorpay_payment_id,
-            razorpay_order_id: response.razorpay_order_id,
-            razorpay_signature: response.razorpay_signature,
-          }),
-        });
-    
+        const verifyRes = await fetch(
+          "https://ecommerceproduction.onrender.com/api/v2/user/order/verify-order",
+          {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+              razorpay_payment_id: response.razorpay_payment_id,
+              razorpay_order_id: response.razorpay_order_id,
+              razorpay_signature: response.razorpay_signature,
+            }),
+          }
+        );
+
         const result = await verifyRes.json();
-        if(result?.success){
-          toast.success(result?.message || "Order has been successfully placed .");
+        if (result?.success) {
+          toast.success(
+            result?.message || "Order has been successfully placed ."
+          );
           navigate("/order-confirmation");
           fetchOrder(dispatch);
           fetchRemoveMultipleCartItems({
             dispatch,
             cartIdList: deletableProducts,
           });
-        }else{
+        } else {
           toast.error(result?.message || "Payment verification is failed !");
         }
       },
-  };
-  const razor = new window.Razorpay(options);
-  razor.open()
+    };
+    const razor = new window.Razorpay(options);
+    razor.open();
   };
 
   return (
@@ -161,35 +165,33 @@ function Payment({ checkPaymentClick, orderItems, cartTotal }) {
         </div>
       )}
 
-      {((paymentMethod == "cash" ||
-        paymentMethod == "online") && (
-          <div
-            id="place-rder-button"
-            className="flex px-4 py-2 bg-white mt-[10px] justify-between items-center"
+      {(paymentMethod == "cash" || paymentMethod == "online") && (
+        <div
+          id="place-rder-button"
+          className="flex px-4 py-2 bg-white mt-[10px] justify-between items-center"
+        >
+          <h1 className="text-[16px] font-[500] text-gray-600">
+            After clicking the confirm order your order will be confirmed.
+          </h1>
+          <p
+            onClick={() => {
+              if (paymentMethod == "cash") {
+                fetchCreateOrder({ dispatch, payload });
+                fetchRemoveMultipleCartItems({
+                  dispatch,
+                  cartIdList: deletableProducts,
+                });
+                navigate("/order-confirmation");
+              } else if (paymentMethod == "online") {
+                checkoutProducts();
+              }
+            }}
+            className="px-[60px] py-[15px] bg-[#FB641B] text-center text-white font-700 text-[18px] cursor-pointer hover:bg-[#FB641B] hover:text-white"
           >
-            <h1 className="text-[16px] font-[500] text-gray-600">
-              After clicking the confirm order your order will be confirmed.
-            </h1>
-            <p
-              onClick={() => {
-                if (paymentMethod == "cash") {
-                  fetchCreateOrder({ dispatch, payload });
-                  fetchRemoveMultipleCartItems({
-                    dispatch,
-                    cartIdList: deletableProducts,
-                  });
-                  navigate("/order-confirmation");
-                } else if (paymentMethod == "online") {
-                  checkoutProducts();
-
-                }
-              }}
-              className="px-[60px] py-[15px] bg-[#FB641B] text-center text-white font-700 text-[18px] cursor-pointer hover:bg-[#FB641B] hover:text-white"
-            >
-              CONFIRM ORDER
-            </p>
-          </div>
-        ))}
+            CONFIRM ORDER
+          </p>
+        </div>
+      )}
     </div>
   );
 }

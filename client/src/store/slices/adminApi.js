@@ -3,7 +3,7 @@ import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 export const adminApi = createApi({
   reducerPath: "adminApi",
   baseQuery: fetchBaseQuery({
-    baseUrl: "http://localhost:2000/api/v2/admin",
+    baseUrl: `${import.meta.env.VITE_API_URL}/api/v2/admin`,
   }),
   tagTypes: ["getSalesData", "getUsersData", "getProductsData", "getOrdersData", "getSingleOrdersData"],
 

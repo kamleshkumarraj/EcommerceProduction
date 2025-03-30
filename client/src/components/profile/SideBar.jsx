@@ -2,9 +2,9 @@
 import { AiOutlineUser } from "react-icons/ai";
 import { CiHeart } from "react-icons/ci";
 import { FiLogOut } from "react-icons/fi";
-import axios from 'axios'
+import axios from "axios";
 import { Link } from "react-router-dom";
-import {toast} from 'react-toastify'
+import { toast } from "react-toastify";
 import { useDispatch, useSelector } from "react-redux";
 import { getSelf, setUser } from "../../store/slices/selfHandler.slice";
 import { MdOutlineAddLocationAlt } from "react-icons/md";
@@ -22,28 +22,38 @@ const Sidebar = () => {
   const socket = useSocket();
   const logoutHandler = async () => {
     const options = {
-      method : "GET",
-      url : "http://localhost:2000/api/v2/auth/logout",
-    
-    }
-    const toastId = toast.loading("Signing out...")
+      method: "GET",
+      url: "https://ecommerceproduction.onrender.com/api/v2/auth/logout",
+    };
+    const toastId = toast.loading("Signing out...");
     try {
       const response = await dispatch(apiCalling(options));
       console.log(response);
-      if(response?.success){
-        socket.emit(LOGOUT_EVENT , userData)
-        toastUpdate({toastId , message : response?.message || "User logged out successfully" , type : "success"})
-        dispatch(setUser(null))
-        dispatch(setAllCarts([]))
-        dispatch(setAllWishlists([]))
-        
-      }else{
-        toastUpdate({toastId , message : response?.message || "Something went wrong" , type : "error"})
+      if (response?.success) {
+        socket.emit(LOGOUT_EVENT, userData);
+        toastUpdate({
+          toastId,
+          message: response?.message || "User logged out successfully",
+          type: "success",
+        });
+        dispatch(setUser(null));
+        dispatch(setAllCarts([]));
+        dispatch(setAllWishlists([]));
+      } else {
+        toastUpdate({
+          toastId,
+          message: response?.message || "Something went wrong",
+          type: "error",
+        });
       }
     } catch (error) {
-      toastUpdate({toastId , message : error || "Something went wrong" , type : "error"})
+      toastUpdate({
+        toastId,
+        message: error || "Something went wrong",
+        type: "error",
+      });
     }
-  }
+  };
   return (
     <div className="sticky w-full mb-8 ">
       <div className="p-6 ml-5 bg-white rounded-lg shadow-lg">

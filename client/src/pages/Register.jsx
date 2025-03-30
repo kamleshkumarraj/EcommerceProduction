@@ -51,21 +51,29 @@ const SignUp = () => {
     console.log(formData);
     e.preventDefault();
     const options = {
-      url: "http://localhost:2000/api/v2/auth/register",
+      url: "https://ecommerceproduction.onrender.com/api/v2/auth/register",
       method: "POST",
       formData,
       contentType: "multipart/form-data",
     };
-    const toastId = toast.loading("Creating account ...")
+    const toastId = toast.loading("Creating account ...");
     const data = await dispatch(apiCalling(options));
 
     if (data.success) {
-      toastUpdate({toastId , message : data.message || "Account created successfully" , type : "success"})
-      socket.emit(NEW_USER_REGISTERED , data?.data)
+      toastUpdate({
+        toastId,
+        message: data.message || "Account created successfully",
+        type: "success",
+      });
+      socket.emit(NEW_USER_REGISTERED, data?.data);
       navigate("/login");
       dispatch(setUser(data.user));
     } else {
-      toastUpdate({toastId , message : data.message || "Something went wrong" , type : "error"})
+      toastUpdate({
+        toastId,
+        message: data.message || "Something went wrong",
+        type: "error",
+      });
     }
   };
 
@@ -114,7 +122,7 @@ const SignUp = () => {
                 <form
                   method="post"
                   encType="multipart/form-data"
-                  action="http://localhost:2000/api/v1/auth/register"
+                  action="https://ecommerceproduction.onrender.com/api/v1/auth/register"
                 >
                   <div className="relative flex flex-col space-y-10 lg:space-y-8 xl:space-y-4">
                     <div id="upload-file">

@@ -36,7 +36,7 @@ const Cart = () => {
 
   const removeCartItem = async (_id) => {
     const options = {
-      url: `http://localhost:2000/api/v2/user/cart/remove/${_id}`,
+      url: `https://ecommerceproduction.onrender.com/api/v2/user/cart/remove/${_id}`,
       method: "DELETE",
     };
     const response = await dispatch(apiCalling(options));
@@ -51,7 +51,7 @@ const Cart = () => {
   // now we write code for incrementing the cart quantity.
   const increamentCartQty = async (_id) => {
     const options = {
-      url: `http://localhost:2000/api/v2/user/cart/increase/${_id}`,
+      url: `https://ecommerceproduction.onrender.com/api/v2/user/cart/increase/${_id}`,
       method: "PATCH",
     };
     const response = await dispatch(apiCalling(options));
@@ -65,19 +65,18 @@ const Cart = () => {
   };
 
   const decreamentCartQty = async (_id, qty) => {
-
     const options = {
-      url: `http://localhost:2000/api/v2/user/cart/decrease/${_id}`,
+      url: `https://ecommerceproduction.onrender.com/api/v2/user/cart/decrease/${_id}`,
       method: "PATCH",
     };
     const response = await dispatch(apiCalling(options));
     if (response?.success) {
-      if (qty == 1){
+      if (qty == 1) {
         toast.success("Product is removed from cart list successfully.");
-        getAllCart(dispatch, user)
-      }
-      else {toast.success(response?.message || "Quantity is decreased by 1");
-        getAllCart(dispatch, user)
+        getAllCart(dispatch, user);
+      } else {
+        toast.success(response?.message || "Quantity is decreased by 1");
+        getAllCart(dispatch, user);
       }
     } else {
       toast.error(response?.message || "Quantity is not decreased !");
@@ -142,63 +141,81 @@ const Cart = () => {
           ) : (
             cartItems &&
             cartItems.length > 0 &&
-            cartItems.map(({ _id, thumbnail, price, quantity, title, availabilityStatus }) => (
-              <div
-                key={_id}
-                className="flex items-center justify-between py-4 border-b"
-              >
-                <div id="img" className="w-[150px]">
-                  <img className="" src={thumbnail} alt="cart-image" />
-                </div>
-                <div className="flex-grow px-4">
-                  <p className="font-semibold">{title}</p>
-                  <p className="text-[14px] text-gray-600">
-                    Price : ${price?.toFixed(2)}
-                  </p>
-                  <p className={`${availabilityStatus == 'available' ? 'text-green-600' : 'text-red-600'} text-[16px] font-[500]`} id="stock-status">
-                  {availabilityStatus == 'available' ? 'In stock' : 'Out of Stock'}
-                </p>
-                </div>
-                <p className="text-[1.8rem] font-bold lg:pr-[100px]">
-                  ${(price * quantity)?.toFixed(2)}
-                </p>
-                
+            cartItems.map(
+              ({
+                _id,
+                thumbnail,
+                price,
+                quantity,
+                title,
+                availabilityStatus,
+              }) => (
                 <div
-                  id="quantity"
-                  className="flex gap-[1rem] justify-center pr-[1rem] items-center"
+                  key={_id}
+                  className="flex items-center justify-between py-4 border-b"
                 >
-                  <div
-                    id="decreaseBtn"
-                    className="font-[600] text-[28px] p-[5px] grid place-content-center py-[-2rem] border-[1px] rounded-[.5rem] hover:cursor-pointer"
-                    onClick={() => {
-                      decreamentCartQty(_id, quantity);
-                    }}
-                  >
-                    {" "}
-                    <FiMinus size={"20px"} />{" "}
+                  <div id="img" className="w-[150px]">
+                    <img className="" src={thumbnail} alt="cart-image" />
                   </div>
-                  <p className="text-[18px] font-[600]">{quantity}</p>
-                  <div
-                    id="increaseBtn"
-                    className="font-[600] text-[28px] p-[5px] grid place-content-center py-[-2px] border-[1px] rounded-[.5rem] hover:cursor-pointer"
-                    onClick={() => {
-                      increamentCartQty(_id);
-                    }}
-                  >
-                    <FiPlus size={"20px"} />
+                  <div className="flex-grow px-4">
+                    <p className="font-semibold">{title}</p>
+                    <p className="text-[14px] text-gray-600">
+                      Price : ${price?.toFixed(2)}
+                    </p>
+                    <p
+                      className={`${
+                        availabilityStatus == "available"
+                          ? "text-green-600"
+                          : "text-red-600"
+                      } text-[16px] font-[500]`}
+                      id="stock-status"
+                    >
+                      {availabilityStatus == "available"
+                        ? "In stock"
+                        : "Out of Stock"}
+                    </p>
                   </div>
+                  <p className="text-[1.8rem] font-bold lg:pr-[100px]">
+                    ${(price * quantity)?.toFixed(2)}
+                  </p>
+
+                  <div
+                    id="quantity"
+                    className="flex gap-[1rem] justify-center pr-[1rem] items-center"
+                  >
+                    <div
+                      id="decreaseBtn"
+                      className="font-[600] text-[28px] p-[5px] grid place-content-center py-[-2rem] border-[1px] rounded-[.5rem] hover:cursor-pointer"
+                      onClick={() => {
+                        decreamentCartQty(_id, quantity);
+                      }}
+                    >
+                      {" "}
+                      <FiMinus size={"20px"} />{" "}
+                    </div>
+                    <p className="text-[18px] font-[600]">{quantity}</p>
+                    <div
+                      id="increaseBtn"
+                      className="font-[600] text-[28px] p-[5px] grid place-content-center py-[-2px] border-[1px] rounded-[.5rem] hover:cursor-pointer"
+                      onClick={() => {
+                        increamentCartQty(_id);
+                      }}
+                    >
+                      <FiPlus size={"20px"} />
+                    </div>
+                  </div>
+                  <button
+                    onClick={() => {
+                      dispatch(removeCartItems({ _id }));
+                      removeCartItem(_id);
+                    }}
+                    className=" w-[30px] h-[30px] mx-[20px] rounded-[50%] bg-red-500 text-white hover:underline"
+                  >
+                    X
+                  </button>
                 </div>
-                <button
-                  onClick={() => {
-                    dispatch(removeCartItems({ _id }));
-                    removeCartItem(_id);
-                  }}
-                  className=" w-[30px] h-[30px] mx-[20px] rounded-[50%] bg-red-500 text-white hover:underline"
-                >
-                  X
-                </button>
-              </div>
-            ))
+              )
+            )
           )}
         </div>
 
@@ -224,7 +241,12 @@ const Cart = () => {
 
           <Link
             to={"/checkout"}
-            state={{ cartTotal, orderedProducts: cartItems.filter(product => product.availabilityStatus == "available") }}
+            state={{
+              cartTotal,
+              orderedProducts: cartItems.filter(
+                (product) => product.availabilityStatus == "available"
+              ),
+            }}
           >
             <button className="w-full py-3 bg-black text-white font-semibold mb-4 rounded-[8px]">
               Checkout

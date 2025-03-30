@@ -6,7 +6,9 @@ export const storetokenAndGetJWT = (res,user,statusCode) =>{
         expires : new Date(
             Date.now() + process.env.TOKEN_EXPIRY*60*60*1000
         ),
-        httpOnly: true, 
+        httpOnly: true,
+        sameSite : "None",
+        secure : process.env.DEVELOPMENT == 'true' ? false : true 
        
     }
     //code for store tocken in cookie and then send the request for client.

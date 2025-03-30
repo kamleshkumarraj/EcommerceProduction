@@ -1,0 +1,8 @@
+/node_modules/
+/server/src/.env
+/src/.env
+.env
+/*/.env
+/*/*/.env
+/node_modules
+.qodo

@@ -32,7 +32,7 @@ const SignIn = () => {
     };
     console.log(data);
     const options = {
-      url: "http://localhost:2000/api/v2/auth/login",
+      url: "https://ecommerceproduction.onrender.com/api/v2/auth/login",
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -44,7 +44,7 @@ const SignIn = () => {
       console.log(response);
       dispatch(setUser(response.user));
       toast.success(response.message);
-      socket.emit(LOGIN_EVENT , response?.user)
+      socket.emit(LOGIN_EVENT, response?.user);
       navigate("/");
     } else {
       toast.error(response?.message);

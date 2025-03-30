@@ -30,7 +30,7 @@ function App() {
   //     })()
   //   }else return
   // }, [totalProductsImages]);
-
+  console.log("hello ", import.meta.env.VITE_API_URL)
   useEffect(() => {
     setTimeout(() => {
       setInitialLoading(false);
@@ -41,7 +41,7 @@ function App() {
   useEffect(() => {
     (async function getAllCategories() {
       const options = {
-        url: "http://localhost:2000/api/v2/common/products/get-categories",
+        url: `${import.meta.env.VITE_API_URL}/api/v2/common/products/get-categories`,
         method: "GET",
       };
       const response = await dispatch(apiCalling(options));
