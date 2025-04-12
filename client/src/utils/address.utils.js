@@ -4,7 +4,7 @@ import { removeAddress, setAllAddress, updateAddress, updateSelectAddressStatus 
 
 export const fetchAllAddress = async (dispatch) => {
     const options = {
-        url : "http://localhost:2000/api/v2/user/address/get",
+        url : "https://ecommerceproduction.onrender.com/api/v2/user/address/get",
         method : "GET",
     }
     const response = await dispatch(apiCalling(options))
@@ -18,7 +18,7 @@ export const fetchAllAddress = async (dispatch) => {
 export const fetchRemoveAddress = async (dispatch , _id) => {
     dispatch(removeAddress({_id}))
     const options = {
-        url : `http://localhost:2000/api/v2/user/address/remove/${_id}`,
+        url : `https://ecommerceproduction.onrender.com/api/v2/user/address/remove/${_id}`,
         method : "DELETE",
     }
     const response = await dispatch(apiCalling(options))
@@ -35,7 +35,7 @@ export const fetchUpdateAddress = async ({dispatch , address , _id}) => {
     console.log(address)
     const options = {
         method : "PATCH",
-        url : `http://localhost:2000/api/v2/user/address/update/${_id}`,
+        url : `https://ecommerceproduction.onrender.com/api/v2/user/address/update/${_id}`,
         formData : address
     }
     const response = await dispatch(apiCalling(options))
@@ -51,7 +51,7 @@ export const fetchUpdateAddress = async ({dispatch , address , _id}) => {
 export const fetchAddAddress = async (dispatch , address) => {
     const options = {
         method : "POST",
-        url : "http://localhost:2000/api/v2/user/address/add",
+        url : "https://ecommerceproduction.onrender.com/api/v2/user/address/add",
         formData : address
     }
     const response = await dispatch(apiCalling(options))
@@ -69,7 +69,7 @@ export const fetchUpdateSelectedAddress = async ({dispatch , prevAddr , currAddr
     dispatch(updateSelectAddressStatus({prev_id : prevAddr._id , curr_id : currAddr._id}))
 
     const options = {
-        url : `http://localhost:2000/api/v2/user/address/update-status/${prevAddr._id}/${currAddr._id}`,
+        url : `https://ecommerceproduction.onrender.com/api/v2/user/address/update-status/${prevAddr._id}/${currAddr._id}`,
         method : "PATCH"
     }
 
