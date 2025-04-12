@@ -41,39 +41,38 @@ const Banner = () => {
     },
   };
   return (
-    <div className="w-full md:mt-[60px]">
-  <div className="w-[98%] mx-auto">
-    <div className="flex flex-wrap w-full md:gap-[32px]">
-      <div className="w-full">
-        <div className="my-[80px]">
-          <Carousel
-            autoPlay={true}
-            infinite={true}
-            arrows={true}
-            responsive={responsive}
-          >
-            {banners &&
-              banners.length > 0 &&
-              banners.map((b, i) => (
-                <Link
-                  className="block w-full h-auto md:h-[440px]"
-                  key={i}
-                  to={``}
-                >
-                  <img
-                    className="w-full h-[50vh] object-cover"
-                    src={b.banner}
-                    alt=""
-                  />
-                </Link>
-              ))}
-          </Carousel>
+    <div className="w-full md-lg:mt-6">
+      <div className="w-[98%]  mx-auto">
+        <div className="flex flex-wrap w-full md-lg:gap-[3.2rem]">
+          <div className="w-full">
+            <div className="my-8">
+              <Carousel
+                autoPlay={true}
+                infinite={true}
+                arrows={true}
+                responsive={responsive}
+              >
+                {banners &&
+                  banners.length > 0 &&
+                  banners.map((b, i) => (
+                    <Link
+                      className="lg-md:h-[440px] h-auto w-full block"
+                      key={i}
+                      to={``}
+                    >
+                      <img
+                        className="2xl:h-[50vh] xl:h-[45vh] lg:h-[40vh] md:h-[35vh] sm:h-[32vh] h-[28vh] w-[100%]"
+                        src={b.banner}
+                        alt=""
+                      />
+                    </Link>
+                  ))}
+              </Carousel>
+            </div>
+          </div>
         </div>
       </div>
     </div>
-  </div>
-</div>
-
   );
 };
 

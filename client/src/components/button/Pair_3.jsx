@@ -24,9 +24,9 @@ function Pair_3({ item, bgColor }) {
   const navigate = useNavigate();
 
   return (
-    <div id="button" className="flex text-black gap-[20px]">
+    <div id="button" className="flex text-black 2xl:gap-[20px] gap-[10px] lg:ga-[15px] sm:gap-[12px]">
       <div
-        className={`p-[10px] text-center rounded-full ${bgColor} border hover:cursor-pointer text-black hover:bg-[#ff3f35fa] hover:text-white`}
+        className={`2xl:p-[10px] md:p-[7px] p-[5px] text-center rounded-full ${bgColor} border hover:cursor-pointer text-black hover:bg-[#ff3f35fa] hover:text-white`}
       >
         {checkAvailibility(wishlist, item) ? (
           <p
@@ -68,7 +68,7 @@ function Pair_3({ item, bgColor }) {
                 setEventLoading
               );
             }}
-            className={`p-[10px] text-center rounded-full hover:cursor-pointer ${bgColor} border hover:bg-[#ff3f35fa] hover:text-white`}
+            className={`p-[5px] 2xl:p-[10px] md:p-[7px] text-center rounded-full hover:cursor-pointer ${bgColor} border hover:bg-[#ff3f35fa] hover:text-white`}
           >
             <TbGardenCartOff size={20} />{" "}
           </p>
@@ -77,7 +77,7 @@ function Pair_3({ item, bgColor }) {
             onClick={() => {
               addToCart(item?._id, dispatch, user, setEventLoading);
             }}
-            className={`p-[10px] text-center rounded-full hover:cursor-pointer ${bgColor} border hover:bg-[#ff3f35fa] hover:text-white`}
+            className={`p-[5px] 2xl:p-[10px] md:p-[7px] text-center rounded-full hover:cursor-pointer ${bgColor} border hover:bg-[#ff3f35fa] hover:text-white`}
           >
             <BsCart3 size={20} />{" "}
           </p>
@@ -94,7 +94,7 @@ function Pair_3({ item, bgColor }) {
             setEventLoading(false);
           }, 500);
         }}
-        className={`p-[10px] text-center rounded-full hover:cursor-pointer ${bgColor} border hover:bg-[#ff3f35fa] hover:text-white`}
+        className={`2xl:p-[10px] md:p-[7px] p-[5px] text-center rounded-full hover:cursor-pointer ${bgColor} border hover:bg-[#ff3f35fa] hover:text-white`}
       >
         <FaRegEye size={20} />{" "}
       </Link>
