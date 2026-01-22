@@ -69,8 +69,6 @@ const Home = () => {
   
   return (
     <div className="w-full">
-      
-    
       <div  id="hero-section">
         <Banner />
         <div className="my-4">

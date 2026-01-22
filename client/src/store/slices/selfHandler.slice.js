@@ -7,7 +7,7 @@ const slice  = createSlice({
         setUser : (state , action) => {
             state.user = action.payload;
         },
-        resetUser : (state, action) => {
+        resetUser : (state, _) => {
             state.user = undefined
         }
 
