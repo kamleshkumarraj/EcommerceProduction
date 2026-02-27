@@ -1,7 +1,7 @@
 ############################
 # Stage 1: Build React App
 ############################
-FROM node:20-alpine AS build
+FROM node:current-alpine3.23 AS build
 
 # Set working directory
 WORKDIR /app
@@ -22,7 +22,7 @@ RUN npm run build
 ############################
 # Stage 2: Nginx for Production
 ############################
-FROM nginx:1.25-alpine AS production
+FROM nginx:latest AS production
 
 # Remove default nginx static assets
 RUN rm -rf /usr/share/nginx/html/*
