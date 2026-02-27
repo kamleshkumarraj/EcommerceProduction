@@ -1,5 +1,5 @@
 # ---------- Build Stage ----------
-FROM node:current-alpine3.23 AS builder
+FROM node:18-alpine AS builder
 
 WORKDIR /app
 
@@ -13,7 +13,7 @@ RUN npm ci --only=production
 COPY . .
 
 # ---------- Runtime Stage ----------
-FROM node:current-alpine3.23
+FROM node:18-alpine
 
 # Create non-root user
 RUN addgroup -S nodegroup && adduser -S nodeuser -G nodegroup
