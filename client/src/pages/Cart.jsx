@@ -36,7 +36,7 @@ const Cart = () => {
 
   const removeCartItem = async (_id) => {
     const options = {
-      url: `http://internal-backend-internal-alb-1173943540.ap-south-1.elb.amazonaws.com/api/v2/user/cart/remove/${_id}`,
+      url: `http://frontend-public-alb-628648030.ap-south-1.elb.amazonaws.com/api/v2/user/cart/remove/${_id}`,
       method: "DELETE",
     };
     const response = await dispatch(apiCalling(options));
@@ -51,7 +51,7 @@ const Cart = () => {
   // now we write code for incrementing the cart quantity.
   const increamentCartQty = async (_id) => {
     const options = {
-      url: `http://internal-backend-internal-alb-1173943540.ap-south-1.elb.amazonaws.com/api/v2/user/cart/increase/${_id}`,
+      url: `http://frontend-public-alb-628648030.ap-south-1.elb.amazonaws.com/api/v2/user/cart/increase/${_id}`,
       method: "PATCH",
     };
     const response = await dispatch(apiCalling(options));
@@ -66,7 +66,7 @@ const Cart = () => {
 
   const decreamentCartQty = async (_id, qty) => {
     const options = {
-      url: `http://internal-backend-internal-alb-1173943540.ap-south-1.elb.amazonaws.com/api/v2/user/cart/decrease/${_id}`,
+      url: `http://frontend-public-alb-628648030.ap-south-1.elb.amazonaws.com/api/v2/user/cart/decrease/${_id}`,
       method: "PATCH",
     };
     const response = await dispatch(apiCalling(options));

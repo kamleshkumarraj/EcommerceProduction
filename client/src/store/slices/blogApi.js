@@ -4,7 +4,7 @@ export const blogApi = createApi({
   reducerPath: "blogApi",
   baseQuery: fetchBaseQuery({
     baseUrl:
-      "http://internal-backend-internal-alb-1173943540.ap-south-1.elb.amazonaws.com/api/v2",
+      "http://frontend-public-alb-628648030.ap-south-1.elb.amazonaws.com/api/v2",
   }),
   tagTypes: ["getAllBlogs", "createBlogs", "getAllCommentsForBlog"],
   endpoints: (builder) => ({

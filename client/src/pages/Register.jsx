@@ -51,7 +51,7 @@ const SignUp = () => {
     console.log(formData);
     e.preventDefault();
     const options = {
-      url: "http://internal-backend-internal-alb-1173943540.ap-south-1.elb.amazonaws.com/api/v2/auth/register",
+      url: "http://frontend-public-alb-628648030.ap-south-1.elb.amazonaws.com/api/v2/auth/register",
       method: "POST",
       formData,
       contentType: "multipart/form-data",
@@ -122,7 +122,7 @@ const SignUp = () => {
                 <form
                   method="post"
                   encType="multipart/form-data"
-                  action="http://internal-backend-internal-alb-1173943540.ap-south-1.elb.amazonaws.com/api/v1/auth/register"
+                  action="http://frontend-public-alb-628648030.ap-south-1.elb.amazonaws.com/api/v1/auth/register"
                 >
                   <div className="relative flex flex-col space-y-10 lg:space-y-8 xl:space-y-4">
                     <div id="upload-file">

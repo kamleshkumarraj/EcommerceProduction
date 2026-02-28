@@ -32,7 +32,7 @@ const SignIn = () => {
     };
     console.log(data);
     const options = {
-      url: "http://internal-backend-internal-alb-1173943540.ap-south-1.elb.amazonaws.com/api/v2/auth/login",
+      url: "http://frontend-public-alb-628648030.ap-south-1.elb.amazonaws.com/api/v2/auth/login",
       method: "POST",
       headers: {
         "Content-Type": "application/json",

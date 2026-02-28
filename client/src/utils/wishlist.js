@@ -12,7 +12,7 @@ export async function fetchAllWishlistItem(dispatch, user) {
     return;
   }
   const options = {
-    url: `http://internal-backend-internal-alb-1173943540.ap-south-1.elb.amazonaws.com/api/v2/user/wishlist/get`,
+    url: `http://frontend-public-alb-628648030.ap-south-1.elb.amazonaws.com/api/v2/user/wishlist/get`,
     method: "GET",
   };
   const response = await dispatch(apiCalling(options));
@@ -27,7 +27,7 @@ export async function updateWishlistQty(
   dispatch,
   wishlistItem,
   operation,
-  user
+  user,
 ) {
   if (!user) {
     toast.error("Please login to access this resources !");
@@ -40,18 +40,18 @@ export async function updateWishlistQty(
     dispatch(decreasedWishlistQty({ _id: wishlistItem._id }));
 
   const options = {
-    url: `http://internal-backend-internal-alb-1173943540.ap-south-1.elb.amazonaws.com/api/v2/user/wishlist/update/${wishlistItem._id}?operation=${operation}`,
+    url: `http://frontend-public-alb-628648030.ap-south-1.elb.amazonaws.com/api/v2/user/wishlist/update/${wishlistItem._id}?operation=${operation}`,
     method: "PATCH",
   };
 
   const response = await dispatch(apiCalling(options));
   if (response?.success) {
     toast.success(
-      response?.message || "Wishlist item quantity updated successfully"
+      response?.message || "Wishlist item quantity updated successfully",
     );
   } else {
     toast.error(
-      response?.message || "Error while updating wishlist item quantity"
+      response?.message || "Error while updating wishlist item quantity",
     );
     fetchAllWishlistItem(dispatch);
   }
@@ -61,7 +61,7 @@ export async function removeWishlistItem(
   dispatch,
   wishlistItem,
   setEventLoading,
-  users
+  users,
 ) {
   if (!users) {
     toast.error("Please login to access this resources !");
@@ -69,7 +69,7 @@ export async function removeWishlistItem(
   }
   dispatch(removeWishlistItems({ _id: wishlistItem._id }));
   const options = {
-    url: `http://internal-backend-internal-alb-1173943540.ap-south-1.elb.amazonaws.com/api/v2/user/wishlist/remove/${wishlistItem._id}`,
+    url: `http://frontend-public-alb-628648030.ap-south-1.elb.amazonaws.com/api/v2/user/wishlist/remove/${wishlistItem._id}`,
     method: "DELETE",
   };
   setEventLoading(true);
@@ -87,21 +87,21 @@ export async function addWishlistItem(
   dispatch,
   product,
   setEventLoading,
-  user
+  user,
 ) {
   if (!user) {
     toast.error("Please login to access this resources !");
     return;
   }
   const options = {
-    url: `http://internal-backend-internal-alb-1173943540.ap-south-1.elb.amazonaws.com/api/v2/user/wishlist/add/${product._id}`,
+    url: `http://frontend-public-alb-628648030.ap-south-1.elb.amazonaws.com/api/v2/user/wishlist/add/${product._id}`,
     method: "POST",
   };
   setEventLoading(true);
   const response = await dispatch(apiCalling(options));
   if (response?.success) {
     toast.success(
-      response?.message || "Product added to wishlist successfully"
+      response?.message || "Product added to wishlist successfully",
     );
     fetchAllWishlistItem(dispatch);
   } else {

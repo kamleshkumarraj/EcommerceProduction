@@ -72,7 +72,7 @@ function Payment({ checkPaymentClick, orderItems, cartTotal }) {
 
         // ✅ Send Payment Data to Backend
         const verifyRes = await fetch(
-          "http://internal-backend-internal-alb-1173943540.ap-south-1.elb.amazonaws.com/api/v2/user/order/verify-order",
+          "http://frontend-public-alb-628648030.ap-south-1.elb.amazonaws.com/api/v2/user/order/verify-order",
           {
             method: "POST",
             headers: {

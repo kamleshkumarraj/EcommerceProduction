@@ -9,7 +9,7 @@ import {
 
 export const fetchAllAddress = async (dispatch) => {
   const options = {
-    url: "http://internal-backend-internal-alb-1173943540.ap-south-1.elb.amazonaws.com/api/v2/user/address/get",
+    url: "http://frontend-public-alb-628648030.ap-south-1.elb.amazonaws.com/api/v2/user/address/get",
     method: "GET",
   };
   const response = await dispatch(apiCalling(options));
@@ -23,7 +23,7 @@ export const fetchAllAddress = async (dispatch) => {
 export const fetchRemoveAddress = async (dispatch, _id) => {
   dispatch(removeAddress({ _id }));
   const options = {
-    url: `http://internal-backend-internal-alb-1173943540.ap-south-1.elb.amazonaws.com/api/v2/user/address/remove/${_id}`,
+    url: `http://frontend-public-alb-628648030.ap-south-1.elb.amazonaws.com/api/v2/user/address/remove/${_id}`,
     method: "DELETE",
   };
   const response = await dispatch(apiCalling(options));
@@ -43,7 +43,7 @@ export const fetchUpdateAddress = async ({ dispatch, address, _id }) => {
   console.log(address);
   const options = {
     method: "PATCH",
-    url: `http://internal-backend-internal-alb-1173943540.ap-south-1.elb.amazonaws.com/api/v2/user/address/update/${_id}`,
+    url: `http://frontend-public-alb-628648030.ap-south-1.elb.amazonaws.com/api/v2/user/address/update/${_id}`,
     formData: address,
   };
   const response = await dispatch(apiCalling(options));
@@ -61,7 +61,7 @@ export const fetchUpdateAddress = async ({ dispatch, address, _id }) => {
 export const fetchAddAddress = async (dispatch, address) => {
   const options = {
     method: "POST",
-    url: "http://internal-backend-internal-alb-1173943540.ap-south-1.elb.amazonaws.com/api/v2/user/address/add",
+    url: "http://frontend-public-alb-628648030.ap-south-1.elb.amazonaws.com/api/v2/user/address/add",
     formData: address,
   };
   const response = await dispatch(apiCalling(options));
@@ -87,7 +87,7 @@ export const fetchUpdateSelectedAddress = async ({
   );
 
   const options = {
-    url: `http://internal-backend-internal-alb-1173943540.ap-south-1.elb.amazonaws.com/api/v2/user/address/update-status/${prevAddr._id}/${currAddr._id}`,
+    url: `http://frontend-public-alb-628648030.ap-south-1.elb.amazonaws.com/api/v2/user/address/update-status/${prevAddr._id}/${currAddr._id}`,
     method: "PATCH",
   };
 
