@@ -28,9 +28,17 @@ app.use(
 
 
 app.use(cors({
-  origin: ['http://localhost:5174', 'http://localhost:5173', "https://ecommerce-production-omega.vercel.app"],  // Allow your frontend domain
+  origin: "*",  // Allow your frontend domain
   credentials: true                            // Allow cookies to be sent
 }));
+
+// health check route
+app.get('/api/v2/health-check', (req, res) => {
+  res.status(200).json({
+    success: true,
+    message: "Server is healthy!"
+  });
+})
 
 //routes related from authentication
 app.use('/api/v2/auth', authenticationRoute);
