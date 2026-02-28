@@ -32,6 +32,14 @@ app.use(cors({
   credentials: true                            // Allow cookies to be sent
 }));
 
+
+app.get("/", () => {
+  res.status(200).json({
+    success: true,
+    message: "Server is running on http://0.0.0.0/2000 successfully !"
+  })
+})
+
 // health check route
 app.get('/api/v2/health-check', (req, res) => {
   res.status(200).json({
