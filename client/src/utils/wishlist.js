@@ -12,7 +12,7 @@ export async function fetchAllWishlistItem(dispatch, user) {
     return;
   }
   const options = {
-    url: `https://ecommerceproduction.onrender.com/api/v2/user/wishlist/get`,
+    url: `http://internal-backend-internal-alb-1173943540.ap-south-1.elb.amazonaws.com/api/v2/user/wishlist/get`,
     method: "GET",
   };
   const response = await dispatch(apiCalling(options));
@@ -40,7 +40,7 @@ export async function updateWishlistQty(
     dispatch(decreasedWishlistQty({ _id: wishlistItem._id }));
 
   const options = {
-    url: `https://ecommerceproduction.onrender.com/api/v2/user/wishlist/update/${wishlistItem._id}?operation=${operation}`,
+    url: `http://internal-backend-internal-alb-1173943540.ap-south-1.elb.amazonaws.com/api/v2/user/wishlist/update/${wishlistItem._id}?operation=${operation}`,
     method: "PATCH",
   };
 
@@ -69,7 +69,7 @@ export async function removeWishlistItem(
   }
   dispatch(removeWishlistItems({ _id: wishlistItem._id }));
   const options = {
-    url: `https://ecommerceproduction.onrender.com/api/v2/user/wishlist/remove/${wishlistItem._id}`,
+    url: `http://internal-backend-internal-alb-1173943540.ap-south-1.elb.amazonaws.com/api/v2/user/wishlist/remove/${wishlistItem._id}`,
     method: "DELETE",
   };
   setEventLoading(true);
@@ -94,7 +94,7 @@ export async function addWishlistItem(
     return;
   }
   const options = {
-    url: `https://ecommerceproduction.onrender.com/api/v2/user/wishlist/add/${product._id}`,
+    url: `http://internal-backend-internal-alb-1173943540.ap-south-1.elb.amazonaws.com/api/v2/user/wishlist/add/${product._id}`,
     method: "POST",
   };
   setEventLoading(true);

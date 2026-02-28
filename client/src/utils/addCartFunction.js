@@ -7,7 +7,7 @@ export const addToCart = async (
   dispatch,
   user,
   setEventLoading,
-  navigate
+  navigate,
 ) => {
   if (!user) {
     toast.error("Please login to access this resources !");
@@ -16,7 +16,7 @@ export const addToCart = async (
   }
   setEventLoading(true);
   const options = {
-    url: `https://ecommerceproduction.onrender.com/api/v2/user/cart/add/${_id}`,
+    url: `http://internal-backend-internal-alb-1173943540.ap-south-1.elb.amazonaws.com/api/v2/user/cart/add/${_id}`,
     method: "POST",
   };
   const response = await dispatch(apiCalling(options));
@@ -34,7 +34,7 @@ export const removeToCart = async (
   dispatch,
   user,
   setEventLoading,
-  navigate
+  navigate,
 ) => {
   if (!user) {
     toast.error("Please login to access this resources !");
@@ -43,7 +43,7 @@ export const removeToCart = async (
   }
   setEventLoading(true);
   const options = {
-    url: `https://ecommerceproduction.onrender.com/api/v2/user/cart/remove/${cart._id}`,
+    url: `http://internal-backend-internal-alb-1173943540.ap-south-1.elb.amazonaws.com/api/v2/user/cart/remove/${cart._id}`,
     method: "DELETE",
   };
   const response = await dispatch(apiCalling(options));

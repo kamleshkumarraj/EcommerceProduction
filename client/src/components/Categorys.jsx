@@ -15,7 +15,7 @@ const Categorys = () => {
   // useEffect(() => {
   //     const options = {
   //         method : "GET",
-  //         url : "https://ecommerceproduction.onrender.com/api/v2/products/get-categories"
+  //         url : "http://internal-backend-internal-alb-1173943540.ap-south-1.elb.amazonaws.com/api/v2/products/get-categories"
   //     }
   //     ;(async function getCategories(){
   //         const response = await dispatch(apiCalling(options))

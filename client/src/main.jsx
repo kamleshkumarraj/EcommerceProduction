@@ -20,7 +20,7 @@ const MyApp = ({ children }) => {
   useEffect(() => {
     (async function directLogin() {
       const options = {
-        url: "https://ecommerceproduction.onrender.com/api/v2/auth/direct-login",
+        url: "http://internal-backend-internal-alb-1173943540.ap-south-1.elb.amazonaws.com/api/v2/auth/direct-login",
         method: "POST",
       };
       const response = await dispatch(apiCalling(options));

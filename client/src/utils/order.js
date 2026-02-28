@@ -4,7 +4,7 @@ import { setAllOrders } from "../store/slices/order.slice";
 
 export const fetchOrder = async ({ dispatch }) => {
   const options = {
-    url: "https://ecommerceproduction.onrender.com/api/v2/user/order/all-orders",
+    url: "http://internal-backend-internal-alb-1173943540.ap-south-1.elb.amazonaws.com/api/v2/user/order/all-orders",
     method: "GET",
   };
 
@@ -20,7 +20,7 @@ export const fetchOrder = async ({ dispatch }) => {
 export const fetchCreateOrder = async ({ dispatch, payload }) => {
   const options = {
     method: "POST",
-    url: "https://ecommerceproduction.onrender.com/api/v2/user/order/create-order",
+    url: "http://internal-backend-internal-alb-1173943540.ap-south-1.elb.amazonaws.com/api/v2/user/order/create-order",
     formData: payload,
   };
 
@@ -37,7 +37,7 @@ export const fetchSingleOrder = async ({ dispatch, payload }) => {
   try {
     const options = {
       method: "GET",
-      url: `https://ecommerceproduction.onrender.com/api/v2/user/order/single-order/${payload}`,
+      url: `http://internal-backend-internal-alb-1173943540.ap-south-1.elb.amazonaws.com/api/v2/user/order/single-order/${payload}`,
     };
 
     const response = await dispatch(apiCalling(options));

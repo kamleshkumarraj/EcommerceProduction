@@ -72,7 +72,7 @@ function Payment({ checkPaymentClick, orderItems, cartTotal }) {
 
         // ✅ Send Payment Data to Backend
         const verifyRes = await fetch(
-          "https://ecommerceproduction.onrender.com/api/v2/user/order/verify-order",
+          "http://internal-backend-internal-alb-1173943540.ap-south-1.elb.amazonaws.com/api/v2/user/order/verify-order",
           {
             method: "POST",
             headers: {
@@ -83,13 +83,13 @@ function Payment({ checkPaymentClick, orderItems, cartTotal }) {
               razorpay_order_id: response.razorpay_order_id,
               razorpay_signature: response.razorpay_signature,
             }),
-          }
+          },
         );
 
         const result = await verifyRes.json();
         if (result?.success) {
           toast.success(
-            result?.message || "Order has been successfully placed ."
+            result?.message || "Order has been successfully placed .",
           );
           navigate("/order-confirmation");
           fetchOrder(dispatch);

@@ -23,7 +23,7 @@ const Sidebar = () => {
   const logoutHandler = async () => {
     const options = {
       method: "GET",
-      url: "https://ecommerceproduction.onrender.com/api/v2/auth/logout",
+      url: "http://internal-backend-internal-alb-1173943540.ap-south-1.elb.amazonaws.com/api/v2/auth/logout",
     };
     const toastId = toast.loading("Signing out...");
     try {

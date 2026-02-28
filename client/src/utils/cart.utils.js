@@ -8,7 +8,7 @@ export const fetchRemoveMultipleCartItems = async ({
 }) => {
   dispatch(removeMultipleCartItems(cartIdList));
   const options = {
-    url: "https://ecommerceproduction.onrender.com/api/v2/user/cart/remove-multiple",
+    url: "http://internal-backend-internal-alb-1173943540.ap-south-1.elb.amazonaws.com/api/v2/user/cart/remove-multiple",
     method: "DELETE",
     formData: cartIdList,
   };

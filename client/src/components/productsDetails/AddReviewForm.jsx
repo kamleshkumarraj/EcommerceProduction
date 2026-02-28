@@ -21,7 +21,7 @@ const AddReviewForm = ({ products, setChanged, changed }) => {
     const options = {
       method: "PUT",
       formData: reviewData,
-      url: `https://ecommerceproduction.onrender.com/api/v2/user/product/give-reviews?id=${products._id}`,
+      url: `http://internal-backend-internal-alb-1173943540.ap-south-1.elb.amazonaws.com/api/v2/user/product/give-reviews?id=${products._id}`,
     };
     const response = await dispatch(apiCalling(options));
     console.log(response);
