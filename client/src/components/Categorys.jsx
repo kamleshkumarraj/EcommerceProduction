@@ -15,7 +15,7 @@ const Categorys = () => {
   // useEffect(() => {
   //     const options = {
   //         method : "GET",
-  //         url : "http://frontend-public-alb-628648030.ap-south-1.elb.amazonaws.com/api/v2/products/get-categories"
+  //         url : "http://api.ecommerce.viharfood.in/api/v2/products/get-categories"
   //     }
   //     ;(async function getCategories(){
   //         const response = await dispatch(apiCalling(options))

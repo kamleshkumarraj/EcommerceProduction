@@ -23,7 +23,7 @@ const Sidebar = () => {
   const logoutHandler = async () => {
     const options = {
       method: "GET",
-      url: "http://frontend-public-alb-628648030.ap-south-1.elb.amazonaws.com/api/v2/auth/logout",
+      url: "http://api.ecommerce.viharfood.in/api/v2/auth/logout",
     };
     const toastId = toast.loading("Signing out...");
     try {

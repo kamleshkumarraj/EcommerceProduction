@@ -3,8 +3,7 @@ import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 export const blogApi = createApi({
   reducerPath: "blogApi",
   baseQuery: fetchBaseQuery({
-    baseUrl:
-      "http://frontend-public-alb-628648030.ap-south-1.elb.amazonaws.com/api/v2",
+    baseUrl: "http://api.ecommerce.viharfood.in/api/v2",
   }),
   tagTypes: ["getAllBlogs", "createBlogs", "getAllCommentsForBlog"],
   endpoints: (builder) => ({
