@@ -51,7 +51,7 @@ const Headers = () => {
           <div className="flex items-center gap-[2rem]">
             <div className="flex items-center gap-[1rem]">
               <GrMail />
-              <span>kamlesh.22jics061@jietjodhpur.ac.in</span>
+              <span>programmer86034@gmail.com</span>
             </div>
             <span className="hidden md:inline-block">Multi vendor ecommerce</span>
           </div>
