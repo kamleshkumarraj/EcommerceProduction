@@ -8,7 +8,7 @@ export const storetokenAndGetJWT = (res,user,statusCode) =>{
         ),
         httpOnly: true,
         sameSite : "None",
-        secure : process.env.DEVELOPMENT == 'true' ? false : true 
+        secure : false
        
     }
     //code for store tocken in cookie and then send the request for client.

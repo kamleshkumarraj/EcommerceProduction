@@ -33,7 +33,7 @@ app.use(cors({
 }));
 
 
-app.get("/", () => {
+app.get("/", (req, res) => {
   res.status(200).json({
     success: true,
     message: "Server is running on http://0.0.0.0/2000 successfully !"
