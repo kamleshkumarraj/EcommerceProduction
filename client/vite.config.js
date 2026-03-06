@@ -7,4 +7,10 @@ export default defineConfig({
   build: {
     outDir: 'dist', // Ensure this matches the directory Vercel expects
   },
+  server: {
+    host: true,
+    allowedHosts: [
+      "ecommerce.viharfood.in"
+    ]
+  }
 });
