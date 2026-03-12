@@ -1,18 +1,32 @@
-FROM node:current-alpine3.23
+# ---------- Build Stage ----------
+FROM node:20-alpine AS builder
 
 WORKDIR /app
-
-# copy package files
 COPY package*.json ./
-
-# install dependencies
-RUN npm install
-
-# copy project
+RUN npm ci
 COPY . .
+RUN npm run build
 
-# expose dev port (vite example)
-EXPOSE 5173
 
-# run dev server
-CMD ["npm","run","dev","--","--host"]
+# ---------- Runtime Stage ----------
+FROM nginx:alpine
+
+# Remove default site
+RUN rm -rf /usr/share/nginx/html/*
+
+# Copy build
+COPY --from=builder /app/dist /usr/share/nginx/html
+
+# Copy nginx configs
+COPY nginx.conf /etc/nginx/nginx.conf
+COPY default.conf /etc/nginx/conf.d/default.conf
+
+# Fix permissions
+RUN chown -R nginx:nginx /usr/share/nginx/html \
+    && chown -R nginx:nginx /var/log/nginx \
+    && chown -R nginx:nginx /var/cache/nginx
+
+USER nginx
+
+EXPOSE 80
+CMD ["nginx", "-g", "daemon off;"]
