@@ -15,7 +15,7 @@ const Categorys = () => {
   // useEffect(() => {
   //     const options = {
   //         method : "GET",
-  //         url : "http://api.ecommerce.viharfood.in/api/v2/products/get-categories"
+  //         url : "https://api.ecommerce.viharfood.in/api/v2/products/get-categories"
   //     }
   //     ;(async function getCategories(){
   //         const response = await dispatch(apiCalling(options))

@@ -2,7 +2,7 @@ import { apiCalling } from "../api/apiCalling.api";
 
 export const fetchReviews = async ({ dispatch, productId }) => {
   const options = {
-    url: `http://api.ecommerce.viharfood.in/api/v2/user/product/all-reviews/${productId}`,
+    url: `https://api.ecommerce.viharfood.in/api/v2/user/product/all-reviews/${productId}`,
     method: "GET",
   };
   const response = await dispatch(apiCalling(options));

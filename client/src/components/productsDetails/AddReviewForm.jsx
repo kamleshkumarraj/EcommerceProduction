@@ -21,7 +21,7 @@ const AddReviewForm = ({ products, setChanged, changed }) => {
     const options = {
       method: "PUT",
       formData: reviewData,
-      url: `http://api.ecommerce.viharfood.in/api/v2/user/product/give-reviews?id=${products._id}`,
+      url: `https://api.ecommerce.viharfood.in/api/v2/user/product/give-reviews?id=${products._id}`,
     };
     const response = await dispatch(apiCalling(options));
     console.log(response);

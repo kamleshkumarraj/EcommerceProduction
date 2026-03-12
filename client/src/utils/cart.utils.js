@@ -8,7 +8,7 @@ export const fetchRemoveMultipleCartItems = async ({
 }) => {
   dispatch(removeMultipleCartItems(cartIdList));
   const options = {
-    url: "http://api.ecommerce.viharfood.in/api/v2/user/cart/remove-multiple",
+    url: "https://api.ecommerce.viharfood.in/api/v2/user/cart/remove-multiple",
     method: "DELETE",
     formData: cartIdList,
   };

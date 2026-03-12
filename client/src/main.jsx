@@ -20,7 +20,7 @@ const MyApp = ({ children }) => {
   useEffect(() => {
     (async function directLogin() {
       const options = {
-        url: "http://api.ecommerce.viharfood.in/api/v2/auth/direct-login",
+        url: "https://api.ecommerce.viharfood.in/api/v2/auth/direct-login",
         method: "POST",
       };
       const response = await dispatch(apiCalling(options));

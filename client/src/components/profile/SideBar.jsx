@@ -23,7 +23,7 @@ const Sidebar = () => {
   const logoutHandler = async () => {
     const options = {
       method: "GET",
-      url: "http://api.ecommerce.viharfood.in/api/v2/auth/logout",
+      url: "https://api.ecommerce.viharfood.in/api/v2/auth/logout",
     };
     const toastId = toast.loading("Signing out...");
     try {

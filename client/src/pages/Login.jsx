@@ -32,7 +32,7 @@ const SignIn = () => {
     };
     console.log(data);
     const options = {
-      url: "http://api.ecommerce.viharfood.in/api/v2/auth/login",
+      url: "https://api.ecommerce.viharfood.in/api/v2/auth/login",
       method: "POST",
       headers: {
         "Content-Type": "application/json",

@@ -72,7 +72,7 @@ function Payment({ checkPaymentClick, orderItems, cartTotal }) {
 
         // ✅ Send Payment Data to Backend
         const verifyRes = await fetch(
-          "http://api.ecommerce.viharfood.in/api/v2/user/order/verify-order",
+          "https://api.ecommerce.viharfood.in/api/v2/user/order/verify-order",
           {
             method: "POST",
             headers: {
