@@ -28,7 +28,7 @@ app.use(
 
 
 app.use(cors({
-  origin: "http://ecommerce.viharfood.in",  // Allow your frontend domain
+  origin: ["http://ecommerce.viharfood.in", "https://ecommerce.viharfood.in"]  // Allow your frontend domain
   credentials: true                            // Allow cookies to be sent
 }));
 
