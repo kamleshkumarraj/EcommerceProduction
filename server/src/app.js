@@ -32,6 +32,8 @@ app.use(cors({
   credentials: true                            // Allow cookies to be sent
 }));
 
+app.set("trust proxy", 1); // trust first proxy
+
 
 app.get("/", (req, res) => {
   res.status(200).json({

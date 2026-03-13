@@ -3,14 +3,12 @@ export const storetokenAndGetJWT = (res,user,statusCode) =>{
     const tocken = user.getJWTTocken();
     console.log("Tocken created ...")
     const option = {
-        expires : new Date(
-            Date.now() + process.env.TOKEN_EXPIRY*60*60*1000
-        ),
+        expires: new Date(Date.now() + process.env.TOKEN_EXPIRY * 60 * 60 * 1000),
         httpOnly: true,
-        sameSite : "None",
-        secure : true
-       
+        secure: true,
+        sameSite: "None"
     }
+
     //code for store tocken in cookie and then send the request for client.
     res.status(200).cookie('tocken',tocken,option).json({
         success : true,
