@@ -10,7 +10,7 @@ process.on('uncaughtException', (err) => {
 });
 
 dotenv.config({
-  path: './src/.env',
+  path: '.env',
 });
 
 cloudinary.config({

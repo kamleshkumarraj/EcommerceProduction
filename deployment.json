@@ -1,0 +1,44 @@
+{
+  "version": 1,
+  "deploy_type": "auto",
+  "global_env": "global-env-key",
+  "services": [
+    {
+      "name": "frontend",
+      "path": "client",
+      "type": "web",
+
+      "build": true,
+      "dockerfile": "Dockerfile",
+      "tag": "latest",
+
+      "port": 80,
+      "expose": true,
+
+      "env": "ecom-frontend-env-key",
+      "env_file": ".env",
+      "env_inline": {
+        "KEY": "value"
+      }
+
+    },
+    {
+      "name": "backend",
+      "path": "server",
+      "type": "api",
+
+      "build": true,
+      "dockerfile": "Dockerfile",
+      "tag": "latest",
+
+      "port": 3000,
+      "expose": true,
+
+      "env": "ecom-backend-env-key",
+      "env_file": ".env",
+      "env_inline": {
+        "KEY": "value"
+      }
+    }
+  ]
+}
