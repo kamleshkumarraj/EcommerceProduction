@@ -1,7 +1,6 @@
 {
   "version": 1,
   "deploy_type": "auto",
-  "global_env": "global-env-key",
   "services": [
     {
       "name": "frontend",
@@ -30,11 +29,11 @@
       "type": "api",
 
       "subdomain": "ecom-backend",
-      "ecr-repo": "server/ecom-backend-repo",
 
       "build": true,
       "dockerfile": "Dockerfile",
       "tag": "latest",
+      "ecr-repo": "server/ecom-backend-repo",
 
       "port": 3000,
       "expose": true,
