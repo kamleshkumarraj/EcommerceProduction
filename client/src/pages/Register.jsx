@@ -51,7 +51,7 @@ const SignUp = () => {
     console.log(formData);
     e.preventDefault();
     const options = {
-      url: "https://api.ecommerce.viharfood.in/api/v2/auth/register",
+      url: "${import.meta.env.VITE_API_URL}/api/v2/auth/register",
       method: "POST",
       formData,
       contentType: "multipart/form-data",
@@ -122,7 +122,7 @@ const SignUp = () => {
                 <form
                   method="post"
                   encType="multipart/form-data"
-                  action="https://api.ecommerce.viharfood.in/api/v1/auth/register"
+                  action="${import.meta.env.VITE_API_URL}/api/v1/auth/register"
                 >
                   <div className="relative flex flex-col space-y-10 lg:space-y-8 xl:space-y-4">
                     <div id="upload-file">

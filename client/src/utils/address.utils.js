@@ -9,7 +9,7 @@ import {
 
 export const fetchAllAddress = async (dispatch) => {
   const options = {
-    url: "https://api.ecommerce.viharfood.in/api/v2/user/address/get",
+    url: "${import.meta.env.VITE_API_URL}/api/v2/user/address/get",
     method: "GET",
   };
   const response = await dispatch(apiCalling(options));
@@ -23,7 +23,7 @@ export const fetchAllAddress = async (dispatch) => {
 export const fetchRemoveAddress = async (dispatch, _id) => {
   dispatch(removeAddress({ _id }));
   const options = {
-    url: `https://api.ecommerce.viharfood.in/api/v2/user/address/remove/${_id}`,
+    url: `${import.meta.env.VITE_API_URL}/api/v2/user/address/remove/${_id}`,
     method: "DELETE",
   };
   const response = await dispatch(apiCalling(options));
@@ -43,7 +43,7 @@ export const fetchUpdateAddress = async ({ dispatch, address, _id }) => {
   console.log(address);
   const options = {
     method: "PATCH",
-    url: `https://api.ecommerce.viharfood.in/api/v2/user/address/update/${_id}`,
+    url: `${import.meta.env.VITE_API_URL}/api/v2/user/address/update/${_id}`,
     formData: address,
   };
   const response = await dispatch(apiCalling(options));
@@ -61,7 +61,7 @@ export const fetchUpdateAddress = async ({ dispatch, address, _id }) => {
 export const fetchAddAddress = async (dispatch, address) => {
   const options = {
     method: "POST",
-    url: "https://api.ecommerce.viharfood.in/api/v2/user/address/add",
+    url: "${import.meta.env.VITE_API_URL}/api/v2/user/address/add",
     formData: address,
   };
   const response = await dispatch(apiCalling(options));
@@ -87,7 +87,7 @@ export const fetchUpdateSelectedAddress = async ({
   );
 
   const options = {
-    url: `https://api.ecommerce.viharfood.in/api/v2/user/address/update-status/${prevAddr._id}/${currAddr._id}`,
+    url: `${import.meta.env.VITE_API_URL}/api/v2/user/address/update-status/${prevAddr._id}/${currAddr._id}`,
     method: "PATCH",
   };
 

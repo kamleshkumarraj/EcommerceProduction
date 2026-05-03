@@ -16,7 +16,7 @@ export const addToCart = async (
   }
   setEventLoading(true);
   const options = {
-    url: `https://api.ecommerce.viharfood.in/api/v2/user/cart/add/${_id}`,
+    url: `${import.meta.env.VITE_API_URL}/api/v2/user/cart/add/${_id}`,
     method: "POST",
   };
   const response = await dispatch(apiCalling(options));
@@ -43,7 +43,7 @@ export const removeToCart = async (
   }
   setEventLoading(true);
   const options = {
-    url: `https://api.ecommerce.viharfood.in/api/v2/user/cart/remove/${cart._id}`,
+    url: `${import.meta.env.VITE_API_URL}/api/v2/user/cart/remove/${cart._id}`,
     method: "DELETE",
   };
   const response = await dispatch(apiCalling(options));

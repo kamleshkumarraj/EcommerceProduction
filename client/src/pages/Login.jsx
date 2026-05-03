@@ -32,7 +32,7 @@ const SignIn = () => {
     };
     console.log(data);
     const options = {
-      url: "https://api.ecommerce.viharfood.in/api/v2/auth/login",
+      url: "${import.meta.env.VITE_API_URL}/api/v2/auth/login",
       method: "POST",
       headers: {
         "Content-Type": "application/json",

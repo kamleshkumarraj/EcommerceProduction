@@ -12,6 +12,7 @@
       "dockerfile": "Dockerfile",
       "tag": "latest",
       "subdomain": "ecom-frontend",
+      "ecr-repo": "client/ecom-frontend-repo",
 
       "port": 80,
       "expose": true,
@@ -29,6 +30,7 @@
       "type": "api",
 
       "subdomain": "ecom-backend",
+      "ecr-repo": "server/ecom-backend-repo",
 
       "build": true,
       "dockerfile": "Dockerfile",

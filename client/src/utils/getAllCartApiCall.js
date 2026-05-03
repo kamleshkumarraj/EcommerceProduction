@@ -3,7 +3,7 @@ import { setAllCarts } from "../store/slices/cart.slice";
 
 async function getAllCart(dispatch) {
   const options = {
-    url: `https://api.ecommerce.viharfood.in/api/v2/user/cart/get`,
+    url: `${import.meta.env.VITE_API_URL}/api/v2/user/cart/get`,
     method: "GET",
   };
   const response = await dispatch(apiCalling(options));
