@@ -30,6 +30,7 @@ function App() {
   //     })()
   //   }else return
   // }, [totalProductsImages]);
+  // abc
   console.log("hello ", import.meta.env.VITE_API_URL)
   useEffect(() => {
     setTimeout(() => {
