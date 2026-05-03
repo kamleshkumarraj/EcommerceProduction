@@ -9,7 +9,7 @@ import {
 
 export const fetchAllAddress = async (dispatch) => {
   const options = {
-    url: "${import.meta.env.VITE_API_URL}/api/v2/user/address/get",
+    url: `${import.meta.env.VITE_API_URL}/api/v2/user/address/get`,
     method: "GET",
   };
   const response = await dispatch(apiCalling(options));

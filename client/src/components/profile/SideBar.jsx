@@ -23,7 +23,7 @@ const Sidebar = () => {
   const logoutHandler = async () => {
     const options = {
       method: "GET",
-      url: "${import.meta.env.VITE_API_URL}/api/v2/auth/logout",
+      url: `${import.meta.env.VITE_API_URL}/api/v2/auth/logout`,
     };
     const toastId = toast.loading("Signing out...");
     try {

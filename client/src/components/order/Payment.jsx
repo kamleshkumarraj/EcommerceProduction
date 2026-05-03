@@ -72,7 +72,7 @@ function Payment({ checkPaymentClick, orderItems, cartTotal }) {
 
         // ✅ Send Payment Data to Backend
         const verifyRes = await fetch(
-          "${import.meta.env.VITE_API_URL}/api/v2/user/order/verify-order",
+          `${import.meta.env.VITE_API_URL}/api/v2/user/order/verify-order`,
           {
             method: "POST",
             headers: {
