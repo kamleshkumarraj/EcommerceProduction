@@ -1,7 +1,6 @@
 {
   "version": 1,
   "deploy_type": "auto",
-  "global_env": "global-env-key",
   "services": [
     {
       "name": "frontend",
