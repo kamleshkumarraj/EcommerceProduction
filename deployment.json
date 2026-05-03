@@ -11,6 +11,7 @@
       "build": true,
       "dockerfile": "Dockerfile",
       "tag": "latest",
+      "subdomain": "ecom-frontend",
 
       "port": 80,
       "expose": true,
@@ -26,6 +27,8 @@
       "name": "backend",
       "path": "server",
       "type": "api",
+
+      "subdomain": "ecom-backend",
 
       "build": true,
       "dockerfile": "Dockerfile",
