@@ -8,7 +8,7 @@ export const fetchRemoveMultipleCartItems = async ({
 }) => {
   dispatch(removeMultipleCartItems(cartIdList));
   const options = {
-    url: "${import.meta.env.VITE_API_URL}/api/v2/user/cart/remove-multiple",
+    url: `${import.meta.env.VITE_API_URL}/api/v2/user/cart/remove-multiple`,
     method: "DELETE",
     formData: cartIdList,
   };

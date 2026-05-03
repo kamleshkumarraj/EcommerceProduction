@@ -4,7 +4,7 @@ import { setAllOrders } from "../store/slices/order.slice";
 
 export const fetchOrder = async ({ dispatch }) => {
   const options = {
-    url: "${import.meta.env.VITE_API_URL}/api/v2/user/order/all-orders",
+    url: `${import.meta.env.VITE_API_URL}/api/v2/user/order/all-orders`,
     method: "GET",
   };
 
@@ -20,7 +20,7 @@ export const fetchOrder = async ({ dispatch }) => {
 export const fetchCreateOrder = async ({ dispatch, payload }) => {
   const options = {
     method: "POST",
-    url: "${import.meta.env.VITE_API_URL}/api/v2/user/order/create-order",
+    url: `${import.meta.env.VITE_API_URL}/api/v2/user/order/create-order`,
     formData: payload,
   };
 

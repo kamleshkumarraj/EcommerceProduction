@@ -61,7 +61,7 @@ export const fetchUpdateAddress = async ({ dispatch, address, _id }) => {
 export const fetchAddAddress = async (dispatch, address) => {
   const options = {
     method: "POST",
-    url: "${import.meta.env.VITE_API_URL}/api/v2/user/address/add",
+    url: `${import.meta.env.VITE_API_URL}/api/v2/user/address/add`,
     formData: address,
   };
   const response = await dispatch(apiCalling(options));
