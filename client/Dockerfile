@@ -1,32 +1,33 @@
-# ---------- Build Stage ----------
-FROM node:20-alpine AS builder
+# -------- Stage 1: Build --------
+FROM node:18-alpine AS builder
 
 WORKDIR /app
+
 COPY package*.json ./
-RUN npm ci
+RUN npm install
+
 COPY . .
+
+# Inject env at build time
+ARG VITE_API_URL
+ENV VITE_API_URL=$VITE_API_URL
+
 RUN npm run build
 
 
-# ---------- Runtime Stage ----------
-FROM nginx:alpine
+# -------- Stage 2: Serve --------
+FROM node:18-alpine
 
-# Remove default site
-RUN rm -rf /usr/share/nginx/html/*
+WORKDIR /app
 
-# Copy build
-COPY --from=builder /app/dist /usr/share/nginx/html
+# Install static server
+RUN npm install -g serve
 
-# Copy nginx configs
-COPY nginx.conf /etc/nginx/nginx.conf
-COPY default.conf /etc/nginx/conf.d/default.conf
+# Copy build files
+COPY --from=builder /app/dist ./dist
 
-# Fix permissions
-RUN chown -R nginx:nginx /usr/share/nginx/html \
-    && chown -R nginx:nginx /var/log/nginx \
-    && chown -R nginx:nginx /var/cache/nginx
+# Expose port
+EXPOSE 4000
 
-USER nginx
-
-EXPOSE 80
-CMD ["nginx", "-g", "daemon off;"]
+# Start server
+CMD ["serve", "-s", "dist", "-l", "4000"]
