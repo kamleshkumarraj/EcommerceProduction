@@ -25,6 +25,7 @@ connectdb().then(() => {
   });
 });
 
+// abc 
 //promise unresolved error handling.
 process.on('unhandledRejection', (err) => {
   console.log(`Error : unhandledRejection ${err}`);
