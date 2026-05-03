@@ -19,6 +19,7 @@ import { reactionRouter } from './routes/blog/reactions.routes.js';
 
 export const app = express();
 
+// Middlewares
 app.use(cookieParser())
 app.use(
   express.json({

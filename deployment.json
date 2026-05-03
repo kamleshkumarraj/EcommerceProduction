@@ -13,7 +13,7 @@
       "subdomain": "ecom-frontend",
       "ecr-repo": "client/ecom-frontend-repo",
 
-      "port": 4000,
+      "port": 5173,
       "expose": true,
 
       "env": "ecom-frontend-env-key",
