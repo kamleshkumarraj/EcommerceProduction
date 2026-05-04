@@ -6,7 +6,7 @@
       "name": "frontend",
       "path": "client",
       "type": "web",
-
+      "health_check" : "/",
       "build": true,
       "dockerfile": "Dockerfile",
       "tag": "latest",
@@ -15,12 +15,16 @@
 
       "port": 5173,
       "expose": true,
+      
 
       "env": "ecom-frontend-env-key",
       "env_file": ".env",
       "env_inline": {
         "KEY": "value"
-      }
+      },
+      "restart" : "on-failure",
+      "replicas" : 2,
+      "deployment_strategy" : "rolling"
 
     },
     {
@@ -37,12 +41,16 @@
 
       "port": 3000,
       "expose": true,
+      "health_check" : "/api/v2/health-check",
 
       "env": "ecom-backend-env-key",
       "env_file": ".env",
       "env_inline": {
         "KEY": "value"
-      }
+      },
+      "restart" : "on-failure",
+      "replicas" : 2,
+      "deployment_strategy" : "rolling"
     }
   ]
 }
